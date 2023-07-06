@@ -33,48 +33,16 @@ from chip.clusters import OperationalCredentials as opCreds
 from mobly import asserts, base_test, signals, utils
 from fabric import Connection
 import threading
+from invoke import UnexpectedExit
+from RPIReset import rpi_reset, rpi_run
+from Threadreset import thread_reset
 
-host = '192.168.4.183'
-username = 'ubuntu'
-password = 'raspberrypi'
-path = '/home/ubuntu/master_dut/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app'
+
+
 
 
 class TC_PairUnpair(MatterBaseTest):
 
-
-    
-
-    def reset(self):
-       self.stop_flag = True   
-  
-
-       ssh = Connection(host=host, user=username , connect_kwargs={"password": password})
-       ssh.run(' sudo rm -rf /tmp/chip_*')
-
-       # Execute 'ps aux | grep process_name' command to find the PID
-       command = f"ps aux | grep ./chip-all-clusters-app"
-       pid_val = ssh.run(command)
-       
-       pid_output = pid_val.stdout
-       pid_lines = pid_output.split('\n')
-       for line in pid_lines :
-         if './chip-all-clusters-app' in line:
-            pid = line.split()[1]
-            kill_command = f"kill -9 {pid}"
-            ssh.run(kill_command)  
-         break
-       ssh.close()
-
-       
-       return True
-       
-
-      
-    def _run(self):
-       ssh = Connection(host=host, user=username , connect_kwargs={"password": password})
-       ssh.run('cd ' + path +' && ./chip-all-clusters-app ' , hide =True, pty=False)
-   
 
 
     def commission_device(self):
@@ -131,9 +99,10 @@ class TC_PairUnpair(MatterBaseTest):
 
         parser.add_argument('-iter', '--number-of-iterations', required=False,
                             default=10, metavar=('number-of-iterations'), type=int)
+        parser.add_argument('-plat', '--platform', required=False, choices = ["rpi","thread"],
+                            default='rpi', metavar='platform', type=str)
         number_of_iterations = parser.parse_args(argv).number_of_iterations
-        
-
+        platform = parser.parse_args(argv).platform
 
         self.th1 = self.default_controller
         time.sleep(5)
@@ -142,31 +111,34 @@ class TC_PairUnpair(MatterBaseTest):
 
         time.sleep(5)
         logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
-        self.reset()
-        thread = threading.Thread(target=self._run)
-        thread.start()
-        time.sleep(5) 
+        if platform == "rpi":
+           rpi_reset()
+           thread = threading.Thread(target= rpi_run)
+           thread.start()
+           time.sleep(5)
+        elif platform == "thread":
+           thread_reset()
 
-        logging.info('hello_test')
-        
 
         for i in range(1, number_of_iterations):
-            logging.info('{} iteration of pairing sequence'.format(i))
+            logging.info('{} iteration of pairing sequence'.format(i+1))
             self.commission_device()
             logging.info('unpairing the device')
             time.sleep(5)
             self.th1.UnpairDevice(self.dut_node_id)
             self.th1.ExpireSessions(self.dut_node_id)
             logging.info('PLEASE FACTORY RESET THE DEVICE')
-            self.reset()
-            if i is not number_of_iterations:
-                thread = threading.Thread(target=self._run)
-                thread.start()   
-              
+            if platform == "rpi":
+                rpi_reset()
+                thread.join()
+                if i+1 is not number_of_iterations:
+                   thread = threading.Thread(target=rpi_run)
+                   thread.start()
+                   logging.info('thread completed')
+            elif platform == "thread":
+               thread_reset()
             time.sleep(5)
             logging.info('completed pair and unpair sequence')
-
-        
 
 
 if __name__ == "__main__":

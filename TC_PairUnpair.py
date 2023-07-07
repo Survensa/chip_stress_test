@@ -45,6 +45,53 @@ class TC_PairUnpair(MatterBaseTest):
 
 
 
+    def argument_data(self):
+
+        logging.info("Starting to store data from comaand line")
+      
+        argv = sys.argv[1:]
+
+        parser.add_argument('-iter', '--number-of-iterations', 
+                            default=10, metavar=('number-of-iterations'), type=int)
+        parser.add_argument('-plat', '--platform',  choices = ["rpi","thread"],
+                            default='rpi', metavar='platform', type=str)
+        parser.add_argument('-ipa', '--ipaddress',  metavar='ip-address', type=str)
+        parser.add_argument('-user', '--username',  metavar='username', type=str)
+        parser.add_argument('-pw', '--password',  metavar='password', type=str)
+        parser.add_argument('-pa', '--path',  metavar='path', type=str)
+
+
+        arg_data = {}
+
+        arg_data['number-of-iterations'] = parser.parse_args(argv).number_of_iterations
+        arg_data['platform'] = parser.parse_args(argv).platform
+        arg_data['host'] = parser.parse_args(argv).ipaddress
+        arg_data['password'] = parser.parse_args(argv).password
+        arg_data['user'] = parser.parse_args(argv).username
+        arg_data['path'] = parser.parse_args(argv).path
+
+        if arg_data['host'] is None:
+            print("error: Missing --ipaddress for this Test-Case")
+            raise signals.TestAbortAll("Missing --ipaddress ")
+
+
+        if arg_data['user'] is None:
+            print("error: Missing --username for this Test-Case")
+            raise signals.TestAbortAll("Missing --username")
+
+        if arg_data['password'] is None:
+            print("error: Missing --password for this Test-Case")
+            raise signals.TestAbortAll("Missing --password")
+
+        if arg_data['path'] is None:
+            print("error: Missing --path for this Test-Case")
+            raise signals.TestAbortAll("Missing --path")
+
+
+        return arg_data
+      
+    
+
     def commission_device(self):
         conf = self.matter_test_config
         for commission_idx, node_id in enumerate(conf.dut_node_ids):
@@ -95,49 +142,45 @@ class TC_PairUnpair(MatterBaseTest):
     @async_test_body
     async def test_TC_PairUnpair(self):
 
-        argv = sys.argv[1:]
-
-        parser.add_argument('-iter', '--number-of-iterations', required=False,
-                            default=10, metavar=('number-of-iterations'), type=int)
-        parser.add_argument('-plat', '--platform', required=False, choices = ["rpi","thread"],
-                            default='rpi', metavar='platform', type=str)
-        number_of_iterations = parser.parse_args(argv).number_of_iterations
-        platform = parser.parse_args(argv).platform
+        data = self.argument_data()
+   
+        number_of_iterations = data['number-of-iterations']
+        platform = data['platform']
 
         self.th1 = self.default_controller
-        time.sleep(5)
+        time.sleep(3)
         self.th1.UnpairDevice(self.dut_node_id)
         self.th1.ExpireSessions(self.dut_node_id)
 
-        time.sleep(5)
+        time.sleep(3)
         logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
         if platform == "rpi":
-           rpi_reset()
-           thread = threading.Thread(target= rpi_run)
+           rpi_reset(data)
+           thread = threading.Thread(target= rpi_run, args=(data,))
            thread.start()
-           time.sleep(5)
+           time.sleep(2)
         elif platform == "thread":
-           thread_reset()
+           thread_reset(data)
 
 
         for i in range(1, number_of_iterations):
             logging.info('{} iteration of pairing sequence'.format(i+1))
             self.commission_device()
             logging.info('unpairing the device')
-            time.sleep(5)
+            time.sleep(2)
             self.th1.UnpairDevice(self.dut_node_id)
             self.th1.ExpireSessions(self.dut_node_id)
             logging.info('PLEASE FACTORY RESET THE DEVICE')
             if platform == "rpi":
-                rpi_reset()
+                rpi_reset(data)
                 thread.join()
                 if i+1 is not number_of_iterations:
-                   thread = threading.Thread(target=rpi_run)
+                   thread = threading.Thread(target=rpi_run, args=(data,))
                    thread.start()
                    logging.info('thread completed')
             elif platform == "thread":
-               thread_reset()
-            time.sleep(5)
+               thread_reset(data)
+            time.sleep(2)
             logging.info('completed pair and unpair sequence')
 
 

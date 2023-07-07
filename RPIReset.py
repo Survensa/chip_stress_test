@@ -4,17 +4,10 @@ import json
 import logging
 
 
-data = None 
 
-def load():
-    global data
-    with open('config.json') as f:
-          data = json.load(f)
+def rpi_reset(data):
 
-def rpi_reset():
-       if data is None:
-           load()
-       ssh = Connection(host=data['host'], user=data['username'] , connect_kwargs={"password": data['password']})
+       ssh = Connection(host=data['host'], user=data['user'] , connect_kwargs={"password": data['password']})
        
        # Execute 'ps aux | grep process_name' command to find the PID
        command = f"ps aux | grep ./chip-all-clusters-app"
@@ -36,12 +29,10 @@ def rpi_reset():
        return True
     
    
-def rpi_run():
+def rpi_run(data):
 
-          
-          if data is None:
-             load()
-          ssh = Connection(host=data['host'], user=data['username'] , connect_kwargs={"password": data['password']})
+         
+          ssh = Connection(host=data['host'], user=data['user'] , connect_kwargs={"password": data['password']})
           path  = data['path']
           try:
               ssh.run( 'cd ' + path +' && ./chip-all-clusters-app ' , hide =True, pty=False)
@@ -51,6 +42,6 @@ def rpi_run():
                else:
                     raise
           ssh.close()
-          logging.info('Ilration has been completed')
+          logging.info('Iteration has been completed')
 
           return True

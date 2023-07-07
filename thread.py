@@ -16,11 +16,11 @@ except serial.SerialException:
 
 fr_command = b'matter device factoryreset \n' 
 ser.write(fr_command)
-time.sleep(5)
+time.sleep(3)
     
 ad_command = b'matter ble adv start \n'
-ser.write(ad_command)
-time.sleep(2)
+#ser.write(ad_command)
+#time.sleep(2)
 logging.info("FactoryReset has been performed successfully")
 ser.close()
 

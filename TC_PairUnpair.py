@@ -19,6 +19,7 @@ import logging
 import time
 import argparse
 import sys
+import secrets
 
 import chip.CertificateAuthority
 import chip.clusters as Clusters
@@ -94,6 +95,8 @@ class TC_PairUnpair(MatterBaseTest):
 
     def commission_device(self):
         conf = self.matter_test_config
+        random_nodeid =  secrets.randbelow(2**32)  
+        conf.dut_node_ids = [random_nodeid ]
         for commission_idx, node_id in enumerate(conf.dut_node_ids):
             logging.info("Starting commissioning for root index %d, fabric ID 0x%016X, node ID 0x%016X" %
                          (conf.root_of_trust_index, conf.fabric_id, node_id))

@@ -26,11 +26,6 @@ def thread_reset(data):
 
    ssh.close()
 
-   srpdisable = 'docker exec -ti otbr ot-ctl srp server disable'
-   subprocess.run(srpdisable , shell=True)
-   time.sleep(1)
-   srpenable = 'docker exec -ti otbr ot-ctl srp server enable'
-   subprocess.run(srpenable , shell=True)
 
    logging.info("Completed the reset")
 

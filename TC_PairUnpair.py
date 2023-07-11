@@ -19,7 +19,6 @@ import logging
 import time
 import argparse
 import sys
-import secrets
 
 import chip.CertificateAuthority
 import chip.clusters as Clusters
@@ -27,7 +26,7 @@ import chip.clusters.enum
 import chip.FabricAdmin
 from chip import ChipDeviceCtrl
 from chip.ChipDeviceCtrl import CommissioningParameters
-from matter_testing_support import MatterBaseTest, async_test_body, default_matter_test_main, parser
+from matter_testing_support import MatterBaseTest, async_test_body, default_matter_test_main
 from mobly import asserts
 from chip.utils import CommissioningBuildingBlocks
 from chip.clusters import OperationalCredentials as opCreds
@@ -35,68 +34,33 @@ from mobly import asserts, base_test, signals, utils
 from fabric import Connection
 import threading
 from invoke import UnexpectedExit
-from RPIReset import rpi_reset, rpi_run
 from Threadreset import thread_reset
-
-
-
+from reset import Reset
 
 
 class TC_PairUnpair(MatterBaseTest):
 
 
-
     def argument_data(self):
 
+        conf = self.matter_test_config
+        print(conf)
+
         logging.info("Starting to store data from comaand line")
-      
-        argv = sys.argv[1:]
-
-        parser.add_argument('-iter', '--number-of-iterations', 
-                            default=10, metavar=('number-of-iterations'), type=int)
-        parser.add_argument('-plat', '--platform',  choices = ["rpi","thread"],
-                            default='rpi', metavar='platform', type=str)
-        parser.add_argument('-ipa', '--ipaddress',  metavar='ip-address', type=str)
-        parser.add_argument('-user', '--username',  metavar='username', type=str)
-        parser.add_argument('-pw', '--password',  metavar='password', type=str)
-        parser.add_argument('-pa', '--path',  metavar='path', type=str)
-
-
+     
         arg_data = {}
 
-        arg_data['number-of-iterations'] = parser.parse_args(argv).number_of_iterations
-        arg_data['platform'] = parser.parse_args(argv).platform
-        arg_data['host'] = parser.parse_args(argv).ipaddress
-        arg_data['password'] = parser.parse_args(argv).password
-        arg_data['user'] = parser.parse_args(argv).username
-        arg_data['path'] = parser.parse_args(argv).path
-
-        if arg_data['host'] is None:
-            print("error: Missing --ipaddress for this Test-Case")
-            raise signals.TestAbortAll("Missing --ipaddress ")
-
-
-        if arg_data['user'] is None:
-            print("error: Missing --username for this Test-Case")
-            raise signals.TestAbortAll("Missing --username")
-
-        if arg_data['password'] is None:
-            print("error: Missing --password for this Test-Case")
-            raise signals.TestAbortAll("Missing --password")
-
-        if arg_data['path'] is None:
-            print("error: Missing --path for this Test-Case")
-            raise signals.TestAbortAll("Missing --path")
-
+        arg_data['number-of-iterations'] = conf.number_of_iterations
+        arg_data['platform'] = conf.platform
 
         return arg_data
       
     
 
     def commission_device(self):
+
         conf = self.matter_test_config
-        random_nodeid =  secrets.randbelow(2**32)  
-        conf.dut_node_ids = [random_nodeid ]
+        
         for commission_idx, node_id in enumerate(conf.dut_node_ids):
             logging.info("Starting commissioning for root index %d, fabric ID 0x%016X, node ID 0x%016X" %
                          (conf.root_of_trust_index, conf.fabric_id, node_id))
@@ -157,14 +121,8 @@ class TC_PairUnpair(MatterBaseTest):
 
         time.sleep(3)
         logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
-        if platform == "rpi":
-           rpi_reset(data)
-           thread = threading.Thread(target= rpi_run, args=(data,))
-           thread.start()
-           time.sleep(2)
-        elif platform == "thread":
-           thread_reset(data)
-
+        Reset().factoryreset(None)
+       
 
         for i in range(1, number_of_iterations):
             logging.info('{} iteration of pairing sequence'.format(i+1))
@@ -175,12 +133,7 @@ class TC_PairUnpair(MatterBaseTest):
             self.th1.ExpireSessions(self.dut_node_id)
             logging.info('PLEASE FACTORY RESET THE DEVICE')
             if platform == "rpi":
-                rpi_reset(data)
-                thread.join()
-                if i+1 is not number_of_iterations:
-                   thread = threading.Thread(target=rpi_run, args=(data,))
-                   thread.start()
-                   logging.info('thread completed')
+               Reset().factoryreset(i)
             elif platform == "thread":
                thread_reset(data)
             time.sleep(2)

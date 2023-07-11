@@ -19,6 +19,7 @@ import logging
 import time
 import argparse
 import sys
+import secrets
 
 import chip.CertificateAuthority
 import chip.clusters as Clusters
@@ -72,6 +73,8 @@ class TC_PairUnpair(MatterBaseTest):
     def _commission_device(self, i) -> bool:
         dev_ctrl = self.default_controller
         conf = self.matter_test_config
+        random_nodeid =  secrets.randbelow(2**32)  
+        conf.dut_node_ids = [random_nodeid ]
         DiscoveryFilterType = ChipDeviceCtrl.DiscoveryFilterType
         # TODO: support by manual code and QR
 

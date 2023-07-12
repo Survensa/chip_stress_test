@@ -17,8 +17,6 @@
 
 import logging
 import time
-import argparse
-import sys
 import secrets
 
 import chip.CertificateAuthority
@@ -35,8 +33,7 @@ from mobly import asserts, base_test, signals, utils
 from fabric import Connection
 import threading
 from invoke import UnexpectedExit
-from Threadreset import thread_reset
-from reset import Reset
+from reset import Rpi, Nordic
 
 
 class TC_PairUnpair(MatterBaseTest):
@@ -109,6 +106,8 @@ class TC_PairUnpair(MatterBaseTest):
         else:
             raise ValueError("Invalid commissioning method %s!" % conf.commissioning_method)
 
+
+
     @async_test_body
     async def test_TC_PairUnpair(self):
 
@@ -124,9 +123,14 @@ class TC_PairUnpair(MatterBaseTest):
 
         time.sleep(3)
         logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
-        Reset().factoryreset(None)
-       
+        if platform == "rpi":
+            Rpi().factory_reset(True)
+            time.sleep(2)
 
+        elif platform =='thread':
+            Nordic().factory_reset()
+
+                    
         for i in range(1, number_of_iterations):
             logging.info('{} iteration of pairing sequence'.format(i+1))
             self.commission_device()
@@ -136,11 +140,18 @@ class TC_PairUnpair(MatterBaseTest):
             self.th1.ExpireSessions(self.dut_node_id)
             logging.info('PLEASE FACTORY RESET THE DEVICE')
             if platform == "rpi":
-               Reset().factoryreset(i)
+               
+               if i+1 is not number_of_iterations:
+                   Rpi().factory_reset(True)
+                   logging.info('thread completed')
+
+               else:
+                   Rpi().factory_reset(False)
+                   logging.info('thread completed')
             elif platform == "thread":
-               thread_reset(data)
+               Nordic().factory_reset()
             time.sleep(2)
-            logging.info('completed pair and unpair sequence')
+            logging.info('completed pair and unpair sequence for {}'.format(i+1))
 
 
 if __name__ == "__main__":

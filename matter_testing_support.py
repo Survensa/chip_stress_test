@@ -1023,7 +1023,6 @@ class CommissionDeviceTest(MatterBaseTest):
             raise ValueError("Invalid commissioning method %s!" % conf.commissioning_method)
 
 
-matter_test_config = parse_matter_test_args(None)
 
 def default_matter_test_main(argv=None, **kwargs):
     """Execute the test class in a test module.
@@ -1038,7 +1037,7 @@ def default_matter_test_main(argv=None, **kwargs):
     Args:
       argv: A list that is then parsed as command line args. If None, defaults to sys.argv
     """
-    global matter_test_config
+    
     matter_test_config = parse_matter_test_args(argv)
 
     # Allow override of command line from optional arguments
@@ -1111,4 +1110,3 @@ def default_matter_test_main(argv=None, **kwargs):
     else:
         logging.error("Final result: FAIL !")
         sys.exit(1)
- Ô

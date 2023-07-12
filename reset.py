@@ -1,54 +1,49 @@
 from mobly import asserts, base_test, signals, utils
-from matter_testing_support import matter_test_config
-import json
 import logging
-import subprocess
 from fabric import Connection
-import threading
 from invoke import UnexpectedExit
+from abc import ABC, abstractmethod
+from config import config_data
+import threading
+
+class Reset (ABC):
+
+    @abstractmethod
+    def reboot(self):
+        pass
+
+    @abstractmethod
+    def factory_reset(self):
+        pass
+
+    @abstractmethod
+    def advertise(self):
+        pass
 
 
-class Reset ():
-     
-    def store_data(self):
 
-        data ={}
-        subprocess.run('ls')
-        subprocess.run('pwd')
+class Rpi(Reset):
 
-        config_file = "RPIconfig.json"
-        with open(config_file, 'r') as file:
-            data = json.load(file)
-        print(data)
-        logging.info(f"Data from {config_file} has been stored in data")
+
+    def reboot(self):
         
-        return data    
-
-    def factoryreset(self, i):
-
-        data = self.store_data()
-
-        conf = matter_test_config
-        print(conf)
-
-        platform = conf.platform
-
-        if platform == 'rpi':
-            return (Rpi_reset().reset(data, i))
+        data = config_data()
         
-        elif platform == 'thread' :
-            return  None 
+        ssh = Connection(host=data['host'], user=data['username'] , connect_kwargs={"password": data['password']})
         
-        logging.info("The specified --platform is not defiened")
-        raise signals.TestAbortAll("Failed to Reset the device")
+        reboot_command = f"sudo reboot"
+
+        ssh.run(reboot_command)
+
+        return True
 
 
-
-class Rpi_reset(Reset):
-
-
-    def reset(self, data, i):
-        print(i)
+        
+        
+    def factory_reset(self, i):
+        
+             
+        data = config_data()
         
         ssh = Connection(host=data['host'], user=data['username'] , connect_kwargs={"password": data['password']})
         
@@ -61,40 +56,45 @@ class Rpi_reset(Reset):
         for line in pid_lines :
             if './chip-all-clusters-app' in line:
                 pid = line.split()[1]
-                kill_command = f"kill -9 {pid}"1
+                kill_command = f"kill -9 {pid}"
                 ssh.run(kill_command)
             break
         logging.info("Example App has been closed")
         ssh.run(' sudo rm -rf /tmp/chip_*')
         ssh.close()
 
-        thread = threading.Thread(target=self._run, args=(data,))
-
-        if i != matter_test_config.number_of_iterations - 1:
-            
+        if i:
+            thread = threading.Thread(target=self.advertise)
             thread.start()
-            logging.info('thread completed')
 
-    
 
-        return True
-        
-        
-    def _run(self, data):
+    def advertise(self):
 
-            
-            
-            ssh = Connection(host=data['host'], user=data['username'] , connect_kwargs={"password": data['password']})
-            path  = data['path']
-            try:
+        data = config_data()
+
+        ssh = Connection(host=data['host'], user=data['username'] , connect_kwargs={"password": data['password']})
+        path  = data['path']
+        try:
                 ssh.run('cd ' + path +' && ./chip-all-clusters-app ' , hide =True, pty=False)
-            except UnexpectedExit as e:
+        except UnexpectedExit as e:
                 if e.result.exited == -1:
-                        print("Command exited with -1, treating as non-error")
+                        None
                 else:
                         raise
-            ssh.close()
-            logging.info('Ilration has been completed')
+        ssh.close()
+        logging.info('Iteration has been completed')
 
-            return True
+
+        return True
             
+
+class Nordic(Reset):
+     
+    def reboot(self):
+        return super().reboot()
+     
+    def factory_reset(self):
+        return super().factory_reset()
+     
+    def advertise(self):
+        return super().advertise()

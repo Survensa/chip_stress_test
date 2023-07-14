@@ -2,11 +2,17 @@ from mobly import asserts, base_test, signals, utils
 import logging
 from fabric import Connection
 from invoke import UnexpectedExit
+import invoke.exceptions
 from abc import ABC, abstractmethod
 from config import rpi_config, thread_config
 import threading
 import subprocess
 import time
+import os
+import serial
+import sys
+
+
 
 class Reset (ABC):
 
@@ -22,10 +28,20 @@ class Reset (ABC):
     def advertise(self):
         pass
 
+    @abstractmethod
+    def start_logging(self):
+        pass
+
+    @abstractmethod
+    def stop_logging(self):
+        pass
 
 
+    
 class Rpi(Reset):
 
+    def __init__(self) -> None:
+        self.count = 1
 
     def reboot(self):
         
@@ -39,12 +55,9 @@ class Rpi(Reset):
 
         return True
 
-
-        
-        
+      
     def factory_reset(self, i):
-        
-             
+                
         data = rpi_config()
         
         ssh = Connection(host=data.host, user=data.username , connect_kwargs={"password": data.password})
@@ -57,12 +70,13 @@ class Rpi(Reset):
         pid_lines = pid_output.split('\n')
         for line in pid_lines :
             if data.command in line:
-                pid = line.split()[1]
+                pid = line.split()[1]                
                 kill_command = f"kill -9 {pid}"
+                
                 ssh.run(kill_command)
             break
         logging.info("Example App has been closed")
-        ssh.run(' sudo rm -rf /tmp/chip_*')
+        
         ssh.close()
 
         if i:
@@ -72,21 +86,52 @@ class Rpi(Reset):
 
     def advertise(self):
 
+        logging.info("advertising the DUT")
+
+
         data = rpi_config()
 
         ssh = Connection(host=data.host, user=data.username , connect_kwargs={"password": data.password})
         path  = data.path
+        ssh.run(' sudo rm -rf /tmp/chip_*')
+
         try:
-                ssh.run('cd ' + path +' && '+ data.command , hide =True, pty=False)
+                log = ssh.run('cd ' + path +' && '+ data.command , warn=True, hide =True, pty=False)
         except UnexpectedExit as e:
                 if e.result.exited == -1:
                         None
                 else:
                         raise
+                
+        self.start_logging(log)
         ssh.close()
         logging.info('Iteration has been completed')
 
 
+        return True
+    
+    def start_logging(self, log):
+        
+        log_file = "dutlog/rpi_log.txt"
+        current_dir = os.getcwd()
+        log_path = os.path.join(current_dir,log_file)
+
+        if self.count == 1:
+            if os.path.exists(log_path):
+                os.remove(log_path)
+
+        with open(log_path, 'a') as l:
+            l.write(f" \n\n   log of {self.count}th iteration \n")
+            l.write(log.stdout)
+
+        self.count = self.count+1
+
+        return True
+    
+    def stop_logging(self):
+
+        #As we are killing the example while factory reset this will stop the logginf process
+        #So Rpi has no need for this function
         return True
             
 
@@ -96,22 +141,132 @@ class Nordic(Reset):
         #As of now the nRF52840-DK is not able to reboot
         return (self.factory_reset())
      
-    def factory_reset(self):
+    def factory_reset(self,i):
 
         data = thread_config()
 
-        if data == False:
-            cmd = f'echo -e "matter device factoryreset" > {data.port}'
-            subprocess.run(cmd , shell=True)
+        if data.host == None:
+            Serial_port().write_cmd()
+
 
         else:
-            ssh =  Connection(host=data.host, user=data.username , connect_kwargs={"password": data.password})     
-            ssh.run(f'echo -e "matter device factoryreset" > {data.port}')
+            ssh =  Connection(host=data.host, user=data.username , connect_kwargs={"password": data.password}) 
+            for i in range(1,4) :   
+                ssh.run(f'echo "matter device factoryreset" > {data.port}')
 
         time.sleep(2)
+
+        if i == 0:
+            self.stop_logging()
 
         return True
      
     def advertise(self):
         #Since the advertisement is done during factory_reset it can be skipped
+        logging.info("advertising the DUT")
+        return (self.factory_reset)
+    
+    def start_logging(self,log):
+
+        ser = Serial_port().create_serial()
+
+        if ser.is_open:
+
+            log_file = "dutlog/rpi_log.txt"
+            current_dir = os.getcwd()
+            log_path = os.path.join(current_dir,log_file)
+            if os.path.exists(log_path):
+                os.remove(log_path)
+    
+            log = open(log_path, 'w')
+
+            try:
+                while True:
+                    
+                    line = ser.readline().decode('utf-8').strip()
+
+                    if line:
+
+                        print(line)
+
+                        log.write(line + '\n')
+                        log.flush() 
+
+            except UnexpectedExit :
+
+                ser.close()
+                log_file.close()
+
+
+        else:
+            logging.info("Failed to read the log in thread")
+            sys.exit()
+                  
         return True
+    
+    def stop_logging(self):
+
+        ser = Serial_port().create_serial()
+        ser.close()
+
+        return True
+    
+
+class Serial_port(object):
+    def __init__(self) -> None:
+        self.data = thread_config()
+
+    def create_serial(self):
+
+        con = self.data
+
+        ser = serial.Serial(con.port, con.baudrate, timeout=1)
+
+        if not ser.is_open:
+            ser.open()
+
+        return ser
+    
+    def write_cmd(self):
+
+        port = self.data.port
+        baudrate = self.data.baudrate
+
+        try:
+            ser = serial.Serial(port, baudrate, timeout=3)
+        except serial.SerialException:
+            logging.error(f"Failed to connect to {port}.")
+            raise signals.TestAbortAll("Failed to Reset the device")
+            
+        cmd = b'matter device factoryreset \n' 
+
+        for i in range(1,4):
+            ser.write(cmd)
+            time.sleep(2)
+
+        ser.close()
+        
+def test_start(conf):
+
+    if conf == 'rpi':
+        logging.info("advertising the dut")
+        thread = threading.Thread(target=Rpi().advertise)
+        thread.start()
+        time.sleep(5)
+
+    elif conf =='thread':
+        thread = threading.Thread(target=Nordic().start_logging)
+        thread.start()
+        Nordic().advertise
+    return True
+
+def reset(platform, i):
+
+    if platform == "rpi":
+            Rpi().factory_reset(i)
+            time.sleep(2)
+
+    elif platform =='thread':
+            Nordic().factory_reset(i)
+
+    return True

@@ -26,7 +26,7 @@ rpi_path = ""
 
 #Enter the "ip-address" of your system (where the thread dk is connected) here in nrf_host
 #  if it is empty the thread dk should be connected in controller
-nrf_host = "192.168.4.122"
+nrf_host = ""
 
 #Enter the username of your system (where the thread dk is connected) here in nrf_user
 #  if it is empty the default name "ubuntu" will be assigned
@@ -38,7 +38,12 @@ nrf_password = ""
 
 #Enter the port in your  system (where the thread dk is connected) here in nrf_port
 #  if it is empty the default port "/dev/ttyACM0" will be assigned
-nrf_port = ""
+nrf_port = "/dev/ttyACM1"
+
+#Enter the baudrate in your  device (where the thread dk is communicate) here in nrf_baudrate
+#  if it is None the default daultrate "115200" will be assigned
+nrf_baudrate = None
+
 
 @dataclass
 class Rpi_config:
@@ -55,6 +60,7 @@ class Thread_config:
     username: str = "ubuntu"
     password: str = "raspberrypi"
     port: str = "/dev/ttyACM0"
+    baudrate: int  = 115200
 
 
 def rpi_config():
@@ -87,11 +93,7 @@ def thread_config():
 
     config = Thread_config()
 
-    if nrf_host == "" :
-        return False
-    
-    else:
-
+    if nrf_host != "" :
         config.host = nrf_host
 
     if nrf_user != "":
@@ -103,9 +105,8 @@ def thread_config():
     if nrf_port != "":
         config.port = nrf_port
 
+    if nrf_baudrate != None:
+        config.baudrate = nrf_baudrate
+
+
     return config
-
-
-
-
-

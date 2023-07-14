@@ -25,36 +25,17 @@ import chip.clusters.enum
 import chip.FabricAdmin
 from chip import ChipDeviceCtrl
 from chip.ChipDeviceCtrl import CommissioningParameters
-from matter_testing_support import MatterBaseTest, async_test_body, default_matter_test_main
+from matter_testing_support import MatterBaseTest, async_test_body, default_matter_test_main, parse_matter_test_args
 from mobly import asserts
 from chip.utils import CommissioningBuildingBlocks
 from chip.clusters import OperationalCredentials as opCreds
 from mobly import asserts, base_test, signals, utils
-from fabric import Connection
-import threading
 from invoke import UnexpectedExit
-from reset import Rpi, Nordic
+from reset import Nordic, reset, test_start
 
 
 class TC_PairUnpair(MatterBaseTest):
-
-
-    def argument_data(self):
-
-        conf = self.matter_test_config
-        print(conf)
-
-        logging.info("Starting to store data from comaand line")
-     
-        arg_data = {}
-
-        arg_data['number-of-iterations'] = conf.number_of_iterations
-        arg_data['platform'] = conf.platform
-
-        return arg_data
-      
-    
-
+   
     def commission_device(self):
 
         conf = self.matter_test_config
@@ -111,10 +92,12 @@ class TC_PairUnpair(MatterBaseTest):
     @async_test_body
     async def test_TC_PairUnpair(self):
 
-        data = self.argument_data()
+        
+        conf = self.matter_test_config
+
    
-        number_of_iterations = data['number-of-iterations']
-        platform = data['platform']
+        number_of_iterations = conf.number_of_iterations 
+        platform = conf.platform
 
         self.th1 = self.default_controller
         time.sleep(3)
@@ -123,12 +106,7 @@ class TC_PairUnpair(MatterBaseTest):
 
         time.sleep(3)
         logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
-        if platform == "rpi":
-            Rpi().factory_reset(True)
-            time.sleep(2)
-
-        elif platform =='thread':
-            Nordic().factory_reset()
+        reset(platform,1)
 
                     
         for i in range(1, number_of_iterations):
@@ -139,20 +117,23 @@ class TC_PairUnpair(MatterBaseTest):
             self.th1.UnpairDevice(self.dut_node_id)
             self.th1.ExpireSessions(self.dut_node_id)
             logging.info('PLEASE FACTORY RESET THE DEVICE')
-            if platform == "rpi":
-               
-               if i+1 is not number_of_iterations:
-                   Rpi().factory_reset(True)
+                           
+            if i+1 is not number_of_iterations:
+                   reset(platform, 1)
                    logging.info('thread completed')
 
-               else:
-                   Rpi().factory_reset(False)
+            else:
+                   reset(platform, 0)
                    logging.info('thread completed')
-            elif platform == "thread":
-               Nordic().factory_reset()
+            
             time.sleep(2)
             logging.info('completed pair and unpair sequence for {}'.format(i+1))
 
 
 if __name__ == "__main__":
+    
+    conf = parse_matter_test_args(None)
+    platform = conf.platform
+    test_start(platform)
+    
     default_matter_test_main()

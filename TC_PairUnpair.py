@@ -31,7 +31,7 @@ from chip.utils import CommissioningBuildingBlocks
 from chip.clusters import OperationalCredentials as opCreds
 from mobly import asserts, base_test, signals, utils
 from invoke import UnexpectedExit
-from reset import Nordic, reset, test_start
+from reset import Nordic, reset, test_start, test_stop
 
 
 class TC_PairUnpair(MatterBaseTest):
@@ -46,7 +46,10 @@ class TC_PairUnpair(MatterBaseTest):
             logging.info("Commissioning method: %s" % conf.commissioning_method)
 
             if not self._commission_device(commission_idx):
-                raise signals.TestAbortAll("Failed to commission node")
+                return False
+            
+            else:
+                return True
 
     def _commission_device(self, i) -> bool:
         dev_ctrl = self.default_controller
@@ -92,48 +95,57 @@ class TC_PairUnpair(MatterBaseTest):
     @async_test_body
     async def test_TC_PairUnpair(self):
 
-        
+        _pass = 0
+        _fail = 0
         conf = self.matter_test_config
-
-   
-        number_of_iterations = conf.number_of_iterations 
         platform = conf.platform
-
+        iteration = conf.number_of_iterations
         self.th1 = self.default_controller
         time.sleep(3)
         self.th1.UnpairDevice(self.dut_node_id)
         self.th1.ExpireSessions(self.dut_node_id)
 
         time.sleep(3)
+        _pass += 1 
+        logging.info('1 iteration of pairing sequence is Success')
         logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
         reset(platform,1)
 
-                    
-        for i in range(1, number_of_iterations):
+        for i in range(1, iteration):
             logging.info('{} iteration of pairing sequence'.format(i+1))
-            self.commission_device()
-            logging.info('unpairing the device')
-            time.sleep(2)
-            self.th1.UnpairDevice(self.dut_node_id)
-            self.th1.ExpireSessions(self.dut_node_id)
-            logging.info('PLEASE FACTORY RESET THE DEVICE')
-                           
-            if i+1 is not number_of_iterations:
+            iter = self.commission_device()
+            if iter:
+                logging.info('unpairing the device')
+                time.sleep(2)
+                self.th1.UnpairDevice(self.dut_node_id)
+                self.th1.ExpireSessions(self.dut_node_id)
+                logging.info(f'iteration{i+1} is passed')
+                logging.info('PLEASE FACTORY RESET THE DEVICE')          
+                _pass += 1
+            else :
+                logging.error(f'iteration{i+1} is failed')
+                _fail += 1
+            
+            if i+1 is not iteration:
                    reset(platform, 1)
                    logging.info('thread completed')
 
             else:
                    reset(platform, 0)
                    logging.info('thread completed')
-            
             time.sleep(2)
-            logging.info('completed pair and unpair sequence for {}'.format(i+1))
+            logging.info('completed pair and unpair sequence for {}'.format(i+1))       
+        logging.info (f"The Summary of the {conf.number_of_iterations} iteration are")
+        logging.info(f"\t  \t  Pass:  {_pass}")
+        logging.info(f"\t  \t  Fail:  {_fail}")
+
 
 
 if __name__ == "__main__":
-    
+
     conf = parse_matter_test_args(None)
     platform = conf.platform
     test_start(platform)
-    
-    default_matter_test_main()
+    result = default_matter_test_main()
+    if not result:
+        test_stop(platform)

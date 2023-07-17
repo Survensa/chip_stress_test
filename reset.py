@@ -40,8 +40,7 @@ class Reset (ABC):
     
 class Rpi(Reset):
 
-    def __init__(self) -> None:
-        self.count = 1
+    count = 0
 
     def reboot(self):
         
@@ -70,11 +69,12 @@ class Rpi(Reset):
         pid_lines = pid_output.split('\n')
         for line in pid_lines :
             if data.command in line:
-                pid = line.split()[1]                
-                kill_command = f"kill -9 {pid}"
-                
-                ssh.run(kill_command)
-            break
+                pid = line.split()[1]
+                conformance = line.split()[7]  
+                if conformance == 'Ssl':             
+                    kill_command = f"kill -9 {pid}"
+                    ssh.run(kill_command)
+            
         logging.info("Example App has been closed")
         
         ssh.close()
@@ -82,6 +82,8 @@ class Rpi(Reset):
         if i:
             thread = threading.Thread(target=self.advertise)
             thread.start()
+
+        time.sleep(10)        
 
 
     def advertise(self):
@@ -102,7 +104,7 @@ class Rpi(Reset):
                         None
                 else:
                         raise
-                
+
         self.start_logging(log)
         ssh.close()
         logging.info('Iteration has been completed')
@@ -115,24 +117,23 @@ class Rpi(Reset):
         log_file = "dutlog/rpi_log.txt"
         current_dir = os.getcwd()
         log_path = os.path.join(current_dir,log_file)
+        Rpi.count +=1
+        logging.info(f'count of iterartion {Rpi.count}')
 
         if self.count == 1:
             if os.path.exists(log_path):
                 os.remove(log_path)
 
         with open(log_path, 'a') as l:
-            l.write(f" \n\n   log of {self.count}th iteration \n")
+            l.write(f" \n\n   log of {Rpi.count} iteration \n")
             l.write(log.stdout)
-
-        self.count = self.count+1
 
         return True
     
     def stop_logging(self):
 
-        #As we are killing the example while factory reset this will stop the logginf process
-        #So Rpi has no need for this function
-        return True
+        #As we are killing the example while factory reset this will stop the logging process
+        return (self.factory_reset(0))
             
 
 class Nordic(Reset):
@@ -212,6 +213,8 @@ class Nordic(Reset):
         return True
     
 
+
+
 class Serial_port(object):
     def __init__(self) -> None:
         self.data = thread_config()
@@ -246,19 +249,33 @@ class Serial_port(object):
 
         ser.close()
         
-def test_start(conf):
+def test_start(platform):
 
-    if conf == 'rpi':
+    if platform == 'rpi':
         logging.info("advertising the dut")
         thread = threading.Thread(target=Rpi().advertise)
         thread.start()
         time.sleep(5)
 
-    elif conf =='thread':
+    elif platform =='thread':
         thread = threading.Thread(target=Nordic().start_logging)
         thread.start()
         Nordic().advertise
+        time.sleep(5)
+
     return True
+
+
+def test_stop(platform):
+    if platform =='rpi':
+        Rpi().stop_logging()
+
+    elif platform =='thread':
+        Nordic().stop_logging()
+
+      
+    
+
 
 def reset(platform, i):
 
@@ -269,4 +286,6 @@ def reset(platform, i):
     elif platform =='thread':
             Nordic().factory_reset(i)
 
+
     return True
+

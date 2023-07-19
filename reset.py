@@ -12,8 +12,6 @@ import os
 import serial
 import sys
 
-
-
 class Reset (ABC):
 
     @abstractmethod
@@ -63,7 +61,7 @@ class Rpi(Reset):
         
         # Executing the  'ps aux | grep process_name' command to find the PID value to kill
         command = f"ps aux | grep {data.command}"
-        pid_val = ssh.run(command)
+        pid_val = ssh.run(command, hide = True)
 
         pid_output = pid_val.stdout
         pid_lines = pid_output.split('\n')
@@ -114,19 +112,14 @@ class Rpi(Reset):
     
     def start_logging(self, log):
         
-        log_file = "dutlog/rpi_log.txt"
-        current_dir = os.getcwd()
-        log_path = os.path.join(current_dir,log_file)
-        Rpi.count +=1
-        logging.info(f'count of iterartion {Rpi.count}')
+        log_file = "TC_PairUnpair_log.txt"        
 
-        if self.count == 1:
-            if os.path.exists(log_path):
-                os.remove(log_path)
+        if Rpi.count:
+            with open(log_file, 'a') as l:
+                l.write(f" \n\n  Dut log of {Rpi.count} iteration \n")
+                l.write(log.stdout)
 
-        with open(log_path, 'a') as l:
-            l.write(f" \n\n   log of {Rpi.count} iteration \n")
-            l.write(log.stdout)
+        Rpi.count += 1
 
         return True
     
@@ -250,6 +243,11 @@ class Serial_port(object):
         ser.close()
         
 def test_start(platform):
+
+    log_file = "TC_PairUnpair_log.txt"
+
+    if os.path.exists(log_file):
+        os.remove(log_file)
 
     if platform == 'rpi':
         logging.info("advertising the dut")

@@ -18,6 +18,9 @@
 import logging
 import time
 import secrets
+import signal
+import sys
+from io import StringIO
 
 import chip.CertificateAuthority
 import chip.clusters as Clusters
@@ -34,8 +37,31 @@ from invoke import UnexpectedExit
 from reset import Nordic, reset, test_start, test_stop
 
 
+class CommissionTimeoutError(Exception):
+    pass 
+
+def timeouterror(signum, frame):
+    raise CommissionTimeoutError("timed out, Failed to commission the dut")
+
+def timer(function):
+        def wrapper(*args, **kwargs):
+            # Set the alarm for the timeout
+            timeout = kwargs.pop('timeout', 65)
+            signal.signal(signal.SIGALRM, timeouterror)
+            signal.alarm(timeout)
+
+            try:
+                result = function(*args, **kwargs)
+            finally:
+                # Cancel the alarm after the function finishes
+                signal.alarm(0)
+
+            return result
+        return wrapper
+
 class TC_PairUnpair(MatterBaseTest):
    
+    @timer
     def commission_device(self):
 
         conf = self.matter_test_config
@@ -106,27 +132,34 @@ class TC_PairUnpair(MatterBaseTest):
         self.th1.ExpireSessions(self.dut_node_id)
 
         time.sleep(3)
-        _pass += 1 
-        logging.info('1 iteration of pairing sequence is Success')
         logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
         reset(platform,1)
 
-        for i in range(1, iteration):
-            logging.info('{} iteration of pairing sequence'.format(i+1))
-            iter = self.commission_device()
+        for i in range(1, iteration+1):
+            
+            
+            logging.info('{} iteration of pairing sequence'.format(i))
+            try:
+                iter = self.commission_device()
+            except CommissionTimeoutError as e:
+                logging.error(e)
+                iter = False
             if iter:
                 logging.info('unpairing the device')
                 time.sleep(2)
                 self.th1.UnpairDevice(self.dut_node_id)
                 self.th1.ExpireSessions(self.dut_node_id)
-                logging.info(f'iteration{i+1} is passed')
-                logging.info('PLEASE FACTORY RESET THE DEVICE')          
+                logging.info(f'iteration {i} is passed')       
                 _pass += 1
+
             else :
-                logging.error(f'iteration{i+1} is failed')
+                logging.error(f'iteration {i} is failed')
                 _fail += 1
+            logging.info('PLEASE FACTORY RESET THE DEVICE') 
+
             
-            if i+1 is not iteration:
+            
+            if i is not iteration:
                    reset(platform, 1)
                    logging.info('thread completed')
 
@@ -134,7 +167,9 @@ class TC_PairUnpair(MatterBaseTest):
                    reset(platform, 0)
                    logging.info('thread completed')
             time.sleep(2)
-            logging.info('completed pair and unpair sequence for {}'.format(i+1))       
+            logging.info('completed pair and unpair sequence for {}'.format(i))  
+
+             
         logging.info (f"The Summary of the {conf.number_of_iterations} iteration are")
         logging.info(f"\t  \t  Pass:  {_pass}")
         logging.info(f"\t  \t  Fail:  {_fail}")
@@ -146,6 +181,5 @@ if __name__ == "__main__":
     conf = parse_matter_test_args(None)
     platform = conf.platform
     test_start(platform)
-    result = default_matter_test_main()
-    if not result:
-        test_stop(platform)
+    log_file = "TC_PairUnpair_rpi_log.txt"
+    default_matter_test_main()

@@ -981,14 +981,8 @@ class CommissionDeviceTest(MatterBaseTest):
                          (conf.root_of_trust_index, conf.fabric_id, node_id))
             logging.info("Commissioning method: %s" % conf.commissioning_method)
 
-            for i in range(1,4):
-                if not self._commission_device(commission_idx):
-                    logging.error(f"Failed to pair the commission node on {i} time")
-                    if i == 3:
-                        raise signals.TestAbortAll("Failed to commission node")
-                else:
-                    logging.info(f"Commissioning has been completed on {i} time")
-                    break
+            if not self._commission_device(commission_idx):                
+                raise signals.TestAbortAll("Failed to commission node")
 
     def _commission_device(self, i) -> bool:
         dev_ctrl = self.default_controller
@@ -1115,5 +1109,3 @@ def default_matter_test_main(argv=None, **kwargs):
     else:
         logging.error("Final result: FAIL !")
         sys.exit(1)
-
-    return ok

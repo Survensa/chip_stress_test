@@ -91,7 +91,7 @@ class Rpi(Reset):
 
         ssh = Connection(host=data.host, user=data.username, connect_kwargs={"password": data.password})
         path = data.path
-        ssh.run('sudo rm -rf /tmp/chip_*')
+        ssh.run('rm -rf /tmp/chip_*')
 
         try:
             log = ssh.run('cd ' + path + ' && ' + data.command, warn=True, hide=True, pty=False)
@@ -187,7 +187,8 @@ def reset(platform, i):
         Rpi().factory_reset(i)
         time.sleep(2)
 
-    elif platform == 'thirdParty':
+    elif platform == 'CustomDut':
+        logging.info("CUSTOM DUT device is going to be reset")
         CustomDut().factory_reset(i)
     return True
 
@@ -200,11 +201,9 @@ def platform_setter():
         if platform_set == '1':
             config.platform_execution = 'rpi'
         else:
-            print("thread platform is still under construction program will terminate now .....")
             path_of_file = input("Provide Absolute path for the python file")
-
             if os.path.exists(path_of_file):
-                config.platform_execution = "thirdParty"
+                config.platform_execution = "CustomDut"
                 sys.path.insert(1, path_of_file)
                 import override
                 CustomDut.factory_reset = override.factory_reset
@@ -308,7 +307,7 @@ def commissioning_method():
         commissioning_method()
 
 
-def display_oprtions():
+def display_oprtions(option_selected):
     rpi_options_data = "\n\t\t RPI Username '{}'\
             \n\t\t RPI Hostname '{}'\
             \n\t\t RPI Password '{}'\
@@ -317,13 +316,13 @@ def display_oprtions():
         config.rpi_user, config.rpi_host,
         config.rpi_password, config.rpi_path,
         config.rpi_cmd) if config.platform_execution == 'rpi' else "\n"
-    print("You have Selected CUSTOM Mode The Script will contibue execution with the following configurations \n \
+    print("You have Selected {} The Script will continue execution with the following configurations \n \
                          \n\t\t Platform Selected is '{}'\
                          \n\t\t Number Of Iterations '{}'\
                          \n\t\t Connection Timeout Between DUT and Commissioner '{}'\
                          \n\t\t Execution Mode is Set to '{}' {}\
                          \n\t\t Commissioning Method is '{}'\n\
-                         ".format(config.platform_execution, config.iteration_number, config.dut_connection_timeout,
+                         ".format(option_selected,config.platform_execution, config.iteration_number, config.dut_connection_timeout,
                                   "Full execution mode" if config.execution_mode_full else "Partial execution mode",
                                   "Meaning The Script will Continue to execute even if one of the iteration Fails" if config.execution_mode_full else "Meaning The Script will Exit the execution even if one of the iteration Fails",
                                   config.commissioning_metod) + rpi_options_data)
@@ -350,14 +349,14 @@ def custom_mode():
     connection_timeout_setter()
     execution_mode_test_case()
     commissioning_method()
-    display_oprtions()
+    display_oprtions(option_selected="Custom Dut")
 
 
 def user_interaction_start():
     print("\n++++++ WELCOME TO AUTOMATION SCRIPT OF PAIR AND UNPAIR DUT +++++++\n \tKindly Select Desired options \n")
     run_full_script = input(
-        "the Script has Two modes 'Default Mode' and 'Custom Mode'. Press \n\t\t1 for Default Mode \n\t\t2 for User Mode Execution\n")
-    if run_full_script == "1" or run_full_script == "2":
+        "the Script has Two modes 'Default Mode' and 'Custom Mode'. Press \n\t\t1 for Default Mode \n\t\t2 for User Mode Execution\n\t\t3 for using Yaml File as input\n")
+    if run_full_script in ["1","2","3"]:
         if run_full_script == "1":
             print("You have Selected Default Mode The Script will contibue execution with the following configurations \n \
                          \n\t\t Platform Execution Mode '{}'\
@@ -387,6 +386,21 @@ def user_interaction_start():
         elif run_full_script == "2":
             print("You have Selected Custom Mode choose the options Below")
             custom_mode()
+        elif run_full_script == "3":
+            print("You have selected Yaml as input option")
+            config.read_yaml()
+            path_of_file=config.path_of_file
+            if os.path.exists(path_of_file):
+                sys.path.insert(1, path_of_file)
+                import override
+                CustomDut.factory_reset = override.factory_reset
+                CustomDut.advertise = override.advertise
+                CustomDut.start_logging = override.start_logging
+                CustomDut.stop_logging = override.stop_logging
+            else:
+                print("File is override file is missing\n Exiting from execution")
+                sys.exit(0)
+            display_oprtions(option_selected="Yaml Load File")
     else:
         print("\n!!!!!!INVALID OPTION SELECTED!!!!!!\n")
         user_interaction_start()

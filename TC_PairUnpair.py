@@ -14,7 +14,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #
-
+import datetime
 import logging
 import time
 import secrets
@@ -41,15 +41,28 @@ class CommissionTimeoutError(Exception):
     pass
 
 
-# def convert_args_dict(args:list):
-# keys=[]
-# values=[]
-# for arg in args:
-#     if "--" in arg and arg.startswith("--"):
-#         keys.append(arg)
-#     else:
-#         values.append(arg)
-# return dict(zip(keys,values))
+def logger_function(iternation_number,date,log_file_path)->logging:
+            logger = logging.getLogger("{}_{}.log".format(date,str(iternation_number)))
+            logger.setLevel(logging.DEBUG)
+            fh = logging.FileHandler("{}/iteration_{}_{}.log".format(log_file_path,str(iternation_number),date))
+            logger.addHandler(fh)
+            formatter = logging.Formatter('%(levelname)s:%(message)s')
+            fh.setFormatter(formatter)
+            #logger.propagate = False
+            return logger
+
+
+iteration_logger:logging
+
+def convert_args_dict(args:list):
+    keys=[]
+    values=[]
+    for arg in args:
+        if "--" in arg and arg.startswith("--"):
+            keys.append(arg)
+        else:
+            values.append(arg)
+    return dict(zip(keys,values))
 
 def timeouterror(signum, frame):
     raise CommissionTimeoutError("timed out, Failed to commission the dut")
@@ -83,21 +96,20 @@ class TC_PairUnpair(MatterBaseTest):
     # global conf_gl
     @timer
     def commission_device(self, *args, **kwargs):
-
+        global iteration_logger
         conf = self.matter_test_config
-
         for commission_idx, node_id in enumerate(conf.dut_node_ids):
-            logging.info("Starting commissioning for root index %d, fabric ID 0x%016X, node ID 0x%016X" %
+            iteration_logger.info("Starting commissioning for root index %d, fabric ID 0x%016X, node ID 0x%016X" %
                          (conf.root_of_trust_index, conf.fabric_id, node_id))
-            logging.info("Commissioning method: %s" % conf.commissioning_method)
+            iteration_logger.info("Commissioning method: %s" % conf.commissioning_method)
 
-            if not self._commission_device(commission_idx):
+            if not self._commission_device(commission_idx,iteration_logger):
                 return False
 
             else:
                 return True
 
-    def _commission_device(self, i) -> bool:
+    def _commission_device(self, i, iteration_logger) -> bool:
         dev_ctrl = self.default_controller
         conf = self.matter_test_config
         random_nodeid = secrets.randbelow(2 ** 32)
@@ -128,17 +140,17 @@ class TC_PairUnpair(MatterBaseTest):
                 conf.thread_operational_dataset
             )
         elif conf.commissioning_method == "on-network-ip":
-            logging.warning("==== USING A DIRECT IP COMMISSIONING METHOD NOT SUPPORTED IN THE LONG TERM ====")
+            iteration_logger.warning("==== USING A DIRECT IP COMMISSIONING METHOD NOT SUPPORTED IN THE LONG TERM ====")
             return dev_ctrl.CommissionIP(
                 ipaddr=conf.commissionee_ip_address_just_for_testing,
                 setupPinCode=conf.setup_passcodes[i], nodeid=conf.dut_node_ids[i]
             )
         else:
+            iteration_logger.error("Invalid commissioning method %s!" % conf.commissioning_method)
             raise ValueError("Invalid commissioning method %s!" % conf.commissioning_method)
 
     @async_test_body
     async def test_TC_PairUnpair(self):
-
         _pass = 0
         _fail = 0
         conf = self.matter_test_config
@@ -148,48 +160,48 @@ class TC_PairUnpair(MatterBaseTest):
         time.sleep(3)
         self.th1.UnpairDevice(self.dut_node_id)
         self.th1.ExpireSessions(self.dut_node_id)
-
         time.sleep(3)
         logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
         reset(platform, 1)
-
+        date=datetime.datetime.now().isoformat()[:-7].replace(":","_")
         for i in range(1, iteration + 1):
-
-            logging.info('{} iteration of pairing sequence'.format(i))
+            global iteration_logger
+            iteration_logger=logger_function(date=date,iternation_number=str(i),log_file_path=config.log_file_path)
+            iteration_logger.info('{} iteration of pairing sequence'.format(i))
             try:
                 iter = self.commission_device(kwargs={"timeout": config.dut_connection_timeout})
             except CommissionTimeoutError as e:
-                logging.error(e)
+                iteration_logger.error(e)
                 iter = False
             if iter:
-                logging.info('unpairing the device')
+                iteration_logger.info('unpairing the device')
                 time.sleep(2)
                 self.th1.UnpairDevice(self.dut_node_id)
                 self.th1.ExpireSessions(self.dut_node_id)
-                logging.info(f'iteration {i} is passed')
+                iteration_logger.info(f'iteration {i} is passed')
                 _pass += 1
 
             else:
-                logging.error(f'iteration {i} is failed')
+                iteration_logger.error(f'iteration {i} is failed')
                 _fail += 1
                 if not config.execution_mode_full:
-                    logging.info(
+                    iteration_logger.info(
                         'Full Execution mode is disabled \n The iteration {} number has failed hence the execution will stop here'.format(
                             i))
                     reset(platform, 1)
-                    logging.info('thread completed')
+                    iteration_logger.info('thread completed')
                     break
-            logging.info('PLEASE FACTORY RESET THE DEVICE')
+            iteration_logger.info('PLEASE FACTORY RESET THE DEVICE')
 
             if i != iteration:
                 reset(platform, 1)
-                logging.info('thread completed')
+                iteration_logger.info('thread completed')
 
             else:
                 reset(platform, 0)
-                logging.info('thread completed')
+                iteration_logger.info('thread completed')
             time.sleep(2)
-            logging.info('completed pair and unpair sequence for {}'.format(i))
+            iteration_logger.info('completed pair and unpair sequence for {}'.format(i))
 
         logging.info(f"The Summary of the {config.iteration_number} iteration are")
         logging.info(f"\t  \t  Pass:  {_pass}")

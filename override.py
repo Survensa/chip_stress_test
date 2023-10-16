@@ -23,8 +23,9 @@ def factory_reset(self, i):
 
 def advertise(self):
     # Since the advertisement is done during factory_reset it can be skipped
-    logging.info("advertising the DUT")
-    return (self.factory_reset)
+    Serial_port().write_cmd()
+    time.sleep(2)
+    return True
 
 
 def start_logging(self, log):
@@ -75,7 +76,7 @@ class Serial_port(object):
     def __init__(self) -> None:
         self.port = "/dev/ttyACM1"
         self.baudrate = 115200
-        self.timeout = 5
+        self.timeout = 60
 
     def create_serial(self):
         ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
@@ -86,13 +87,14 @@ class Serial_port(object):
 
     def write_cmd(self):
         try:
-            ser = serial.Serial(self.port, self.baudrate, timeout=3)
+            ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
         except serial.SerialException:
             raise signals.TestAbortAll("Failed to Reset the device")
 
         cmd = b'matter device factoryreset\n'
 
         for i in range(1, 4):
+            logging.info("resetting nordic matter device")
             ser.write(cmd)
             time.sleep(2)
 

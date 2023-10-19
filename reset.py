@@ -13,7 +13,36 @@ import serial
 import sys
 import config
 
+def convert_args_dict(args:list):
+    '''
+    This function is used to convert arguments passed via cmd line to dict format
+    '''
+    keys=[]
+    values=[]
+    for arg in args:
+        if "--" in arg and arg.startswith("--"):
+            keys.append(arg)
+        else:
+            values.append(arg)
+    return dict(zip(keys,values))
 
+def custom_dut_class_override():
+        '''
+        This is crucial function in the script, this script will override the CustomDut class.
+        It will check for the override.py file in the system and import it.
+        the imported python file will be used to override the CustomDut class
+        '''
+        path_of_file=config.path_of_file
+        if os.path.exists(path_of_file):
+                    sys.path.insert(1, path_of_file)
+                    import override
+                    CustomDut.factory_reset = override.factory_reset
+                    CustomDut.advertise = override.advertise
+                    CustomDut.start_logging = override.start_logging
+                    CustomDut.stop_logging = override.stop_logging
+        else:
+                    print("File is override file is missing\n Exiting from execution")
+                    sys.exit(0)
 class Reset(ABC):
 
     @abstractmethod
@@ -70,6 +99,8 @@ class Rpi(Reset):
                 pid = line.split()[1]
                 conformance = line.split()[7]
                 if conformance == 'Ssl':
+                    logging.info("About to Terminate the application")
+                    logging.info("displaying the pid and process to terminate {}".format(line))
                     kill_command = f"kill -9 {pid}"
                     ssh.run(kill_command)
 
@@ -95,6 +126,24 @@ class Rpi(Reset):
 
         try:
             log = ssh.run('cd ' + path + ' && ' + data.command, warn=True, hide=True, pty=False)
+            command = f"ps aux | grep {data.command}"
+            pid_val = ssh.run(command, hide=True)
+
+            pid_output = pid_val.stdout
+            pid_lines = pid_output.split('\n')
+            for line in pid_lines:
+                try:
+                    if data.command in line:
+                        pid = line.split()[1]
+                        conformance = line.split()[7]
+                        if conformance == 'Ssl':
+                            logging.info("the DUT is started and working")
+                            logging.info("displaying the pid of DUT  {}".format(line))
+                except UnexpectedExit as e:
+                    if e.result.exited == -1:
+                        None
+                    else:
+                        raise
         except UnexpectedExit as e:
             if e.result.exited == -1:
                 None
@@ -103,8 +152,6 @@ class Rpi(Reset):
 
         self.start_logging(log)
         ssh.close()
-        logging.info('Iteration has been completed')
-
         return True
 
     def start_logging(self, log):
@@ -151,7 +198,15 @@ class CustomDut(Reset):
 
 def test_start():
     log_file = "TC_PairUnpair_log.txt"
-    user_interaction_start()
+    if "--yaml-file" not in sys.argv:
+        user_interaction_start()
+    else:
+        
+        dict_args=convert_args_dict(sys.argv[1:])
+        print(dict_args)
+        config.read_yaml(dict_args["--yaml-file"])
+        if config.platform_execution != 'rpi':
+            custom_dut_class_override() 
     copy_argv = sys.argv
     copy_argv.append("--commissioning-method")
     copy_argv.append(config.commissioning_metod)
@@ -190,6 +245,7 @@ def reset(platform, i):
     elif platform == 'CustomDut':
         logging.info("CUSTOM DUT device is going to be reset")
         CustomDut().factory_reset(i)
+    logging.info('Iteration has been completed')
     return True
 
 
@@ -389,17 +445,7 @@ def user_interaction_start():
         elif run_full_script == "3":
             print("You have selected Yaml as input option")
             config.read_yaml()
-            path_of_file=config.path_of_file
-            if os.path.exists(path_of_file):
-                sys.path.insert(1, path_of_file)
-                import override
-                CustomDut.factory_reset = override.factory_reset
-                CustomDut.advertise = override.advertise
-                CustomDut.start_logging = override.start_logging
-                CustomDut.stop_logging = override.stop_logging
-            else:
-                print("File is override file is missing\n Exiting from execution")
-                sys.exit(0)
+            custom_dut_class_override()
             display_oprtions(option_selected="Yaml Load File")
     else:
         print("\n!!!!!!INVALID OPTION SELECTED!!!!!!\n")

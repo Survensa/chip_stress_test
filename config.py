@@ -102,10 +102,12 @@ def rpi_config():
 #                                       'dut_connection_timeout': 60,
 #                                       'commissioning_metod': 'on-network', 'iteration_number': 5, 
 #                                       'execution_mode_full': True}}
-def read_yaml():
+def read_yaml(yaml_file="configFile.yaml"):
     print("\n \t\t Started to Load Yaml File \n")
     try:
-        fp=open("configFile.yaml")
+        if not os.path.exists(yaml_file):
+            raise Exception("The Path {} Does not exist".format(yaml_file))
+        fp=open(yaml_file)
         data_from_yaml=yaml.load(fp,Loader=yaml.FullLoader)
         fp.close()
         global platform_execution,dut_connection_timeout,\

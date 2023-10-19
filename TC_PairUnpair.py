@@ -21,6 +21,7 @@ import secrets
 import signal
 import sys
 from io import StringIO
+import traceback
 import config
 import chip.CertificateAuthority
 import chip.clusters as Clusters
@@ -53,16 +54,6 @@ def logger_function(iternation_number,date,log_file_path)->logging:
 
 
 iteration_logger:logging
-
-def convert_args_dict(args:list):
-    keys=[]
-    values=[]
-    for arg in args:
-        if "--" in arg and arg.startswith("--"):
-            keys.append(arg)
-        else:
-            values.append(arg)
-    return dict(zip(keys,values))
 
 def timeouterror(signum, frame):
     raise CommissionTimeoutError("timed out, Failed to commission the dut")
@@ -110,45 +101,48 @@ class TC_PairUnpair(MatterBaseTest):
                 return True
 
     def _commission_device(self, i, iteration_logger) -> bool:
-        dev_ctrl = self.default_controller
-        conf = self.matter_test_config
-        random_nodeid = secrets.randbelow(2 ** 32)
-        conf.dut_node_ids = [random_nodeid]
-        DiscoveryFilterType = ChipDeviceCtrl.DiscoveryFilterType
-        # TODO: support by manual code and QR
+        try:
+            dev_ctrl = self.default_controller
+            conf = self.matter_test_config
+            random_nodeid = secrets.randbelow(2 ** 32)
+            conf.dut_node_ids = [random_nodeid]
+            DiscoveryFilterType = ChipDeviceCtrl.DiscoveryFilterType
+            # TODO: support by manual code and QR
 
-        if conf.commissioning_method == "on-network":
-            return dev_ctrl.CommissionOnNetwork(
-                nodeId=conf.dut_node_ids[i],
-                setupPinCode=conf.setup_passcodes[i],
-                filterType=DiscoveryFilterType.LONG_DISCRIMINATOR,
-                filter=conf.discriminators[i]
-            )
-        elif conf.commissioning_method == "ble-wifi":
-            return dev_ctrl.CommissionWiFi(
-                conf.discriminators[i],
-                conf.setup_passcodes[i],
-                conf.dut_node_ids[i],
-                conf.wifi_ssid,
-                conf.wifi_passphrase
-            )
-        elif conf.commissioning_method == "ble-thread":
-            return dev_ctrl.CommissionThread(
-                conf.discriminators[i],
-                conf.setup_passcodes[i],
-                conf.dut_node_ids[i],
-                conf.thread_operational_dataset
-            )
-        elif conf.commissioning_method == "on-network-ip":
-            iteration_logger.warning("==== USING A DIRECT IP COMMISSIONING METHOD NOT SUPPORTED IN THE LONG TERM ====")
-            return dev_ctrl.CommissionIP(
-                ipaddr=conf.commissionee_ip_address_just_for_testing,
-                setupPinCode=conf.setup_passcodes[i], nodeid=conf.dut_node_ids[i]
-            )
-        else:
-            iteration_logger.error("Invalid commissioning method %s!" % conf.commissioning_method)
-            raise ValueError("Invalid commissioning method %s!" % conf.commissioning_method)
-
+            if conf.commissioning_method == "on-network":
+                return dev_ctrl.CommissionOnNetwork(
+                    nodeId=conf.dut_node_ids[i],
+                    setupPinCode=conf.setup_passcodes[i],
+                    filterType=DiscoveryFilterType.LONG_DISCRIMINATOR,
+                    filter=conf.discriminators[i]
+                )
+            elif conf.commissioning_method == "ble-wifi":
+                return dev_ctrl.CommissionWiFi(
+                    conf.discriminators[i],
+                    conf.setup_passcodes[i],
+                    conf.dut_node_ids[i],
+                    conf.wifi_ssid,
+                    conf.wifi_passphrase
+                )
+            elif conf.commissioning_method == "ble-thread":
+                return dev_ctrl.CommissionThread(
+                    conf.discriminators[i],
+                    conf.setup_passcodes[i],
+                    conf.dut_node_ids[i],
+                    conf.thread_operational_dataset
+                )
+            elif conf.commissioning_method == "on-network-ip":
+                iteration_logger.warning("==== USING A DIRECT IP COMMISSIONING METHOD NOT SUPPORTED IN THE LONG TERM ====")
+                return dev_ctrl.CommissionIP(
+                    ipaddr=conf.commissionee_ip_address_just_for_testing,
+                    setupPinCode=conf.setup_passcodes[i], nodeid=conf.dut_node_ids[i]
+                )
+            else:
+                iteration_logger.error("Invalid commissioning method %s!" % conf.commissioning_method)
+                raise ValueError("Invalid commissioning method %s!" % conf.commissioning_method)
+        except Exception as e:
+            iteration_logger.error(e)
+            traceback.print_exc()
     @async_test_body
     async def test_TC_PairUnpair(self):
         _pass = 0

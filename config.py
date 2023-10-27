@@ -17,7 +17,7 @@ iteration_number = 5
 
 path_of_file=None
 
-log_file_path="/home/ubuntu/log_files"
+log_file_path_iterations="/home/ubuntu/log_files"
 # Enter the host "ip-address" of your RPI here in rpi_host
 rpi_host = "10.42.0.243"
 
@@ -102,6 +102,10 @@ def rpi_config():
 #                                       'dut_connection_timeout': 60,
 #                                       'commissioning_metod': 'on-network', 'iteration_number': 5, 
 #                                       'execution_mode_full': True}}
+def log_path_add_args(path):
+    args=sys.argv
+    args.append("--logs-path")
+    args.append(path)
 def read_yaml(yaml_file="configFile.yaml"):
     print("\n \t\t Started to Load Yaml File \n")
     try:
@@ -111,21 +115,30 @@ def read_yaml(yaml_file="configFile.yaml"):
         data_from_yaml=yaml.load(fp,Loader=yaml.FullLoader)
         fp.close()
         global platform_execution,dut_connection_timeout,\
-        commissioning_metod,iteration_number,log_file_path,\
+        commissioning_metod,iteration_number,log_file_path_iterations,\
         execution_mode_full, rpi_host,rpi_user,rpi_password,rpi_cmd,rpi_path,path_of_file
         platform_execution = data_from_yaml['general_configs']['platform_execution']
         dut_connection_timeout = data_from_yaml['general_configs']['dut_connection_timeout']
         commissioning_metod = data_from_yaml['general_configs']["commissioning_metod"]
         iteration_number = data_from_yaml['general_configs']["iteration_number"]
         path_of_file=data_from_yaml['general_configs']['dut_controller_file_path']
-        if data_from_yaml['general_configs']["logFilePath"] is None :
-            log_file_path = os.getcwd()+"/Iteration_logs" 
-            if not os.path.exists(log_file_path):
-                os.mkdir(log_file_path)
+        log_file_path_conf=data_from_yaml['general_configs']["logFilePath"]
+        if log_file_path_conf is None :
+            log_file_path_iterations = os.getcwd()+"/Iteration_logs" 
+            log_file_path_general=os.getcwd()+"/general_logs"
+            if not os.path.exists(log_file_path_general):
+                os.mkdir(log_file_path_general)
+            if not os.path.exists(log_file_path_iterations):
+                os.mkdir(log_file_path_iterations)
+            log_path_add_args(log_file_path_general)
         else:
-            log_file_path=data_from_yaml['general_configs']["logFilePath"]
-            if not os.path.exists(log_file_path):
-                raise Exception("The Path {} Does not exist".format(log_file_path))
+            path_of_file=data_from_yaml['general_configs']["logFilePath"]
+            if not os.path.exists(log_file_path_iterations):
+                raise Exception("The Path {} Does not exist".format(path_of_file))
+            else:
+                log_file_path_iterations = path_of_file+"/Iteration_logs"
+                log_file_path_general=path_of_file+"/general_logs"
+                log_path_add_args(log_file_path_general)
 
         execution_mode_full=data_from_yaml['general_configs']["execution_mode_full"]
         if platform_execution=="rpi":

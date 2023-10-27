@@ -101,7 +101,7 @@ class Rpi(Reset):
                 if conformance == 'Ssl':
                     logging.info("About to Terminate the application")
                     logging.info("displaying the pid and process to terminate {}".format(line))
-                    kill_command = f"kill -9 {pid}"
+                    kill_command = f"kill {pid}"
                     ssh.run(kill_command)
 
         logging.info("Example App has been closed")
@@ -183,13 +183,13 @@ class CustomDut(Reset):
     def reboot(self):
         pass
 
-    def factory_reset(self, i):
+    def factory_reset(self, i, iteration):
         pass
 
-    def advertise(self):
+    def advertise(self,iteration):
         pass
 
-    def start_logging(self, log):
+    def start_logging(self, file_name):
         pass
 
     def stop_logging(self):
@@ -221,9 +221,9 @@ def test_start():
         time.sleep(5)
 
     elif config.platform_execution == 'CustomDut':
-        thread = threading.Thread(target=CustomDut().advertise)
+        thread = threading.Thread(target=CustomDut().start_logging)
         thread.start()
-        # CustomDut().advertise
+        CustomDut().advertise(iteration=0)
         time.sleep(5)
 
     return True
@@ -237,14 +237,14 @@ def test_stop(platform):
         CustomDut().stop_logging()
 
 
-def reset(platform, i):
+def reset(platform, i,iteration=0):
     if platform == "rpi":
         Rpi().factory_reset(i)
         time.sleep(2)
 
     elif platform == 'CustomDut':
         logging.info("CUSTOM DUT device is going to be reset")
-        CustomDut().factory_reset(i)
+        CustomDut().factory_reset(i,iteration)
     logging.info('Iteration has been completed')
     return True
 

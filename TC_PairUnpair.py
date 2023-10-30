@@ -17,87 +17,21 @@
 import datetime
 import logging
 import os
-import re
+import threading
 import time
 import secrets
-import signal
 import sys
-from io import StringIO
 import traceback
-import config
-import chip.CertificateAuthority
-import chip.clusters as Clusters
-import chip.clusters.enum
-import chip.FabricAdmin
+from Matter_QA.Configs import initializer
 from chip import ChipDeviceCtrl
-from chip.ChipDeviceCtrl import CommissioningParameters
-from matter_testing_support import MatterBaseTest, async_test_body, default_matter_test_main, parse_matter_test_args
-from mobly import asserts
-from chip.utils import CommissioningBuildingBlocks
-from chip.clusters import OperationalCredentials as opCreds
-from mobly import asserts, base_test, signals, utils
-from invoke.exceptions import UnexpectedExit
-from reset import CustomDut, reset, test_start, test_stop,convert_args_dict
-
-
-class CommissionTimeoutError(Exception):
-    pass
-
-def timeouterror(signum, frame):
-    raise CommissionTimeoutError("timed out, Failed to commission the dut")
-
-def log_file_finder():
-    dict_args=convert_args_dict(sys.argv[1:])
-    log_file_path=dict_args["--logs-path"]
-    dirs=os.listdir(log_file_path+"/MatterTest")
-    logging.info("files present in {}".format(dirs))
-    file_info_dict={}
-    for i in dirs:
-        file_info_dict[os.stat(log_file_path+"/MatterTest/"+i).st_mtime]=i
-    keys=sorted(list(file_info_dict.keys()))
-    latest_log_file_dir=log_file_path+"/MatterTest/"+file_info_dict[keys[-1]]
-    logging.info("Folder containg latest logs {}".format(latest_log_file_dir))
-    return {"latest_log_file_dir":latest_log_file_dir,"log_file_path":log_file_path}
-def seprate_logs_iteration_wise():
-    log_paths_dict=log_file_finder()
-    log_file_directory=log_paths_dict["latest_log_file_dir"]
-    fp=open(log_file_directory+"/test_log.INFO")
-    data=fp.read()
-    fp.close()
-    result=re.findall(r"(\d+-\d+ \d+:\d+:\d+\.\d+ INFO (\d+) iteration of pairing sequence(.*?)\d+-\d+ \d+:\d+:\d+\.\d+ INFO completed pair and unpair sequence for \d+)",data,re.DOTALL)
-    i=0
-    for res in result:
-        i+=1
-        fp=open(config.log_file_path_iterations+"/iteration_logs_"+str(int(i))+"_"+datetime.datetime.now().isoformat().replace(":","_").replace(".","_"),'w')
-        fp.write(res[0])
-        fp.close
-
-def timer(function):
-    def wrapper(*args, **kwargs):
-        # Set the alarm for the timeout
-        timeout = kwargs.pop('timeout', 60)
-        signal.signal(signal.SIGALRM, timeouterror)
-        signal.alarm(timeout)
-
-        try:
-            result = function(*args, **kwargs)
-        finally:
-            # Cancel the alarm after the function finishes
-            signal.alarm(0)
-
-        return result
-
-    return wrapper
-
-
-args = sys.argv[1:]
-
-
-# conf_gl=convert_args_dict(args)
+from matter_testing_support import MatterBaseTest, async_test_body, default_matter_test_main
+from Matter_QA.HelperLibs.utils import timer, CommissionTimeoutError, convert_args_dict, custom_dut_class_override, \
+    separate_logs_iteration_wise
+from Matter_QA.Platform.CustomDut import CustomDut
+from Matter_QA.Platform.raspberryPiPlatform import Rpi
 
 
 class TC_PairUnpair(MatterBaseTest):
-    # global conf_gl
     @timer
     def commission_device(self, *args, **kwargs):
         conf = self.matter_test_config
@@ -155,14 +89,15 @@ class TC_PairUnpair(MatterBaseTest):
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
+
     @async_test_body
-    async def test_TC_PairUnpair(self):
+    async def test_tc_pair_unpair(self):
         try:
             _pass = 0
             _fail = 0
             conf = self.matter_test_config
-            platform = config.platform_execution
-            iteration = int(config.iteration_number)
+            platform = initializer.platform_execution
+            iteration = int(initializer.iteration_number)
             self.th1 = self.default_controller
             time.sleep(3)
             self.th1.UnpairDevice(self.dut_node_id)
@@ -171,15 +106,15 @@ class TC_PairUnpair(MatterBaseTest):
             time.sleep(3)
             logging.info('PLEASE FACTORY RESET THE DEVICE for the next pairing')
             reset(platform, 1)
-            date=datetime.datetime.now().isoformat()[:-7].replace(":","_")
+            date = datetime.datetime.now().isoformat()[:-7].replace(":", "_")
             for i in range(1, iteration + 1):
                 logging.info('{} iteration of pairing sequence'.format(i))
                 try:
-                    iter = self.commission_device(kwargs={"timeout": config.dut_connection_timeout})
+                    iter_result = self.commission_device(kwargs={"timeout": initializer.dut_connection_timeout})
                 except CommissionTimeoutError as e:
                     logging.error(e)
-                    iter = False
-                if iter:
+                    iter_result = False
+                if iter_result:
                     logging.info('unpairing the device')
                     time.sleep(2)
                     self.th1.UnpairDevice(self.dut_node_id)
@@ -190,9 +125,10 @@ class TC_PairUnpair(MatterBaseTest):
                 else:
                     logging.error(f'iteration {i} is failed')
                     _fail += 1
-                    if not config.execution_mode_full:
+                    if not initializer.execution_mode_full:
                         logging.info(
-                            'Full Execution mode is disabled \n The iteration {} number has failed hence the execution will stop here'.format(
+                            'Full Execution mode is disabled \n The iteration {} number has failed hence the '
+                            'execution will stop here'.format(
                                 i))
                         reset(platform, 1)
                         logging.info('thread completed')
@@ -209,17 +145,63 @@ class TC_PairUnpair(MatterBaseTest):
                 time.sleep(2)
                 logging.info('completed pair and unpair sequence for {}'.format(i))
 
-            logging.info(f"The Summary of the {config.iteration_number} iteration are")
+            logging.info(f"The Summary of the {initializer.iteration_number} iteration are")
             logging.info(f"\t  \t  Pass:  {_pass}")
             logging.info(f"\t  \t  Fail:  {_fail}")
-            seprate_logs_iteration_wise()
-            
+            separate_logs_iteration_wise()
+
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
 
 
+def test_start():
+    log_file = "TC_PairUnpair_log.txt"
+    dict_args = convert_args_dict(sys.argv[1:])
+    initializer.read_yaml(dict_args["--yaml-file"])
+    if initializer.platform_execution != 'rpi':
+        custom_dut_class_override()
+    copy_argv = sys.argv
+    copy_argv.append("--commissioning-method")
+    copy_argv.append(initializer.commissioning_method)
+    sys.argv = copy_argv
+    if os.path.exists(log_file):
+        os.remove(log_file)
+    if initializer.platform_execution == 'rpi':
+        logging.info("advertising the dut")
+        thread = threading.Thread(target=Rpi().advertise)
+        thread.start()
+        time.sleep(5)
+
+    elif initializer.platform_execution == 'CustomDut':
+        thread = threading.Thread(target=CustomDut().start_logging)
+        thread.start()
+        CustomDut().advertise(iteration=0)
+        time.sleep(5)
+
+    return True
+
+
+def test_stop(platform):
+    if platform == 'rpi':
+        Rpi().stop_logging()
+
+    elif platform == 'thread':
+        CustomDut().stop_logging()
+
+
+def reset(platform, i, iteration=0):
+    if platform == "rpi":
+        Rpi().factory_reset(i)
+        time.sleep(2)
+
+    elif platform == 'CustomDut':
+        logging.info("CUSTOM DUT device is going to be reset")
+        CustomDut().factory_reset(i, iteration)
+    logging.info('Iteration has been completed')
+    return True
+
+
 if __name__ == "__main__":
     test_start()
-    log_file = "TC_PairUnpair_rpi_log.txt"
     default_matter_test_main()

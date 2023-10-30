@@ -1,26 +1,25 @@
 import datetime
-import threading
 import traceback
 import serial
 import time
 import logging
 import os
-from threading import Thread, Event
-from invoke import UnexpectedExit
+from threading import Event
 import sys
 from mobly import signals
 
-event_closer=Event()
+event_closer = Event()
+
 
 def reboot(self):
     # As of now the nRF52840-DK is not able to reboot
-    return (self.factory_reset())
+    return self.factory_reset()
 
 
 def factory_reset(self, i, iteration):
     if i == 0:
         # self.stop_logging()
-        Serial_port().write_cmd()
+        SerialPort().write_cmd()
         return True
     else:
         self.advertise(iteration=iteration)
@@ -28,19 +27,19 @@ def factory_reset(self, i, iteration):
         return True
 
 
-def advertise(self,iteration):
+def advertise(self, iteration):
     # Since the advertisement is done during factory_reset it can be skipped
     # thread = threading.Thread(target=self.start_logging,args=('iteration_'+str(iteration)+'_log',))
     # thread.start()
     # thread.join()
-    Serial_port().write_cmd()
+    SerialPort().write_cmd()
     time.sleep(2)
     return True
 
 
 def start_logging(self):
     global event_closer
-    ser = Serial_port().create_serial()
+    ser = SerialPort().create_serial()
     log_store_path = "CustomDeviceLogs/"
     current_dir = os.getcwd()
     log_path = os.path.join(current_dir, log_store_path)
@@ -50,16 +49,17 @@ def start_logging(self):
         while ser.is_open:
             try:
                 logging.info("started to read buffer")
-                data=ser.read_until(b'Done\r\r\n').decode()
+                data = ser.read_until(b'Done\r\r\n').decode()
                 logging.info("completed read from buffer")
                 # print(data)
-                if data=='':
+                if data == '':
                     logging.info("data not present in buffer breaking from read loop")
                     break
-                with open(log_path+str(datetime.datetime.now().isoformat()).replace(':',"_").replace('.',"_"),'w') as fp:
+                with open(log_path + str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_"),
+                          'w') as fp:
                     fp.write(data)
                     logging.info("completed write to file")
-                
+
             except Exception as e:
                 print(e)
                 traceback.print_exc()
@@ -76,7 +76,7 @@ def stop_logging(self):
     return True
 
 
-class Serial_port(object):
+class SerialPort(object):
     def __init__(self) -> None:
         self.port = "/dev/ttyACM1"
         self.baudrate = 115200
@@ -84,7 +84,7 @@ class Serial_port(object):
 
     def create_serial(self):
         try:
-            ser = serial.Serial(self.port, self.baudrate,timeout=self.timeout)
+            ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
             if not ser.is_open:
                 logging.info("Opening Serial Port")
                 ser.open()

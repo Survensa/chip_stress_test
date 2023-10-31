@@ -6,7 +6,7 @@ import signal
 import sys
 
 from Matter_QA.Configs import initializer
-from Matter_QA.Platform import CustomDut
+from Matter_QA.Library.Platform import CustomDut
 
 
 class CommissionTimeoutError(Exception):
@@ -32,7 +32,7 @@ def custom_dut_class_override():
         It will check for the override.py file in the system and import it.
         the imported python file will be used to override the CustomDut class"""
     path_of_file = initializer.path_of_file
-    if os.path.exists(path_of_file):
+    if os.path.exists(path_of_file) :
         sys.path.insert(1, path_of_file)
         import override
         CustomDut.factory_reset = override.factory_reset

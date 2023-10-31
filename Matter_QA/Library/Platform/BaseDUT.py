@@ -1,22 +1,22 @@
 from abc import ABC, abstractmethod
 
 
-class BaseDut(ABC):
+class BaseDutClass(ABC):
 
     @abstractmethod
     def reboot(self):
         pass
 
     @abstractmethod
-    def factory_reset(self):
+    def factory_reset(self, i, iteration):
         pass
 
     @abstractmethod
-    def advertise(self):
+    def advertise(self, iteration):
         pass
 
     @abstractmethod
-    def start_logging(self):
+    def start_logging(self, file_name):
         pass
 
     @abstractmethod

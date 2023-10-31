@@ -6,10 +6,10 @@ from fabric import Connection
 from invoke import UnexpectedExit
 
 from Matter_QA.Configs.initializer import rpi_config
-from Matter_QA.Platform.BaseDUTClass import BaseDut
+from Matter_QA.Library.Platform.BaseDUT import BaseDutClass
 
 
-class Rpi(BaseDut):
+class Rpi(BaseDutClass):
     count = 0
 
     def reboot(self):
@@ -58,7 +58,7 @@ class Rpi(BaseDut):
 
     def advertise(self):
 
-        logging.info("advertising the DUT")
+        print("advertising the DUT")
 
         data = rpi_config()
 
@@ -67,7 +67,6 @@ class Rpi(BaseDut):
         ssh.run('rm -rf /tmp/chip_*')
 
         try:
-            log = ssh.run('cd ' + path + ' && ' + data.command, warn=True, hide=True, pty=False)
             command = f"ps aux | grep {data.command}"
             pid_val = ssh.run(command, hide=True)
 
@@ -79,13 +78,16 @@ class Rpi(BaseDut):
                         pid = line.split()[1]
                         conformance = line.split()[7]
                         if conformance == 'Ssl':
-                            logging.info("the DUT is started and working")
-                            logging.info("displaying the pid of DUT  {}".format(line))
+                            print("the DUT is already working will stop it now")
+                            print("displaying the pid of DUT  {}".format(line))
+                            kill_command = f"kill {pid}"
+                            ssh.run(kill_command)
                 except UnexpectedExit as e:
                     if e.result.exited == -1:
                         None
                     else:
                         raise
+            log = ssh.run('cd ' + path + ' && ' + data.command, warn=True, hide=True, pty=False)
             self.start_logging(log)
             ssh.close()
         except UnexpectedExit as e:

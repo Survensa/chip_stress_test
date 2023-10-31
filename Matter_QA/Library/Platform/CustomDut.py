@@ -1,7 +1,7 @@
-from Matter_QA.Platform import BaseDUTClass
+from Matter_QA.Library.Platform.BaseDUT import BaseDutClass
 
 
-class CustomDut(BaseDUTClass):
+class CustomDut(BaseDutClass):
     """This class will be overriden by the user for different devices
     the user will have to populate these fucntions when writing the test case
     each dut will have its own method for reset which they have implemet themselves

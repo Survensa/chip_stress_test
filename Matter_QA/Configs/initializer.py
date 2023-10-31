@@ -38,6 +38,7 @@ rpi_cmd = "./chip-all-clusters-app"  # application name change var name to
 #  if it is empty the default path "/home/ubuntu/apps" will be assigned
 rpi_path = "/home/ubuntu/matter_DUT/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app"
 execution_mode_full = True
+dut_log_path = None
 
 
 @dataclass
@@ -56,7 +57,7 @@ def rpi_config():
         config.host = rpi_host
 
     else:
-        raise signals.TestAbortAll("Missing RPI host for factoryrest, Update the config.py")
+        raise signals.TestAbortAll("Missing RPI host for factoryrest, Update the yaml file")
 
     if rpi_user != "":
         config.username = rpi_user
@@ -88,6 +89,14 @@ def log_path_add_args(path):
     args.append(path)
 
 
+def add_args_commissioning_method():
+    copy_argv = sys.argv
+    if "--commissioning-method" not in copy_argv:
+        copy_argv.append("--commissioning-method")
+        copy_argv.append(commissioning_method)
+        sys.argv = copy_argv
+
+
 def read_yaml(yaml_file="configFile.yaml"):
     logging.info("\n \t\t Started to Load Yaml File \n")
     try:
@@ -96,23 +105,27 @@ def read_yaml(yaml_file="configFile.yaml"):
         fp = open(yaml_file)
         data_from_yaml = yaml.load(fp, Loader=yaml.FullLoader)
         fp.close()
-        global platform_execution, dut_connection_timeout, \
-            commissioning_method, iteration_number, log_file_path_iterations, \
-            execution_mode_full, rpi_host, rpi_user, rpi_password, rpi_cmd, rpi_path, path_of_file
+        global platform_execution, dut_connection_timeout, commissioning_method, iteration_number, \
+            log_file_path_iterations, execution_mode_full, rpi_host, rpi_user, rpi_password, rpi_cmd, rpi_path, \
+            path_of_file, dut_log_path
         platform_execution = data_from_yaml['general_configs']['platform_execution']
         dut_connection_timeout = data_from_yaml['general_configs']['dut_connection_timeout']
-        commissioning_method = data_from_yaml['general_configs']["commissioning_metod"]
+        commissioning_method = data_from_yaml['general_configs']["commissioning_method"]
         iteration_number = data_from_yaml['general_configs']["iteration_number"]
         path_of_file = data_from_yaml['general_configs']['dut_controller_file_path']
         log_file_path_conf = data_from_yaml['general_configs']["logFilePath"]
         if log_file_path_conf is None:
             log_file_path_iterations = os.getcwd() + "/Iteration_logs"
             log_file_path_general = os.getcwd() + "/general_logs"
+            dut_log_path = os.getcwd() + "/dut_logs"
             if not os.path.exists(log_file_path_general):
                 os.mkdir(log_file_path_general)
             if not os.path.exists(log_file_path_iterations):
                 os.mkdir(log_file_path_iterations)
+            if not os.path.exists(dut_log_path):
+                os.mkdir(dut_log_path)
             log_path_add_args(log_file_path_general)
+            add_args_commissioning_method()
         else:
             path_of_file = data_from_yaml['general_configs']["logFilePath"]
             if not os.path.exists(log_file_path_iterations):

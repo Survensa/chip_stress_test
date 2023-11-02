@@ -18,8 +18,7 @@ import logging
 import time
 import traceback
 from Matter_QA.Library.BaseTestCases import MatterQABaseTestClass
-from Matter_QA.Library.Platform.BaseDUTNodeClass import BaseNodeDutClass
-from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import test_start
+from Matter_QA.Library.BaseTestCases import MatterDUTNodeClass
 
 from Matter_QA.Configs import initializer
 from Matter_QA.Library.HelperLibs.matter_testing_support import async_test_body, default_matter_test_main
@@ -29,11 +28,11 @@ from Matter_QA.Library.Platform.CustomDut import CustomDut
 from Matter_QA.Library.Platform.raspi.raspberryPiPlatform import Rpi
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import PairUnpairBaseClass
 
-class TC_PairUnpair(MatterQABaseTestClass, BaseNodeDutClass):
+class TC_PairUnpair(MatterQABaseTestClass, MatterDUTNodeClass):
     def __init__(self, *args):
         self._pass = 0
         self._fail = 0
-        self.dut = BaseNodeDutClass()
+        self.dut = MatterDUTNodeClass()
 
     @async_test_body
     async def test_tc_pair_unpair(self):
@@ -74,6 +73,30 @@ class TC_PairUnpair(MatterQABaseTestClass, BaseNodeDutClass):
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
+
+
+def test_start():
+    log_file = "TC_PairUnpair_log.txt"
+    dict_args = convert_args_dict(sys.argv[1:])
+    initializer.read_yaml(dict_args["--yaml-file"])
+    if initializer.platform_execution != 'rpi':
+        custom_dut_class_override()
+
+    if os.path.exists(log_file):
+        os.remove(log_file)
+    if initializer.platform_execution == 'rpi':
+        print("advertising the dut")
+        thread = threading.Thread(target=Rpi().advertise)
+        thread.start()
+        time.sleep(5)
+
+    elif initializer.platform_execution == 'CustomDut':
+        thread = threading.Thread(target=CustomDut().start_logging)
+        thread.start()
+        CustomDut().advertise(iteration=0)
+        time.sleep(5)
+
+    return True
 
 if __name__ == "__main__":
     test_start()

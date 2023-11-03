@@ -1,5 +1,5 @@
 rpi_config:
-  rpi_hostname: "192.168.0.102"
+  rpi_hostname: "192.168.8.100"
   rpi_DUT_path: "/home/ubuntu/matter_dut/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app"
   rpi_command: "./chip-all-clusters-app"
   rpi_user: "ubuntu"

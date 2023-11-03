@@ -1,9 +1,11 @@
 import logging
 import threading
 import time
+import traceback
 
 from fabric import Connection
 from invoke import UnexpectedExit
+from Matter_QA.Configs import initializer
 
 from Matter_QA.Configs.initializer import rpi_config
 from Matter_QA.Library.Platform.BaseDUT import BaseDutClass
@@ -98,17 +100,21 @@ class Rpi(BaseDutClass):
         return True
 
     def start_logging(self, log):
+        try:
+            log_file = initializer.dut_log_path+"/TC_PairUnpair_log.txt"
 
-        log_file = "TC_PairUnpair_log.txt"
+            if Rpi.count:
+                with open(log_file, 'a') as l:
+                    l.write(f" \n\n  Dut log of {Rpi.count} iteration \n")
+                    l.write(log.stdout)
+                    logging.info("Written logs to file at {}".format(log_file))
 
-        if Rpi.count:
-            with open(log_file, 'a') as l:
-                l.write(f" \n\n  Dut log of {Rpi.count} iteration \n")
-                l.write(log.stdout)
+            Rpi.count += 1
 
-        Rpi.count += 1
-
-        return True
+            return True
+        except Exception as e:
+            logging.error(e)
+            traceback.print_exc()
 
     def stop_logging(self):
 

@@ -2,15 +2,20 @@ import logging
 import threading
 import time
 
-from fabric import Connection
+from Matter_QA.Library.BaseTestCases import BaseDUTNodeClass
 
 
 from Matter_QA.Configs.initializer import rpi_config
-from Matter_QA.Library.Platform.BaseDUTNodeClass import BaseNodeDutClass
+from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
 
 
-class raspi(BaseNodeDutClass):
+class raspi(BaseDutNodeClass,BaseNodeDutConfiguration):
     count = 0
+
+    def __init__(self, dut_config, test_config) -> None:
+        super().__init__(dut_config, test_config)
+        ## TODO
+        print("write code here to initialize the device")
 
     def reboot(self):
         data = rpi_config()
@@ -114,3 +119,6 @@ class raspi(BaseNodeDutClass):
 
         # As we are killing the example while factory reset this will stop the logging process
         return self.factory_reset(0)
+
+def create_dut_obect():
+    return raspi()

@@ -18,7 +18,7 @@ import logging
 import time
 import traceback
 from Matter_QA.Library.BaseTestCases import MatterQABaseTestClass
-from Matter_QA.Library.Platform.BaseDUTNodeClass import BaseNodeDutClass
+from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass  import create_dut_object
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import test_start
 
 from Matter_QA.Configs import initializer
@@ -26,14 +26,12 @@ from Matter_QA.Library.HelperLibs.matter_testing_support import async_test_body,
 from Matter_QA.Library.HelperLibs.utils import (CommissionTimeoutError, convert_args_dict,
                                                 custom_dut_class_override, separate_logs_iteration_wise)
 from Matter_QA.Library.Platform.CustomDut import CustomDut
-from Matter_QA.Library.Platform.raspi.raspberryPiPlatform import Rpi
+from Matter_QA.Library.Platform.raspberrypi.raspi import Rpi
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import PairUnpairBaseClass
 
-class TC_PairUnpair(MatterQABaseTestClass, BaseNodeDutClass):
+class TC_PairUnpair(MatterQABaseTestClass):
     def __init__(self, *args):
-        self._pass = 0
-        self._fail = 0
-        self.dut = BaseNodeDutClass()
+        self.dut = create_dut_object()
 
     @async_test_body
     async def test_tc_pair_unpair(self):
@@ -44,26 +42,22 @@ class TC_PairUnpair(MatterQABaseTestClass, BaseNodeDutClass):
             self.dut.factory_reset()
             # TODO: FIX
             self.config.iteration = 1000
-            for iteration_count in range(1, self.config.iteration + 1):
-                logging.info('{} iteration of pairing sequence'.format(iteration_count))
+            for iteration_count in range(1, self.config.iteration):
+                self.start_iteration_logging(iteration_count, self.dut)
                 try:
                     iter_result = self.commission_device(kwargs={"timeout": initializer.dut_connection_timeout})
-                except CommissionTimeoutError as e:
-                    logging.error(e)
-                    iter_result = False
-                if iter_result:
-                    logging.info(f'iteration {iteration_count} is passed and unpairing the device')
-                    # TODO Fix
+                    logging.info(f'iteration {iteration_count} is passed and now unpairing the device')
                     time.sleep(3)
                     self.unpair_dut()
-                    self._pass += 1
-
-                else:
+                    self.test_result["Pass Count"] = self.test_result["Pass Count"] + 1
+                except CommissionTimeoutError as e:
                     logging.error(f'iteration {iteration_count} is failed')
-                    self._fail += 1
+                    logging.error(e)
+                    self.test_result["Fail Count"] = self.test_result["Fail Count"] + 1
+                    self.test_result["Fail Count"]["Iteration"].append(iteration_count)
                     if not self.continue_test_execution():
                         break
-              
+                self.stop_iteration_logging(iteration_count, self.dut)
                 self.dut.factory_reset()
     
             logging.info(f"The Summary of the {initializer.iteration_number} iteration are")

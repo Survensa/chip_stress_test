@@ -1,9 +1,11 @@
 rpi_config:
   rpi_hostname: "192.168.0.102"
-  rpi_DUT_path: "/home/ubuntu/matter_dut/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app"
-  rpi_command: "./chip-all-clusters-app"
   rpi_user: "ubuntu"
   rpi_password: "raspberrypi"
+app_config:
+  matter_app: "./chip-all-clusters-app"
+  matter_app_path: "/home/ubuntu/matter_dut/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app"
+
 general_configs:
   platform_execution: "rpi" #only two options supported "rpi" for raspberrypi and "CustomDUT" for user's DUT
   dut_connection_timeout: 60
@@ -12,4 +14,8 @@ general_configs:
   execution_mode_full: True
   dut_controller_file_path: "/home/ubuntu/Oct16_cntr/connectedhomeip/src/python_testing"
   logFilePath: null # when null value is set the script will create a folder called 'Iteration_logs' in current directory where logs will be stored.
+  deviceObjectPath: "../Library/Platform/"
+  deviceModules:
+    - module_name: raspi.py
+      module_path: ./Matter_QA/Library/Platform/raspberrypi/
 

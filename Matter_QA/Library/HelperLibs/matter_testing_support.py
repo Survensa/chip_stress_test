@@ -159,6 +159,8 @@ class MatterTestConfig:
     # If this is set, we will reuse root of trust keys at that location
     chip_tool_credentials_path: pathlib.Path = None
 
+    trace_to: List[str] = field(default_factory=list)
+
 
 class MatterStackState:
     def __init__(self, config: MatterTestConfig):
@@ -569,6 +571,7 @@ def convert_args_to_matter_config(args: argparse.Namespace) -> MatterTestConfig:
     config.ble_interface_id = args.ble_interface_id
 
     config.controller_node_id = args.controller_node_id
+    config.trace_to = args.trace_to
 
     # Accumulate all command-line-passed named args
     all_global_args = []
@@ -586,10 +589,11 @@ def convert_args_to_matter_config(args: argparse.Namespace) -> MatterTestConfig:
 
     return config
 
+parser = argparse.ArgumentParser(description='Matter standalone Python test')
+
 
 def parse_matter_test_args(argv: List[str]) -> MatterTestConfig:
-    parser = argparse.ArgumentParser(description='Matter standalone Python test')
-
+    
     basic_group = parser.add_argument_group(title="Basic arguments", description="Overall test execution arguments")
 
     basic_group.add_argument('--tests',
@@ -599,7 +603,8 @@ def parse_matter_test_args(argv: List[str]) -> MatterTestConfig:
                              type=str,
                              metavar='test_a test_b...',
                              help='A list of tests in the test class to execute.')
-
+    basic_group.add_argument('--trace-to', nargs="*", default=[],
+                             help="Where to trace (e.g perfetto, perfetto:path, json:log, json:path)")
     basic_group.add_argument('--storage-path', action="store", type=pathlib.Path,
                              metavar="PATH", help="Location for persisted storage of instance")
     basic_group.add_argument('--logs-path', action="store", type=pathlib.Path, metavar="PATH", help="Location for test logs")
@@ -780,7 +785,10 @@ def default_matter_test_main(argv=None, **kwargs):
         matter_test_config.controller_cat_tags = kwargs["controller_cat_tags"]
 
     # Find the test class in the test script.
-    test_class = _find_test_class()
+    if (kwargs is None):
+        test_class = _find_test_class()
+    else:
+        test_class = kwargs['testclass']
 
     # Load test config file.
     test_config = generate_mobly_test_config(matter_test_config)

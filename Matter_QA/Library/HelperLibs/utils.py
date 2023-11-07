@@ -6,7 +6,8 @@ import signal
 import sys
 
 from Matter_QA.Configs import initializer
-from Matter_QA.Library.Platform import CustomDut
+#TODO
+#from Matter_QA.Library.Platform import CustomDut
 
 
 class CommissionTimeoutError(Exception):

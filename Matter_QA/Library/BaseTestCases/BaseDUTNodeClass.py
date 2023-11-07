@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class BaseNodeDutClass(ABC):
+class BaseDutNodeClass(ABC):
 
     @abstractmethod
     def reboot(self):
@@ -23,7 +23,11 @@ class BaseNodeDutClass(ABC):
         pass
 
 class BaseNodeDutConfiguration(object):
-    pass
 
-def create_dut_object():
+    def __init__(self, dut_config, test_config) -> None:
+        pass
+    def get_dut_config():
+        pass
+
+def register_dut_object():
     pass

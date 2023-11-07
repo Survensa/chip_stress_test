@@ -1,21 +1,47 @@
 import logging
+import datetime
 import secrets
 import time
 import traceback
 import os
 import threading
 import sys
-import traceback
+import argparse
+import io
+import yaml
+import importlib.util
+import Matter_QA.Library.HelperLibs.matter_testing_support
 from Matter_QA.Library.HelperLibs.matter_testing_support import MatterBaseTest
 from Matter_QA.Library.HelperLibs.utils import (timer, CommissionTimeoutError)
+from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseNodeDutConfiguration, BaseDutNodeClass
 from chip import ChipDeviceCtrl
-
-
-class MatterQABaseTestClass(MatterBaseTest):
+dut_objects_list = []
+class MatterQABaseTestCaseClass(MatterBaseTest):
+    test_config_dict = {}
     def __init__(self, *args):
-        super().__init__(*args)
-        self.th1 = None
+        super(MatterBaseTest,self).__init__(*args)
+        self.logger = logging.getLogger('')
+        self.logger.setLevel(logging.DEBUG)  # Set the logger's level
+        self.test_config_dict = MatterQABaseTestCaseClass.test_config_dict
+        self.dut = self.__get_dut_object()
+        self.__misc_int(self)
+        self.dut = self.__get_dut_object(self, id)
 
+    def __get_dut_object(self, id):
+        
+        dutObject = raspiObect()
+        dutObject.get_me_ipaddress()
+        dutObject.get_me_theAppRunning()
+        return dutObject
+        #self.create_dut_object()
+
+    def __misc_int(self):
+        self.th1 = None
+        self.test_result = { 'Pass Count':0, 'Fail Count': { 'Count': 0, 'Iteration' : []}, 'Error Count': 0}
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        self.tc_log_folder = os.path.join(self.matter_test_config.logs_path,f"{timestamp}")
+        if not os.path.exists(self.tc_log_folder):
+            os.makedirs(self.tc_log_folder)
     @timer
     def commission_device(self, *args, **kwargs):
         conf = self.matter_test_config
@@ -81,6 +107,49 @@ class MatterQABaseTestClass(MatterBaseTest):
         self.th1.ExpireSessions(self.dut_node_id)
         time.sleep(3)
     
+
+    def start_iteration_logging(self, iteration_count, dut):
+
+        test_class = self.__class__.__name__
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        # Create a file handler
+        tc_log_path = os.path.join(self.tc_log_folder,test_class,str(iteration_count))
+        if not os.path.exists(tc_log_path):
+            os.makedirs(tc_log_path)
+        log_filename = os.path.join(tc_log_path,f"log_{timestamp}.log")
+        self.iteration_file_handler = logging.FileHandler(log_filename)
+
+        # Set the format for log messages
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        self.iteration_file_handler.setFormatter(formatter)
+        self.iteration_file_handler.setLevel(logging.DEBUG)
+        # Add the file handler to the logger
+        self.logger.addHandler(self.iteration_file_handler)
+        #self.log.addHandler(self.iteration_file_handler)
+        #stream_handler = logging.StreamHandler()
+        #stream_handler.setFormatter(formatter)
+        #logger.addHandler(stream_handler)
+
+        #self.iteration_log = logger
+        
+        if dut:
+            dut.start_log()
+        pass
+
+    def stop_iteration_logging(self,iteration_count, dut):
+        logging.info('{} iteration completed'.format(iteration_count))
+        self.logger.removeHandler(self.iteration_file_handler)
+        self.iteration_file_handler.close()
+        self.iteration_file_handler
+        """
+        for h in self.iteration_log.handlers:
+            self.iteration_log.removeHandler(h)
+            if isinstance(h, logging.FileHandler):
+                h.close()
+        if dut:          
+            dut.start_log()
+        pass
+        """
     def continue_test_execution(self):
         # TODO Fix
         """
@@ -92,16 +161,42 @@ class MatterQABaseTestClass(MatterBaseTest):
             reset(platform, 1)
                 logging.info('thread completed')
         """
-class MatterDUTNodeClass:
-    def __init__(self) -> None:
-        pass
 
-    def factory_reset():
-        pass
 
+def test_start():
+    parser = argparse.ArgumentParser(description="parser to parse testcase args")
+    parser.add_argument('--configYaml', help="Input Configuration YAML file ")
+    args = parser.parse_args()
+    config_yaml_file = args.configYaml
+
+    with io.open(config_yaml_file, 'r') as f:
+        test_config_dict = yaml.safe_load(f)
+    MatterQABaseTestCaseClass.test_config_dict = test_config_dict
+    print (test_config_dict)
+
+    platform = test_config_dict['general_configs']['platform_execution']
+    for _ in test_config_dict['general_configs']['deviceModules']:
+        try:
+            spec = importlib.util.spec_from_file_location(_['module_name'], _['module_path'])
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            module = importlib.import_module(_,package=Matter_QA.Library.Platform.raspberrypi)
+            module_structure = {module.__name__, module.create_dut_obect()}
+            dut_objects_list.append(module_structure) 
+        except ImportError as e:
+            logging.error('Error in importing Module {}: {}'.format(module.__name__, e))
+        
+
+def register_dut_module():
+    dut_objects_list.append()
+"""
 def test_start():
     log_file = "TC_PairUnpair_log.txt"
     dict_args = convert_args_dict(sys.argv[1:])
+
+    with io.open(utils.abs_path(path), 'r', encoding='utf-8') as f:
+        conf = yaml.safe_load(dict_args["--yaml-file"])
+    return conf
     initializer.read_yaml(dict_args["--yaml-file"])
     if initializer.platform_execution != 'rpi':
         custom_dut_class_override()
@@ -121,3 +216,26 @@ def test_start():
         time.sleep(5)
 
     return True
+
+
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        # Find the test class in the test script.
+        test_class = self.__class__.__name__
+        log_filename = os.path.join(self.matter_test_config.logs_path,test_class,str(iteration_count),f"log_{timestamp}.log")
+        
+        logging.basicConfig(level=logging.DEBUG,
+                            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                            filename=log_filename,
+                            filemode='w'  # Use 'a' if you want to append to an existing log file
+                            )
+        
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        default_logger = logging.getLogger('matter_qa_base_test_class')
+        default_logger.addHandler(handler)
+        default_logger.setLevel(logging.DEBUG)
+        default_logger.info('{} iteration of pairing sequence'.format(iteration_count))
+        self.iteration_log = default_logger     
+"""

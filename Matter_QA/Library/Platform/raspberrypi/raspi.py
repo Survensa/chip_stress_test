@@ -1,48 +1,44 @@
+import datetime
 import logging
+import os.path
 import threading
 import time
 
-from Matter_QA.Library.BaseTestCases import BaseDUTNodeClass
-
-
-from Matter_QA.Configs.initializer import rpi_config
+from fabric import Connection
+from invoke import UnexpectedExit
 from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
+rpi_count = 1
 
 
-class raspi(BaseDutNodeClass,BaseNodeDutConfiguration):
+class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
     count = 0
 
-    def __init__(self, dut_config, test_config) -> None:
-        super().__init__(dut_config, test_config)
-        ## TODO
-        print("write code here to initialize the device")
+    def __init__(self, test_config) -> None:
+        super().__init__(test_config)
+        self.test_config = test_config
 
-    def reboot(self):
-        data = rpi_config()
-
-        ssh = Connection(host=data.host, user=data.username, connect_kwargs={"password": data.password})
-
+    def reboot_dut(self):
+        ssh = Connection(host=self.test_config["rpi_config"]["rpi_hostname"],
+                         user=self.test_config["rpi_config"]["rpi_username"],
+                         connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
         reboot_command = f"sudo reboot"
-
         ssh.run(reboot_command)
-
         return True
 
-    def factory_reset(self, i):
-
-        data = rpi_config()
-
-        ssh = Connection(host=data.host, user=data.username, connect_kwargs={"password": data.password})
+    def factory_reset_dut(self, stop_reset):
+        logging.info("Starting to Reset the DUT")
+        ssh = Connection(host=self.test_config["rpi_config"]["rpi_hostname"],
+                         user=self.test_config["rpi_config"]["rpi_username"],
+                         connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
         print("ssh is success")
-
         # Executing the  'ps aux | grep process_name' command to find the PID value to kill
-        command = f"ps aux | grep {data.command}"
+        command = f"ps aux | grep {self.test_config['app_config']['matter_app']}"
         pid_val = ssh.run(command, hide=True)
 
         pid_output = pid_val.stdout
         pid_lines = pid_output.split('\n')
         for line in pid_lines:
-            if data.command in line:
+            if self.test_config['app_config']['matter_app'] in line:
                 pid = line.split()[1]
                 conformance = line.split()[7]
                 if conformance == 'Ssl':
@@ -55,31 +51,28 @@ class raspi(BaseDutNodeClass,BaseNodeDutConfiguration):
 
         ssh.close()
 
-        if i:
-            thread = threading.Thread(target=self.advertise)
+        if not stop_reset:
+            thread = threading.Thread(target=self.start_matter_app)
             thread.start()
 
         time.sleep(10)
 
-    def advertise(self):
-
-        print("advertising the DUT")
-
-        data = rpi_config()
-
-        ssh = Connection(host=data.host, user=data.username, connect_kwargs={"password": data.password})
-        path = data.path
+    def start_matter_app(self):
+        logging.info("Starting The Matter application")
+        ssh = Connection(host=self.test_config["rpi_config"]["rpi_hostname"],
+                         user=self.test_config["rpi_config"]["rpi_username"],
+                         connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
+        path = self.test_config["app_config"]["matter_app_path"]
         ssh.run('rm -rf /tmp/chip_*')
-
         try:
-            command = f"ps aux | grep {data.command}"
+            command = f"ps aux | grep {self.test_config['app_config']['matter_app']}"
             pid_val = ssh.run(command, hide=True)
 
             pid_output = pid_val.stdout
             pid_lines = pid_output.split('\n')
             for line in pid_lines:
                 try:
-                    if data.command in line:
+                    if self.test_config['app_config']['matter_app'] in line:
                         pid = line.split()[1]
                         conformance = line.split()[7]
                         if conformance == 'Ssl':
@@ -89,37 +82,39 @@ class raspi(BaseDutNodeClass,BaseNodeDutConfiguration):
                             ssh.run(kill_command)
                 except UnexpectedExit as e:
                     if e.result.exited == -1:
-                        None
+                        pass
                     else:
                         raise
-            log = ssh.run('cd ' + path + ' && ' + data.command, warn=True, hide=True, pty=False)
+            log = ssh.run('cd ' + path + ' && ' + self.test_config['app_config']['matter_app'], warn=True, hide=True,
+                          pty=False)
             self.start_logging(log)
             ssh.close()
         except UnexpectedExit as e:
             if e.result.exited == -1:
-                None
+                pass
             else:
                 raise
         return True
 
     def start_logging(self, log):
-
-        log_file = "TC_PairUnpair_log.txt"
-
-        if Rpi.count:
-            with open(log_file, 'a') as l:
-                l.write(f" \n\n  Dut log of {Rpi.count} iteration \n")
-                l.write(log.stdout)
-
-        Rpi.count += 1
-
+        global rpi_count
+        date = datetime.datetime.now().isoformat().replace(":","-").replace(".","_")
+        dut_log_path = os.path.join(self.test_config["general_configs"]["logFilePath"], "dut_logs")
+        if not os.path.exists(dut_log_path):
+            os.mkdir(dut_log_path)
+        log_file = os.path.join(dut_log_path,
+                                "iteration_{}__{}.log".format(rpi_count, date))
+        with open(log_file, 'a') as fp:
+            fp.write(f" \n\n  Dut log of {rpi_count} iteration \n")
+            fp.write(log.stdout)
+        rpi_count += 1
         return True
 
     def stop_logging(self):
 
         # As we are killing the example while factory reset this will stop the logging process
-        return self.factory_reset(0)
+        pass
 
 
-def create_dut_obect():
-    return raspi()
+def create_dut_object(test_config):
+    return Raspi(test_config)

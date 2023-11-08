@@ -18,7 +18,7 @@ import logging
 import time
 import traceback
 from Matter_QA.Library.BaseTestCases import MatterQABaseTestClass
-from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass  import create_dut_object
+from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import create_dut_object
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import test_start
 
 from Matter_QA.Configs import initializer
@@ -28,6 +28,7 @@ from Matter_QA.Library.HelperLibs.utils import (CommissionTimeoutError, convert_
 from Matter_QA.Library.Platform.CustomDut import CustomDut
 from Matter_QA.Library.Platform.raspberrypi.raspi import Rpi
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import PairUnpairBaseClass
+
 
 class TC_PairUnpair(MatterQABaseTestClass):
     def __init__(self, *args):
@@ -59,7 +60,7 @@ class TC_PairUnpair(MatterQABaseTestClass):
                         break
                 self.stop_iteration_logging(iteration_count, self.dut)
                 self.dut.factory_reset()
-    
+
             logging.info(f"The Summary of the {initializer.iteration_number} iteration are")
             logging.info(f"\t  \t  Pass:  {self._pass}")
             logging.info(f"\t  \t  Fail:  {self._fail}")
@@ -68,6 +69,7 @@ class TC_PairUnpair(MatterQABaseTestClass):
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
+
 
 if __name__ == "__main__":
     test_start()

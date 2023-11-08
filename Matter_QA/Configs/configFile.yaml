@@ -1,6 +1,6 @@
 rpi_config:
-  rpi_hostname: "192.168.0.102"
-  rpi_user: "ubuntu"
+  rpi_hostname: "192.168.8.100"
+  rpi_username: "ubuntu"
   rpi_password: "raspberrypi"
 app_config:
   matter_app: "./chip-all-clusters-app"
@@ -12,10 +12,8 @@ general_configs:
   commissioning_method: "on-network" # supported options "on-network", "ble-wifi, "ble-thread"
   iteration_number: 3
   execution_mode_full: True
-  dut_controller_file_path: "/home/ubuntu/Oct16_cntr/connectedhomeip/src/python_testing"
-  logFilePath: null # when null value is set the script will create a folder called 'Iteration_logs' in current directory where logs will be stored.
-  deviceObjectPath: "../Library/Platform/"
-  deviceModules:
-    - module_name: raspi.py
-      module_path: ./Matter_QA/Library/Platform/raspberrypi/
+  logFilePath: /media/grl/CommonData/matter_python/logs # when null value is set the script will create a folder called 'Iteration_logs' in current directory where logs will be stored.
+  deviceModules: # if these values are not present the by default it will assume to start raspberrypi as DUt
+      module_name: raspi.py #Python file which will inherit the BaseDUTNode class and define the behaviour of the DUT Working
+      module_path: ./Matter_QA/Library/Platform/raspberrypi/ #path to the DUT class file
 

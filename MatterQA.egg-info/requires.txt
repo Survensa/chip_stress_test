@@ -1,7 +1,0 @@
-pyOpenSSL
-cryptography
-serial
-scp
-serial
-mobly
-secrets

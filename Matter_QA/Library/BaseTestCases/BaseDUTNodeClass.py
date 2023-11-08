@@ -1,17 +1,22 @@
 from abc import ABC, abstractmethod
 
+
 class BaseDutNodeClass(ABC):
 
     @abstractmethod
-    def reboot(self):
+    def reboot_dut(self):
         pass
 
     @abstractmethod
-    def factory_reset(self, i, iteration):
+    def factory_reset_dut(self, stop_reset):
+        """
+        this fucntion will factory reset the DUT meaning the matter app will be restarted
+        'stop_reset' parameter is used as boolean flag to stop the function from restarting matter app
+        """
         pass
 
     @abstractmethod
-    def advertise(self, iteration):
+    def start_matter_app(self):
         pass
 
     @abstractmethod
@@ -22,12 +27,15 @@ class BaseDutNodeClass(ABC):
     def stop_logging(self):
         pass
 
+
 class BaseNodeDutConfiguration(object):
 
-    def __init__(self, dut_config, test_config) -> None:
+    def __init__(self, test_config) -> None:
         pass
-    def get_dut_config():
+
+    def get_dut_config(self):
         pass
+
 
 def register_dut_object():
     pass

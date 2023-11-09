@@ -1,124 +1,142 @@
-import logging
-import threading
+import datetime
+import traceback
+import serial
 import time
-
-from Matter_QA.Library.BaseTestCases import BaseDUTNodeClass
-
-
-from Matter_QA.Configs.initializer import rpi_config
+import logging
+import os
+from threading import Event, Thread
+import sys
+from mobly import signals
 from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
 
+event_closer = Event()
 
-class raspi(BaseDutNodeClass,BaseNodeDutConfiguration):
-    count = 0
 
-    def __init__(self, dut_config, test_config) -> None:
-        super().__init__(dut_config, test_config)
-        ## TODO
-        print("write code here to initialize the device")
+class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
+    def __init__(self, test_config) -> None:
+        super().__init__(test_config)
+        self.test_config = test_config
 
-    def reboot(self):
-        data = rpi_config()
+    def reboot_dut(self):
+        pass
 
-        ssh = Connection(host=data.host, user=data.username, connect_kwargs={"password": data.password})
+    def factory_reset_dut(self, stop_reset: bool):
+        if not stop_reset:
+            # self.stop_logging()
+            SerialPort().write_cmd()
+            return True
+        else:
+            self.start_matter_app()
+            logging.info("completed advertising of DUT")
+            return True
 
-        reboot_command = f"sudo reboot"
-
-        ssh.run(reboot_command)
-
+    def start_matter_app(self):
+        SerialPort().write_cmd()
+        time.sleep(2)
         return True
 
-    def factory_reset(self, i):
-
-        data = rpi_config()
-
-        ssh = Connection(host=data.host, user=data.username, connect_kwargs={"password": data.password})
-        print("ssh is success")
-
-        # Executing the  'ps aux | grep process_name' command to find the PID value to kill
-        command = f"ps aux | grep {data.command}"
-        pid_val = ssh.run(command, hide=True)
-
-        pid_output = pid_val.stdout
-        pid_lines = pid_output.split('\n')
-        for line in pid_lines:
-            if data.command in line:
-                pid = line.split()[1]
-                conformance = line.split()[7]
-                if conformance == 'Ssl':
-                    logging.info("About to Terminate the application")
-                    logging.info("displaying the pid and process to terminate {}".format(line))
-                    kill_command = f"kill {pid}"
-                    ssh.run(kill_command)
-
-        logging.info("Example App has been closed")
-
-        ssh.close()
-
-        if i:
-            thread = threading.Thread(target=self.advertise)
-            thread.start()
-
-        time.sleep(10)
-
-    def advertise(self):
-
-        print("advertising the DUT")
-
-        data = rpi_config()
-
-        ssh = Connection(host=data.host, user=data.username, connect_kwargs={"password": data.password})
-        path = data.path
-        ssh.run('rm -rf /tmp/chip_*')
-
-        try:
-            command = f"ps aux | grep {data.command}"
-            pid_val = ssh.run(command, hide=True)
-
-            pid_output = pid_val.stdout
-            pid_lines = pid_output.split('\n')
-            for line in pid_lines:
+    def start_logging(self, log=None)->bool:
+        global event_closer
+        ser = SerialPort().create_serial()
+        log_store_path = "CustomDeviceLogs/"
+        current_dir = self.test_config["general_configs"]["logFilePath"]
+        log_path = os.path.join(current_dir, log_store_path)
+        if not os.path.exists(log_path):
+            os.mkdir(log_path)
+        if ser.is_open:
+            while ser.is_open:
                 try:
-                    if data.command in line:
-                        pid = line.split()[1]
-                        conformance = line.split()[7]
-                        if conformance == 'Ssl':
-                            print("the DUT is already working will stop it now")
-                            print("displaying the pid of DUT  {}".format(line))
-                            kill_command = f"kill {pid}"
-                            ssh.run(kill_command)
-                except UnexpectedExit as e:
-                    if e.result.exited == -1:
-                        None
-                    else:
-                        raise
-            log = ssh.run('cd ' + path + ' && ' + data.command, warn=True, hide=True, pty=False)
-            self.start_logging(log)
-            ssh.close()
-        except UnexpectedExit as e:
-            if e.result.exited == -1:
-                None
-            else:
-                raise
-        return True
+                    logging.info("started to read buffer")
+                    data = ser.read_until(b'Done\r\r\n').decode()
+                    logging.info("completed read from buffer")
+                    if data == '':
+                        logging.info("data not present in buffer breaking from read loop")
+                        break
+                    with open(log_path + str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_"),
+                              'w') as fp:
+                        fp.write(data)
+                        logging.info("completed write to file")
 
-    def start_logging(self, log):
-
-        log_file = "TC_PairUnpair_log.txt"
-
-        if Rpi.count:
-            with open(log_file, 'a') as l:
-                l.write(f" \n\n  Dut log of {Rpi.count} iteration \n")
-                l.write(log.stdout)
-
-        Rpi.count += 1
-
+                except Exception as e:
+                    print(e)
+                    traceback.print_exc()
+        else:
+            logging.info("Failed to read the log in thread")
+            sys.exit()
+        logging.info("closing the Log File")
         return True
 
     def stop_logging(self):
+        global event_closer
+        event_closer.set()
+        return True
 
-        # As we are killing the example while factory reset this will stop the logging process
-        return self.factory_reset(0)
+    class SerialPort(object):
+        def __init__(self) -> None:
+            self.port = "/dev/ttyACM1"
+            self.baudrate = 115200
+            self.timeout = 60
 
-def create_dut_obect():
-    return raspi()
+        def create_serial(self):
+            try:
+                ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
+                if not ser.is_open:
+                    logging.info("Opening Serial Port")
+                    ser.open()
+                return ser
+            except Exception as e:
+                logging.error(e)
+                traceback.print_exc()
+
+        def write_cmd(self):
+            try:
+                ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
+            except serial.SerialException:
+                raise signals.TestAbortAll("Failed to Reset the device")
+
+            cmd = b'matter device factoryreset\n'
+
+            for i in range(1, 4):
+                logging.info("resetting nordic matter device")
+                ser.write(cmd)
+                time.sleep(2)
+
+            ser.close()
+
+
+class SerialPort(object):
+    def __init__(self) -> None:
+        self.port = "/dev/ttyACM1"
+        self.baudrate = 115200
+        self.timeout = 60
+
+    def create_serial(self):
+        try:
+            ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
+            if not ser.is_open:
+                logging.info("Opening Serial Port")
+                ser.open()
+            return ser
+        except Exception as e:
+            logging.error(e)
+            traceback.print_exc()
+
+    def write_cmd(self):
+        try:
+            ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
+        except serial.SerialException:
+            raise signals.TestAbortAll("Failed to Reset the device")
+        cmd = b'matter device factoryreset\n'
+        for i in range(1, 4):
+            logging.info("resetting nordic matter device")
+            ser.write(cmd)
+            time.sleep(2)
+        ser.close()
+
+def create_dut_object(test_config):
+    dut_obj = NordicDut(test_config=test_config)
+    thread = Thread(target=dut_obj.start_logging)
+    thread.start()
+    dut_obj.factory_reset_dut(stop_reset=False)
+    return dut_obj
+

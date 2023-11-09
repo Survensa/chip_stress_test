@@ -78,30 +78,3 @@ class TC_Pair_1(MatterQABaseTestCaseClass):
 if __name__ == "__main__":
     test_start()
     default_matter_test_main(testclass=TC_Pair_1)
-
-"""
-    @async_test_body
-    async def test_TC_PairUnpair(self):
-        self.th1 = self.default_controller
-        time.sleep(5)
-        self.th1.UnpairDevice(self.dut_node_id)
-        self.th1.ExpireSessions(self.dut_node_id)
-        time.sleep(5)
-        logging.info('PLEASE FACTORY RESET THE DEVICE')
-        argv = sys.argv[1:]
-
-        parser.add_argument('-iter', '--number-of-iterations', required=False,
-                            default=10, metavar=('number-of-iterations'), type=int)
-        number_of_iterations = parser.parse_args(argv).number_of_iterations
-        for i in range(1, number_of_iterations):
-            logging.info('{} iteration of pairing sequence'.format(i))
-            self.commission_device()
-            logging.info('PLEASE FACTORY RESET THE DEVICE')
-            logging.info('unpairing the device')
-            time.sleep(10)
-            self.th1.UnpairDevice(self.dut_node_id)
-            self.th1.ExpireSessions(self.dut_node_id)
-            time.sleep(5)
-            logging.info('completed pair and unpair sequence')
-
-"""

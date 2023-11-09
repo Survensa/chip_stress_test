@@ -1,19 +1,19 @@
-import logging
 import datetime
+import importlib.util
+import io
+import logging
+import os
 import secrets
+import sys
 import time
 import traceback
-import os
-import threading
-import sys
-import argparse
-import io
+
 import yaml
-import importlib.util
+from chip import ChipDeviceCtrl
+
 from Matter_QA.Library.HelperLibs.matter_testing_support import MatterBaseTest
 from Matter_QA.Library.HelperLibs.utils import timer, convert_args_dict
 from Matter_QA.Library.Platform.raspberrypi import raspi
-from chip import ChipDeviceCtrl
 
 dut_objects_list = []
 
@@ -147,28 +147,6 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         logging.info('{} iteration completed'.format(iteration_count))
         self.logger.removeHandler(self.iteration_file_handler)
         self.iteration_file_handler.close()
-        """
-        for h in self.iteration_log.handlers:
-            self.iteration_log.removeHandler(h)
-            if isinstance(h, logging.FileHandler):
-                h.close()
-        if dut:          
-            dut.start_log()
-        pass
-        """
-
-    def continue_test_execution(self):
-        # TODO Fix
-        """
-        if not initializer.execution_mode_full:
-                logging.info(
-                            'Full Execution mode is disabled \n The iteration {} number has failed hence the '
-                            'execution will stop here'.format(
-                                i))
-            reset(platform, 1)
-                logging.info('thread completed')
-        """
-
 
 def log_path_add_args(path):
     args = sys.argv
@@ -185,10 +163,6 @@ def add_args_commissioning_method(commissioning_method):
 
 
 def test_start():
-    # parser = argparse.ArgumentParser(description="parser to parse testcase args")
-    # parser.add_argument('--configYaml', help="Input Configuration YAML file ")
-    # args = parser.parse_args()
-    # config_yaml_file = args.configYaml
     try:
         global dut_objects_list
         dict_args = convert_args_dict(sys.argv[1:])
@@ -212,14 +186,13 @@ def test_start():
                 'deviceModules' in general_configs.keys():
             module_path = general_configs['deviceModules']['module_path']
             module_name = general_configs['deviceModules']['module_name']
-            if not os.path.exists(os.path.join(module_path, module_name)):
+            if not os.path.exists(module_path) and os.path.isfile(module_path):
                 logging.error('Error in importing Module! check if file exists')
-            spec = importlib.util.spec_from_file_location(
-                module_name,
-                module_path)
+                sys.exit(0)
+            spec = importlib.util.spec_from_file_location(location=module_path, name=module_name)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            dut_objects_list.append(module.create_dut_obect(test_config_dict))
+            dut_objects_list.append(module.create_dut_object(test_config_dict))
         elif general_configs['platform_execution'] == 'rpi':
             logging.info("RaspberryPi Platform is selected")
             dut_objects_list.append(raspi.create_dut_object(test_config=test_config_dict))
@@ -232,55 +205,3 @@ def test_start():
 
 def register_dut_module():
     dut_objects_list.append()
-
-
-"""
-def test_start():
-    log_file = "TC_PairUnpair_log.txt"
-    dict_args = convert_args_dict(sys.argv[1:])
-
-    with io.open(utils.abs_path(path), 'r', encoding='utf-8') as f:
-        conf = yaml.safe_load(dict_args["--yaml-file"])
-    return conf
-    initializer.read_yaml(dict_args["--yaml-file"])
-    if initializer.platform_execution != 'rpi':
-        custom_dut_class_override()
-
-    if os.path.exists(log_file):
-        os.remove(log_file)
-    if initializer.platform_execution == 'rpi':
-        print("advertising the dut")
-        thread = threading.Thread(target=Rpi().advertise)
-        thread.start()
-        time.sleep(5)
-
-    elif initializer.platform_execution == 'CustomDut':
-        thread = threading.Thread(target=CustomDut().start_logging)
-        thread.start()
-        CustomDut().advertise(iteration=0)
-        time.sleep(5)
-
-    return True
-
-
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        # Find the test class in the test script.
-        test_class = self.__class__.__name__
-        log_filename = os.path.join(self.matter_test_config.logs_path,test_class,str(iteration_count),f"log_{timestamp}.log")
-        
-        logging.basicConfig(level=logging.DEBUG,
-                            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                            filename=log_filename,
-                            filemode='w'  # Use 'a' if you want to append to an existing log file
-                            )
-        
-        handler = logging.StreamHandler(sys.stdout)
-        handler.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        handler.setFormatter(formatter)
-        default_logger = logging.getLogger('matter_qa_base_test_class')
-        default_logger.addHandler(handler)
-        default_logger.setLevel(logging.DEBUG)
-        default_logger.info('{} iteration of pairing sequence'.format(iteration_count))
-        self.iteration_log = default_logger     
-"""

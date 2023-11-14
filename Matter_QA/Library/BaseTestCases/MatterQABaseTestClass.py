@@ -27,7 +27,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.logger.setLevel(logging.DEBUG)  # Set the logger's level
         self.test_config_dict = MatterQABaseTestCaseClass.test_config_dict
         self.dut = None
-        self.__misc_int()
+        self.__misc__init()
 
     def get_dut_object(self):
         global dut_objects_list
@@ -38,13 +38,9 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             # sys.exit(0)
         # self.create_dut_object()
 
-    def __misc_int(self):
+    def __misc__init(self):
         self.th1 = None
         self.test_result = {'Pass Count': 0, 'Fail Count': {'Count': 0, 'Iteration': []}, 'Error Count': 0}
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        self.tc_log_folder = os.path.join(self.matter_test_config.logs_path, f"{timestamp}")
-        if not os.path.exists(self.tc_log_folder):
-            os.makedirs(self.tc_log_folder)
 
     @timer
     def commission_device(self, *args, **kwargs):
@@ -116,11 +112,9 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         time.sleep(3)
 
     def start_iteration_logging(self, iteration_count, dut):
-
-        test_class = self.__class__.__name__
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         # Create a file handler
-        tc_log_path = os.path.join(self.tc_log_folder, test_class, str(iteration_count))
+        tc_log_path = os.path.join(self.test_config_dict["iter_logs_dir"], str(iteration_count))
         if not os.path.exists(tc_log_path):
             os.makedirs(tc_log_path)
         log_filename = os.path.join(tc_log_path, f"log_{timestamp}.log")
@@ -132,16 +126,8 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.iteration_file_handler.setLevel(logging.DEBUG)
         # Add the file handler to the logger
         self.logger.addHandler(self.iteration_file_handler)
-        # self.log.addHandler(self.iteration_file_handler)
-        # stream_handler = logging.StreamHandler()
-        # stream_handler.setFormatter(formatter)
-        # logger.addHandler(stream_handler)
-
-        # self.iteration_log = logger
-
         if dut:
             dut.start_log()
-        pass
 
     def stop_iteration_logging(self, iteration_count, dut):
         logging.info('{} iteration completed'.format(iteration_count))
@@ -152,6 +138,16 @@ def log_path_add_args(path):
     args = sys.argv
     args.append("--logs-path")
     args.append(path)
+    sys.argv = args
+
+def log_info_init(test_config_dict: dict):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    tc_log_folder = os.path.join(test_config_dict["general_configs"]["logFilePath"], f"{timestamp}")
+    test_config_dict.update({"iter_logs_dir": tc_log_folder})
+    test_config_dict.update({"current_iteration": 0})
+    if not os.path.exists(tc_log_folder):
+        os.makedirs(tc_log_folder)
+    return test_config_dict
 
 
 def add_args_commissioning_method(commissioning_method):
@@ -181,15 +177,17 @@ def test_start():
         else:
             log_path_add_args(path=os.getcwd())
             general_configs["logFilePath"] = os.getcwd()
+        test_config_dict = log_info_init(test_config_dict)  # updating config dict with iter_log_dir and current_iter
         add_args_commissioning_method(general_configs["commissioning_method"])
         if general_configs['platform_execution'] != 'rpi' and \
                 'deviceModules' in general_configs.keys():
             module_path = general_configs['deviceModules']['module_path']
             module_name = general_configs['deviceModules']['module_name']
-            if not os.path.exists(module_path) and os.path.isfile(module_path):
+            full_path = os.path.join(module_path, module_name)
+            if not os.path.exists(full_path) or not os.path.isfile(full_path):
                 logging.error('Error in importing Module! check if file exists')
                 sys.exit(0)
-            spec = importlib.util.spec_from_file_location(location=module_path, name=module_name)
+            spec = importlib.util.spec_from_file_location(location=full_path, name=module_name)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
             dut_objects_list.append(module.create_dut_object(test_config_dict))

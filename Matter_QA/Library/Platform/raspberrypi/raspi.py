@@ -34,7 +34,6 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
         # Executing the  'ps aux | grep process_name' command to find the PID value to kill
         command = f"ps aux | grep {self.test_config['app_config']['matter_app']}"
         pid_val = ssh.run(command, hide=True)
-
         pid_output = pid_val.stdout
         pid_lines = pid_output.split('\n')
         for line in pid_lines:
@@ -98,12 +97,17 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
 
     def start_logging(self, log):
         global rpi_count
-        date = datetime.datetime.now().isoformat().replace(":","-").replace(".","_")
-        dut_log_path = os.path.join(self.test_config["general_configs"]["logFilePath"], "dut_logs")
-        if not os.path.exists(dut_log_path):
-            os.mkdir(dut_log_path)
-        log_file = os.path.join(dut_log_path,
-                                "iteration_{}__{}.log".format(rpi_count, date))
+        if self.test_config["current_iteration"] == 0:
+            self.test_config["current_iteration"] += 1
+        current_dir = self.test_config["iter_logs_dir"]
+        log_path = os.path.join(current_dir, str(self.test_config["current_iteration"]))
+        if not os.path.exists(log_path):
+            os.mkdir(log_path)
+        log_file = os.path.join(log_path, "Dut_log_{}_"
+                                .format(str(self.test_config["current_iteration"])) +
+                                str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
+                                + ".log"
+                                )
         with open(log_file, 'a') as fp:
             fp.write(f" \n\n  Dut log of {rpi_count} iteration \n")
             fp.write(log.stdout)

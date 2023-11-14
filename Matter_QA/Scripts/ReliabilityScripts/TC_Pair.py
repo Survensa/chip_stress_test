@@ -21,6 +21,7 @@ import sys
 import time
 
 from Matter_QA.Library.HelperLibs.utils import CommissionTimeoutError
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../')))
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import MatterQABaseTestCaseClass, test_start
 from Matter_QA.Library.HelperLibs.matter_testing_support import async_test_body, default_matter_test_main
@@ -35,15 +36,14 @@ class TC_Pair_1(MatterQABaseTestCaseClass):
     async def test_tc_pair_unpair(self):
         self.dut = self.get_dut_object()
         logging.info("Entering the test function")
-        failed_iterations = []
-        _pass = 0
-        _fail = 0
         iterations = int(self.test_config_dict["general_configs"]["iteration_number"])
         self.dut.factory_reset_dut(stop_reset=False)
-        for i in range(1, iterations+1):
+        for i in range(1, iterations + 1):
+            self.test_config_dict["current_iteration"] = i
             self.start_iteration_logging(i, None)
             try:
-                iter_result = self.commission_device(kwargs={"timeout": self.test_config_dict["general_configs"]["dut_connection_timeout"]})
+                iter_result = self.commission_device(
+                    kwargs={"timeout": self.test_config_dict["general_configs"]["dut_connection_timeout"]})
             except CommissionTimeoutError as e:
                 logging.error(e)
                 iter_result = False
@@ -52,11 +52,11 @@ class TC_Pair_1(MatterQABaseTestCaseClass):
                 time.sleep(2)
                 self.unpair_dut()
                 logging.info(f'iteration {i} is passed and unpairing the device is successful')
-                _pass += 1
+                self.test_result["Pass Count"] += 1
             else:
-                failed_iterations.append(i)
+                self.test_result["Fail Count"]["Iteration"].append(i)
                 logging.error(f'iteration {i} is failed')
-                _fail += 1
+                self.test_result["Fail Count"]["Count"] += 1
                 if not self.test_config_dict["general_configs"]["execution_mode_full"]:
                     logging.info(
                         'Full Execution mode is disabled \n The iteration {} number has failed hence the '
@@ -70,9 +70,11 @@ class TC_Pair_1(MatterQABaseTestCaseClass):
                 self.dut.factory_reset_dut(stop_reset=False)
             self.stop_iteration_logging(i, None)
             logging.info('completed pair and unpair sequence for {}'.format(i))
-        logging.info(f"The Summary of the {iterations} iterations are")
-        logging.info(f"\t  \t  Pass:  {_pass}")
-        logging.info("\t  \t  Fail:  {} and Iterations which failed are {}".format(_fail, failed_iterations))
+        logging.info(
+            f"The Summary of the {self.test_config_dict['general_configs']['iteration_number']} iterations are")
+        logging.info(f"\t  \t  Pass:  {self.test_result['Pass Count']}")
+        logging.info("\t  \t  Fail:  {} and Iterations which failed are {}".format(
+            self.test_result['Fail Count']['Count'], self.test_result["Fail Count"]["Iteration"]))
 
 
 if __name__ == "__main__":

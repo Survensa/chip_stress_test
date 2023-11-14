@@ -35,25 +35,30 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
         time.sleep(2)
         return True
 
-    def start_logging(self, log=None)->bool:
+    def start_logging(self, log=None) -> bool:
         global event_closer
+        if self.test_config["current_iteration"] == 0:
+            self.test_config["current_iteration"] += 1
         ser = SerialPort().create_serial()
-        log_store_path = "CustomDeviceLogs/"
-        current_dir = self.test_config["general_configs"]["logFilePath"]
-        log_path = os.path.join(current_dir, log_store_path)
-        if not os.path.exists(log_path):
-            os.mkdir(log_path)
         if ser.is_open:
             while ser.is_open:
                 try:
+                    current_dir = self.test_config["iter_logs_dir"]
+                    log_path = os.path.join(current_dir, str(self.test_config["current_iteration"]))
+                    if not os.path.exists(log_path):
+                        os.mkdir(log_path)
+                    log_file = os.path.join(log_path, "Dut_log_{}_"
+                                            .format(str(self.test_config["current_iteration"])) +
+                                            str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
+                                            + ".log"
+                                            )
                     logging.info("started to read buffer")
                     data = ser.read_until(b'Done\r\r\n').decode()
                     logging.info("completed read from buffer")
                     if data == '':
                         logging.info("data not present in buffer breaking from read loop")
                         break
-                    with open(log_path + str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_"),
-                              'w') as fp:
+                    with open(log_file,'w') as fp:
                         fp.write(data)
                         logging.info("completed write to file")
 
@@ -70,38 +75,6 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
         global event_closer
         event_closer.set()
         return True
-
-    class SerialPort(object):
-        def __init__(self) -> None:
-            self.port = "/dev/ttyACM1"
-            self.baudrate = 115200
-            self.timeout = 60
-
-        def create_serial(self):
-            try:
-                ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
-                if not ser.is_open:
-                    logging.info("Opening Serial Port")
-                    ser.open()
-                return ser
-            except Exception as e:
-                logging.error(e)
-                traceback.print_exc()
-
-        def write_cmd(self):
-            try:
-                ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
-            except serial.SerialException:
-                raise signals.TestAbortAll("Failed to Reset the device")
-
-            cmd = b'matter device factoryreset\n'
-
-            for i in range(1, 4):
-                logging.info("resetting nordic matter device")
-                ser.write(cmd)
-                time.sleep(2)
-
-            ser.close()
 
 
 class SerialPort(object):
@@ -133,10 +106,10 @@ class SerialPort(object):
             time.sleep(2)
         ser.close()
 
+
 def create_dut_object(test_config):
     dut_obj = NordicDut(test_config=test_config)
     thread = Thread(target=dut_obj.start_logging)
     thread.start()
     dut_obj.factory_reset_dut(stop_reset=False)
     return dut_obj
-

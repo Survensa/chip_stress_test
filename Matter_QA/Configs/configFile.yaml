@@ -16,4 +16,7 @@ general_configs:
   deviceModules: # if these values are not present the by default it will assume to start raspberrypi as DUt
       module_name: raspi.py #Python file which will inherit the BaseDUTNode class and define the behaviour of the DUT Working
       module_path: ./Matter_QA/Library/Platform/raspberrypi/ #path to the DUT class file
-
+nordic_config:
+  serial_port: "/dev/ttyACM1"
+  serial_baudrate: 115200
+  serial_timeout: 60

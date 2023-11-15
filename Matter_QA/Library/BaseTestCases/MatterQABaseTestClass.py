@@ -12,8 +12,8 @@ import yaml
 from chip import ChipDeviceCtrl
 
 from Matter_QA.Library.HelperLibs.matter_testing_support import MatterBaseTest
-from Matter_QA.Library.HelperLibs.utils import timer, convert_args_dict
-from Matter_QA.Library.Platform.raspberrypi import raspi
+from Matter_QA.Library.HelperLibs.utils import (timer, convert_args_dict, dut_object_loader, yaml_config_reader,
+                                                default_config_reader)
 
 dut_objects_list = []
 
@@ -134,11 +134,13 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.logger.removeHandler(self.iteration_file_handler)
         self.iteration_file_handler.close()
 
+
 def log_path_add_args(path):
     args = sys.argv
     args.append("--logs-path")
     args.append(path)
     sys.argv = args
+
 
 def log_info_init(test_config_dict: dict):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -162,12 +164,13 @@ def test_start():
     try:
         global dut_objects_list
         dict_args = convert_args_dict(sys.argv[1:])
-        if not os.path.exists(dict_args["--yaml-file"]):
-            logging.error("The config file does not exist! exiting now! ")
-            sys.exit(0)
-        config_yaml_file = dict_args["--yaml-file"]
-        with io.open(config_yaml_file, 'r') as f:
-            test_config_dict = yaml.safe_load(f)
+        arg_keys = dict_args.keys()
+        if "--yaml-file" in arg_keys:
+            test_config_dict = yaml_config_reader(dict_args)
+        elif "--rpi-hostname" in arg_keys and "--rpi-username" in arg_keys and "--rpi-password" in arg_keys:
+            test_config_dict = default_config_reader(dict_args)
+        else:
+            raise Exception("Arguments needed for execution are missing")
         MatterQABaseTestCaseClass.test_config_dict = test_config_dict
         print(test_config_dict)
         general_configs = test_config_dict["general_configs"]
@@ -179,23 +182,7 @@ def test_start():
             general_configs["logFilePath"] = os.getcwd()
         test_config_dict = log_info_init(test_config_dict)  # updating config dict with iter_log_dir and current_iter
         add_args_commissioning_method(general_configs["commissioning_method"])
-        if general_configs['platform_execution'] != 'rpi' and \
-                'deviceModules' in general_configs.keys():
-            module_path = general_configs['deviceModules']['module_path']
-            module_name = general_configs['deviceModules']['module_name']
-            full_path = os.path.join(module_path, module_name)
-            if not os.path.exists(full_path) or not os.path.isfile(full_path):
-                logging.error('Error in importing Module! check if file exists')
-                sys.exit(0)
-            spec = importlib.util.spec_from_file_location(location=full_path, name=module_name)
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-            dut_objects_list.append(module.create_dut_object(test_config_dict))
-        elif general_configs['platform_execution'] == 'rpi':
-            logging.info("RaspberryPi Platform is selected")
-            dut_objects_list.append(raspi.create_dut_object(test_config=test_config_dict))
-            logging.info("Starting Matter DUT application")
-            raspi.Raspi(test_config=test_config_dict).factory_reset_dut(stop_reset=False)
+        dut_object_loader(test_config_dict, dut_objects_list)
     except Exception as e:
         logging.error(e)
         traceback.print_exc()

@@ -20,7 +20,7 @@ import os
 import sys
 import time
 
-from Matter_QA.Library.HelperLibs.utils import CommissionTimeoutError
+from Matter_QA.Library.HelperLibs.utils import CommissionTimeoutError, summary_log
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../')))
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import MatterQABaseTestCaseClass, test_start
@@ -70,12 +70,7 @@ class TC_Pair_1(MatterQABaseTestCaseClass):
                 self.dut.factory_reset_dut(stop_reset=False)
             self.stop_iteration_logging(i, None)
             logging.info('completed pair and unpair sequence for {}'.format(i))
-        logging.info(
-            f"The Summary of the {self.test_config_dict['general_configs']['iteration_number']} iterations are")
-        logging.info(f"\t  \t  Pass:  {self.test_result['Pass Count']}")
-        logging.info("\t  \t  Fail:  {} and Iterations which failed are {}".format(
-            self.test_result['Fail Count']['Count'], self.test_result["Fail Count"]["Iteration"]))
-
+        summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict)
 
 if __name__ == "__main__":
     test_start()

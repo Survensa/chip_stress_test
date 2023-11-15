@@ -23,7 +23,9 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
     def factory_reset_dut(self, stop_reset: bool):
         if not stop_reset:
             # self.stop_logging()
-            SerialPort().write_cmd()
+            SerialPort(port=self.test_config["nordic_config"]["serial_port"],
+                       baudrate=self.test_config["nordic_config"]["serial_baudrate"],
+                       timeout=self.test_config["nordic_config"]["serial_timeout"]).write_cmd()
             return True
         else:
             self.start_matter_app()
@@ -31,7 +33,9 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
             return True
 
     def start_matter_app(self):
-        SerialPort().write_cmd()
+        SerialPort(port=self.test_config["nordic_config"]["serial_port"],
+                   baudrate=self.test_config["nordic_config"]["serial_baudrate"],
+                   timeout=self.test_config["nordic_config"]["serial_timeout"]).write_cmd()
         time.sleep(2)
         return True
 
@@ -39,7 +43,9 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
         global event_closer
         if self.test_config["current_iteration"] == 0:
             self.test_config["current_iteration"] += 1
-        ser = SerialPort().create_serial()
+        ser = SerialPort(port=self.test_config["nordic_config"]["serial_port"],
+                         baudrate=self.test_config["nordic_config"]["serial_baudrate"],
+                         timeout=self.test_config["nordic_config"]["serial_timeout"]).create_serial()
         if ser.is_open:
             while ser.is_open:
                 try:
@@ -58,7 +64,7 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
                     if data == '':
                         logging.info("data not present in buffer breaking from read loop")
                         break
-                    with open(log_file,'w') as fp:
+                    with open(log_file, 'w') as fp:
                         fp.write(data)
                         logging.info("completed write to file")
 
@@ -78,10 +84,10 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
 
 
 class SerialPort(object):
-    def __init__(self) -> None:
-        self.port = "/dev/ttyACM1"
-        self.baudrate = 115200
-        self.timeout = 60
+    def __init__(self, port, baudrate, timeout) -> None:
+        self.port = port
+        self.baudrate = baudrate
+        self.timeout = timeout
 
     def create_serial(self):
         try:

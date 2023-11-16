@@ -1,6 +1,4 @@
 import datetime
-import importlib.util
-import io
 import logging
 import os
 import secrets
@@ -22,7 +20,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     test_config_dict = {}
 
     def __init__(self, *args):
-        super(MatterBaseTest, self).__init__(*args)
+        super().__init__(*args)
         self.logger = logging.getLogger('')
         self.logger.setLevel(logging.DEBUG)  # Set the logger's level
         self.test_config_dict = MatterQABaseTestCaseClass.test_config_dict
@@ -45,7 +43,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     @timer
     def commission_device(self, *args, **kwargs):
         conf = self.matter_test_config
-        for commission_idx, node_id in enumerate(conf.dut_node_id):
+        for commission_idx, node_id in enumerate(conf.dut_node_ids):
             try:
                 logging.info("Starting commissioning for root index %d, fabric ID 0x%016X, node ID 0x%016X" %
                              (conf.root_of_trust_index, conf.fabric_id, node_id))
@@ -64,37 +62,37 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             dev_ctrl = self.default_controller
             conf = self.matter_test_config
             random_nodeid = secrets.randbelow(2 ** 32)
-            conf.dut_node_id = [random_nodeid]
+            conf.dut_node_ids = [random_nodeid]
             DiscoveryFilterType = ChipDeviceCtrl.DiscoveryFilterType
             # TODO: support by manual code and QR
 
             if conf.commissioning_method == "on-network":
                 return dev_ctrl.CommissionOnNetwork(
-                    nodeId=conf.dut_node_id[i],
-                    setupPinCode=conf.setup_passcode[i],
+                    nodeId=conf.dut_node_ids[i],
+                    setupPinCode=conf.setup_passcodes[i],
                     filterType=DiscoveryFilterType.LONG_DISCRIMINATOR,
-                    filter=conf.discriminator[i]
+                    filter=conf.discriminators[i]
                 )
             elif conf.commissioning_method == "ble-wifi":
                 return dev_ctrl.CommissionWiFi(
-                    conf.discriminator[i],
-                    conf.setup_passcode[i],
-                    conf.dut_node_id[i],
+                    conf.discriminators[i],
+                    conf.setup_passcodes[i],
+                    conf.dut_node_ids[i],
                     conf.wifi_ssid,
                     conf.wifi_passphrase
                 )
             elif conf.commissioning_method == "ble-thread":
                 return dev_ctrl.CommissionThread(
-                    conf.discriminator[i],
-                    conf.setup_passcode[i],
-                    conf.dut_node_id[i],
+                    conf.discriminators[i],
+                    conf.setup_passcodes[i],
+                    conf.dut_node_ids[i],
                     conf.thread_operational_dataset
                 )
             elif conf.commissioning_method == "on-network-ip":
                 logging.warning("==== USING A DIRECT IP COMMISSIONING METHOD NOT SUPPORTED IN THE LONG TERM ====")
                 return dev_ctrl.CommissionIP(
                     ipaddr=conf.commissionee_ip_address_just_for_testing,
-                    setupPinCode=conf.setup_passcode[i], nodeid=conf.dut_node_id[i]
+                    setupPinCode=conf.setup_passcodes[i], nodeid=conf.dut_node_ids[i]
                 )
             else:
                 logging.error("Invalid commissioning method %s!" % conf.commissioning_method)
@@ -188,5 +186,3 @@ def test_start():
         traceback.print_exc()
 
 
-def register_dut_module():
-    dut_objects_list.append()

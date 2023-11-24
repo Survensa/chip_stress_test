@@ -1,5 +1,6 @@
 import importlib.util
 import io
+import json
 import logging
 import os
 import signal
@@ -95,11 +96,11 @@ def default_config_reader(dict_args: dict):
         os.chdir(os.pardir)
         os.chdir(os.pardir)
         config_yaml_file = os.path.join(os.getcwd(), "Configs", "configFile.yaml")
+        if not os.path.exists(config_yaml_file):
+            logging.error("The config file does not exist! exiting now! ")
+            sys.exit(0)
         with io.open(config_yaml_file, 'r') as f:
             test_config_dict = yaml.safe_load(f)
-        test_config_dict["rpi_config"]["rpi_hostname"] = dict_args["--rpi-hostname"]
-        test_config_dict["rpi_config"]["rpi_username"] = dict_args["--rpi-username"]
-        test_config_dict["rpi_config"]["rpi_password"] = dict_args["--rpi-password"]
         os.chdir(org_dir)
         return test_config_dict
     except Exception as e:
@@ -120,9 +121,19 @@ def summary_log(test_result: dict, test_config_dict: dict):
                                                          test_result["Fail Count"]["Iteration"],
                                                          test_config_dict["general_configs"]["platform_execution"],
                                                          test_config_dict["general_configs"]["commissioning_method"],
-                                                         "Full execution" if test_config_dict["general_configs"]["execution_mode_full"]
+                                                         "Full execution Mode" if test_config_dict["general_configs"][
+                                                             "execution_mode_full"]
                                                          else "Partial Execution Mode",
                                                          ))
-    log_file = os.path.join(test_config_dict["iter_logs_dir"],"summary.log")
+    log_file = os.path.join(test_config_dict["iter_logs_dir"], "summary.log")
     with open(log_file, "w") as fp:
         fp.write(log_data)
+    log_file_json = os.path.join(test_config_dict["iter_logs_dir"], "summary.json")
+    test_result.update({"platform": test_config_dict["general_configs"]["platform_execution"]})
+    test_result.update({"number_of_iterations": test_config_dict["general_configs"]["iteration_number"]})
+    test_result.update({"commissioning_method": test_config_dict["general_configs"]["commissioning_method"]})
+    test_result.update(
+        {"execution_mode": "Full execution Mode" if test_config_dict["general_configs"]["execution_mode_full"]
+        else "Partial Execution Mode"})
+    fp = open(log_file_json, "w+")
+    json.dump(test_result, fp, indent=2)

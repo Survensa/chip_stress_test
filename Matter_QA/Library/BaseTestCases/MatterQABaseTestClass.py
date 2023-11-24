@@ -165,10 +165,8 @@ def test_start():
         arg_keys = dict_args.keys()
         if "--yaml-file" in arg_keys:
             test_config_dict = yaml_config_reader(dict_args)
-        elif "--rpi-hostname" in arg_keys and "--rpi-username" in arg_keys and "--rpi-password" in arg_keys:
-            test_config_dict = default_config_reader(dict_args)
         else:
-            raise Exception("Arguments needed for execution are missing")
+            test_config_dict = default_config_reader(dict_args)
         MatterQABaseTestCaseClass.test_config_dict = test_config_dict
         print(test_config_dict)
         general_configs = test_config_dict["general_configs"]

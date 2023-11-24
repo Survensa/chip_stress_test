@@ -1,0 +1,4 @@
+host: 127.0.0.1
+port: 5000
+workers: 1 # used for scaling
+logs_path: /media/grl/CommonData/LOGS_MATTER/Nordic/nov_17/logs_ble_dut

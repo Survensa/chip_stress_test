@@ -87,11 +87,11 @@
     </select>
 
     <!-- Age filter dropdown -->
-    <label for="filter">Filter by age:</label>
+    <label for="filter">Filter by Pass/Fail/All:</label>
     <select id="filter" name="filter" onchange="location = this.value;">
         <option value="?page={{current_page}}&page_size={{ current_page_size }}&filters=all&dir_path={{dir_path}}" {% if current_filter == 'all' %}selected{% endif %}>All</option>
-        <option value="?page={{current_page}}&page_size={{ current_page_size }}&filters=pass&dir_path={{dir_path}}" {% if current_filter == 'pass' %}selected{% endif %}>pass</option>
-        <option value="?page={{current_page}}&page_size={{ current_page_size }}&filters=fail&dir_path={{dir_path}}" {% if current_filter == 'fail' %}selected{% endif %}>fail</option>
+        <option value="?page={{current_page}}&page_size={{ current_page_size }}&filters=pass&dir_path={{dir_path}}" {% if current_filter == 'pass' %}selected{% endif %}>Pass</option>
+        <option value="?page={{current_page}}&page_size={{ current_page_size }}&filters=fail&dir_path={{dir_path}}" {% if current_filter == 'fail' %}selected{% endif %}>Fail</option>
     </select>
     </center>
 

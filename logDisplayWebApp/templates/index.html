@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
      <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='tableStyles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='alerts.css') }}">
     <script src="{{ url_for('static', path='alerts.js') }}"></script>
     <title>DUT Logs WebApp</title>
 </head>
 <body>
     <center>
-        <h1>LOG Display Web Application</h1>
+        <h1>Matter Chip Test execution log viewer</h1>
         <table class="data-table">
         <thead>
             <tr>
@@ -25,14 +26,14 @@
                     <td>
                         <form action="/home/displayLogFolder" method="get">
                         <input type="hidden" value={{ dirs.dir_path }} name="dir_path">
-                        <button type="submit">{{dirs.dir_name}}</button>
+                        <button class="btn btn-primary" type="submit">{{dirs.dir_name}}</button>
                         </form>
                     </td>
                     <td>{{ dirs.dir_last_modified }}</td>
                     <td>{{ dirs.dir_size }}</td>
                     <td>
-                        <button style="color:green" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','zip')"> Download </button>
-                        <button style="color:red" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','delete')"> Delete </button>
+                        <button class="btn btn-success" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','zip')"> Download </button>
+                        <button class="btn btn-danger" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','delete')"> Delete </button>
                     </td>
                      
                 </tr>

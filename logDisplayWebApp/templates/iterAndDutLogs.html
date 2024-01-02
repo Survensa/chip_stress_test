@@ -7,7 +7,6 @@
     <script src="{{ url_for('static', path='displayLogs.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
     <script src="{{ url_for('static', path='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
     <title>Data Table with FastAPI and Jinja2</title>
 </head>
 
@@ -73,13 +72,17 @@
         <li><a class="dropdown-item" href="?page={{current_page}}&page_size={{ current_page_size }}&filters=fail&dir_path={{dir_path}}">Fail</a></li>
       </ul>
 </div>
-
+<div class="btn-group">
+    <button type="button" class="btn btn-secondary" onclick="lineChart('{{dir_path}}')"> Pairing Duration Graph</button>
+</div>
     <table class="data-table">
         <thead>
             <tr>
                 <th>Iteration Number</th>
                 <th>Test Result</th>
                 <th>Time of Execution</th>
+                <th>Error Reason</th>
+                <th>Pairing Duration</th>
                 <th>Logs</th>
             </tr>
         </thead>
@@ -89,6 +92,8 @@
                     <td>{{ row.dir_name }}</td>
                     <td>{{ row.iteration_result }}</td>
                     <td>{{ row.dir_last_modified }}</td>
+                    <td>{{ 'Not Applicable' if row.iteration_result == 'PASS' else summary["Failed_iteration_details"][row.dir_name] }}</td>
+                    <td>{{summary["pairing_duration_info"][row.dir_name]}}</td>
                     <td><button onclick="dutLogsDisplay('{{dir_path}}','{{row.dir_name}}','iter')" class="btn btn-primary">Iteration Logs</button>
                         <button onclick="dutLogsDisplay('{{dir_path}}','{{row.dir_name}}','dut')" class="btn btn-secondary">DUT Logs</button>
                     </td>
@@ -97,7 +102,7 @@
         </tbody>
     </table>
     <nav aria-label="Page navigation example">
-      <ul class="pagination justify-content-center">
+      <ul class="pagination pagination-sm justify-content-center" items-per-page="10" max-size="10">
         {% if current_page > 1 %}
             <li class="page-item">
                 <a class="page-link"  href="?page=1&page_size={{ current_page_size }}&filters={{ current_filter }}&dir_path={{dir_path}}">First</a>

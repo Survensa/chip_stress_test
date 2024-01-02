@@ -1,4 +1,6 @@
 host: 127.0.0.1
 port: 5000
 workers: 1 # used for scaling
-logs_path: /media/grl/CommonData/LOGS_MATTER/Nordic/nov_17/logs_ble_dut
+logs_path: /media/grl/CommonData/matter_python/logs
+python_environment: /media/grl/CommonData/matter_python/no
+script_path: /media/grl/CommonData/matter_python/src/python_testing/Matter_QA/Scripts/ReliabilityScripts

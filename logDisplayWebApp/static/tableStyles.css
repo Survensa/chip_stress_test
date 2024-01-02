@@ -32,6 +32,18 @@ table.summary-table td {
     padding: 8px;
     text-align: left;
 }
+.script_table{
+    width: 40%;
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 20px;
+}
+.script_table td, .script_table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+
+}
 #title{
     background-color: #f2f2f2;
     text-align: center;

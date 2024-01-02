@@ -1,0 +1,19 @@
+.graph_container{
+  margin: auto;
+  width: 60%;
+  background-color: #dedede;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.tooltip {
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ddd;
+        padding: 10px;
+        opacity: 0;
+    }
+.width .height{
+    margin:auto;
+
+}

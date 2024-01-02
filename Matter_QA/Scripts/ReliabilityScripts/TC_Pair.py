@@ -14,7 +14,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 #
-
+import datetime
 import logging
 import os
 import sys
@@ -38,22 +38,51 @@ class TC_Pair_1(MatterQABaseTestCaseClass):
         logging.info("Entering the test function")
         iterations = int(self.test_config_dict["general_configs"]["iteration_number"])
         self.dut.factory_reset_dut(stop_reset=False)
+        self.test_result.update({"Failed_iteration_details": {}})
+        pairing_duration_info = {}
         for i in range(1, iterations + 1):
+            logging.info("Started Iteration sequence {}".format(i))
+            fail_reason = None
             self.test_config_dict["current_iteration"] = i
             self.start_iteration_logging(i, None)
+            start_time = datetime.datetime.now()
             try:
                 iter_result = self.commission_device(
                     kwargs={"timeout": self.test_config_dict["general_configs"]["dut_connection_timeout"]})
-            except CommissionTimeoutError as e:
-                logging.error(e)
-                iter_result = False
-            if iter_result:
+            except Exception as e:
+                logging.error(f'test_tc_pair_unpair: {e}')
+                fail_reason = str(e)
+                iter_result = [False, fail_reason]
+            if iter_result[0]:
                 logging.info('Device has been Commissioned starting pair-unpair operation')
                 time.sleep(2)
-                self.unpair_dut()
+                unpair_res = self.unpair_dut()
+                if unpair_res.get("stats") is False:
+                    end_time = datetime.datetime.now()
+                    total_pairing_time = round((end_time - start_time).total_seconds(), 4)
+                    fail_reason = unpair_res.get("failed_reason")
+                    pairing_duration_info.update({str(i): total_pairing_time})
+                    self.test_result["Failed_iteration_details"].update({str(i): fail_reason})
+                    self.test_result["Fail Count"]["Iteration"].append(i)
+                    logging.error(f'iteration {i} is failed due to {fail_reason}')
+                    self.test_result["Fail Count"]["Count"] += 1
+                    if not self.test_config_dict["general_configs"]["execution_mode_full"]:
+                        logging.info(
+                            'Full Execution mode is disabled \n The iteration {} number has failed hence the '
+                            'execution will stop here'.format(i))
+                        self.dut.factory_reset_dut(stop_reset=True)
+                        break
+                    continue
+                end_time = datetime.datetime.now()
+                total_pairing_time = round((end_time - start_time).total_seconds(), 4)
+                pairing_duration_info.update({str(i): total_pairing_time})
                 logging.info(f'iteration {i} is passed and unpairing the device is successful')
                 self.test_result["Pass Count"] += 1
             else:
+                end_time = datetime.datetime.now()
+                total_pairing_time = round((end_time - start_time).total_seconds(), 4)
+                pairing_duration_info.update({str(i): total_pairing_time})
+                self.test_result["Failed_iteration_details"].update({str(i): iter_result[1]})
                 self.test_result["Fail Count"]["Iteration"].append(i)
                 logging.error(f'iteration {i} is failed')
                 self.test_result["Fail Count"]["Count"] += 1
@@ -63,14 +92,15 @@ class TC_Pair_1(MatterQABaseTestCaseClass):
                         'execution will stop here'.format(i))
                     self.dut.factory_reset_dut(stop_reset=True)
                     break
-            logging.info("Started Iteration sequence {}".format(i))
             if i == iterations:
                 self.dut.factory_reset_dut(stop_reset=True)
             else:
                 self.dut.factory_reset_dut(stop_reset=False)
             self.stop_iteration_logging(i, None)
             logging.info('completed pair and unpair sequence for {}'.format(i))
+        self.test_result.update({"pairing_duration_info": pairing_duration_info})
         summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict)
+
 
 if __name__ == "__main__":
     test_start()

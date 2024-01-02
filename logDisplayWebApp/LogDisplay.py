@@ -8,7 +8,7 @@ from itertools import islice
 from pathlib import Path
 
 import uvicorn
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, BackgroundTasks
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.cors import CORSMiddleware
@@ -30,17 +30,16 @@ app.mount("/static", StaticFiles(directory=os.path.join(str(project_dir), "stati
 
 config = utils.config_reader()
 
-table_data = [
-    {"name": f"User {i}", "age": 30 + i, "city": f"City {i}"} for i in range(1, 101)
-]
-
 
 @app.get("/home")
 def home_page(request: Request):
     try:
         log_dir = config["logs_path"]
-        if not os.path.exists(log_dir):
-            error_page = utils.html_error.replace("error_message", "Log Folders path does not exist check config")
+        if not os.path.exists(log_dir) or \
+                not os.path.exists(config["python_environment"]) or \
+                not os.path.exists(config["script_path"]):
+            error_page = utils.html_error.replace("error_message", "one or more Folder paths does not exist check "
+                                                                   "config file")
             return HTMLResponse(content=error_page, status_code=200, )
         dirs = os.listdir(log_dir)
         dir_details = utils.get_directory_info(dirs_list=dirs, log_dir=log_dir)
@@ -170,6 +169,50 @@ async def dut_logs_find(request: Request, dir_path: str, dir_name: str, flag: st
     else:
         file = os.path.join(full_path, files[0]["file_name"])
         return StreamingResponse(file_serve(file), media_type="text/plain")
+
+
+@app.get('/loadGraphTemplate')
+def load_graph_template(request: Request, dir_path: str):
+    dirs_list = os.listdir(dir_path)
+    if "summary.json" not in dirs_list:
+        return HTMLResponse(content=utils.html_error.replace("error_message",
+                                                             "This folder does not contain logs choose other folders"),
+                            status_code=200)
+    fp = open(os.path.join(dir_path, "summary.json"), "r")
+    summary = json.load(fp)
+    fp.close()
+    return templates.TemplateResponse("lineChart.html", {"request": request, "summary_json": summary})
+
+
+@app.get("/scriptExecution")
+def render_script_execution_page(request: Request):
+    script_path = config["script_path"]
+    script_names = os.listdir(script_path)
+    script_names = [python_file for python_file in script_names if ".py" in python_file]
+    return templates.TemplateResponse("testScriptDisplay.html",
+                                      {"request": request,
+                                       "script_names": script_names,
+                                       "script_path": script_path,
+                                       "script_exe_details": utils.script_executions_stats})
+
+
+@app.post("/execute_script")
+def start_script(script_execution_details: dict, background_tasks: BackgroundTasks):
+    try:
+        script_name = script_execution_details["script_name"]
+        script_path = script_execution_details["script_path"]
+        arguments = script_execution_details["arguments"].replace(" ", ":-:")
+        if script_name in utils.script_executions_stats.keys():
+            return {"success": True, "message": f"The execution {script_name} script has been started already !!!!!"}
+        background_tasks.add_task(utils.execute_bash_script, script_name=script_name,
+                                  script_path=script_path,
+                                  arguments=arguments,
+                                  python_env=config["python_environment"])
+        return {"success": True, "message": "Script Execution has Started"}
+    except Exception as e:
+        logging.error(e)
+        return {"success": True, "message": str(e)}
+
 
 app.add_middleware(
     CORSMiddleware,

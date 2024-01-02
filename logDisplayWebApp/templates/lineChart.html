@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="{{url_for('static',path='d3_js/d3.v7.min.js')}}"></script>
+
+    <script defer type="text/javascript" src="{{ url_for('static', path='lineChartScript.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', path='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='linechart.css') }}">
+    <script defer id="data" type="application/json">{{summary_json | tojson}}</script>
+
+
+</head>
+<body>
+    <div class="graph_container">
+        <div id="container">
+        <p id="zoomLevel">Zoom Level: 1</p>
+        </div>
+    </div>
+    <div id="zoom-div" class="btn-group">
+        <button type="button" class="btn btn-primary" onclick="zoom_refactor()">Zoom Refactor</button> <input type="number"  id="zoom-refactor">
+    </div>
+    <div id="width-div" class="">
+        <button class="btn btn-primary" onclick="increaseWidth()">Increase Width By</button><input type="number" id="incr-width">
+        <button class="btn btn-primary" onclick="decreaseWidth()">Decrease Width BY</button><input type="number" id="decr-width">
+    </div>
+    <div id="height">
+        <button class="btn btn-primary" onclick="increaseHeight()">Increase Height By</button><input type="number" id="incr-height">
+        <button class="btn btn-primary" onclick="decreaseHeight()">Decrease Height By</button><input type="number" id="decr-height">
+    </div>
+
+</body>
+</html>

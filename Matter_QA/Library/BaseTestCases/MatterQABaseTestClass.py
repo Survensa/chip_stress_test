@@ -5,6 +5,7 @@ import secrets
 import sys
 import time
 import traceback
+from typing import Any, Tuple
 
 import yaml
 from chip import ChipDeviceCtrl
@@ -48,16 +49,14 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 logging.info("Starting commissioning for root index %d, fabric ID 0x%016X, node ID 0x%016X" %
                              (conf.root_of_trust_index, conf.fabric_id, node_id))
                 logging.info("Commissioning method: %s" % conf.commissioning_method)
-                if not self._commission_device(commission_idx):
-                    return False
-                else:
-                    return True
+                commission_response = self._commission_device(commission_idx)
+                return commission_response
             except Exception as e:
                 logging.error(e)
                 traceback.print_exc()
-                return False
+                return [False, str(e)]
 
-    def _commission_device(self, i) -> bool:
+    def _commission_device(self, i):
         try:
             dev_ctrl = self.default_controller
             conf = self.matter_test_config
@@ -67,47 +66,53 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             # TODO: support by manual code and QR
 
             if conf.commissioning_method == "on-network":
-                return dev_ctrl.CommissionOnNetwork(
+                return [dev_ctrl.CommissionOnNetwork(
                     nodeId=conf.dut_node_ids[i],
                     setupPinCode=conf.setup_passcodes[i],
                     filterType=DiscoveryFilterType.LONG_DISCRIMINATOR,
                     filter=conf.discriminators[i]
-                )
+                )]
             elif conf.commissioning_method == "ble-wifi":
-                return dev_ctrl.CommissionWiFi(
+                return [dev_ctrl.CommissionWiFi(
                     conf.discriminators[i],
                     conf.setup_passcodes[i],
                     conf.dut_node_ids[i],
                     conf.wifi_ssid,
                     conf.wifi_passphrase
-                )
+                )]
             elif conf.commissioning_method == "ble-thread":
-                return dev_ctrl.CommissionThread(
+                return [dev_ctrl.CommissionThread(
                     conf.discriminators[i],
                     conf.setup_passcodes[i],
                     conf.dut_node_ids[i],
                     conf.thread_operational_dataset
-                )
+                )]
             elif conf.commissioning_method == "on-network-ip":
                 logging.warning("==== USING A DIRECT IP COMMISSIONING METHOD NOT SUPPORTED IN THE LONG TERM ====")
-                return dev_ctrl.CommissionIP(
+                return [dev_ctrl.CommissionIP(
                     ipaddr=conf.commissionee_ip_address_just_for_testing,
                     setupPinCode=conf.setup_passcodes[i], nodeid=conf.dut_node_ids[i]
-                )
+                )]
             else:
                 logging.error("Invalid commissioning method %s!" % conf.commissioning_method)
                 raise ValueError("Invalid commissioning method %s!" % conf.commissioning_method)
         except Exception as e:
+            logging.error(f"MatterQABaseTestCaseClass.py:_commission_device: {e}")
+            traceback.print_exc()
+            return [False, str(e)]
+
+    def unpair_dut(self) -> dict:
+        try:
+            self.th1 = self.default_controller
+            self.th1.UnpairDevice(self.dut_node_id)
+            time.sleep(3)
+            self.th1.ExpireSessions(self.dut_node_id)
+            time.sleep(3)
+            return {"stats": True}
+        except Exception as e:
             logging.error(e)
             traceback.print_exc()
-            return False
-
-    def unpair_dut(self):
-        self.th1 = self.default_controller
-        self.th1.UnpairDevice(self.dut_node_id)
-        time.sleep(3)
-        self.th1.ExpireSessions(self.dut_node_id)
-        time.sleep(3)
+            return {"stats": False, "failed_reason": str(e)}
 
     def start_iteration_logging(self, iteration_count, dut):
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -182,5 +187,3 @@ def test_start():
     except Exception as e:
         logging.error(e)
         traceback.print_exc()
-
-

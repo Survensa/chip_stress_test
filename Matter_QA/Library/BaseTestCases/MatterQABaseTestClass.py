@@ -5,6 +5,7 @@ import secrets
 import sys
 import time
 import traceback
+import chip.clusters as Clusters
 from typing import Any, Tuple
 
 import yaml
@@ -63,8 +64,6 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             random_nodeid = secrets.randbelow(2 ** 32)
             conf.dut_node_ids = [random_nodeid]
             DiscoveryFilterType = ChipDeviceCtrl.DiscoveryFilterType
-            # TODO: support by manual code and QR
-
             if conf.commissioning_method == "on-network":
                 return [dev_ctrl.CommissionOnNetwork(
                     nodeId=conf.dut_node_ids[i],
@@ -113,6 +112,29 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             logging.error(e)
             traceback.print_exc()
             return {"stats": False, "failed_reason": str(e)}
+
+    async def on_off_dut(self):
+        try:
+            clusters = Clusters.Objects.OnOff
+            on_off_stats = await self.read_single_attribute_check_success(cluster=clusters,
+                                                                          attribute=Clusters.OnOff.Attributes.OnOff,
+                                                                          endpoint=1)
+            logging.info(f"The cluster's current condition is {'ON' if on_off_stats else 'OFF'}")
+            await self.default_controller.SendCommand(nodeid=self.dut_node_id, endpoint=1,
+                                                      payload=Clusters.OnOff.Commands.On())
+            on_off_stats = await self.read_single_attribute_check_success(cluster=clusters,
+                                                                          attribute=Clusters.OnOff.Attributes.OnOff,
+                                                                          endpoint=1)
+            logging.info(f"After sending 'On' command state is  {'ON' if on_off_stats else 'OFF'}")
+            await self.default_controller.SendCommand(nodeid=self.dut_node_id, endpoint=1,
+                                                      payload=Clusters.OnOff.Commands.Off())
+            on_off_stats = await self.read_single_attribute_check_success(cluster=clusters,
+                                                                          attribute=Clusters.OnOff.Attributes.OnOff,
+                                                                          endpoint=1)
+            logging.info(f"After sending 'Off' command state is  {'ON' if on_off_stats else 'OFF'}")
+        except Exception as e:
+            logging.error(e)
+            traceback.print_exc()
 
     def start_iteration_logging(self, iteration_count, dut):
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")

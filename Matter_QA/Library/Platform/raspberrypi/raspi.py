@@ -39,7 +39,7 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                              connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
             print("ssh is success")
             # Executing the  'ps aux | grep process_name' command to find the PID value to kill
-            command = f"ps aux | grep {self.test_config['app_config']['matter_app']}"
+            command = f'ps aux | grep "{self.test_config["app_config"]["matter_app"]}"'
             pid_val = ssh.run(command, hide=True)
             pid_output = pid_val.stdout
             pid_lines = pid_output.split('\n')
@@ -78,7 +78,7 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                              connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
             path = self.test_config["app_config"]["matter_app_path"]
             ssh.run('rm -rf /tmp/chip_*')
-            command = f"ps aux | grep {self.test_config['app_config']['matter_app']}"
+            command = f'ps aux | grep "{self.test_config["app_config"]["matter_app"]}"'
             pid_val = ssh.run(command, hide=True)
             pid_output = pid_val.stdout
             pid_lines = pid_output.split('\n')

@@ -51,7 +51,10 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                              (conf.root_of_trust_index, conf.fabric_id, node_id))
                 logging.info("Commissioning method: %s" % conf.commissioning_method)
                 commission_response = self._commission_device(commission_idx)
-                return commission_response
+                if commission_response[0]:
+                    return commission_response
+                else:
+                    return [False, str(commission_response[0])]
             except Exception as e:
                 logging.error(e)
                 traceback.print_exc()

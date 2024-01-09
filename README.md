@@ -1,10 +1,32 @@
 # Project Setup
+First step in to get the python environment ready. We can follow these steps
 
-To run Either the LOG Display web app or Matter_QA scripts we need to run setup.py to install a few libraries for that run ```python setup.py install``` 
+Clone the Repo; build the matter environment; activate the environment; finally build the python environment; using the commands below
 
-### Example command to run TC_Pair.py
+```
+git clone  https://github.com/project-chip/connectedhomeip.git
 
-## Raspberrypi 
+cd connectedhomeip
+
+source scripts/bootstrap.sh
+
+source scripts/activate.sh
+
+scripts/build_python.sh -m platform -d true -i <name_of_python_environment>
+```
+After the environment setup is completed  place the contents from root of this project to the path of ```<path_to_cloned_repo>/connectedhomeip/src/python_testing``` and navigate to this path
+
+To run Either the LOG Display web app or Matter_QA scripts we need to run setup.py to install a few libraries for that run 
+
+```python setup.py install``` 
+
+The reliability scripts will be present in the path ```<path_to_cloned_repo>/connectedhomeip/src/python_testing/Matter_QA/Scripts/ReliabilityScripts```
+
+In order to run each script we need to use configurations which are in detailed in a file and present in the path ```<path_to_cloned_repo>/connectedhomeip/src/python_testing/Matter_QA/Config/configFile.yaml```
+
+## Example command to run TC_Pair.py
+
+### Raspberrypi 
 
 when the command below is run the config file from project is read and inputs are taken from that file.
 
@@ -15,7 +37,7 @@ If we run the code using the argument '--yaml-file' then we have to provide the 
 ```python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --yaml-file /home/user/config.yaml```
 
 
-## Nordic Thread
+### Nordic Thread
 ```python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --ble-interface-id 0  --thread-dataset-hex 0e080000000000010000000300001035060004001fffe0020812611111227222220708fd97e1eb459cbbf3051000112433428566778899aabbccddeeff030f4f70656e54687265616444656d6f63010212320410b775feb5fc41b965747da30c8f76bda30c0402a0f7f8```
 ### About Test Script 'TC_Pair.py'
 The scripts in the repo are used to pair and unpair with DUT several number of times. Currently the script assumes two simulated modes of DUT.The first type is raspberrpi device acting as DUT using the all-clusters-app and the second one is using the nRf52840-DK development thread board.
@@ -46,10 +68,10 @@ the user can choose to view iteration logs and dut logs in the browser by clicki
 ![Alt Text](images/readme/log_page.png)
 
 ### Execution steps 
-Edit the config file present in the logDisplayWebApp/config/config.yaml with desired configs.
+Edit the config file present in the ```<path_to_cloned_repo>/connectedhomeip/src/python_testing/logDisplayWebApp/config/config.yaml``` with desired configs.
 make sure to give correct path to the log folder in config file, which is nothing but the log folder path given to the Matter_QA script
 
-To run the application we need to run the command 
+To run the application we need navigate to path ```<path_to_cloned_repo>/connectedhomeip/src/python_testing/logDisplayWebApp``` and run the command 
 
 ```python LogDisplay.py```
 

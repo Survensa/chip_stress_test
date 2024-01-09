@@ -103,5 +103,5 @@ class TC_ON_Off(MatterQABaseTestCaseClass):
 
 
 if __name__ == "__main__":
-    test_start()
+    test_start(TC_ON_Off.__name__)
     default_matter_test_main(testclass=TC_ON_Off)

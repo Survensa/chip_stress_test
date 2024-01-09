@@ -53,6 +53,17 @@ def home_page(request: Request):
         return HTMLResponse(content=utils.html_error.replace("error_message", "Internal server error"), status_code=500)
 
 
+@app.get("/home/test_cases_index")
+def test_case_executed(request: Request, dir_path: str):
+    dirs = os.listdir(dir_path)
+    dir_details = utils.get_directory_info(dirs_list=dirs, log_dir=dir_path)
+    return templates.TemplateResponse("test_cases_index.html", context={
+        "request": request,
+        "dir_list": dir_details,
+        "log_dir": dir_path
+    })
+
+
 @app.get("/home/displayLogFolder")
 def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size: int = 10,
                        filters: str = "all"):

@@ -188,7 +188,7 @@ def add_args_commissioning_method(commissioning_method):
         sys.argv = copy_argv
 
 
-def test_start():
+def test_start(test_class_name):
     try:
         global dut_objects_list
         dict_args = convert_args_dict(sys.argv[1:])
@@ -197,15 +197,21 @@ def test_start():
             test_config_dict = yaml_config_reader(dict_args)
         else:
             test_config_dict = default_config_reader(dict_args)
+        test_config_dict.update({"test_class_name": test_class_name})
         MatterQABaseTestCaseClass.test_config_dict = test_config_dict
         print(test_config_dict)
         general_configs = test_config_dict["general_configs"]
         log_path = general_configs["logFilePath"]
         if log_path is not None and os.path.exists(log_path):
+            log_path = os.path.join(log_path, test_config_dict["test_class_name"])
             log_path_add_args(log_path)
+            general_configs["logFilePath"] = log_path
         else:
-            log_path_add_args(path=os.getcwd())
-            general_configs["logFilePath"] = os.getcwd()
+            log_path = os.path.join(os.getcwd(), test_config_dict["test_class_name"])
+            log_path_add_args(path=log_path)
+            general_configs["logFilePath"] = log_path
+        if not os.path.exists(general_configs["logFilePath"]):
+            os.mkdir(log_path)
         test_config_dict = log_info_init(test_config_dict)  # updating config dict with iter_log_dir and current_iter
         add_args_commissioning_method(general_configs["commissioning_method"])
         dut_object_loader(test_config_dict, dut_objects_list)

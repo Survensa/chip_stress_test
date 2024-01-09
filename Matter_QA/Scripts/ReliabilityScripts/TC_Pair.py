@@ -27,7 +27,7 @@ from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import MatterQABaseTe
 from Matter_QA.Library.HelperLibs.matter_testing_support import async_test_body, default_matter_test_main
 
 
-class TC_Pair_1(MatterQABaseTestCaseClass):
+class TC_Pair(MatterQABaseTestCaseClass):
     def __init__(self, *args):
         super().__init__(*args)
         print("Inside TC_Pair_1 init func")
@@ -103,5 +103,5 @@ class TC_Pair_1(MatterQABaseTestCaseClass):
 
 
 if __name__ == "__main__":
-    test_start()
-    default_matter_test_main(testclass=TC_Pair_1)
+    test_start(TC_Pair.__name__)
+    default_matter_test_main(testclass=TC_Pair)

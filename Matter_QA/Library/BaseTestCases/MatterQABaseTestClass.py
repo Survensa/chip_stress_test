@@ -16,8 +16,6 @@ from Matter_QA.Library.HelperLibs.utils import (timer, convert_args_dict, dut_ob
                                                 default_config_reader)
 
 dut_objects_list = []
-
-
 class MatterQABaseTestCaseClass(MatterBaseTest):
     test_config_dict = {}
 

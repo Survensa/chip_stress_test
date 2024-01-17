@@ -9,7 +9,8 @@ from fabric import Connection
 from invoke import UnexpectedExit
 from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
 rpi_count = 1
-
+logging.basicConfig(level=logging.INFO, handlers=[logging.StreamHandler()])
+logger = logging.getLogger(__name__)
 
 class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
     count = 0
@@ -27,17 +28,16 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
             ssh.run(reboot_command)
             return True
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
             traceback.print_exc()
             return True
 
     def factory_reset_dut(self, stop_reset):
         try:
-            logging.info("Starting to Reset the DUT")
+            logger.info("Starting to Reset the DUT")
             ssh = Connection(host=self.test_config["rpi_config"]["rpi_hostname"],
                              user=self.test_config["rpi_config"]["rpi_username"],
                              connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
-            print("ssh is success")
             # Executing the  'ps aux | grep process_name' command to find the PID value to kill
             command = f'ps aux | grep "{self.test_config["app_config"]["matter_app"]}"'
             pid_val = ssh.run(command, hide=True)
@@ -49,16 +49,16 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                         pid = line.split()[1]
                         conformance = line.split()[7]
                         if conformance == 'Ssl':
-                            logging.info("About to Terminate the application")
-                            logging.info("displaying the pid and process to terminate {}".format(line))
+                            logger.info("About to Terminate the application")
+                            logger.info("displaying the pid and process to terminate {}".format(line))
                             kill_command = f"kill {pid}"
                             ssh.run(kill_command)
                 except Exception as e:
-                    logging.error(e)
+                    logger.error(e)
                     traceback.print_exc()
                     return True
 
-            logging.info("Example App has been closed")
+            logger.info("Example App has been closed")
 
             ssh.close()
 
@@ -68,15 +68,14 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
 
             time.sleep(10)
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
 
     def start_matter_app(self):
         try:
-            logging.info("Starting The Matter application")
+            logger.info("Starting The Matter application")
             ssh = Connection(host=self.test_config["rpi_config"]["rpi_hostname"],
                              user=self.test_config["rpi_config"]["rpi_username"],
                              connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
-            path = self.test_config["app_config"]["matter_app_path"]
             ssh.run('rm -rf /tmp/chip_*')
             command = f'ps aux | grep "{self.test_config["app_config"]["matter_app"]}"'
             pid_val = ssh.run(command, hide=True)
@@ -93,18 +92,18 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                             kill_command = f"kill {pid}"
                             ssh.run(kill_command)
                 except UnexpectedExit as e:
-                    logging.error(e)
+                    logger.error(e)
                     traceback.print_exc()
                     if e.result.exited == -1:
                         pass
                     else:
                         raise
-            log = ssh.run('cd ' + path + ' && ' + self.test_config['app_config']['matter_app'], warn=True, hide=True,
+            log = ssh.run(self.test_config['app_config']['matter_app'], warn=True, hide=True,
                           pty=False)
             self.start_logging(log)
             ssh.close()
         except UnexpectedExit as e:
-            logging.error(e)
+            logger.error(e)
             traceback.print_exc()
             if e.result.exited == -1:
                 pass
@@ -132,7 +131,7 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
             rpi_count += 1
             return True
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
             traceback.print_exc()
 
     def stop_logging(self):

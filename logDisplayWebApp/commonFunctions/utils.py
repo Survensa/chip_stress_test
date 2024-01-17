@@ -76,6 +76,7 @@ def get_directory_info(dirs_list: list, log_dir: str) -> list:
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
+    folder_details_list = sorted(folder_details_list, key=lambda it: dt.datetime.fromisoformat(it["dir_last_modified"]))
     return folder_details_list
 
 

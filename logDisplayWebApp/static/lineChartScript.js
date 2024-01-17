@@ -19,7 +19,7 @@ const x = d3.scaleLinear()
     .range([margin.left, width - margin.right]);
 
 const y = d3.scaleLinear()
-    .domain([0, 60])
+    .domain([0, Math.max(...values)+10])
     .range([height - margin.bottom, margin.top]);
 
 const line = d3.line()

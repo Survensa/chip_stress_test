@@ -68,51 +68,86 @@ def test_case_executed(request: Request, dir_path: str):
 def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size: int = 10,
                        filters: str = "all"):
     dirs_list = os.listdir(dir_path)
-    if "summary.json" not in dirs_list:
-        return HTMLResponse(content=utils.html_error.replace("error_message",
-                                                             "This folder does not contain logs choose other folders"),
-                            status_code=200)
-    fp = open(os.path.join(dir_path, "summary.json"), "r")
-    summary = json.load(fp)
-    fp.close()
-    dir_details = utils.get_directory_info(dirs_list, log_dir=dir_path)
-    filtered_data = []
-    for row in dir_details:
-        if row["dir_name"].isnumeric:
-            if int(row["dir_name"]) not in summary["Fail Count"]["Iteration"]:  # pass condition
-                row.update({"iteration_result": "PASS"})
-            else:  # fail condition
-                row.update({"iteration_result": "FAIL"})
-        if filters == "pass" and row["iteration_result"] == "PASS":
-            filtered_data.append(row)
-        elif filters == "fail" and row["iteration_result"] == "FAIL":
-            filtered_data.append(row)
-        elif filters == "all":
-            filtered_data.append(row)
+    if "summary.json" in dirs_list:
+        fp = open(os.path.join(dir_path, "summary.json"), "r")
+        summary = json.load(fp)
+        fp.close()
+        dir_details = utils.get_directory_info(dirs_list, log_dir=dir_path)
+        filtered_data = []
+        for row in dir_details:
+            if row["dir_name"].isnumeric:
+                if int(row["dir_name"]) not in summary["Fail Count"]["Iteration"]:  # pass condition
+                    row.update({"iteration_result": "PASS"})
+                else:  # fail condition
+                    row.update({"iteration_result": "FAIL"})
+            if filters == "pass" and row["iteration_result"] == "PASS":
+                filtered_data.append(row)
+            elif filters == "fail" and row["iteration_result"] == "FAIL":
+                filtered_data.append(row)
+            elif filters == "all":
+                filtered_data.append(row)
+            # Paginate the data
+        start_index = (page - 1) * page_size
+        end_index = start_index + page_size
+        paginated_data = list(islice(filtered_data, start_index, end_index))
+        # Calculate total pages
+        total_pages = (len(filtered_data) + page_size - 1) // page_size
 
-    # Paginate the data
-    filtered_data = sorted(filtered_data, key=lambda it: it["dir_last_modified"])
-    start_index = (page - 1) * page_size
-    end_index = start_index + page_size
-    paginated_data = list(islice(filtered_data, start_index, end_index))
+        # Render the Jinja2 template with the paginated and filtered data
+        return templates.TemplateResponse(
+                "iterAndDutLogs.html",
+                {
+                    "request": request,
+                    "table_data": paginated_data,
+                    "current_page": page,
+                    "total_pages": total_pages,
+                    "current_page_size": page_size,
+                    "current_filter": filters,
+                    "dir_path": dir_path,
+                    "summary": summary
+                },
+            )
+    else:
+        dir_details = utils.get_directory_info(dirs_list, log_dir=dir_path)
+        filtered_data = dir_details.copy()
+        # Paginate the data
+        start_index = (page - 1) * page_size
+        end_index = start_index + page_size
+        paginated_data = list(islice(filtered_data, start_index, end_index))
+        # Calculate total pages
+        total_pages = (len(filtered_data) + page_size - 1) // page_size
+        summary = {
+                  "Pass Count": "NA",
+                  "Fail Count": {
+                    "Count": "NA",
+                    "Iteration": "NA"
+                  },
+                  "Error Count": "NA",
+                  "Failed_iteration_details": "NA",
+                  "pairing_duration_info": {
+                  },
+                  "platform": "NA",
+                  "number_of_iterations": "NA",
+                  "commissioning_method": "NA",
+                  "execution_mode": "NA"
+                }
+        # Render the Jinja2 template with the paginated and filtered data
+        return templates.TemplateResponse(
+            "iterAndDutLogs.html",
+            {
+                "request": request,
+                "table_data": paginated_data,
+                "current_page": page,
+                "total_pages": total_pages,
+                "current_page_size": page_size,
+                "current_filter": filters,
+                "dir_path": dir_path,
+                "summary": summary
+            },
+        )
 
-    # Calculate total pages
-    total_pages = (len(filtered_data) + page_size - 1) // page_size
 
-    # Render the Jinja2 template with the paginated and filtered data
-    return templates.TemplateResponse(
-        "iterAndDutLogs.html",
-        {
-            "request": request,
-            "table_data": paginated_data,
-            "current_page": page,
-            "total_pages": total_pages,
-            "current_page_size": page_size,
-            "current_filter": filters,
-            "dir_path": dir_path,
-            "summary": summary
-        },
-    )
+
 
 
 @app.get("/logFileOperations")

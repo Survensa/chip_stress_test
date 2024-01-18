@@ -77,7 +77,10 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
         for row in dir_details:
             if row["dir_name"].isnumeric:
                 if int(row["dir_name"]) not in summary["Fail Count"]["Iteration"]:  # pass condition
-                    row.update({"iteration_result": "PASS"})
+                    if int(row["dir_name"]) <= summary["number_of_iterations"]:
+                        row.update({"iteration_result": "PASS"})
+                    else:
+                        row.update({"iteration_result": "In-Progress"})
                 else:  # fail condition
                     row.update({"iteration_result": "FAIL"})
             if filters == "pass" and row["iteration_result"] == "PASS":

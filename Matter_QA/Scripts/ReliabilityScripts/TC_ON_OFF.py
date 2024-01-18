@@ -39,6 +39,7 @@ class TC_ON_Off(MatterQABaseTestCaseClass):
         iterations = int(self.test_config_dict["general_configs"]["iteration_number"])
         self.dut.factory_reset_dut(stop_reset=False)
         self.test_result.update({"Failed_iteration_details": {}})
+        self.test_result.update({"analytics": {}})
         pairing_duration_info = {}
         for i in range(1, iterations + 1):
             logging.info("Started Iteration sequence {}".format(i))
@@ -70,6 +71,9 @@ class TC_ON_Off(MatterQABaseTestCaseClass):
                         logging.info(
                             'Full Execution mode is disabled \n The iteration {} number has failed hence the '
                             'execution will stop here'.format(i))
+                        self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
+                        summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
+                                    completed=True)
                         self.dut.factory_reset_dut(stop_reset=True)
                         break
                     continue
@@ -90,6 +94,8 @@ class TC_ON_Off(MatterQABaseTestCaseClass):
                     logging.info(
                         'Full Execution mode is disabled \n The iteration {} number has failed hence the '
                         'execution will stop here'.format(i))
+                    self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
+                    summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict, completed=True)
                     self.dut.factory_reset_dut(stop_reset=True)
                     break
             if i == iterations:
@@ -97,9 +103,11 @@ class TC_ON_Off(MatterQABaseTestCaseClass):
             else:
                 self.dut.factory_reset_dut(stop_reset=False)
             self.stop_iteration_logging(i, None)
+            self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
+            summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict, completed=False)
             logging.info('completed pair and unpair sequence for {}'.format(i))
-        self.test_result.update({"pairing_duration_info": pairing_duration_info})
-        summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict)
+        self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
+        summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict, completed=True)
 
 
 if __name__ == "__main__":

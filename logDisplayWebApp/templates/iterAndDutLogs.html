@@ -82,7 +82,10 @@
                 <th>Test Result</th>
                 <th>Time of Execution</th>
                 <th>Error Reason</th>
-                <th>Pairing Duration</th>
+                {% for analytic_para in summary["analytics"] %}
+                    <th>{{analytic_para.upper()}}</th>
+                {% endfor %}
+
                 <th>Logs</th>
             </tr>
         </thead>
@@ -93,7 +96,9 @@
                     <td>{{ row.iteration_result }}</td>
                     <td>{{ row.dir_last_modified }}</td>
                     <td>{{ 'Not Applicable' if row.iteration_result == 'PASS' else summary["Failed_iteration_details"][row.dir_name] }}</td>
-                    <td>{{summary["pairing_duration_info"][row.dir_name]}}</td>
+                    {% for analytic_para in summary["analytics"] %}
+                    <td>{{summary["analytics"][analytic_para][row.dir_name]}}</td>
+                    {% endfor %}
                     <td><button onclick="dutLogsDisplay('{{dir_path}}','{{row.dir_name}}','iter')" class="btn btn-primary">Iteration Logs</button>
                         <button onclick="dutLogsDisplay('{{dir_path}}','{{row.dir_name}}','dut')" class="btn btn-secondary">DUT Logs</button>
                     </td>

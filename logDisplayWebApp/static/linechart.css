@@ -1,7 +1,7 @@
 .graph_container{
   margin: auto;
   width: 60%;
-  background-color: #dedede;
+  background-color: #d3d2d2;
   padding: 10px;
   overflow: hidden;
 }
@@ -16,4 +16,71 @@
 .width .height{
     margin:auto;
 
+}
+.main_container {
+  width: 100%;
+  text-align: center;
+}
+
+#container{
+  overflow: hidden;
+
+}
+/* Styling for each div */
+.box1 {
+  display: inline-block; /* or use 'float: left;' */
+  width: 80%; /* Adjust the width as needed */
+  margin: 10px;
+  box-sizing: border-box;
+}
+.box2 {
+  display: inline-block; /* or use 'float: left;' */
+  width: 15%; /*Adjust the width as needed*/
+  margin: 10px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+/* Styling for labels */
+label {
+  display: block; 
+  margin-bottom: 5px;
+}
+#div1 {
+  display: inline-block;
+  vertical-align: top; /* Align to the top */
+  margin-right: 20px; /* Add some spacing between the divs */
+}
+
+/* Style for the second div with ten labels */
+#div2 {
+  display: inline-block;
+  vertical-align: top; /* Align to the top */
+  position: fixed;
+}
+
+input{
+box-sizing: border-box;
+width: 30%;
+}
+button {
+  box-sizing: border-box;
+  width: 50%; /* Set button width to 100% of the parent width */
+  padding: 10px; /* Add padding as needed */
+  font-size: 16px; /* Set font size as needed */
+}
+select{
+  width: 100%; /* Set button width to 100% of the parent width */
+  padding: 10px; /* Add padding as needed */
+  font-size: 16px
+}
+.graph_styling{
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px; /* Set the margin for spacing between div elements */
+  border: 1px solid #000000; /* Add a border around each div */
+  box-sizing: border-box;
+  padding: 10px;
+  overflow: auto;
+  background-color: #fdfcfc;
 }

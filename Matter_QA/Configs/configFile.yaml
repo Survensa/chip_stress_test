@@ -3,8 +3,7 @@ rpi_config: # these parameters are used to take ssh session to a remote host and
   rpi_username: "ubuntu"
   rpi_password: "raspberrypi"
 app_config: # these parameters are used to start the DUT application os user's choice
-  matter_app: "./chip-all-clusters-app"
-  matter_app_path: "/home/ubuntu/matter_dut/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app"
+  matter_app: "/home/ubuntu/matter_dut/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app/chip-all-clusters-app"
 
 general_configs:
   platform_execution: "rpi" #only two options supported "rpi" for raspberrypi and "CustomDUT" for user's DUT

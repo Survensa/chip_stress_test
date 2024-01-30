@@ -37,6 +37,8 @@ class TC_Pair(MatterQABaseTestCaseClass):
         self.dut = self.get_dut_object()
         logging.info("Entering the test function")
         iterations = int(self.test_config_dict["general_configs"]["iteration_number"])
+        device_info = await self.device_info()  # pulls basic cluster information this is must be present at all times
+        self.test_result.update({"device_basic_information": device_info})
         self.dut.factory_reset_dut(stop_reset=False)
         self.test_result.update({"Failed_iteration_details": {}})
         self.test_result.update({"analytics": {}})
@@ -105,7 +107,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
                 self.dut.factory_reset_dut(stop_reset=False)
             logging.info('completed pair and unpair sequence for {}'.format(i))
             self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
-            summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,completed=False)
+            summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict, completed=False)
             self.stop_iteration_logging(i, None)
         self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
         summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,

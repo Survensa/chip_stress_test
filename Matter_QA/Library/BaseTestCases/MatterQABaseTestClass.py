@@ -5,6 +5,8 @@ import secrets
 import sys
 import time
 import traceback
+import typing
+
 import chip.clusters as Clusters
 from typing import Any, Tuple
 
@@ -161,6 +163,53 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         logging.info('{} iteration completed'.format(iteration_count))
         self.logger.removeHandler(self.iteration_file_handler)
         self.iteration_file_handler.close()
+
+    async def device_info(self, node_id: int = None, dev_ctrl: ChipDeviceCtrl = None, endpoint: int = 0,
+                          user_defined_info: dict = None, include_default_info: bool = True) -> dict:
+
+        '''
+        extra_info: this parameter is optional,is used when user wants more basic info of device input must be list of
+        dictionaries having this sample input format
+        [{"info_name":Clusters.ClusterObjects.ClusterAttributeDescriptor}]
+        [{"vendor-name":Clusters.BasicInformation.Attributes.VendorName}]
+        return a dict containing Basic device info user can add more device info
+        this same information will be displayed in the UI
+        ex {"product_name":"light Bulb"} -> UI it will be displayed in Caps as "PRODUCT_NAME"
+
+        '''
+        info_dict = {}
+        if include_default_info and user_defined_info is None:  # used when user wants only default info given by this function
+            default_info_attributes = {"product name": Clusters.BasicInformation.Attributes.ProductName,
+                                       "vendor name": Clusters.BasicInformation.Attributes.VendorName,
+                                       "vendor id": Clusters.BasicInformation.Attributes.VendorID,
+                                       "hardware version": Clusters.BasicInformation.Attributes.HardwareVersionString,
+                                       "software version": Clusters.BasicInformation.Attributes.SoftwareVersionString,
+                                       "product id": Clusters.BasicInformation.Attributes.ProductID}
+        elif include_default_info:  # used when user wants default info from this function and also their own info
+            default_info_attributes = {"product name": Clusters.BasicInformation.Attributes.ProductName,
+                                       "vendor name": Clusters.BasicInformation.Attributes.VendorName,
+                                       "vendor id": Clusters.BasicInformation.Attributes.VendorID,
+                                       "hardware version": Clusters.BasicInformation.Attributes.HardwareVersionString,
+                                       "software version": Clusters.BasicInformation.Attributes.SoftwareVersionString,
+                                       "product id": Clusters.BasicInformation.Attributes.ProductID}
+            default_info_attributes.update(user_defined_info)
+        else:  # used when user wants only their info
+            default_info_attributes = user_defined_info
+
+        if dev_ctrl is None:
+            dev_ctrl = self.default_controller
+        if node_id is None:
+            node_id = self.dut_node_id
+        for device_attr in default_info_attributes:
+            try:
+                response = await dev_ctrl.ReadAttribute(node_id, [endpoint, default_info_attributes[device_attr]])
+                attr_ret = response[endpoint][Clusters.Objects.BasicInformation][default_info_attributes[device_attr]]
+                info_dict.update({device_attr: attr_ret})
+            except Exception as e:
+                logging.error(e)
+                traceback.print_exc()
+                info_dict.update({device_attr: f"cannot fetch info because {e}"})
+        return info_dict
 
 
 def log_path_add_args(path):

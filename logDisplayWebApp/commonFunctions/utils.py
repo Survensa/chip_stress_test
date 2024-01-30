@@ -1,5 +1,6 @@
 import asyncio
 import io
+import json
 import logging
 import os
 import select
@@ -28,6 +29,8 @@ html_error = """
 
 logging.basicConfig(level=logging.INFO, handlers=[logging.StreamHandler()])
 logger = logging.getLogger(__name__)
+
+
 def config_reader():
     try:
         args = sys.argv
@@ -150,3 +153,33 @@ def execute_bash_script(script_name, script_path, arguments, python_env):
             del script_executions_stats[script_name]
     except Exception as e:
         logger.error(f"An error occurred: {e}")
+
+def summary_json_get(path,analytic):
+    try:
+        fp=open(path,"r")
+        json_data = json.load(fp)
+        fp.close()
+        analytic_data=json_data["analytics"].pop(analytic)
+        json_data["analytics"]={analytic:analytic_data}
+        return json_data
+        pass
+    except Exception as e:
+        logger.error(e)
+        return "no data"
+
+def summary_json_find(path):
+    scripts = os.listdir(path)
+    final_data = {}
+    for script in scripts:
+        final_data.update({script: []})
+    for script in scripts:
+        for iterations in os.listdir(os.path.join(path, script)):
+            if "summary.json" in os.listdir(os.path.join(path, script, iterations)):
+                json_path = os.path.join(path, script, iterations, "summary.json")
+                fp = open(json_path, "r")
+                json_data = json.load(fp)
+                fp.close()
+                analytics_parameters = list(json_data.get("analytics").keys())
+                final_data[script].append(
+                    {"iteration": iterations, "full_path": json_path, "analytics": analytics_parameters,"script_name":script})
+    return final_data

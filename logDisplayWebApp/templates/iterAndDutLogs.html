@@ -16,13 +16,33 @@
     <!-- Table to display data -->
     <center>
         <h1>Summary of Executions</h1>
-        <table class="summary-table">
+        <div class="table-container">
+            <div id="basic-device-info" class="scrollable-table">
+                <table class="basic-info-table">
+                    <thead>
+                       <tr>
+                           <th id="basic_info_title" scope="col" colspan="2">
+                               Device Basic Information
+                           </th>
+                       </tr>
+                    </thead>
+                <tbody>
+                    {%for dev_data in summary["device_basic_information"]%}
+                        <tr>
+                            <td>{{dev_data.upper()}}</td>
+                            <td>{{ summary["device_basic_information"][dev_data] }}</td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+                </table>
+            </div>
+            <div id="summary-table" class="scrollable-table">
+                <table class="summary-table">
             <thead>
                <tr>
                    <th id="title" scope="col" colspan="2">
                        Summary Table
                    </th>
-
                </tr>
             </thead>
             <tbody>
@@ -48,6 +68,8 @@
             </tr>
             </tbody>
         </table>
+            </div>
+        </div>
         <br>
     <div class="btn-group">
     <button type="button" class="btn btn-secondary">Table Rows</button>

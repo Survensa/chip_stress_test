@@ -35,10 +35,8 @@ config = utils.config_reader()
 def home_page(request: Request):
     try:
         log_dir = config["logs_path"]
-        if not os.path.exists(log_dir) or \
-                not os.path.exists(config["python_environment"]) or \
-                not os.path.exists(config["script_path"]):
-            error_page = utils.html_error.replace("error_message", "one or more Folder paths does not exist check "
+        if not os.path.exists(log_dir):
+            error_page = utils.html_error.replace("error_message", "Logs Folder paths does not exist check "
                                                                    "config file")
             return HTMLResponse(content=error_page, status_code=200, )
         dirs = os.listdir(log_dir)
@@ -98,18 +96,18 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
 
         # Render the Jinja2 template with the paginated and filtered data
         return templates.TemplateResponse(
-                "iterAndDutLogs.html",
-                {
-                    "request": request,
-                    "table_data": paginated_data,
-                    "current_page": page,
-                    "total_pages": total_pages,
-                    "current_page_size": page_size,
-                    "current_filter": filters,
-                    "dir_path": dir_path,
-                    "summary": summary
-                },
-            )
+            "iterAndDutLogs.html",
+            {
+                "request": request,
+                "table_data": paginated_data,
+                "current_page": page,
+                "total_pages": total_pages,
+                "current_page_size": page_size,
+                "current_filter": filters,
+                "dir_path": dir_path,
+                "summary": summary
+            },
+        )
     else:
         dir_details = utils.get_directory_info(dirs_list, log_dir=dir_path)
         filtered_data = dir_details.copy()
@@ -120,20 +118,20 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
         # Calculate total pages
         total_pages = (len(filtered_data) + page_size - 1) // page_size
         summary = {
-                  "Pass Count": "NA",
-                  "Fail Count": {
-                    "Count": "NA",
-                    "Iteration": "NA"
-                  },
-                  "Error Count": "NA",
-                  "Failed_iteration_details": "NA",
-                  "pairing_duration_info": {
-                  },
-                  "platform": "NA",
-                  "number_of_iterations": "NA",
-                  "commissioning_method": "NA",
-                  "execution_mode": "NA"
-                }
+            "Pass Count": "NA",
+            "Fail Count": {
+                "Count": "NA",
+                "Iteration": "NA"
+            },
+            "Error Count": "NA",
+            "Failed_iteration_details": "NA",
+            "pairing_duration_info": {
+            },
+            "platform": "NA",
+            "number_of_iterations": "NA",
+            "commissioning_method": "NA",
+            "execution_mode": "NA"
+        }
         # Render the Jinja2 template with the paginated and filtered data
         return templates.TemplateResponse(
             "iterAndDutLogs.html",
@@ -148,9 +146,6 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
                 "summary": summary
             },
         )
-
-
-
 
 
 @app.get("/logFileOperations")
@@ -261,6 +256,27 @@ def start_script(script_execution_details: dict, background_tasks: BackgroundTas
     except Exception as e:
         logging.error(e)
         return {"success": True, "message": str(e)}
+
+
+@app.get("/compareScriptAnalytics")
+def compare_script_analytics(request: Request):
+    log_dir = config["logs_path"]
+    if not os.path.exists(log_dir):
+        error_page = utils.html_error.replace("error_message", "Logs Folder paths does not exist check "
+                                                               "config file")
+        return HTMLResponse(content=error_page, status_code=200, )
+    graph_options = utils.summary_json_find(log_dir)
+    return templates.TemplateResponse("compareScriptAnalytics.html", {
+        "request": request,
+        "test_case_details": graph_options
+    })
+
+@app.post("/compareGraphData")
+def compare_graph_data(fetch_data:dict,request:Request):
+    for graph in fetch_data["fetch_data"]:
+        summary_json=utils.summary_json_get(graph["full_path"],graph["analytics"])
+        graph.update({"summary_json":summary_json})
+    return fetch_data
 
 
 app.add_middleware(

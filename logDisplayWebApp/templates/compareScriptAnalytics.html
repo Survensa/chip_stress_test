@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compare Script Analytics</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', path='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', path='jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', path='compareGraphs.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='linechart.css') }}">
+    <script src="{{url_for('static',path='d3_js/d3.v7.min.js')}}"></script>
+    <style>
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -1px;
+        }
+    </style>
+</head>
+<body>
+{% include "navigation_bar.html" %}
+    {{test_case_details}}
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="multiLevelDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Options
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="multiLevelDropdown">
+            <!-- Level 1 -->
+            {% for test_case_detail in test_case_details %}
+            
+            <li class="dropdown-submenu">
+                <a class="dropdown-item" >
+                    <label>{{test_case_detail}}</label>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <!-- Level 2 -->
+                    {% for iteration in test_case_details[test_case_detail] %}
+                    <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">
+                            <label>{{iteration["iteration"]}}</label>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- Level 3 -->
+                            {% for parameter in iteration["analytics"] %}
+                            <li class="dropdown-item">
+                                <input type="checkbox" id={{parameter}} value='{{iteration|tojson}}' type="application/json"> <label for={{parameter}} >{{parameter.upper()}}</label>
+                            </li>
+                            {% endfor %}
+                            <!-- Level 3 end -->
+                        </ul>
+                    </li>
+                    {% endfor %}
+                    <!-- End Level 2 -->
+                </ul>
+            </li>
+            {%endfor%}
+        </ul>
+    </div>
+    <button class="btn btn-primary mt-3" onclick="printSelectedItems()">Print Selected Items</button>
+    <div  class="main_container">
+        <div id="div2" class="box2">
+            
+            <button type="button" class="btn btn-primary" onclick="zoom_refactor()">Zoom Refactor</button> <input type="number"  id="zoom-refactor">
+            <br>
+            <br>
+            <button class="btn btn-primary" onclick="increaseWidth()">Increase Width By</button><input type="number" id="incr-width">
+            <br>
+            <br>
+            <button class="btn btn-primary" onclick="decreaseWidth()">Decrease Width BY</button><input type="number" id="decr-width">
+            <br>
+            <br>
+            <button class="btn btn-primary" onclick="increaseHeight()">Increase Height By</button><input type="number" id="incr-height">
+            <br>
+            <br>
+            <button class="btn btn-primary" onclick="decreaseHeight()">Decrease Height By</button><input type="number" id="decr-height">
+            <br>
+            <br>
+            <select id="analytics_options" class="form-select">
+            </select>
+          </div>
+      <!-- First div -->
+      <div id="div1" class="box1">
+        <div class="graph_container">
+            <div id="container">
+            <p id="zoomLevel">Zoom Level: 1</p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+</html>

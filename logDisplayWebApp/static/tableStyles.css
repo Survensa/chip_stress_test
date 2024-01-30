@@ -22,12 +22,19 @@ table.data-table th, table.data-table td {
 table.data-table th {
     background-color: #f2f2f2;
 }
-table.summary-table{
-    width: 30%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
+.scrollable-table {
+       margin-top: 20px;
+      max-height: 238px; /* Adjust the maximum height as needed */
+      overflow-y: auto;
+      border: 1px solid #ccc;
+
+    }
 table.summary-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+table.basic-info-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -49,6 +56,18 @@ table.summary-table td {
     text-align: center;
     border: 1px solid #dee2e6;
 }
+#basic_info_title{
+    background-color: #f2f2f2;
+    text-align: center;
+    border: 1px solid #dee2e6;
+}
+/* Set a fixed width for each table */
+.table-container {
+      display: flex;
+      justify-content: center;
+      gap: 5%; /* Adjust the space between tables */
+}
+
 .pagination .page-link {
             background-color: #3396ff; /* Bootstrap blue color */
             border-color: #3396ff;

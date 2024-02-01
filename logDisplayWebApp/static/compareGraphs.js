@@ -8,14 +8,14 @@ async function printSelectedItems() {
 
 // Loop through the div elements and clear their contents
 divElements.forEach((div) => {
-  div.replaceChildren();
+  div.remove();
 });
     var selectedItems = [];
     // Loop through all checkboxes and check if they are selected
     $('.dropdown-item input[type="checkbox"]').each(function() {
         if ($(this).prop('checked')) {
             let selected_data=JSON.parse($(this).val())
-            let selected_parameter=$(this).next("label").text().toLowerCase()
+            let selected_parameter=$(this).attr("id")
             selected_data["analytics"]=selected_parameter
             selectedItems.push(selected_data);
         }
@@ -31,55 +31,49 @@ divElements.forEach((div) => {
     let response = await fetch("/compareGraphData",request_config)
     if (response.status==200){
         json_data=await response.json()
-        let json_data_array=json_data["fetch_data"]
-        json_data_array.forEach(analytics_data => {
-                let svg_node=svg_node_builder(analytics_data["summary_json"],analytics_data["analytics"])
+        let params=Object.keys(json_data)
+        let analtics_array=Object.values(json_data)
+        for (let i=0;i<analtics_array.length;i++){
+                let svg_node=svg_node_builder(analtics_array[i])
                 let div_element=document.createElement("div");
                 let heading =document.createElement("p")
-                let graph_name = analytics_data["script_name"]+" "+ analytics_data["iteration"] +" "+analytics_data["analytics"].toUpperCase()
-                let display_name=analytics_data["script_name"]+" |--| "+ analytics_data["iteration"] +" |--| "+analytics_data["analytics"].toUpperCase()
+                let graph_name = params[i]+"_option"
+                let display_name=params[i].toUpperCase()
                 heading.textContent=display_name
                 div_element.classList.add("graph_styling")
                 div_element.appendChild(svg_node.svg.node())
                 document.getElementById("container").appendChild(div_element);
                 svg_objects[graph_name]=svg_node
                 div_element.appendChild(heading)
-                let select_tag=document.getElementById("analytics_options")
-                var opt=document.createElement("option")
-                opt.value=graph_name
-                opt.innerHTML = graph_name;
-                opt.setAttribute("id",graph_name)
-                select_tag.appendChild(opt)
-            })
+                check_and_add_graph_options(graph_name,display_name)
+                
+            }
         }
 }
-
-function svg_node_builder(summary_json,analytics_parameter){
+function check_and_add_graph_options(graph_name,display_name){
+    if (document.getElementById(graph_name)){
+        return 1
+    }
+    let select_tag=document.getElementById("analytics_options")
+    var opt=document.createElement("option")
+    opt.value=graph_name
+    opt.innerHTML = display_name;
+    opt.setAttribute("id",graph_name)
+    select_tag.appendChild(opt)
+}
+function svg_node_builder(data){
         var width = 800;
         var height = 500;
-        let analytics_parameter_data = summary_json["analytics"][analytics_parameter]
-        console.log("summary_json")
-        console.log(summary_json)
-        console.log("analytics")
-        console.log(summary_json["analytics"][analytics_parameter])
-        let keys = Object.keys(analytics_parameter_data)
-        let values = Object.values(analytics_parameter_data)
-        const data = []
-        for (i=0;i<keys.length;i++){
-            data.push({x:keys[i],y:values[i]})
-        }
-        let x = d3.scaleLinear()
-        .domain([0, summary_json["number_of_iterations"]])
+        console.log(d3.extent(data, function(d) { return +d.iteration_number; }))
+        var x = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) { return +d.iteration_number; })])
         .range([margin.left, width - margin.right]);
-    
-        let y = d3.scaleLinear()
-            .domain([0, Math.max(...values)+10])
+        console.log(x)
+        var y = d3.scaleLinear()
+            .domain([0,d3.max(data, function(d) { return +d.value; })+10])
             .range([height - margin.bottom, margin.top]);
-    
-        let line = d3.line()
-            .x(d => x(d.x))
-            .y(d => y(d.y));
-    
+        let sumstat=d3.group(data,d=>d.iteration)
+          console.log(sumstat)
         let svg = d3.create("svg")
             .attr("width", width)
             .attr("height", height);
@@ -87,7 +81,9 @@ function svg_node_builder(summary_json,analytics_parameter){
         let zoom = d3.zoom()
             .scaleExtent([1, 10])
             .on("zoom", zoomed);
-        
+        let line = d3.line()
+            .x(d => x(d.iteration_number))
+            .y(d => y(d.value));
         let tooltip = d3.select("#container").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0)
@@ -125,8 +121,8 @@ function svg_node_builder(summary_json,analytics_parameter){
             .attr("class", "plot-point")  // Assign a class to the circles
             .attr("fill", "red")
             .attr("stroke", "none")
-            .attr("cx", function (d) { return x(d.x) })
-            .attr("cy", function (d) { return y(d.y) })
+            .attr("cx", function (d) { return x(d.iteration_number) })
+            .attr("cy", function (d) { return y(d.value) })
             .attr("r", 4)
             .on("mouseover", handleMouseOver)
             .on("mouseout", handleMouseOut);
@@ -135,16 +131,21 @@ function svg_node_builder(summary_json,analytics_parameter){
         
         function zoomed(event) {
             const newXScale = event.transform.rescaleX(x);
+            const newYScale = event.transform.rescaleY(y);
+            
             svg.select(".x-axis").call(d3.axisBottom(newXScale));
-            svg.select(".line").attr("d", line.x(d => newXScale(d.x)));
+            svg.select(".line").attr("d", line.x(d => newXScale(d.iteration_number))
+                                              .y(d => newYScale(d.value)))
             updateZoomLevel(event.transform.k);
+            
             // Ensure that the y-axis is not affected by zoom
             y.range([height - margin.bottom, margin.top]);
             svg.select(".y-axis").call(d3.axisLeft(y));
     
             svg.selectAll(".plot-point")
-                .attr("cx", d => newXScale(d.x))
-                .attr("cy", d => y(d.y));
+                .attr("cx", d => newXScale(d.iteration_number))
+                .attr("cy", d => newYScale(d.value));
+            svg.select(".y-axis").call(d3.axisLeft(newYScale));
         }
     
         function updateZoomLevel(zoomLevel) {
@@ -158,7 +159,7 @@ function svg_node_builder(summary_json,analytics_parameter){
                 .duration(200)
                 .style("opacity", .9);
             tooltip
-                .html(`Iteration Number: ${d.x}<br>Pairing Duration: ${d.y}`)
+                .html(`Iteration Number: ${d.iteration_number}<br>Value: ${d.value}<br>Iteration ID: ${d.iteration}`)
                 .style("top", (event.pageY-100)+"px")
                 .style("left",(event.pageX-100)+"px");
     
@@ -184,9 +185,7 @@ function increaseHeight() {
         let analytic_parameter_option = document.querySelector('#analytics_options').value;
         let svg_obj=svg_objects[analytic_parameter_option]
         let svg=svg_obj.svg
-        let x = d3.scaleLinear()
-        .domain([0, summary_json["number_of_iterations"]])
-        .range([margin.left, svg_obj.width - margin.right]);
+        let x = svg_obj.x;
         let line=svg_obj.line
         let y = svg_obj.y
         let zoom=svg_obj.zoom
@@ -200,19 +199,24 @@ function increaseHeight() {
             .attr("transform", `translate(0,${svg_obj.height - margin.bottom})`);
         svg.select(".line").attr("d", svg_obj.line);
         svg.selectAll(".plot-point")
-            .attr("cy", d => y(d.y));
+            .attr("cy", d => y(d.value));
         function zoomed(event) {
-                const newXScale = event.transform.rescaleX(x);
-                svg.select(".x-axis").call(d3.axisBottom(newXScale));
-                svg.select(".line").attr("d", line.x(d => newXScale(d.x)));
-                updateZoomLevel(event.transform.k);
-                // Ensure that the y-axis is not affected by zoom
-                y.range([svg_obj.height - margin.bottom, margin.top]);
-                svg.select(".y-axis").call(d3.axisLeft(y));
-        
-                svg.selectAll(".plot-point")
-                    .attr("cx", d => newXScale(d.x))
-                    .attr("cy", d => y(d.y));
+            const newXScale = event.transform.rescaleX(x);
+            const newYScale = event.transform.rescaleY(y);
+            
+            svg.select(".x-axis").call(d3.axisBottom(newXScale));
+            svg.select(".line").attr("d", line.x(d => newXScale(d.iteration_number))
+                                              .y(d => newYScale(d.value)))
+            updateZoomLevel(event.transform.k);
+            
+            // Ensure that the y-axis is not affected by zoom
+            y.range([svg_obj.height - margin.bottom, margin.top]);
+            svg.select(".y-axis").call(d3.axisLeft(y));
+    
+            svg.selectAll(".plot-point")
+                .attr("cx", d => newXScale(d.iteration_number))
+                .attr("cy", d => newYScale(d.value));
+            svg.select(".y-axis").call(d3.axisLeft(newYScale));
             }
             function updateZoomLevel(zoomLevel) {
     
@@ -226,9 +230,7 @@ function decreaseHeight() {
         let analytic_parameter_option = document.querySelector('#analytics_options').value;
         let svg_obj=svg_objects[analytic_parameter_option]
         let svg=svg_obj.svg
-        let x = d3.scaleLinear()
-        .domain([0, summary_json["number_of_iterations"]])
-        .range([margin.left, svg_obj.width - margin.right]);
+        let x = svg_obj.x;
         let line=svg_obj.line
         let y = svg_obj.y
         let zoom=svg_obj.zoom
@@ -242,19 +244,24 @@ function decreaseHeight() {
             .attr("transform", `translate(0,${svg_obj.height - margin.bottom})`);
         svg.select(".line").attr("d", svg_obj.line);
         svg.selectAll(".plot-point")
-            .attr("cy", d => y(d.y));
+            .attr("cy", d => y(d.value));
         function zoomed(event) {
-                const newXScale = event.transform.rescaleX(x);
-                svg.select(".x-axis").call(d3.axisBottom(newXScale));
-                svg.select(".line").attr("d", line.x(d => newXScale(d.x)));
-                updateZoomLevel(event.transform.k);
-                // Ensure that the y-axis is not affected by zoom
-                y.range([svg_obj.height - margin.bottom, margin.top]);
-                svg.select(".y-axis").call(d3.axisLeft(y));
-        
-                svg.selectAll(".plot-point")
-                    .attr("cx", d => newXScale(d.x))
-                    .attr("cy", d => y(d.y));
+            const newXScale = event.transform.rescaleX(x);
+            const newYScale = event.transform.rescaleY(y);
+            
+            svg.select(".x-axis").call(d3.axisBottom(newXScale));
+            svg.select(".line").attr("d", line.x(d => newXScale(d.iteration_number))
+                                              .y(d => newYScale(d.value)))
+            updateZoomLevel(event.transform.k);
+            
+            // Ensure that the y-axis is not affected by zoom
+            y.range([height - margin.bottom, margin.top]);
+            svg.select(".y-axis").call(d3.axisLeft(y));
+    
+            svg.selectAll(".plot-point")
+                .attr("cx", d => newXScale(d.iteration_number))
+                .attr("cy", d => newYScale(d.value));
+            svg.select(".y-axis").call(d3.axisLeft(newYScale));
             }
             function updateZoomLevel(zoomLevel) {
     
@@ -275,7 +282,7 @@ function increaseWidth() {
         svg.selectAll(".x-axis").call(d3.axisBottom(x));
         svg.selectAll(".line").attr("d", svg_obj.line);
         svg.selectAll(".plot-point")
-            .attr("cx", d => x(d.x));
+            .attr("cx", d => x(d.iteration_number));
         
     
     }
@@ -291,18 +298,43 @@ function decreaseWidth() {
         x.range([margin.left, width - margin.right]);
         svg.selectAll(".x-axis").call(d3.axisBottom(x));
         svg.selectAll(".plot-point")
-            .attr("cx", d => x(d.x));
+            .attr("cx", d => x(d.iteration_number));
         svg.selectAll(".line").attr("d", svg_obj.line);
     
     }
 $(document).ready(function(){
     // Handle submenu toggle
+    var current_click=null
+    var previous_click=null
     $('.dropdown-submenu a').on("click", function(e){
+        previous_click=current_click
+        current_click=[$(this).attr("level"),$(this).attr("id")]
+        if (previous_click!=null){
+            if (current_click[0] == previous_click[0] && previous_click[1]!= current_click[1] ){
+                $("#"+previous_click[1]).next('ul').toggle(false)
+            }
+            else if (current_click[0] != previous_click[0] && previous_click[1] == current_click[1] ){
+                $("#"+previous_click[1]).next('ul').toggle(false)
+            }
+            else if (current_click[0] == previous_click[0] && previous_click[1] == current_click[1] ){
+                $("#"+previous_click[1]).next('ul').toggle(false)
+            }
+            else if (current_click[0] != previous_click[0] && previous_click[1] != current_click[1] ){
+                if (current_click[0] < previous_click[0]){
+                    console.log($("#"+previous_click[1]).parent())
+                    $("#"+previous_click[1]).next('ul').toggle(false)
+                    // $("#"+previous_click[1]).parent("a").toggle(false)
+                }
+
+            }
+            
+        }   
         $(this).next('ul').toggle();
         e.stopPropagation();
         e.preventDefault();
+        console.log(previous_click+"   "+current_click)
+        
     });
-
     // Handle checkbox click
     $('.dropdown-item input[type="checkbox"]').on("click", function(e){
         e.stopPropagation();
@@ -312,7 +344,6 @@ $(document).ready(function(){
             $('.dropdown').removeClass('show');
         }
     });
-
     // Close the dropdown when clicking outside
     $(document).on("click", function (e) {
         if (!$(e.target).closest('.dropdown').length) {

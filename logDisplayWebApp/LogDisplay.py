@@ -273,11 +273,16 @@ def compare_script_analytics(request: Request):
 
 @app.post("/compareGraphData")
 def compare_graph_data(fetch_data:dict,request:Request):
+    response_dict={}
+    for graph in fetch_data["fetch_data"]:
+        response_dict.update({graph["analytics"]:[]})
     for graph in fetch_data["fetch_data"]:
         summary_json=utils.summary_json_get(graph["full_path"],graph["analytics"])
-        graph.update({"summary_json":summary_json})
-    return fetch_data
-
+        analytics_data=summary_json["analytics"][graph["analytics"]]
+        for data in analytics_data.items():
+            response_dict[graph["analytics"]].append({"iteration_number":data[0],"value":data[1],"iteration":graph["iteration"]})
+        # graph.update({"summary_json":summary_json})
+    return response_dict
 
 app.add_middleware(
     CORSMiddleware,

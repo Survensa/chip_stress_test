@@ -10,30 +10,40 @@
     <link rel="stylesheet" href="{{ url_for('static', path='linechart.css') }}">
     <script src="{{url_for('static',path='d3_js/d3.v7.min.js')}}"></script>
     <style>
-        .dropdown-submenu {
-            position: relative;
-        }
 
+        .center_div {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: auto;
+
+        }
         .dropdown-submenu .dropdown-menu {
             top: 0;
             left: 100%;
             margin-top: -1px;
+            width:auto;
         }
+        .dropdown-item{
+            overflow-x: auto;
+        }
+        
+        
     </style>
 </head>
 <body>
 {% include "navigation_bar.html" %}
-    {{test_case_details}}
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="multiLevelDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            Select Options
+    <div class="center_div">
+        <div class="dropdown dropend d-grid gap-2 col-2 mx-auto">
+        <button class="btn btn-secondary dropdown-toggle mt-3" type="button" id="multiLevelDropdown" data-bs-toggle="dropdown" title="Select scriptname,iteration and analytics parameter" aria-expanded="false" >
+            Graph Parameters
         </button>
         <ul class="dropdown-menu" aria-labelledby="multiLevelDropdown">
             <!-- Level 1 -->
             {% for test_case_detail in test_case_details %}
             
             <li class="dropdown-submenu">
-                <a class="dropdown-item" >
+                <a class="dropdown-item" id="{{test_case_detail}}" level="1">
                     <label>{{test_case_detail}}</label>
                 </a>
 
@@ -41,14 +51,14 @@
                     <!-- Level 2 -->
                     {% for iteration in test_case_details[test_case_detail] %}
                     <li class="dropdown-submenu">
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="#" id="{{iteration.iteration}}" level="2">
                             <label>{{iteration["iteration"]}}</label>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- Level 3 -->
                             {% for parameter in iteration["analytics"] %}
-                            <li class="dropdown-item">
-                                <input type="checkbox" id={{parameter}} value='{{iteration|tojson}}' type="application/json"> <label for={{parameter}} >{{parameter.upper()}}</label>
+                            <li class="dropdown-item ">
+                                <input type="checkbox" id={{parameter}} value='{{iteration|tojson}}' type="application/json"> {{parameter.upper()}}
                             </li>
                             {% endfor %}
                             <!-- Level 3 end -->
@@ -60,8 +70,10 @@
             </li>
             {%endfor%}
         </ul>
+        <button class="btn btn-primary mt-3" onclick="printSelectedItems()">Generate Graph</button>
     </div>
-    <button class="btn btn-primary mt-3" onclick="printSelectedItems()">Print Selected Items</button>
+    </div>
+
     <div  class="main_container">
         <div id="div2" class="box2">
             

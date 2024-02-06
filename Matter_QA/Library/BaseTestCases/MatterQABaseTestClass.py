@@ -43,6 +43,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     def __misc__init(self):
         self.th1 = None
         self.test_result = {'Pass Count': 0, 'Fail Count': {'Count': 0, 'Iteration': []}, 'Error Count': 0}
+        self.analytics_json = {"analytics": {}, "test_case_name": "", "iteration_id": ""}
 
     @timer
     def commission_device(self, *args, **kwargs):
@@ -56,7 +57,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 if commission_response[0]:
                     return commission_response
                 else:
-                    return [False, str(commission_response[0])]
+                    return [False, str(commission_response[1])]
             except Exception as e:
                 logging.error(e)
                 traceback.print_exc()
@@ -219,9 +220,20 @@ def log_path_add_args(path):
     sys.argv = args
 
 
+def run_set_folder_path(timestamp, log_path) -> str:
+    run_set_folder = "RUN_SET_" + timestamp.strftime("%d_%b_%Y_%H-%M-%S")
+    path = os.path.join(log_path, run_set_folder)
+    if os.path.exists(path):
+        return path
+    else:
+        os.mkdir(path)
+        return path
+
+
 def log_info_init(test_config_dict: dict):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     tc_log_folder = os.path.join(test_config_dict["general_configs"]["logFilePath"], f"{timestamp}")
+    test_config_dict.update({"iteration_id": timestamp})
     test_config_dict.update({"iter_logs_dir": tc_log_folder})
     test_config_dict.update({"current_iteration": 0})
     if not os.path.exists(tc_log_folder):
@@ -252,11 +264,13 @@ def test_start(test_class_name):
         general_configs = test_config_dict["general_configs"]
         log_path = general_configs["logFilePath"]
         if log_path is not None and os.path.exists(log_path):
-            log_path = os.path.join(log_path, test_config_dict["test_class_name"])
+            run_set_path = run_set_folder_path(datetime.datetime.now(), log_path)
+            log_path = os.path.join(run_set_path, test_config_dict["test_class_name"])
             log_path_add_args(log_path)
             general_configs["logFilePath"] = log_path
         else:
-            log_path = os.path.join(os.getcwd(), test_config_dict["test_class_name"])
+            run_set_path = run_set_folder_path(datetime.datetime.now(), os.getcwd())
+            log_path = os.path.join(run_set_path, test_config_dict["test_class_name"])
             log_path_add_args(path=log_path)
             general_configs["logFilePath"] = log_path
         if not os.path.exists(general_configs["logFilePath"]):

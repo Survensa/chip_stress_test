@@ -25,7 +25,7 @@
             {% for dirs in dir_list %}
                 <tr>
                     <td>
-                        <form action="/home/displayLogFolder" method="get">
+                        <form action={{dirs.url}} method="get">
                         <input type="hidden" value={{ dirs.dir_path }} name="dir_path">
                         <button class="btn btn-primary" type="submit">{{dirs.dir_name}}</button>
                         </form>

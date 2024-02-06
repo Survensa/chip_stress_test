@@ -3,23 +3,27 @@ let zoom_value = 10
 let zoom_refactor_val = 10
 var json_data
 var svg_objects={}
+var dataElement = document.getElementById('data');
+var data_send=""
+let data=JSON.parse(dataElement.textContent || dataElement.innerText)["graph_options"]
+let tree = new Tree('.tree-container', {
+    data: data,
+    closeDepth: 3,
+    onChange: function () {
+        data_send=this.values
+    }
+})
 async function printSelectedItems() {
     const divElements = document.querySelectorAll('.graph_styling');
 
 // Loop through the div elements and clear their contents
-divElements.forEach((div) => {
-  div.remove();
-});
-    var selectedItems = [];
-    // Loop through all checkboxes and check if they are selected
-    $('.dropdown-item input[type="checkbox"]').each(function() {
-        if ($(this).prop('checked')) {
-            let selected_data=JSON.parse($(this).val())
-            let selected_parameter=$(this).attr("id")
-            selected_data["analytics"]=selected_parameter
-            selectedItems.push(selected_data);
-        }
+    divElements.forEach((div) => {
+    div.remove();
     });
+
+
+    var selectedItems = data_send;
+    
     let request_data=JSON.stringify({"fetch_data":selectedItems})
     let request_config={
         method: "POST",
@@ -64,16 +68,13 @@ function check_and_add_graph_options(graph_name,display_name){
 function svg_node_builder(data){
         var width = 800;
         var height = 500;
-        console.log(d3.extent(data, function(d) { return +d.iteration_number; }))
         var x = d3.scaleLinear()
         .domain([0, d3.max(data, function(d) { return +d.iteration_number; })])
         .range([margin.left, width - margin.right]);
-        console.log(x)
         var y = d3.scaleLinear()
             .domain([0,d3.max(data, function(d) { return +d.value; })+10])
             .range([height - margin.bottom, margin.top]);
-        let sumstat=d3.group(data,d=>d.iteration)
-          console.log(sumstat)
+        // let sumstat=d3.group(data,d=>d.iteration)
         let svg = d3.create("svg")
             .attr("width", width)
             .attr("height", height);
@@ -84,6 +85,16 @@ function svg_node_builder(data){
         let line = d3.line()
             .x(d => x(d.iteration_number))
             .y(d => y(d.value));
+        let nestedData = d3.group(data, d => d.iteration);
+        nestedData.forEach((groupData, iteration) => {//add multiple lines
+                svg.append("path")
+                    .datum(groupData)
+                    .attr("class", "line")
+                    .attr("fill", "none")
+                    .attr("stroke", "steelblue")
+                    .attr("stroke-width", 2)
+                    .attr("d", line);
+            });
         let tooltip = d3.select("#container").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0)
@@ -106,14 +117,6 @@ function svg_node_builder(data){
             .style("overflow","auto")
             .attr("transform", `translate(${margin.left},0)`)
             .call(d3.axisLeft(y));
-    
-        svg.append("path")
-            .datum(data)
-            .attr("class", "line")
-            .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-width", 2)
-            .attr("d", line);
         svg.selectAll(".plot-point")  // Correct class selector
             .data(data)
             .enter()
@@ -134,7 +137,7 @@ function svg_node_builder(data){
             const newYScale = event.transform.rescaleY(y);
             
             svg.select(".x-axis").call(d3.axisBottom(newXScale));
-            svg.select(".line").attr("d", line.x(d => newXScale(d.iteration_number))
+            svg.selectAll(".line").attr("d", line.x(d => newXScale(d.iteration_number))
                                               .y(d => newYScale(d.value)))
             updateZoomLevel(event.transform.k);
             
@@ -154,7 +157,6 @@ function svg_node_builder(data){
         }
     
         function handleMouseOver(event, d) {
-            console.log("mouse")
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .9);
@@ -190,7 +192,6 @@ function increaseHeight() {
         let y = svg_obj.y
         let zoom=svg_obj.zoom
         svg_obj.height += Number(document.getElementById("incr-height").value);
-        // console.log(svg_obj.height)
         svg.attr("height",svg_obj.height );
         y.range([svg_obj.height - margin.bottom, margin.top]);
         svg.select(".y-axis").call(d3.axisLeft(y));
@@ -235,7 +236,6 @@ function decreaseHeight() {
         let y = svg_obj.y
         let zoom=svg_obj.zoom
         svg_obj.height -= Number(document.getElementById("incr-height").value);
-        // console.log(svg_obj.height)
         svg.attr("height",svg_obj.height );
         y.range([svg_obj.height - margin.bottom, margin.top]);
         svg.select(".y-axis").call(d3.axisLeft(y));
@@ -302,52 +302,3 @@ function decreaseWidth() {
         svg.selectAll(".line").attr("d", svg_obj.line);
     
     }
-$(document).ready(function(){
-    // Handle submenu toggle
-    var current_click=null
-    var previous_click=null
-    $('.dropdown-submenu a').on("click", function(e){
-        previous_click=current_click
-        current_click=[$(this).attr("level"),$(this).attr("id")]
-        if (previous_click!=null){
-            if (current_click[0] == previous_click[0] && previous_click[1]!= current_click[1] ){
-                $("#"+previous_click[1]).next('ul').toggle(false)
-            }
-            else if (current_click[0] != previous_click[0] && previous_click[1] == current_click[1] ){
-                $("#"+previous_click[1]).next('ul').toggle(false)
-            }
-            else if (current_click[0] == previous_click[0] && previous_click[1] == current_click[1] ){
-                $("#"+previous_click[1]).next('ul').toggle(false)
-            }
-            else if (current_click[0] != previous_click[0] && previous_click[1] != current_click[1] ){
-                if (current_click[0] < previous_click[0]){
-                    console.log($("#"+previous_click[1]).parent())
-                    $("#"+previous_click[1]).next('ul').toggle(false)
-                    // $("#"+previous_click[1]).parent("a").toggle(false)
-                }
-
-            }
-            
-        }   
-        $(this).next('ul').toggle();
-        e.stopPropagation();
-        e.preventDefault();
-        console.log(previous_click+"   "+current_click)
-        
-    });
-    // Handle checkbox click
-    $('.dropdown-item input[type="checkbox"]').on("click", function(e){
-        e.stopPropagation();
-
-        // If the clicked item has no nested levels, close the dropdown
-        if (!$(this).parent().hasClass('dropdown-submenu')) {
-            $('.dropdown').removeClass('show');
-        }
-    });
-    // Close the dropdown when clicking outside
-    $(document).on("click", function (e) {
-        if (!$(e.target).closest('.dropdown').length) {
-            $('.dropdown').removeClass('show');
-        }
-    });
-});

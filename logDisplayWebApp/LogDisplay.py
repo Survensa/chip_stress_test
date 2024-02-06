@@ -55,10 +55,15 @@ def home_page(request: Request):
 def test_case_executed(request: Request, dir_path: str):
     dirs = os.listdir(dir_path)
     dir_details = utils.get_directory_info(dirs_list=dirs, log_dir=dir_path)
+    for dir_detail in dir_details:
+        if os.path.exists(os.path.join(dir_detail["dir_path"], "summary.json")):
+            dir_detail.update({"url": "/home/displayLogFolder"})
+        else:
+            dir_detail.update({"url": "/home/test_cases_index"})
     return templates.TemplateResponse("test_cases_index.html", context={
         "request": request,
         "dir_list": dir_details,
-        "log_dir": dir_path
+        "log_dir": dir_path,
     })
 
 
@@ -225,6 +230,10 @@ def load_graph_template(request: Request, dir_path: str):
     fp = open(os.path.join(dir_path, "summary.json"), "r")
     summary = json.load(fp)
     fp.close()
+    fp = open(os.path.join(dir_path, "analytics.json"), "r")
+    analytics = json.load(fp)
+    fp.close()
+    summary.update({"analytics": analytics["analytics"]})
     return templates.TemplateResponse("lineChart.html", {"request": request, "summary_json": summary})
 
 
@@ -268,20 +277,33 @@ def compare_script_analytics(request: Request):
     graph_options = utils.summary_json_find(log_dir)
     return templates.TemplateResponse("compareScriptAnalytics.html", {
         "request": request,
-        "test_case_details": graph_options
+        "test_case_details": {"graph_options": graph_options, "base_path": log_dir}
     })
 
+
 @app.post("/compareGraphData")
-def compare_graph_data(fetch_data:dict,request:Request):
-    response_dict={}
-    for graph in fetch_data["fetch_data"]:
-        response_dict.update({graph["analytics"]:[]})
-    for graph in fetch_data["fetch_data"]:
-        summary_json=utils.summary_json_get(graph["full_path"],graph["analytics"])
-        analytics_data=summary_json["analytics"][graph["analytics"]]
-        for data in analytics_data.items():
-            response_dict[graph["analytics"]].append({"iteration_number":data[0],"value":data[1],"iteration":graph["iteration"]})
-        # graph.update({"summary_json":summary_json})
+def compare_graph_data(fetch_data: dict, request: Request):
+    response_dict = {}
+    log_dir = config["logs_path"]
+    graph_parameter_list = []
+    for selected_data in fetch_data["fetch_data"]:
+        path_with_para = selected_data.split("**")
+        parameter = path_with_para.pop(-1)
+        path = os.path.join(log_dir, *path_with_para)
+        response_dict.update({parameter: []})
+        graph_parameter_list.append({"analytics": parameter,
+                                     "full_path": path,
+                                     "iteration": "|  |".join(path_with_para),
+                                     "script_name": path_with_para[1]})
+    for graph in graph_parameter_list:
+        summary_json = utils.summary_json_get(graph["full_path"], graph["analytics"])
+        if summary_json != "no data":
+            analytics_data = summary_json["analytics"][graph["analytics"]]
+            for data in analytics_data.items():
+                response_dict[graph["analytics"]].append(
+                    {"iteration_number": data[0], "value": data[1], "iteration": graph["iteration"]})
+        else:
+            response_dict[graph["analytics"]].append("no data")
     return response_dict
 
 app.add_middleware(

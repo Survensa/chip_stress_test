@@ -41,7 +41,6 @@ class TC_Pair(MatterQABaseTestCaseClass):
         self.test_result.update({"device_basic_information": device_info})
         self.dut.factory_reset_dut(stop_reset=False)
         self.test_result.update({"Failed_iteration_details": {}})
-        self.test_result.update({"analytics": {}})
         pairing_duration_info = {}
         for i in range(1, iterations + 1):
             logging.info("Started Iteration sequence {}".format(i))
@@ -73,9 +72,9 @@ class TC_Pair(MatterQABaseTestCaseClass):
                         logging.info(
                             'Full Execution mode is disabled \n The iteration {} number has failed hence the '
                             'execution will stop here'.format(i))
-                        self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
+                        self.analytics_json["analytics"].update({"pairing_duration_info": pairing_duration_info})
                         summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
-                                    completed=True)
+                                    completed=True, analytics_json=self.analytics_json)
                         self.dut.factory_reset_dut(stop_reset=True)
                         break
                     continue
@@ -96,9 +95,9 @@ class TC_Pair(MatterQABaseTestCaseClass):
                     logging.info(
                         'Full Execution mode is disabled \n The iteration {} number has failed hence the '
                         'execution will stop here'.format(i))
-                    self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
+                    self.analytics_json["analytics"].update({"pairing_duration_info": pairing_duration_info})
                     summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
-                                completed=True)
+                                completed=True, analytics_json=self.analytics_json)
                     self.dut.factory_reset_dut(stop_reset=True)
                     break
             if i == iterations:
@@ -106,12 +105,13 @@ class TC_Pair(MatterQABaseTestCaseClass):
             else:
                 self.dut.factory_reset_dut(stop_reset=False)
             logging.info('completed pair and unpair sequence for {}'.format(i))
-            self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
-            summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict, completed=False)
+            self.analytics_json["analytics"].update({"pairing_duration_info": pairing_duration_info})
+            summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
+                        completed=False, analytics_json=self.analytics_json)
             self.stop_iteration_logging(i, None)
-        self.test_result["analytics"].update({"pairing_duration_info": pairing_duration_info})
+        self.analytics_json["analytics"].update({"pairing_duration_info": pairing_duration_info})
         summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
-                    completed=True)
+                    completed=True, analytics_json=self.analytics_json)
 
 
 if __name__ == "__main__":

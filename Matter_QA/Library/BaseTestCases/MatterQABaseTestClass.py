@@ -212,6 +212,25 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 info_dict.update({device_attr: f"cannot fetch info because {e}"})
         return info_dict
 
+    async def get_heap_usage(self, node_id: int = None, dev_ctrl: ChipDeviceCtrl = None, endpoint: int = 0, ):
+        if dev_ctrl is None:
+            dev_ctrl = self.default_controller
+        if node_id is None:
+            node_id = self.dut_node_id
+        clusters = [Clusters.SoftwareDiagnostics.Attributes.CurrentHeapUsed,
+                    ]
+        data = []
+        for cluster in clusters:
+            try:
+                response = await dev_ctrl.ReadAttribute(node_id, [endpoint, cluster])
+                attr_ret = response[endpoint][Clusters.Objects.SoftwareDiagnostics][cluster]
+                data.append(attr_ret/1000)
+            except Exception as e:
+                logging.error(e)
+                traceback.print_exc()
+                data.append(f"error when reading reason {e} ")
+        return data
+
 
 def log_path_add_args(path):
     args = sys.argv

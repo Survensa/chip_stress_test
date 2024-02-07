@@ -83,8 +83,10 @@ function svg_node_builder(summary_json,analytics_parameter){
     
     function zoomed(event) {
         const newXScale = event.transform.rescaleX(x);
+        const newYScale = event.transform.rescaleY(y);
         svg.select(".x-axis").call(d3.axisBottom(newXScale));
-        svg.select(".line").attr("d", line.x(d => newXScale(d.x)));
+        svg.select(".line").attr("d", line.x(d => newXScale(d.x))
+                                        .y(d => newYScale(d.y)));
         updateZoomLevel(event.transform.k);
         // Ensure that the y-axis is not affected by zoom
         y.range([height - margin.bottom, margin.top]);
@@ -92,7 +94,8 @@ function svg_node_builder(summary_json,analytics_parameter){
 
         svg.selectAll(".plot-point")
             .attr("cx", d => newXScale(d.x))
-            .attr("cy", d => y(d.y));
+            .attr("cy", d => newYScale(d.y));
+            svg.select(".y-axis").call(d3.axisLeft(newYScale));
     }
 
     function updateZoomLevel(zoomLevel) {
@@ -106,7 +109,7 @@ function svg_node_builder(summary_json,analytics_parameter){
             .duration(200)
             .style("opacity", .9);
         tooltip
-            .html(`Iteration Number: ${d.x}<br>Pairing Duration: ${d.y}`)
+            .html(`Iteration Number: ${d.x}<br> Value: ${d.y}`)
             .style("top", (event.pageY-100)+"px")
             .style("left",(event.pageX-100)+"px");
 
@@ -152,17 +155,20 @@ function increaseHeight() {
     svg.selectAll(".plot-point")
         .attr("cy", d => y(d.y));
     function zoomed(event) {
-            const newXScale = event.transform.rescaleX(x);
-            svg.select(".x-axis").call(d3.axisBottom(newXScale));
-            svg.select(".line").attr("d", line.x(d => newXScale(d.x)));
-            updateZoomLevel(event.transform.k);
-            // Ensure that the y-axis is not affected by zoom
-            y.range([svg_obj.height - margin.bottom, margin.top]);
-            svg.select(".y-axis").call(d3.axisLeft(y));
-    
-            svg.selectAll(".plot-point")
-                .attr("cx", d => newXScale(d.x))
-                .attr("cy", d => y(d.y));
+        const newXScale = event.transform.rescaleX(x);
+        const newYScale = event.transform.rescaleY(y);
+        svg.select(".x-axis").call(d3.axisBottom(newXScale));
+        svg.select(".line").attr("d", line.x(d => newXScale(d.x))
+                                        .y(d => newYScale(d.y)));
+        updateZoomLevel(event.transform.k);
+        // Ensure that the y-axis is not affected by zoom
+        y.range([height - margin.bottom, margin.top]);
+        svg.select(".y-axis").call(d3.axisLeft(y));
+
+        svg.selectAll(".plot-point")
+            .attr("cx", d => newXScale(d.x))
+            .attr("cy", d => newYScale(d.y));
+            svg.select(".y-axis").call(d3.axisLeft(newYScale));
         }
         function updateZoomLevel(zoomLevel) {
 
@@ -194,17 +200,20 @@ function decreaseHeight() {
     svg.selectAll(".plot-point")
         .attr("cy", d => y(d.y));
     function zoomed(event) {
-            const newXScale = event.transform.rescaleX(x);
-            svg.select(".x-axis").call(d3.axisBottom(newXScale));
-            svg.select(".line").attr("d", line.x(d => newXScale(d.x)));
-            updateZoomLevel(event.transform.k);
-            // Ensure that the y-axis is not affected by zoom
-            y.range([svg_obj.height - margin.bottom, margin.top]);
-            svg.select(".y-axis").call(d3.axisLeft(y));
-    
-            svg.selectAll(".plot-point")
-                .attr("cx", d => newXScale(d.x))
-                .attr("cy", d => y(d.y));
+        const newXScale = event.transform.rescaleX(x);
+        const newYScale = event.transform.rescaleY(y);
+        svg.select(".x-axis").call(d3.axisBottom(newXScale));
+        svg.select(".line").attr("d", line.x(d => newXScale(d.x))
+                                        .y(d => newYScale(d.y)));
+        updateZoomLevel(event.transform.k);
+        // Ensure that the y-axis is not affected by zoom
+        y.range([height - margin.bottom, margin.top]);
+        svg.select(".y-axis").call(d3.axisLeft(y));
+
+        svg.selectAll(".plot-point")
+            .attr("cx", d => newXScale(d.x))
+            .attr("cy", d => newYScale(d.y));
+            svg.select(".y-axis").call(d3.axisLeft(newYScale));
         }
         function updateZoomLevel(zoomLevel) {
 
@@ -218,7 +227,11 @@ function increaseWidth() {
     let svg_obj=svg_objects[analytic_parameter_option]
     let svg=svg_obj.svg
     let x = svg_obj.x;
+    let y=svg_obj.y
+    let line=svg_obj.line
     let width = svg_obj.width
+    let height=svg_obj.height
+    let zoom=svg_obj.zoom
     width += Number(document.getElementById("incr-width").value);
     svg.attr("width", width);
     x.range([margin.left, width - margin.right]);
@@ -226,7 +239,27 @@ function increaseWidth() {
     svg.selectAll(".line").attr("d", svg_obj.line);
     svg.selectAll(".plot-point")
         .attr("cx", d => x(d.x));
+    function zoomed(event) {
+            const newXScale = event.transform.rescaleX(x);
+            const newYScale = event.transform.rescaleY(y);
+            svg.select(".x-axis").call(d3.axisBottom(newXScale));
+            svg.select(".line").attr("d", line.x(d => newXScale(d.x))
+                                            .y(d => newYScale(d.y)));
+            updateZoomLevel(event.transform.k);
+            // Ensure that the y-axis is not affected by zoom
+            y.range([height - margin.bottom, margin.top]);
+            svg.select(".y-axis").call(d3.axisLeft(y));
     
+            svg.selectAll(".plot-point")
+                .attr("cx", d => newXScale(d.x))
+                .attr("cy", d => newYScale(d.y));
+                svg.select(".y-axis").call(d3.axisLeft(newYScale));
+            }
+        function updateZoomLevel(zoomLevel) {
+    
+                document.getElementById("zoomLevel").textContent = `Zoom Level: ${zoomLevel.toFixed(2)}`;
+            }
+    zoom.on("zoom",zoomed)
 
 }
 
@@ -235,7 +268,11 @@ function decreaseWidth() {
     let svg_obj=svg_objects[analytic_parameter_option]
     let svg=svg_obj.svg
     let x=svg_obj.x
+    let y=svg_obj.y
+    let line=svg_obj.line
     let width = svg_obj.width
+    let height=svg_obj.height
+    let zoom=svg_obj.zoom
     width -= Number(document.getElementById("decr-width").value)
     svg.attr("width", width);
     x.range([margin.left, width - margin.right]);
@@ -243,6 +280,27 @@ function decreaseWidth() {
     svg.selectAll(".plot-point")
         .attr("cx", d => x(d.x));
     svg.selectAll(".line").attr("d", svg_obj.line);
+    function zoomed(event) {
+        const newXScale = event.transform.rescaleX(x);
+        const newYScale = event.transform.rescaleY(y);
+        svg.select(".x-axis").call(d3.axisBottom(newXScale));
+        svg.select(".line").attr("d", line.x(d => newXScale(d.x))
+                                        .y(d => newYScale(d.y)));
+        updateZoomLevel(event.transform.k);
+        // Ensure that the y-axis is not affected by zoom
+        y.range([height - margin.bottom, margin.top]);
+        svg.select(".y-axis").call(d3.axisLeft(y));
+
+        svg.selectAll(".plot-point")
+            .attr("cx", d => newXScale(d.x))
+            .attr("cy", d => newYScale(d.y));
+            svg.select(".y-axis").call(d3.axisLeft(newYScale));
+        }
+    function updateZoomLevel(zoomLevel) {
+
+            document.getElementById("zoomLevel").textContent = `Zoom Level: ${zoomLevel.toFixed(2)}`;
+        }
+    zoom.on("zoom",zoomed)
 
 }
 

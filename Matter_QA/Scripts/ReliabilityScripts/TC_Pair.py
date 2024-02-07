@@ -41,6 +41,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
         self.test_result.update({"device_basic_information": device_info})
         self.dut.factory_reset_dut(stop_reset=False)
         self.test_result.update({"Failed_iteration_details": {}})
+        used_heap = {}
         pairing_duration_info = {}
         for i in range(1, iterations + 1):
             logging.info("Started Iteration sequence {}".format(i))
@@ -58,6 +59,9 @@ class TC_Pair(MatterQABaseTestCaseClass):
             if iter_result[0]:
                 logging.info('Device has been Commissioned starting pair-unpair operation')
                 time.sleep(2)
+                heap_usage = await self.get_heap_usage()
+                used_heap.update({str(i): heap_usage[0]})
+                self.analytics_json["analytics"].update({"heap_used": used_heap})
                 unpair_res = self.unpair_dut()
                 if unpair_res.get("stats") is False:
                     end_time = datetime.datetime.now()

@@ -173,9 +173,13 @@ def summary_json_find(path):
     # root={"id":"base_path","children":[],"text":"TestCases"}
     data = []
     for run_set_child in runset_children:
+        if not os.path.isdir(os.path.join(path, run_set_child)):
+            continue
         scripts = os.listdir(os.path.join(path, run_set_child))
         run_set_root = {"id": run_set_child, "text": run_set_child, "children": []}
         for script in scripts:
+            if not os.path.isdir(os.path.join(path, run_set_child, script)):
+                continue
             iterations = os.listdir(os.path.join(path, run_set_child, script))
             script_root = {"id": f'{run_set_child}**{script}', "text": script, "children": []}
             for iteration in iterations:

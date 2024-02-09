@@ -1,7 +1,7 @@
 .graph_container{
   margin: auto;
-  width: 60%;
-  background-color: #d3d2d2;
+  width: 70%;
+  background-color: #edecec;
   padding: 10px;
   overflow: hidden;
 }
@@ -29,18 +29,24 @@
 /* Styling for each div */
 .box1 {
   display: inline-block; /* or use 'float: left;' */
-  width: 80%; /* Adjust the width as needed */
+  width: 70%; /* Adjust the width as needed */
   margin: 10px;
   box-sizing: border-box;
 }
 .box2 {
   display: inline-block; /* or use 'float: left;' */
-  width: 15%; /*Adjust the width as needed*/
+  width: 30%; /*Adjust the width as needed*/
   margin: 10px;
   box-sizing: border-box;
   height: 100%;
 }
-
+.box3 {
+  display: inline-block; /* or use 'float: left;' */
+  width: 10%; /*Adjust the width as needed*/
+  margin: 10px;
+  box-sizing: border-box;
+  height: 100%;
+}
 /* Styling for labels */
 label {
   display: block; 
@@ -82,5 +88,17 @@ select{
   box-sizing: border-box;
   padding: 10px;
   overflow: auto;
-  background-color: #fdfcfc;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
+}
+.card {
+  display: inline-block;
+  margin-right: 10px; /* Adjust margin as needed */
+}
+.button-layout{
+  width: 90%;
+  background-color: rgb(255, 255, 255);
+  justify-content: center;
+  margin: auto;
+  padding: 0.5%;
 }

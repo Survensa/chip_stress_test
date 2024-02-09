@@ -11,25 +11,30 @@
         </script>
 </head>
 <body>
-<h1 style="">Multiple Log file are found choose which to display</h1>
-<table class="data-table">
-        <thead>
-            <tr>
-                <th>File Name</th>
-                <th>File Size</th>
-                <th>File Updated</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in files %}
+{% include "navigation_bar.html" %}
+<h1>Multiple Log file are found choose which to display</h1>
+<center>
+    <div class="card">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td><button class="btn btn-primary" onclick="fileFetch( '{{ row.file_path }}', '{{ row.file_name }}')">{{ row.file_name }}</button></td>
-                    <td>{{ row.file_size }}</td>
-                    <td>{{ row.file_last_modified }}</td>
-
+                    <th>File Name</th>
+                    <th>File Size</th>
+                    <th>File Updated</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for row in files %}
+                    <tr>
+                        <td><button class="btn btn-primary" onclick="fileFetch( '{{ row.file_path }}', '{{ row.file_name }}')">{{ row.file_name }}</button></td>
+                        <td>{{ row.file_size }}</td>
+                        <td>{{ row.file_last_modified }}</td>
+    
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</center>
 </body>
 </html>

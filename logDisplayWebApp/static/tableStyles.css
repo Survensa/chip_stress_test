@@ -1,27 +1,24 @@
 /* styles.css */
 
+.card{
+    padding: 5px;
+    width: 70%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 20px;
+}
+.table{
+    overflow-y: auto;
+    height: 100px;
+}
 h1 {
     text-align: center;
     margin: 0 auto;
     display: block;
     color: #333;
+    padding: 30px
 }
 
-table.data-table {
 
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table.data-table th, table.data-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-table.data-table th {
-    background-color: #f2f2f2;
-}
 .scrollable-table {
        margin-top: 20px;
       max-height: 238px; /* Adjust the maximum height as needed */
@@ -29,7 +26,7 @@ table.data-table th {
       border: 1px solid #ccc;
 
     }
-table.summary-table td {
+/* table.summary-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -38,34 +35,41 @@ table.basic-info-table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
-}
+} */
 .script_table{
     width: 40%;
     border-collapse: collapse;
     margin: auto;
     margin-top: 20px;
 }
-.script_table td, .script_table th {
+/* .script_table td, .script_table th {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
 
-}
+} */
 #title{
-    background-color: #f2f2f2;
+    background-color: #515151;
     text-align: center;
     border: 1px solid #dee2e6;
+    color: #ffff;
 }
 #basic_info_title{
-    background-color: #f2f2f2;
+    background-color:  #515151;
     text-align: center;
     border: 1px solid #dee2e6;
+    color: #ffff;
 }
 /* Set a fixed width for each table */
 .table-container {
-      display: flex;
-      justify-content: center;
-      gap: 5%; /* Adjust the space between tables */
+    display: flex;
+    justify-content: center;
+    gap: 1%; /*  gap between tables  */
+    width: 28%;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding-bottom: 1%;
+    
 }
 
 .pagination .page-link {

@@ -75,6 +75,10 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
         fp = open(os.path.join(dir_path, "summary.json"), "r")
         summary = json.load(fp)
         fp.close()
+        fp = open(os.path.join(dir_path, "analytics.json"), "r")
+        analytics_json = json.load(fp)
+        fp.close() 
+        summary["analytics"]=analytics_json["analytics"]
         dir_details = utils.get_directory_info(dirs_list, log_dir=dir_path)
         filtered_data = []
         for row in dir_details:

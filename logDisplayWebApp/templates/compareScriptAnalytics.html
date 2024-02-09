@@ -8,7 +8,7 @@
     <script src="{{ url_for('static', path='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url_for('static', path='jquery-3.7.1.min.js') }}"></script>
     <script defer src="{{ url_for('static', path='compareGraphs.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', path='linechart.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='compareGraph.css') }}">
     <script src="{{url_for('static',path='d3_js/d3.v7.min.js')}}"></script>
     <script src="{{url_for('static',path='tree.min.js')}}"></script>
     <style>
@@ -25,7 +25,7 @@
             margin-top: 50px;
 
         }
-        .center_div ul{
+        .tree_container ul{
             line-height: 40px;
         }
         
@@ -34,46 +34,52 @@
 </head>
 <body>
 {% include "navigation_bar.html" %}
-    <div class="center_div">
-        
-        <div class="tree-container">
+
+    
+
+<div class="graph_whole_container">
+    <div class="main_container">
+        <div class="row1">
+            <center>
+                <div class="card" >
+                    <button type="button" class="btn btn-primary" onclick="zoom_refactor()">Zoom Refactor</button> <input type="number"  id="zoom-refactor">
+                    <br>
+                    <br>
+                    <button class="btn btn-primary" onclick="increaseWidth()">Increase Width By</button><input type="number" id="incr-width">
+                    <br>
+                    <br>
+                    <button class="btn btn-primary" onclick="decreaseWidth()">Decrease Width BY</button><input type="number" id="decr-width">
+                    <br>
+                    <br>
+                    <button class="btn btn-primary" onclick="increaseHeight()">Increase Height By</button><input type="number" id="incr-height">
+                    <br>
+                    <br>
+                    <button class="btn btn-primary" onclick="decreaseHeight()">Decrease Height By</button><input type="number" id="decr-height">
+                    <br>
+                    <br>
+                    <select id="analytics_options" class="form-select">
+                    </select>
+                </div>
+            </center>
+                    
+        </div>        
+        <div class="row2">
+            <div class="graph_container">
+                <div id="container">
+                <p id="zoomLevel">Zoom Level: 1</p>
+                </div>
+            </div>
         </div>
+        
+    </div>
+</div>
+<div class="tree_container">
+    <div class="tree-container">
+    </div>
         <center>
             <button class="btn btn-primary mt-3 btn-sm" onclick="printSelectedItems()">Generate Graph</button>
         </center>
-    </div>
-    
-    
-    <div  class="main_container">
-        <div id="div2" class="box2">
-            
-            <button type="button" class="btn btn-primary" onclick="zoom_refactor()">Zoom Refactor</button> <input type="number"  id="zoom-refactor">
-            <br>
-            <br>
-            <button class="btn btn-primary" onclick="increaseWidth()">Increase Width By</button><input type="number" id="incr-width">
-            <br>
-            <br>
-            <button class="btn btn-primary" onclick="decreaseWidth()">Decrease Width BY</button><input type="number" id="decr-width">
-            <br>
-            <br>
-            <button class="btn btn-primary" onclick="increaseHeight()">Increase Height By</button><input type="number" id="incr-height">
-            <br>
-            <br>
-            <button class="btn btn-primary" onclick="decreaseHeight()">Decrease Height By</button><input type="number" id="decr-height">
-            <br>
-            <br>
-            <select id="analytics_options" class="form-select">
-            </select>
-          </div>
-      <!-- First div -->
-      <div id="div1" class="box1">
-        <div class="graph_container">
-            <div id="container">
-            <p id="zoomLevel">Zoom Level: 1</p>
-            </div>
-        </div>
-      </div>
-    </div>
+</div>
 
 </body>
 </html>

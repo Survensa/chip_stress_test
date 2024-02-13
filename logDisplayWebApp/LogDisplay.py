@@ -238,7 +238,25 @@ def load_graph_template(request: Request, dir_path: str):
     analytics = json.load(fp)
     fp.close()
     summary.update({"analytics": analytics["analytics"]})
-    return templates.TemplateResponse("lineChart.html", {"request": request, "summary_json": summary})
+    return templates.TemplateResponse("enlargedGraph.html", {"request": request, "summary_json": summary})
+    try:
+        dir_path=request_body["dir_path"]
+        dirs_list = os.listdir(dir_path)
+        if "summary.json" not in dirs_list and "analytics.json" not in dirs_list:
+            return {"status":"failed","message":"Data files are not present"}
+        else:
+            fp = open(os.path.join(dir_path, "summary.json"), "r")
+            summary = json.load(fp)
+            fp.close()
+            fp = open(os.path.join(dir_path, "analytics.json"), "r")
+            analytics = json.load(fp)
+            fp.close()
+            summary.update({"analytics": analytics["analytics"]})
+            return {"status":"success","summary_json":summary}
+    except Exception as e:
+        logging.error(e)
+        traceback.print_exc()
+        return {"status":"failed","message":str(e)}
 
 
 @app.get("/scriptExecution")

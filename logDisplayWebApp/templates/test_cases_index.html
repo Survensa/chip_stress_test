@@ -9,42 +9,45 @@
     <title>DUT Logs WebApp</title>
 </head>
 <body>
-    {% include "navigation_bar.html" %}
-    <center>
-        <h1>Matter Chip Test execution log viewer</h1>
-       <div class="card">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Test Log Folder name</th>
-                    <th>Last modified</th>
-                    <th>Folder Size</th>
-                    <th>Folder Operations</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for dirs in dir_list %}
-                    <tr>
-                        <td>
-                            <form action={{dirs.url}} method="get">
-                            <input type="hidden" value={{ dirs.dir_path }} name="dir_path">
-                            <button class="btn btn-primary" type="submit">{{dirs.dir_name}}</button>
-                            </form>
-                        </td>
-                        <td>{{ dirs.dir_last_modified }}</td>
-                        <td>{{ dirs.dir_size }}</td>
-                        <td>
-                            <button class="btn btn-success" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','zip')"> Download </button>
-                            <button class="btn btn-danger" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','delete')"> Delete </button>
-                        </td>
-    
-                    </tr>
-                {% endfor %}
-            </tbody>
-            </table>
-       </div> 
-       
-        </center>
+    <div class="d-flex main_wrapper">
+        {% include "navigation_bar.html" %}
+        <div class="main_div">
+            <h1>Matter Chip Test execution log viewer</h1>
+            <center>
+                <div class="card">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Test Log Folder name</th>
+                                <th>Last modified</th>
+                                <th>Folder Size</th>
+                                <th>Folder Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dirs in dir_list %}
+                                <tr>
+                                    <td>
+                                        <form action={{dirs.url}} method="get">
+                                        <input type="hidden" value={{ dirs.dir_path }} name="dir_path">
+                                        <button class="btn btn-primary" type="submit">{{dirs.dir_name}}</button>
+                                        </form>
+                                    </td>
+                                    <td>{{ dirs.dir_last_modified }}</td>
+                                    <td>{{ dirs.dir_size }}</td>
+                                    <td>
+                                        <button class="btn btn-success" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','zip')"> <span class="fa fa-download"> Download </button>
+                                        <button class="btn btn-danger" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','delete')"> <span class="fa fa-trash"> Delete </button>
+                                    </td>
+                
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        </table>
+                   </div> 
+            </center>
+    </div>
+
 <div id="customDialog" class="custom-dialog">
     <p>Are you sure you want to delete?</p>
     <button id="ok">OK</button>

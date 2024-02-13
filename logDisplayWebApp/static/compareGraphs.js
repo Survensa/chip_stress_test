@@ -1,6 +1,5 @@
 const margin = { top: 20, right: 20, bottom: 50, left: 40 };
 let zoom_value = 10
-let zoom_refactor_val = 10
 var json_data
 var svg_objects={}
 var dataElement = document.getElementById('data');
@@ -49,24 +48,25 @@ async function printSelectedItems() {
                 document.getElementById("container").appendChild(div_element);
                 svg_objects[graph_name]=svg_node
                 div_element.appendChild(heading)
-                check_and_add_graph_options(graph_name,display_name)
+                // check_and_add_graph_options(graph_name,display_name)
                 
             }
         }
 }
-function check_and_add_graph_options(graph_name,display_name){
-    if (document.getElementById(graph_name)){
-        return 1
-    }
-    let select_tag=document.getElementById("analytics_options")
-    var opt=document.createElement("option")
-    opt.value=graph_name
-    opt.innerHTML = display_name;
-    opt.setAttribute("id",graph_name)
-    select_tag.appendChild(opt)
-}
+// function check_and_add_graph_options(graph_name,display_name){
+//     if (document.getElementById(graph_name)){
+//         return 1
+//     }
+//     let select_tag=document.getElementById("analytics_options")
+//     var opt=document.createElement("option")
+//     opt.value=graph_name
+//     opt.innerHTML = display_name;
+//     opt.setAttribute("id",graph_name)
+//     select_tag.appendChild(opt)
+// }
 function svg_node_builder(data){
-        var width = 800;
+        let zoom_refactor_val = Number(document.getElementById("zoom-refactor-edit").textContent)
+        var width = 1100;
         var height = 500;
         var x = d3.scaleLinear()
         .domain([0, d3.max(data, function(d) { return +d.iteration_number; })])
@@ -80,7 +80,7 @@ function svg_node_builder(data){
             .attr("height", height);
         // Add zoom functionality
         let zoom = d3.zoom()
-            .scaleExtent([1, 10])
+            .scaleExtent([1, zoom_refactor_val])
             .on("zoom", zoomed);
         let line = d3.line()
             .x(d => x(d.iteration_number))
@@ -89,17 +89,7 @@ function svg_node_builder(data){
         let nestedData = d3.group(data, d => d.iteration);
         
         // Generate random colors
-        let colorScale = d3.scaleOrdinal(d3.schemeCategory10);
-    
-        let index = 0;
-        
-        let legend = svg.append("g")
-        .attr("class", "legend")
-        .attr("transform", `translate(${margin.left}, ${height - margin.bottom + 20})`);
-    
-        let legendSpacing = 20; // Adjust this value for spacing between legend items
-        let legendHeight = 10; // Assuming two columns
-            
+        let colorScale = d3.scaleOrdinal(d3.schemeCategory10);            
         nestedData.forEach((values, key,i) => {
             let color = colorScale(key);
             console.log(color,key)
@@ -110,34 +100,7 @@ function svg_node_builder(data){
                 .attr("stroke", color)
                 .attr("stroke-width", 2)
                 .attr("d", line);
-            
-            // Add legend
-            // let legendItem = legend.append("g")
-            // .attr("transform", `translate(0, ${i * legendSpacing})`);
-        
-        // legendItem.append("rect")
-        //     .attr("x", 0)
-        //     .attr("y", 0)
-        //     .attr("width", 10)
-        //     .attr("height", 10)
-        //     .style("fill", color);
-        
-        // legendItem.append("text")
-        //     .attr("x", 15)
-        //     .attr("y", legendHeight / 2)
-        //     .text(key)
-        //     .attr("dy", "0.35em");
         });
-        // let nestedData = d3.group(data, d => d.iteration);
-        // nestedData.forEach((groupData, iteration) => {//add multiple lines
-        //         svg.append("path")
-        //             .datum(groupData)
-        //             .attr("class", "line")
-        //             .attr("fill", "none")
-        //             .attr("stroke", "steelblue")
-        //             .attr("stroke-width", 2)
-        //             .attr("d", line);
-        //     });
         let tooltip = d3.select("#container").append("div")
             .attr("class", "tooltip")
             .style("opacity", 0)
@@ -196,7 +159,7 @@ function svg_node_builder(data){
     
         function updateZoomLevel(zoomLevel) {
     
-            document.getElementById("zoomLevel").textContent = `Zoom Level: ${zoomLevel.toFixed(2)}`;
+            document.getElementById("zoomLevel").textContent = `Graph Zoom Level: ${zoomLevel.toFixed(2)}`;
         }
     
         function handleMouseOver(event, d) {
@@ -216,134 +179,46 @@ function svg_node_builder(data){
                 .duration(500)
                 .style("opacity", 0);
         }
-        document.getElementById("zoom-refactor").value = zoom_refactor_val //this corresponds to html input element for taking zoom factor from user
         return {"svg":svg,"x":x,"y":y,"zoom":zoom,"line":line,"width":width,"height":height}
     }
 function zoom_refactor() {
-        let analytic_parameter_option = document.querySelector('#analytics_options').value;
-        let svg_obj=svg_objects[analytic_parameter_option]
+        let svg_array=Object.values(svg_objects)
+        svg_array.forEach((svg_obj)=>{
         let zoom=svg_obj["zoom"]
-        zoom.scaleExtent([1, Number(document.getElementById("zoom-refactor").value)])
-    }
+        zoom.scaleExtent([1, Number(document.getElementById("zoom-refactor-edit").textContent)])
+        })
+}
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("hi")
+        var editIcon = document.getElementById("zoom-edit-button");
+        editIcon.addEventListener("click", function(event) {
+            console.log("hi")
+            var inputDialog = document.createElement("div");
+            inputDialog.innerHTML = '<input type="number" id="zoom-refactor-input" value="' + document.getElementById("zoom-refactor-edit").textContent + '"> <button id="save-btn" class="btn btn-primary sm">Save</button>';
+            inputDialog.style.position = "absolute";
+            inputDialog.style.left = (event.clientX + 10) + "px";
+            inputDialog.style.top = (event.clientY + 10) + "px";
+            inputDialog.style.background = "#fff";
+            inputDialog.style.padding = "10px";
+            inputDialog.style.border = "1px solid #ccc";
+            inputDialog.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
+            document.body.appendChild(inputDialog);
     
-function increaseHeight() {
-        let analytic_parameter_option = document.querySelector('#analytics_options').value;
-        let svg_obj=svg_objects[analytic_parameter_option]
-        let svg=svg_obj.svg
-        let x = svg_obj.x;
-        let line=svg_obj.line
-        let y = svg_obj.y
-        let zoom=svg_obj.zoom
-        svg_obj.height += Number(document.getElementById("incr-height").value);
-        svg.attr("height",svg_obj.height );
-        y.range([svg_obj.height - margin.bottom, margin.top]);
-        svg.select(".y-axis").call(d3.axisLeft(y));
-        svg.selectAll(".x-axis")
-            .attr("transform", `translate(0,${svg_obj.height - margin.bottom})`);
-        svg.selectAll(".line").attr("d", line.x(d=>x(d.iteration_number))
-                                              .y(d=>y(d.value)));
-        svg.selectAll(".plot-point")
-            .attr("cy", d => y(d.value))
-            .attr("cx",d=>x(d.iteration_number));
-        function zoomed(event) {
-            const newXScale = event.transform.rescaleX(x);
-            const newYScale = event.transform.rescaleY(y);
-            
-            svg.select(".x-axis").call(d3.axisBottom(newXScale));
-            svg.selectAll(".line").attr("d", line.x(d => newXScale(d.iteration_number))
-                                              .y(d => newYScale(d.value)))
-            updateZoomLevel(event.transform.k);
-            
-            // Ensure that the y-axis is not affected by zoom
-            y.range([svg_obj.height - margin.bottom, margin.top]);
-            svg.select(".y-axis").call(d3.axisLeft(y));
+            var saveBtn = document.getElementById("save-btn");
+            saveBtn.addEventListener("click", function() {
+                var newValue = document.getElementById("zoom-refactor-input").value;
+                document.getElementById("zoom-refactor-edit").textContent = newValue;
+                zoom_refactor();
+                inputDialog.remove();
+            });
     
-            svg.selectAll(".plot-point")
-                .attr("cx", d => newXScale(d.iteration_number))
-                .attr("cy", d => newYScale(d.value));
-            svg.select(".y-axis").call(d3.axisLeft(newYScale));
-            }
-            function updateZoomLevel(zoomLevel) {
+            // Close the dialog when clicking outside
+            document.addEventListener("click", function(event) {
+                if (!inputDialog.contains(event.target) && event.target !== editIcon) {
+                    inputDialog.remove();
+                }
+            });
+        });
+    });
     
-                document.getElementById("zoomLevel").textContent = `Zoom Level: ${zoomLevel.toFixed(2)}`;
-            }
-        zoom.on("zoom",zoomed)
     
-    }
-    
-function decreaseHeight() {
-    let analytic_parameter_option = document.querySelector('#analytics_options').value;
-    let svg_obj=svg_objects[analytic_parameter_option]
-    let svg=svg_obj.svg
-    let x = svg_obj.x;
-    let line=svg_obj.line
-    let y = svg_obj.y
-    let zoom=svg_obj.zoom
-    svg_obj.height -= Number(document.getElementById("decr-height").value);
-    svg.attr("height",svg_obj.height );
-    y.range([svg_obj.height - margin.bottom, margin.top]);
-    svg.select(".y-axis").call(d3.axisLeft(y));
-    svg.selectAll(".x-axis")
-        .attr("transform", `translate(0,${svg_obj.height - margin.bottom})`);
-    svg.selectAll(".line").attr("d", line.x(d=>x(d.iteration_number))
-                                          .y(d=>y(d.value)));
-    svg.selectAll(".plot-point")
-        .attr("cy", d => y(d.value))
-        .attr("cx",d=>x(d.iteration_number));
-    function zoomed(event) {
-        const newXScale = event.transform.rescaleX(x);
-        const newYScale = event.transform.rescaleY(y);
-        
-        svg.select(".x-axis").call(d3.axisBottom(newXScale));
-        svg.selectAll(".line").attr("d", line.x(d => newXScale(d.iteration_number))
-                                          .y(d => newYScale(d.value)))
-        updateZoomLevel(event.transform.k);
-        
-        // Ensure that the y-axis is not affected by zoom
-        y.range([svg_obj.height - margin.bottom, margin.top]);
-        svg.select(".y-axis").call(d3.axisLeft(y));
-
-        svg.selectAll(".plot-point")
-            .attr("cx", d => newXScale(d.iteration_number))
-            .attr("cy", d => newYScale(d.value));
-        svg.select(".y-axis").call(d3.axisLeft(newYScale));
-        }
-        function updateZoomLevel(zoomLevel) {
-
-            document.getElementById("zoomLevel").textContent = `Zoom Level: ${zoomLevel.toFixed(2)}`;
-        }
-    zoom.on("zoom",zoomed)
-    }
-    
-function increaseWidth() {
-        let analytic_parameter_option = document.querySelector('#analytics_options').value;
-        let svg_obj=svg_objects[analytic_parameter_option]
-        let svg=svg_obj.svg
-        let x = svg_obj.x;
-        let width = svg_obj.width
-        width += Number(document.getElementById("incr-width").value);
-        svg.attr("width", width);
-        x.range([margin.left, width - margin.right]);
-        svg.selectAll(".x-axis").call(d3.axisBottom(x));
-        svg.selectAll(".line").attr("d", svg_obj.line);
-        svg.selectAll(".plot-point")
-            .attr("cx", d => x(d.iteration_number));
-        
-    
-    }
-    
-function decreaseWidth() {
-        let analytic_parameter_option = document.querySelector('#analytics_options').value;
-        let svg_obj=svg_objects[analytic_parameter_option]
-        let svg=svg_obj.svg
-        let x=svg_obj.x
-        let width = svg_obj.width
-        width -= Number(document.getElementById("decr-width").value)
-        svg.attr("width", width);
-        x.range([margin.left, width - margin.right]);
-        svg.selectAll(".x-axis").call(d3.axisBottom(x));
-        svg.selectAll(".plot-point")
-            .attr("cx", d => x(d.iteration_number));
-        svg.selectAll(".line").attr("d", svg_obj.line);
-    
-    }

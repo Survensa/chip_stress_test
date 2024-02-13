@@ -3,6 +3,7 @@
     /* width: 70%; */
     background-color: #edecec;
     padding: 10px;
+    width: auto;
     overflow: hidden;
   }
   .tooltip {
@@ -91,7 +92,7 @@
     padding: 0.5%;
   }
 .graph_whole_container {
-  width: 60%;
+  width: 70%;
   float: right;
   height: 100vh;
   overflow-x: scroll;
@@ -102,7 +103,7 @@
 }
 .tree_container {
   width: 30%;
-  float: right;
+  /* float: right; */
   height: 100vh;
   overflow-x: scroll;
   overflow-y: scroll; 
@@ -120,3 +121,35 @@
   
 } */
 
+
+.main_wrapper{
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  /* overflow: hidden; */
+}
+
+.main_wrapper .sidebar{
+  width: 10%;
+}
+
+.main_wrapper .main_div{
+  width: 90%;
+}
+
+.summary_table .card{
+  width: 100%!important;
+  height: 500px;
+}
+
+.summary_table .btn-group{
+  margin-right: 5px;
+}
+
+.tab_wrapper{
+  height: 100%;
+}
+
+html{
+  overflow: hidden;
+}

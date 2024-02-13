@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='tableStyles.css') }}">
             <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='tableStyles.css') }}">
     <script>
             function fileFetch(dir_path,dir_name){
                 window.open("/get_log_contents?file_path="+dir_path+"&file_name="+dir_name)
@@ -11,30 +12,34 @@
         </script>
 </head>
 <body>
-{% include "navigation_bar.html" %}
-<h1>Multiple Log file are found choose which to display</h1>
-<center>
-    <div class="card">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>File Name</th>
-                    <th>File Size</th>
-                    <th>File Updated</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in files %}
-                    <tr>
-                        <td><button class="btn btn-primary" onclick="fileFetch( '{{ row.file_path }}', '{{ row.file_name }}')">{{ row.file_name }}</button></td>
-                        <td>{{ row.file_size }}</td>
-                        <td>{{ row.file_last_modified }}</td>
-    
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="d-flex main_wrapper">
+    {% include "navigation_bar.html" %}
+    <div class="main_div ms-5">
+        <h1>Multiple Log file are found choose which to display</h1>
+        <center>
+            <div class="card">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>File Name</th>
+                            <th>File Size</th>
+                            <th>File Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in files %}
+                            <tr>
+                                <td><button class="btn btn-primary" onclick="fileFetch( '{{ row.file_path }}', '{{ row.file_name }}')">{{ row.file_name }}</button></td>
+                                <td>{{ row.file_size }}</td>
+                                <td>{{ row.file_last_modified }}</td>
+            
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </center>
     </div>
-</center>
+</div>
 </body>
 </html>

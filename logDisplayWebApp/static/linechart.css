@@ -1,7 +1,7 @@
 .graph_container{
   margin: auto;
-  width: 70%;
-  background-color: #edecec;
+  width: 100%;
+  background-color: #818080;
   padding: 10px;
   overflow: hidden;
 }
@@ -24,6 +24,7 @@
 
 #container{
   overflow: hidden;
+  width:100%
 
 }
 /* Styling for each div */

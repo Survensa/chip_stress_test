@@ -33,53 +33,32 @@
     </style>
 </head>
 <body>
-{% include "navigation_bar.html" %}
 
-    
-
-<div class="graph_whole_container">
-    <div class="main_container">
-        <div class="row1">
-            <center>
-                <div class="card" >
-                    <button type="button" class="btn btn-primary" onclick="zoom_refactor()">Zoom Refactor</button> <input type="number"  id="zoom-refactor">
-                    <br>
-                    <br>
-                    <button class="btn btn-primary" onclick="increaseWidth()">Increase Width By</button><input type="number" id="incr-width">
-                    <br>
-                    <br>
-                    <button class="btn btn-primary" onclick="decreaseWidth()">Decrease Width BY</button><input type="number" id="decr-width">
-                    <br>
-                    <br>
-                    <button class="btn btn-primary" onclick="increaseHeight()">Increase Height By</button><input type="number" id="incr-height">
-                    <br>
-                    <br>
-                    <button class="btn btn-primary" onclick="decreaseHeight()">Decrease Height By</button><input type="number" id="decr-height">
-                    <br>
-                    <br>
-                    <select id="analytics_options" class="form-select">
-                    </select>
+<div class="d-flex main_wrapper">
+    {% include "navigation_bar.html" %}
+    <div class="main_div">
+        <div class="graph_whole_container">
+            <div class="main_container">
+                <div class="row2">
+                    <div class="graph_container">
+                        <div id="container">
+                        <p id="zoomLevel">Graph Zoom Level: 1 </p>
+                        <p id="zoom-refactor-p" >Zoom Re-Factor: <span id="zoom-refactor-edit" value="10">10</span> <span id="zoom-edit-button" class="fa fa-edit"></span> </p>
+                        </div>
+                    </div>
                 </div>
-            </center>
-                    
-        </div>        
-        <div class="row2">
-            <div class="graph_container">
-                <div id="container">
-                <p id="zoomLevel">Zoom Level: 1</p>
-                </div>
+                
             </div>
         </div>
-        
+        <div class="tree_container">
+            <div class="tree-container">
+            </div>
+                <center>
+                    <button class="btn btn-primary mt-3 btn-sm" onclick="printSelectedItems()">Generate Graph</button>
+                </center>
+        </div>
     </div>
-</div>
-<div class="tree_container">
-    <div class="tree-container">
-    </div>
-        <center>
-            <button class="btn btn-primary mt-3 btn-sm" onclick="printSelectedItems()">Generate Graph</button>
-        </center>
-</div>
 
+</div>    
 </body>
 </html>

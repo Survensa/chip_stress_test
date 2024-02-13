@@ -7,8 +7,8 @@ pairing_data = summary_json["analytics"]['pairing_duration_info']
 
 
 function svg_node_builder(summary_json,analytics_parameter){
-    var width = 1100;
-    var height = 300;
+    var width = 1500;
+    var height = 600;
     let analytics_parameter_data = summary_json["analytics"][analytics_parameter]
     let keys = Object.keys(analytics_parameter_data)
     let values = Object.values(analytics_parameter_data)
@@ -100,7 +100,7 @@ function svg_node_builder(summary_json,analytics_parameter){
 
     function updateZoomLevel(zoomLevel) {
 
-        document.getElementById("zoomLevel").textContent = `Zoom Level: ${zoomLevel.toFixed(2)}`;
+        document.getElementById("zoomLevel").textContent = `Graph Zoom Level: ${zoomLevel.toFixed(2)}`;
     }
 
     function handleMouseOver(event, d) {
@@ -123,7 +123,6 @@ function svg_node_builder(summary_json,analytics_parameter){
     }
     return {"svg":svg,"x":x,"y":y,"zoom":zoom,"line":line,"width":width,"height":height}
 }
-
 let analytics_parameters = Object.keys(summary_json["analytics"])
 let svg_objects={}
 analytics_parameters.forEach(analytics_element => {
@@ -137,6 +136,43 @@ analytics_parameters.forEach(analytics_element => {
     svg_objects[analytics_element]=svg_node
     div_element.appendChild(heading)
 });
+function zoom_refactor() {
+    let svg_array=Object.values(svg_objects)
+    svg_array.forEach((svg_obj)=>{
+    let zoom=svg_obj["zoom"]
+    zoom.scaleExtent([1, Number(document.getElementById("zoom-refactor-edit").textContent)])
+    })
+}
+document.addEventListener("DOMContentLoaded", function() {
+console.log("hi")
+    var editIcon = document.getElementById("zoom-edit-button");
+    editIcon.addEventListener("click", function(event) {
+        console.log("hi")
+        var inputDialog = document.createElement("div");
+        inputDialog.innerHTML = '<input type="number" id="zoom-refactor-input" value="' + document.getElementById("zoom-refactor-edit").textContent + '"> <button id="save-btn" class="btn btn-primary sm">Save</button>';
+        inputDialog.style.position = "absolute";
+        inputDialog.style.left = (event.clientX + 10) + "px";
+        inputDialog.style.top = (event.clientY + 10) + "px";
+        inputDialog.style.background = "#fff";
+        inputDialog.style.padding = "10px";
+        inputDialog.style.border = "1px solid #ccc";
+        inputDialog.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
+        document.body.appendChild(inputDialog);
 
+        var saveBtn = document.getElementById("save-btn");
+        saveBtn.addEventListener("click", function() {
+            var newValue = document.getElementById("zoom-refactor-input").value;
+            document.getElementById("zoom-refactor-edit").textContent = newValue;
+            zoom_refactor();
+            inputDialog.remove();
+        });
 
+        // Close the dialog when clicking outside
+        document.addEventListener("click", function(event) {
+            if (!inputDialog.contains(event.target) && event.target !== editIcon) {
+                inputDialog.remove();
+            }
+        });
+    });
+});
 

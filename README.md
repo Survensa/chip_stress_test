@@ -14,7 +14,7 @@ source scripts/activate.sh
 
 scripts/build_python.sh -m platform -d true -i <name_of_python_environment>
 
-source no/bin/activate
+source <name_of_python_environment>/bin/activate
 ```
 After the environment setup is completed  place the contents from root of this project to the path of ```<path_to_cloned_repo>/connectedhomeip/src/python_testing``` and navigate to this path
 

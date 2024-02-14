@@ -108,32 +108,47 @@ def default_config_reader(dict_args: dict):
         traceback.print_exc()
 
 
-def summary_log(test_result: dict, test_config_dict: dict):
-    log_data = ("**************Summary of Test Results*******\n\n"
-                "\t\t\tNumber of Iterations  is {}\n\n"
-                "\t\t\tNumber of Passed Iterations  is {}\n\n"
-                "\t\t\tNumber of Failed Iterations  is {}\n\n"
-                "\t\t\tIterations which have failed are {}\n\n"
-                "\t\t\tPlatform used for execution is {}\n\n"
-                "\t\t\tCommissioning method used is {}\n\n"
-                "\t\t\tExecution mode is  {}\n\n".format(test_config_dict["general_configs"]["iteration_number"],
-                                                         test_result["Pass Count"], test_result["Fail Count"]["Count"],
-                                                         test_result["Fail Count"]["Iteration"],
-                                                         test_config_dict["general_configs"]["platform_execution"],
-                                                         test_config_dict["general_configs"]["commissioning_method"],
-                                                         "Full execution Mode" if test_config_dict["general_configs"][
-                                                             "execution_mode_full"]
-                                                         else "Partial Execution Mode",
-                                                         ))
-    log_file = os.path.join(test_config_dict["iter_logs_dir"], "summary.log")
-    with open(log_file, "w") as fp:
-        fp.write(log_data)
+def summary_log(test_result: dict, test_config_dict: dict, completed: bool, analytics_json: dict):
+    if completed:
+        log_data = ("**************Summary of Test Results*******\n\n"
+                    "\t\t\tNumber of Iterations  is {}\n\n"
+                    "\t\t\tNumber of Passed Iterations  is {}\n\n"
+                    "\t\t\tNumber of Failed Iterations  is {}\n\n"
+                    "\t\t\tIterations which have failed are {}\n\n"
+                    "\t\t\tPlatform used for execution is {}\n\n"
+                    "\t\t\tCommissioning method used is {}\n\n"
+                    "\t\t\tExecution mode is  {}\n\n".format(test_config_dict["general_configs"]["iteration_number"],
+                                                             test_result["Pass Count"],
+                                                             test_result["Fail Count"]["Count"],
+                                                             test_result["Fail Count"]["Iteration"],
+                                                             test_config_dict["general_configs"]["platform_execution"],
+                                                             test_config_dict["general_configs"][
+                                                                 "commissioning_method"],
+                                                             "Full execution Mode" if
+                                                             test_config_dict["general_configs"][
+                                                                 "execution_mode_full"]
+                                                             else "Partial Execution Mode",
+                                                             ))
+        log_file = os.path.join(test_config_dict["iter_logs_dir"], "summary.log")
+        with open(log_file, "w") as fp:
+            fp.write(log_data)
     log_file_json = os.path.join(test_config_dict["iter_logs_dir"], "summary.json")
+    analytics_json_file = os.path.join(test_config_dict["iter_logs_dir"], "analytics.json")
+
+    analytics_json["test_class_name"] = test_config_dict["test_class_name"]
+    analytics_json["iteration_id"] = test_config_dict["iteration_id"]
+    analytics_json.update({"number_of_iterations": test_config_dict["general_configs"][
+        "iteration_number"] if completed else test_config_dict["current_iteration"]})
+
     test_result.update({"platform": test_config_dict["general_configs"]["platform_execution"]})
-    test_result.update({"number_of_iterations": test_config_dict["general_configs"]["iteration_number"]})
+    test_result.update({"number_of_iterations": test_config_dict["general_configs"][
+        "iteration_number"] if completed else test_config_dict["current_iteration"]})
     test_result.update({"commissioning_method": test_config_dict["general_configs"]["commissioning_method"]})
     test_result.update(
-        {"execution_mode": "Full execution Mode" if test_config_dict["general_configs"]["execution_mode_full"]
-        else "Partial Execution Mode"})
-    fp = open(log_file_json, "w+")
-    json.dump(test_result, fp, indent=2)
+        {"execution_mode": "Full execution Mode" if test_config_dict["general_configs"][
+            "execution_mode_full"] else "Partial Execution Mode"})
+    test_result.update({"analytics_metadata": list(analytics_json["analytics"].keys())})
+    with open(log_file_json, "w+") as fp:
+        json.dump(test_result, fp, indent=2)
+    with open(analytics_json_file, "w+") as fp:
+        json.dump(analytics_json, fp, indent=2)

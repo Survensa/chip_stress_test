@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Compare Script Analytics</title>
+    <script defer id="data" type="application/json">{{test_case_details | tojson}}</script>
+    <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', path='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', path='jquery-3.7.1.min.js') }}"></script>
+    <script defer src="{{ url_for('static', path='compareGraphs.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='compareGraph.css') }}">
+    <script src="{{url_for('static',path='d3_js/d3.v7.min.js')}}"></script>
+    <script src="{{url_for('static',path='tree.min.js')}}"></script>
+    <style>
+        .center_div {
+            display: block;
+            align-items: center;
+            justify-content: center;
+            width: 50%;
+            height: 300px;
+            overflow: auto;
+            border: 1px solid #ccc;
+            margin: auto;
+            padding: 10px;
+            margin-top: 50px;
+
+        }
+        .tree_container ul{
+            line-height: 40px;
+        }
+        
+        
+    </style>
+</head>
+<body>
+
+<div class="d-flex main_wrapper">
+    {% include "navigation_bar.html" %}
+    <div class="main_div">
+        <div class="graph_whole_container">
+            <div class="main_container">
+                <div class="row2">
+                    <div class="graph_container">
+                        <div id="container">
+                        <p id="zoomLevel">Graph Zoom Level: 1 </p>
+                        <p id="zoom-refactor-p" >Zoom Re-Factor: <span id="zoom-refactor-edit" value="10">10</span> <span id="zoom-edit-button" class="fa fa-edit"></span> </p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="tree_container">
+            <div class="tree-container">
+            </div>
+                <center>
+                    <button class="btn btn-primary mt-3 btn-sm" onclick="printSelectedItems()">Generate Graph</button>
+                </center>
+        </div>
+    </div>
+
+</div>    
+</body>
+</html>

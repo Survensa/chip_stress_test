@@ -1,0 +1,71 @@
+.graph_container{
+  margin: auto;
+  width: 95%;
+  background-color: #ededed;
+  padding: 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  padding-top: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.tooltip {
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ddd;
+        padding: 10px;
+        opacity: 0;
+    }
+.width .height{
+    margin:auto;
+
+}
+
+
+#container{
+  /* overflow: hidden; */
+  width:100%;
+  padding:40px;
+
+}
+
+label {
+  display: block; 
+  margin-bottom: 5px;
+}
+
+
+input{
+box-sizing: border-box;
+width: 30%;
+}
+button {
+  box-sizing: border-box;
+  width: 50%; /* Set button width to 100% of the parent width */
+  padding: 10px; /* Add padding as needed */
+  font-size: 16px; /* Set font size as needed */
+}
+
+.graph_styling{
+  text-align: center;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px; /* Set the margin for spacing between div elements */
+  border: 1px solid #000000; /* Add a border around each div */
+  box-sizing: border-box;
+  padding: 10px;
+  overflow: auto;
+  background-color: #ffffff;
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.card {
+  display: inline-block;
+  margin-right: 10px; /* Adjust margin as needed */
+}
+.button-layout{
+  width: 90%;
+  background-color: rgb(255, 255, 255);
+  justify-content: center;
+  margin: auto;
+  padding: 0.5%;
+}

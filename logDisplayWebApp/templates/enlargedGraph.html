@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Enlarged Graph</title>
+    <script src="{{url_for('static',path='d3_js/d3.v7.min.js')}}"></script>
+    <script defer type="text/javascript" src="{{ url_for('static', path='enlargedGraph.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
+    <script defer src="{{ url_for('static', path='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='enlargedGraph.css') }}">
+    <link defer rel="stylesheet" href="{{ url_for('static', path='font-awesome/css/font-awesome.min.css') }}">
+    <script defer id="data" type="application/json">{{summary_json | tojson}}</script>
+</head>
+<body>
+    <div class="graph_container">
+        <div id="container">
+          <p id="zoomLevel">Graph Zoom Level: 1 </p>
+          <p id="zoom-refactor-p" >Zoom Re-Factor: <span id="zoom-refactor-edit" value="10">10</span> <span id="zoom-edit-button" class="fa fa-edit"></span> </p>
+        </div>
+    </div>
+</body>
+</html>

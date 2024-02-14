@@ -13,6 +13,8 @@ source scripts/bootstrap.sh
 source scripts/activate.sh
 
 scripts/build_python.sh -m platform -d true -i <name_of_python_environment>
+
+source no/bin/activate
 ```
 After the environment setup is completed  place the contents from root of this project to the path of ```<path_to_cloned_repo>/connectedhomeip/src/python_testing``` and navigate to this path
 
@@ -56,16 +58,27 @@ The app will display all the folders present in the LOG Directory.
 User can download the folders in a 'zip' format or delete the directory
 
 ![Alt Text](images/readme/summary_page.png)
-![Alt Text](images/readme/summary_page_select_logs.png)
 
 When the user selects a folder, the app checks if the folder is an iteration folder by searching for a summary.json file
 If the folder is an iteration log folder then table with the summary of passed and failed iterations, along with commissioning method, number of test cases, DUT platform and execution mode are displayed.
 In the same page a table with iteration number, test result, time of execution, option to view DUT logs and iteration logs are present.
 pagination is provided to ease the access of data viewing.
 
+The application has analytics feature where it will create line graphs for visualization purposes.
+There is a mini version of the analytics line graph provided for visual purposes right below the table.
+To view a bigger version of the line graphs click on "Enlarged Graph" button.
+
+![Alt Text](images/readme/Enlarged_analytics_graph.png)
+
 the user can choose to view iteration logs and dut logs in the browser by clicking on desired buttons in the table.
 
 ![Alt Text](images/readme/log_page.png)
+
+There are two types of visualizations provided, one type will show just plot the analytics parameter against iteration number. This is accessible from the summary page
+The Other type of graph is accessed from the compare endpoint selected in the side-bar.The user will have to choose Run-set and which analytics parameter to compare.
+![Alt Text](images/readme/compare_api.png)
+
+
 
 ### Execution steps 
 Edit the config file present in the ```<path_to_cloned_repo>/connectedhomeip/src/python_testing/logDisplayWebApp/config/config.yaml``` with desired configs.
@@ -74,5 +87,9 @@ make sure to give correct path to the log folder in config file, which is nothin
 To run the application we need navigate to path ```<path_to_cloned_repo>/connectedhomeip/src/python_testing/logDisplayWebApp``` and run the command 
 
 ```python LogDisplay.py```
+
+User can also pass config file to the application 
+
+```python LogDisplay.py --config <path_to_config_file>/config.yaml```
 
 once the app starts navigate to ```http://host-name:port/home``` to view the homepage of the app.

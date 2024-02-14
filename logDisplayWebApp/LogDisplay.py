@@ -77,8 +77,8 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
         fp.close()
         fp = open(os.path.join(dir_path, "analytics.json"), "r")
         analytics_json = json.load(fp)
-        fp.close() 
-        summary["analytics"]=analytics_json["analytics"]
+        fp.close()
+        summary["analytics"] = analytics_json["analytics"]
         dir_details = utils.get_directory_info(dirs_list, log_dir=dir_path)
         filtered_data = []
         for row in dir_details:
@@ -239,24 +239,6 @@ def load_graph_template(request: Request, dir_path: str):
     fp.close()
     summary.update({"analytics": analytics["analytics"]})
     return templates.TemplateResponse("enlargedGraph.html", {"request": request, "summary_json": summary})
-    try:
-        dir_path=request_body["dir_path"]
-        dirs_list = os.listdir(dir_path)
-        if "summary.json" not in dirs_list and "analytics.json" not in dirs_list:
-            return {"status":"failed","message":"Data files are not present"}
-        else:
-            fp = open(os.path.join(dir_path, "summary.json"), "r")
-            summary = json.load(fp)
-            fp.close()
-            fp = open(os.path.join(dir_path, "analytics.json"), "r")
-            analytics = json.load(fp)
-            fp.close()
-            summary.update({"analytics": analytics["analytics"]})
-            return {"status":"success","summary_json":summary}
-    except Exception as e:
-        logging.error(e)
-        traceback.print_exc()
-        return {"status":"failed","message":str(e)}
 
 
 @app.get("/scriptExecution")
@@ -327,6 +309,7 @@ def compare_graph_data(fetch_data: dict, request: Request):
         else:
             response_dict[graph["analytics"]].append("no data")
     return response_dict
+
 
 app.add_middleware(
     CORSMiddleware,

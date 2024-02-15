@@ -19,3 +19,5 @@ nordic_config:
   serial_port: "/dev/ttyACM1"
   serial_baudrate: 115200
   serial_timeout: 60
+  serial_class_path: /home/ubuntu/matter_dut/connectedhomeip/src/python_testing/Matter_QA/Library/Platform/nordic/
+  serial_class_file_name: commonSerialInterface.py

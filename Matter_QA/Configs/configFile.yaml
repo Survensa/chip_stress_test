@@ -6,13 +6,13 @@ app_config: # these parameters are used to start the DUT application os user's c
   matter_app: "/home/ubuntu/matter_dut/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app/chip-all-clusters-app"
 
 general_configs:
-  platform_execution: "rpi" #only two options supported "rpi" for raspberrypi and "CustomDUT" for user's DUT
+  platform_execution: "rpi" #use 'rpi' option for using raspberrypi as DUT, for any other option used like 'nordic' or 'CustomDUT' same name will appear in log viewer UI and 'deviceModules' option from config will be read/used
   dut_connection_timeout: 60
   commissioning_method: "on-network" # supported options "on-network", "ble-wifi, "ble-thread"
   iteration_number: 3
   execution_mode_full: True # accept only boolean values, when set to True the script will not stop if the iteration fails
-  logFilePath: /media/grl/CommonData/matter_python/logs # when null value is set the script will create a folder called 'Iteration_logs' in current directory where logs will be stored.
-  deviceModules: # this option will be used by the script only when 'platform_execution' from the above config option is set to 'CustomDUT'
+  logFilePath: /media/grl/CommonData/matter_python/logs # when null-value or invalid-path is set the script will create a folder in current directory where logs will be stored.
+  deviceModules: # this option will be used by the script only when 'platform_execution' from the above config option is not 'rpi'
       module_name: nordic.py #Python file which will inherit the BaseDUTNode class and define the behaviour of the DUT Working
       module_path: /home/ubuntu/matter_dut/connectedhomeip/src/python_testing/Matter_QA/Library/Platform/nordic/ #path to the DUT class file
 nordic_config:

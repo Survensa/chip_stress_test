@@ -66,7 +66,7 @@ async function printSelectedItems() {
 // }
 function svg_node_builder(data){
         let zoom_refactor_val = Number(document.getElementById("zoom-refactor-edit").textContent)
-        var width = 1100;
+        var width = 1250;
         var height = 500;
         var x = d3.scaleLinear()
         .domain([0, d3.max(data, function(d) { return +d.iteration_number; })])

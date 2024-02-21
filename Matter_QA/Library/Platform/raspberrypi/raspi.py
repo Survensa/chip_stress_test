@@ -39,13 +39,13 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                              user=self.test_config["rpi_config"]["rpi_username"],
                              connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
             # Executing the  'ps aux | grep process_name' command to find the PID value to kill
-            command = f'ps aux | grep "{self.test_config["app_config"]["matter_app"]}"'
+            command = f'ps aux | grep "{self.test_config["rpi_config"]["app_config"]["matter_app"]}"'
             pid_val = ssh.run(command, hide=True)
             pid_output = pid_val.stdout
             pid_lines = pid_output.split('\n')
             for line in pid_lines:
                 try:
-                    if self.test_config['app_config']['matter_app'] in line:
+                    if self.test_config["rpi_config"]['app_config']['matter_app'] in line:
                         pid = line.split()[1]
                         conformance = line.split()[7]
                         if conformance == 'Ssl':
@@ -77,13 +77,13 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                              user=self.test_config["rpi_config"]["rpi_username"],
                              connect_kwargs={"password": self.test_config["rpi_config"]["rpi_password"]})
             ssh.run('rm -rf /tmp/chip_*')
-            command = f'ps aux | grep "{self.test_config["app_config"]["matter_app"]}"'
+            command = f'ps aux | grep "{self.test_config["rpi_config"]["app_config"]["matter_app"]}"'
             pid_val = ssh.run(command, hide=True)
             pid_output = pid_val.stdout
             pid_lines = pid_output.split('\n')
             for line in pid_lines:
                 try:
-                    if self.test_config['app_config']['matter_app'] in line:
+                    if self.test_config["rpi_config"]['app_config']['matter_app'] in line:
                         pid = line.split()[1]
                         conformance = line.split()[7]
                         if conformance == 'Ssl':
@@ -98,7 +98,7 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                         pass
                     else:
                         raise
-            log = ssh.run(self.test_config['app_config']['matter_app'], warn=True, hide=True,
+            log = ssh.run(self.test_config["rpi_config"]['app_config']['matter_app'], warn=True, hide=True,
                           pty=False)
             self.start_logging(log)
             ssh.close()

@@ -7,6 +7,7 @@ import os
 from threading import Event, Thread
 import sys
 from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
+from Matter_QA.Library.HelperLibs.commonSerialInterface import SerialPort
 
 event_closer = Event()
 
@@ -15,24 +16,12 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
     def __init__(self, test_config) -> None:
         super().__init__(test_config)
         self.test_config = test_config
-        if os.path.exists(os.path.join(test_config.get("nordic_config").get("serial_class_path"),
-                                       test_config.get("nordic_config").get("serial_class_file_name"))):
-            spec = importlib.util.spec_from_file_location(
-                name=test_config.get("nordic_config").get("serial_class_file_name"),
-                location=os.path.join(test_config.get("nordic_config").get("serial_class_path"),
-                                      test_config.get("nordic_config").get("serial_class_file_name")))
-            serial_module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(serial_module)
-            self.serial_port = serial_module.SerialPort(port=self.test_config["nordic_config"]["serial_port"],
+
+        self.serial_port = SerialPort(port=self.test_config["nordic_config"]["serial_port"],
                                                           baudrate=self.test_config["nordic_config"]["serial_baudrate"],
                                                           timeout=self.test_config["nordic_config"][
                                                               "serial_timeout"])
-            self.serial_port.open_serial()
-        else:
-            logging.error(f''' Check if {os.path.join(test_config.get("nordic_config").get("serial_class_path"),
-                                                      test_config.get("nordic_config").get("serial_class_file_name"))}
-                                                      path is existing, script will exit now!!''')
-            sys.exit(0)
+        self.serial_port.open_serial()
 
     def reboot_dut(self):
         pass

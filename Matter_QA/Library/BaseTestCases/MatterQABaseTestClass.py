@@ -106,14 +106,21 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             traceback.print_exc()
             return [False, str(e)]
 
-    def unpair_dut(self) -> dict:
+    def unpair_dut(self, controller=None, node_id=None) -> dict:
         try:
-            self.th1 = self.default_controller
-            self.th1.UnpairDevice(self.dut_node_id)
-            time.sleep(3)
-            self.th1.ExpireSessions(self.dut_node_id)
-            time.sleep(3)
-            return {"stats": True}
+            if controller is None and node_id is None:
+                self.th1 = self.default_controller
+                self.th1.UnpairDevice(self.dut_node_id)
+                time.sleep(3)
+                self.th1.ExpireSessions(self.dut_node_id)
+                time.sleep(3)
+                return {"stats": True}
+            else:
+                controller.UnpairDevice(node_id)
+                time.sleep(3)
+                self.th1.ExpireSessions(node_id)
+                time.sleep(3)
+                return {"stats": True}
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
@@ -168,7 +175,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     async def device_info(self, node_id: int = None, dev_ctrl: ChipDeviceCtrl = None, endpoint: int = 0,
                           user_defined_info: dict = None, include_default_info: bool = True) -> dict:
 
-        '''
+        """
         extra_info: this parameter is optional,is used when user wants more basic info of device input must be list of
         dictionaries having this sample input format
         [{"info_name":Clusters.ClusterObjects.ClusterAttributeDescriptor}]
@@ -177,7 +184,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         this same information will be displayed in the UI
         ex {"product_name":"light Bulb"} -> UI it will be displayed in Caps as "PRODUCT_NAME"
 
-        '''
+        """
         info_dict = {}
         if include_default_info and user_defined_info is None:  # used when user wants only default info given by this function
             default_info_attributes = {"product name": Clusters.BasicInformation.Attributes.ProductName,

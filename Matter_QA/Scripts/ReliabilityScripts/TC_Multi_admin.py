@@ -16,6 +16,9 @@ from Matter_QA.Library.HelperLibs.utils import convert_args_dict, summary_log
 
 
 class TC_Multi_admin(MatterQABaseTestCaseClass):
+    def __init__(self, *args):
+        super().__init__(*args)
+
     def build_fabrics(self, i: int):
         try:
             logging.info(f'node id {i}')
@@ -76,7 +79,6 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             resp = await devCtrl.ReadAttribute(nodeId, [(opCreds.Attributes.Fabrics)])
             listOfFabricsDescriptor = resp[0][opCreds][Clusters.OperationalCredentials.Attributes.Fabrics]
             for fabricDescriptor in listOfFabricsDescriptor:
-                logging.info("Fabric Descriptor Read From the Device: ", fabricDescriptor)
                 if fabricDescriptor.nodeID == nodeId:
                     return fabricDescriptor.fabricIndex
             return 0, False
@@ -87,14 +89,25 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
 
     async def remove_all_nodes(self, controllers):
         for controller in controllers:
-            logging.info(f" starting removal of {controller['name']}")
-
-            fbIdx = await self._IsNodeInFabricList(controller["fabric_object"], controller["fabric_dut_node_id"])
-            await controller["fabric_object"].SendCommand(
-                controller["fabric_dut_node_id"], 0,
-                Clusters.OperationalCredentials.Commands.RemoveFabric(fabricIndex=fbIdx))
-            logging.info(f"removed fabric {fbIdx}")
-            await asyncio.sleep(2)
+            try:
+                logging.info(f'controller Details {controller}')
+                logging.info(f'unpairing {controller["name"]}')
+                response = await self.read_single_attribute_check_success(
+                    cluster=Clusters.Objects.OperationalCredentials,
+                    attribute=Clusters.OperationalCredentials.Attributes.CommissionedFabrics,
+                    endpoint=0)
+                logging.info(f"the fabrics before unpairing are {response}")
+                self.unpair_dut(controller["fabric_object"], node_id=controller["fabric_dut_node_id"])
+                # fbIdx = await self._IsNodeInFabricList(controller["fabric_object"], controller["fabric_dut_node_id"])
+                # logging.info(f" starting removal of fabric {fbIdx}")
+                # await controller["fabric_object"].SendCommand(
+                #     controller["fabric_dut_node_id"], 0,
+                #     Clusters.OperationalCredentials.Commands.RemoveFabric(fabricIndex=fbIdx))
+                # logging.info(f"removed fabric {fbIdx}")
+                await asyncio.sleep(2)
+            except Exception as e:
+                logging.error(e)
+                traceback.print_exc()
 
     async def build_controllers(self, fabrics: list, number_of_controllers):
         for fabric in fabrics:
@@ -116,7 +129,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                 return 0, str(e)
         return fabrics
 
-    async def on_off_dev(self, fabrics, ):
+    async def on_off_dev(self, fabrics):
         try:
             fabric_random_1 = random.choice(fabrics)
             controller_random_1 = random.choice(fabric_random_1["controllers"])
@@ -147,41 +160,62 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     @async_test_body
     async def test_stress_test_multi_fabric(self):
         self.th1 = self.default_controller
-        fabrics = []
+        device_info = await self.device_info()  # pulls basic cluster information this is must be present at all times
+        self.test_result.update({"device_basic_information": device_info})
         self.dut = self.get_dut_object()
-        for i in range(1, int(dict_args["--fabrics"])):
-            fabric_details = self.build_fabrics(int(i))
-            await self.pair_the_nodes(fabric_details), asyncio.sleep(2)
-            fabrics.append(fabric_details)
-        fabrics = await self.build_controllers(fabrics, int(dict_args["--controllers"]))
         self.test_result.update({"Failed_iteration_details": {}})
         pairing_duration_info = {}
-        for i in range(self.test_config_dict["general_configs"]["iteration_number"]):
-            logging.info("Started Iteration sequence {}".format(i))
-            self.test_config_dict["current_iteration"] = i
-            self.start_iteration_logging(i, None)
-            start_time = datetime.datetime.now()
-            response = await self.on_off_dev(fabrics)
-            end_time = datetime.datetime.now()
-            total_pairing_time = round((end_time - start_time).total_seconds(), 4)
-            pairing_duration_info.update({str(i): total_pairing_time})
-            if 0 in response:
-                self.test_result["Failed_iteration_details"].update({str(i): str(response[1])})
-                self.test_result["Fail Count"]["Iteration"].append(i)
-                logging.error(f'iteration {i} is failed')
-                self.test_result["Fail Count"]["Count"] += 1
-                if not self.test_config_dict["general_configs"]["execution_mode_full"]:
-                    logging.info(
-                        'Full Execution mode is disabled \n The iteration {} number has failed hence the '
-                        'execution will stop here'.format(i))
-                    self.dut.factory_reset_dut(stop_reset=True)
-                    break
-                continue
+        fabric_creation = {}
+        used_heap = {}
+        for iteration in range(1, self.test_config_dict["general_configs"]["iteration_number"] + 1):
+            self.start_iteration_logging(iteration, None)
+            fabrics = []
+            logging.info("Started Iteration sequence {}".format(iteration))
+            start_time_f = datetime.datetime.now()
+            for fabric_id_itr in range(1, int(dict_args["--fabrics"])):  # here we build different fabrics/node
+                fabric_details = self.build_fabrics(int(fabric_id_itr))
+                await self.pair_the_nodes(fabric_details), asyncio.sleep(2)
+                fabrics.append(fabric_details)
+            # fabrics = await self.build_controllers(fabrics, int(dict_args["--controllers"]))
+            end_time_f = datetime.datetime.now()
+            controller_build_time = round((end_time_f - start_time_f).total_seconds(), 4)
+            fabric_creation.update({str(iteration): controller_build_time})
+            self.test_config_dict["current_iteration"] = iteration
+            # start_time = datetime.datetime.now()
+            # response = await self.on_off_dev(fabrics)
+            # end_time = datetime.datetime.now()
+            # total_pairing_time = round((end_time - start_time).total_seconds(), 4)
+            # pairing_duration_info.update({str(iteration): total_pairing_time})
+            heap_usage = await self.get_heap_usage()
+            used_heap.update({str(iteration): heap_usage[0]})
+            # if False:
+            #     self.test_result["Failed_iteration_details"].update({str(iteration): str(response[1])})
+            #     self.test_result["Fail Count"]["Iteration"].append(iteration)
+            #     logging.error(f'iteration {iteration} is failed')
+            #     self.test_result["Fail Count"]["Count"] += 1
+            #     if not self.test_config_dict["general_configs"]["execution_mode_full"]:
+            #         logging.info(
+            #             'Full Execution mode is disabled \n The iteration {} number has failed hence the '
+            #             'execution will stop here'.format(iteration))
+            #         self.dut.factory_reset_dut(stop_reset=True)
+            #         self.stop_iteration_logging(iteration, None)
+            #         break
+            #     continue
             self.test_result["Pass Count"] += 1
-            logging.info(f'iteration {i} is passed')
+            logging.info(f'iteration {iteration} is passed')
+            self.stop_iteration_logging(iteration, None)
             time.sleep(3)
-        self.test_result.update({"pairing_duration_info": pairing_duration_info})
-        summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict)
+            self.analytics_json["analytics"].update({"controller_build_time": fabric_creation})
+            self.analytics_json["analytics"].update({"heap_usage": used_heap})
+            # self.analytics_json["analytics"].update({"response_time_on_off": pairing_duration_info})
+            summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
+                        completed=True, analytics_json=self.analytics_json)
+            await self.remove_all_nodes(fabrics)
+        self.analytics_json["analytics"].update({"controller_build_time": fabric_creation})
+        self.analytics_json["analytics"].update({"heap_usage": used_heap})
+        # self.analytics_json["analytics"].update({"response_time": pairing_duration_info})
+        summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
+                    completed=True, analytics_json=self.analytics_json)
         self.dut.factory_reset_dut(stop_reset=True)
 
 

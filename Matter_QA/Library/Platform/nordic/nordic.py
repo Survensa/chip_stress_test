@@ -1,13 +1,13 @@
 import datetime
+import importlib.util
 import traceback
-import serial
 import time
 import logging
 import os
 from threading import Event, Thread
 import sys
-from mobly import signals
 from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
+from Matter_QA.Library.HelperLibs.commonSerialInterface import SerialPort
 
 event_closer = Event()
 
@@ -17,15 +17,27 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
         super().__init__(test_config)
         self.test_config = test_config
 
+        self.serial_port = SerialPort(port=self.test_config["nordic_config"]["serial_port"],
+                                                          baudrate=self.test_config["nordic_config"]["serial_baudrate"],
+                                                          timeout=self.test_config["nordic_config"][
+                                                              "serial_timeout"])
+        self.serial_port.open_serial()
+
     def reboot_dut(self):
         pass
 
     def factory_reset_dut(self, stop_reset: bool):
         if not stop_reset:
             # self.stop_logging()
-            SerialPort(port=self.test_config["nordic_config"]["serial_port"],
-                       baudrate=self.test_config["nordic_config"]["serial_baudrate"],
-                       timeout=self.test_config["nordic_config"]["serial_timeout"]).write_cmd()
+            for i in range(1, 4):
+                logging.info("resetting nordic matter device")
+                if self.serial_port.serial_port_obj.is_open:
+                    self.serial_port.write_cmd(b'matter device factoryreset\n')
+                    time.sleep(5)
+                else:
+                    logging.info("The port was closed now opening the port")
+                    self.serial_port.serial_port_obj.open()
+                    self.serial_port.write_cmd(b'matter device factoryreset\n')
             return True
         else:
             self.start_matter_app()
@@ -33,21 +45,28 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
             return True
 
     def start_matter_app(self):
-        SerialPort(port=self.test_config["nordic_config"]["serial_port"],
-                   baudrate=self.test_config["nordic_config"]["serial_baudrate"],
-                   timeout=self.test_config["nordic_config"]["serial_timeout"]).write_cmd()
-        time.sleep(2)
-        return True
+        try:
+            if self.serial_port.serial_port_obj.is_open:
+                self.serial_port.write_cmd(b'matter device factoryreset\n')
+                time.sleep(5)
+            else:
+                logging.info("The port was closed now opening the port")
+                self.serial_port.serial_port_obj.open()
+                self.serial_port.write_cmd(b'matter device factoryreset\n')
+            self.serial_port.serial_port_obj.close()
+            return True
+        except Exception as e:
+            logging.error(e)
+            traceback.print_exc()
 
     def start_logging(self, log=None) -> bool:
         global event_closer
+        if not self.serial_port.serial_port_obj.is_open:
+            self.serial_port.open_serial()
         if self.test_config["current_iteration"] == 0:
             self.test_config["current_iteration"] += 1
-        ser = SerialPort(port=self.test_config["nordic_config"]["serial_port"],
-                         baudrate=self.test_config["nordic_config"]["serial_baudrate"],
-                         timeout=self.test_config["nordic_config"]["serial_timeout"]).create_serial()
-        if ser.is_open:
-            while ser.is_open:
+        if self.serial_port.serial_port_obj.is_open:
+            while self.serial_port.serial_port_obj.is_open:
                 try:
                     current_dir = self.test_config["iter_logs_dir"]
                     log_path = os.path.join(current_dir, str(self.test_config["current_iteration"]))
@@ -59,7 +78,7 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
                                             + ".log"
                                             )
                     logging.info("started to read buffer")
-                    data = ser.read_until(b'Done\r\r\n').decode()
+                    data = self.serial_port.serial_port_obj.read_until(b'Done\r\r\n').decode()
                     logging.info("completed read from buffer")
                     if data == '':
                         logging.info("data not present in buffer breaking from read loop")
@@ -81,36 +100,6 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
         global event_closer
         event_closer.set()
         return True
-
-
-class SerialPort(object):
-    def __init__(self, port, baudrate, timeout) -> None:
-        self.port = port
-        self.baudrate = baudrate
-        self.timeout = timeout
-
-    def create_serial(self):
-        try:
-            ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
-            if not ser.is_open:
-                logging.info("Opening Serial Port")
-                ser.open()
-            return ser
-        except Exception as e:
-            logging.error(e)
-            traceback.print_exc()
-
-    def write_cmd(self):
-        try:
-            ser = serial.Serial(self.port, self.baudrate, timeout=self.timeout)
-        except serial.SerialException:
-            raise signals.TestAbortAll("Failed to Reset the device")
-        cmd = b'matter device factoryreset\n'
-        for i in range(1, 4):
-            logging.info("resetting nordic matter device")
-            ser.write(cmd)
-            time.sleep(2)
-        ser.close()
 
 
 def create_dut_object(test_config):

@@ -47,6 +47,13 @@ If running the code with the argument '--yaml-file', provide the path of the con
 python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --yaml-file /home/user/config.yaml
 ```
 
+When running the code for 'ble-wifi' commissioning method,in the 'configFile.yaml' file the option for 'commissioning_method'
+must be set to 'ble-wifi' and use the command below
+
+```bash
+python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --wifi-ssid <wifi-name> --wifi-passphrase <wifi-password>
+```
+
 ### Nordic Thread
 
 For Nordic Thread, use the following command:
@@ -61,22 +68,6 @@ The scripts in the repository are used to pair and unpair with DUT multiple time
 
 # LOG Display Web App
 
-## 🖥️ About the Application
-
-The LOG Display Web App serves as a visualization tool for users to check the pass and fail status of iterations. It reads a config file from the project directory for configurations.
-
-### Features
-
-- Displays all folders present in the LOG Directory.
-- Allows downloading folders in 'zip' format or deleting directories.<br><br>
-  ![Alt Text](images/readme/home_page.png)<br><br>
-- Provides tables with iteration summary, test result, execution time, and options to view DUT logs.
-- Offers pagination for ease of data viewing.<br><br>
-  ![Alt Text](images/readme/summary_page.png)<br><br>
-- Includes analytics feature with line graphs for visualization.<br><br>
-  ![Alt Text](images/readme/Enlarged_analytics_graph.png)<br><br>
-- Supports comparison of analytics parameters against iteration numbers.<br><br>
-  ![Alt Text](images/readme/compare_api.png)<br><br>
 
 ## 🚀 Execution Steps
 
@@ -95,3 +86,23 @@ python LogDisplay.py --config <path_to_config_file>/config.yaml
 ```
 
 Access the homepage of the app at `http://host-name:port/home` once the app starts.
+
+
+## 🖥️ About the Application
+
+The LOG Display Web App serves as a visualization tool for users to check the pass and fail status of iterations. It reads a config file from the project directory for configurations.
+
+### Features
+
+- Displays all folders present in the LOG Directory.
+- Allows downloading folders in 'zip' format or deleting directories.<br><br>
+  ![Alt Text](images/readme/home_page.png)<br><br>
+- Provides tables with iteration summary, test result, execution time, and options to view DUT logs.
+- Offers pagination for ease of data viewing.<br><br>
+  ![Alt Text](images/readme/summary_page.png)<br><br>
+- Includes analytics feature with line graphs for visualization.<br><br>
+  ![Alt Text](images/readme/Enlarged_analytics_graph.png)<br><br>
+- Supports comparison of analytics parameters against iteration numbers.<br><br>
+  ![Alt Text](images/readme/compare_api.png)<br><br>
+
+

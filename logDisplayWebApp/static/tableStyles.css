@@ -107,8 +107,9 @@ table.basic-info-table td {
 }
 
 .summary_table .card{
-    width: 100%!important;
-  height: 500px;
+    width: 99%!important;
+  height: 930px;
+  overflow-y: scroll;
 }
 
 .summary_table .btn-group{

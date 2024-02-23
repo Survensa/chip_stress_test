@@ -17,7 +17,9 @@ scripts/build_python.sh -m platform -d true -i <name_of_python_environment>
 source <name_of_python_environment>/bin/activate
 ```
 
-After activating the environment, move the contents from the root of this project to `<path_to_cloned_repo>/connectedhomeip/src/python_testing` and navigate to this path.
+After activating the environment, copy the contents of this project to `<path_to_cloned_repo>/connectedhomeip/src/python_testing` and navigate to this path.
+
+You can use commands like ```cp <path_to_this_project>/Functional/* <path_to_cloned_repo>/connectedhomeip/src/python_testing``` , and navigate by ```cd <path_to_cloned_repo>/connectedhomeip/src/python_testing``` 
 
 ### Library Installation
 

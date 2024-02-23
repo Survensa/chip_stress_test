@@ -27,11 +27,51 @@ To install the necessary libraries, run:
 python setup.py install
 ```
 
+# 🏃 Running Test Script Reliability
+
 The reliability scripts are located at `<path_to_cloned_repo>/connectedhomeip/src/python_testing/Matter_QA/Scripts/ReliabilityScripts`. 
+
+## ConFig File Setup
 
 Each script requires configurations detailed in `configFile.yaml` located at `<path_to_cloned_repo>/connectedhomeip/src/python_testing/Matter_QA/Config/`.
 
-## 🏃 Running Test Script 'TC_Pair.py'
+![AltText](images/readme/configFile.png)
+
+#### ✏️ General Configs
+
+
+| Parameter               | Type      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+|:------------------------|:----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `platform_execution`    | `string`  | DUT Platform Execution can be controlled here. If the user wants to use 'rapsberrypi' device as a DUT use ```rpi```,enabling this will make the script use the ```rpi_config``` and interact with the matter application present in the raspberrypi. Any other String used in this option will make the script use <br> ```deviceModules```, which will be respective user's DUT interaction class which they will have to implement and use. |
+| `module_name`           | `string`  | As an example for `deviceModules` option we have added a DUT interaction script for Nordic dev board, which is `nordic.py`, user must give his own script name for other DUT intearction scripts                                                                                                                                                                                                                                              |
+| `module_path`           | `string`  | corresponds to the path for the user's DUT interaction script                                                                                                                                                                                                                                                                                                                                                                                 |
+| `commissioning_mthod`   | `string`  | Choosing the transport method for communicating with DUT can be controlled here, where it supports only three mode namely "on-network", "ble-wifi", "ble-thread".                                                                                                                                                                                                                                                                             |
+| `iteration_number`      | `integer` | will be used by the script to run n number of times, as example take the "TC_Pair.py" script, if we want to pair and unpair from the device n number of time we need pass integers here to run n number of times.                                                                                                                                                                                                                             |
+| `LogFilePath`           | `string`  | All the Logs for the script execution will be stored on the system and path will be specifed here, the user needs to create the path on the system, if it does not exist then current directory where the script is executing will be used for storing the Log Data.                                                                                                                                                                          |
+| `analytical_parameters` | `array`   | By default the script will monitor two parameters heap usage and pairing_duration, this option is an empty array no parameter will be measured                                                                                                                                                                                                                                                                                                |
+
+#### ✏️ Raspberry-pi config(rpi_config)
+
+| Parameter      | Type     | Description                                                                            |
+|:---------------|:---------|:---------------------------------------------------------------------------------------|
+| `rpi_hotsname` | `string` | Here user will provide the raspberrypi <br/> Ip adderess                               |
+| `rpi_username` | `string` | the user name of the Raspberrypi                                                       |
+| `matter_app`   | `string` | full path and script name of the matter cluster application along with command options |
+
+
+#### ✏️ Nordic serial config(nordic_config)
+This option will be used by the `nordic.py` script to interact with Nordic dev board
+
+| Parameter         | Type      | Description                                                                                |
+|:------------------|:----------|:-------------------------------------------------------------------------------------------|
+| `serial_port`     | `string`  | serial port path,example; for linux systems it will be `/dev/tty/ACM0`, for windows `COM1` |
+| `serial_baudrate` | `integer` | Baudrate number                                                                            |
+| `serial_timeout`  | `integer` | timeout for interacting with the nordic dev board                                          |
+
+### ℹ️ About Test Script 'TC_Pair.py'
+
+The scripts in the repository are used to pair and unpair with DUT multiple times. Currently, two simulated modes of DUT are assumed: Raspberry Pi and nRf52840-DK development thread board. The Raspberry Pi mode prompts the user for necessary inputs, while the nRf52840-DK mode requires the location of the script for advertising and resetting the DUT, among other functions.
+
 
 ### Raspberry Pi
 
@@ -61,10 +101,6 @@ For Nordic Thread, use the following command:
 ```bash
 python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --ble-interface-id 0  --thread-dataset-hex 0e080000000000010000000300001035060004001fffe0020812611111227222220708fd97e1eb459cbbf3051000112433428566778899aabbccddeeff030f4f70656e54687265616444656d6f63010212320410b775feb5fc41b965747da30c8f76bda30c0402a0f7f8
 ```
-
-## ℹ️ About Test Script 'TC_Pair.py'
-
-The scripts in the repository are used to pair and unpair with DUT multiple times. Currently, two simulated modes of DUT are assumed: Raspberry Pi and nRf52840-DK development thread board. The Raspberry Pi mode prompts the user for necessary inputs, while the nRf52840-DK mode requires the location of the script `override.py` for advertising and resetting the DUT, among other functions.
 
 # LOG Display Web App
 

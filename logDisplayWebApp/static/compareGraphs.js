@@ -99,7 +99,7 @@ function svg_node_builder(data){
                 .attr("class", "line")
                 .attr("fill", "none")
                 .attr("stroke", color)
-                .attr("stroke-width", 2)
+                .attr("stroke-width", 3)
                 .attr("d", line);
         });
         let tooltip = d3.select("#container").append("div")

@@ -43,12 +43,12 @@ class TC_Pair(MatterQABaseTestCaseClass):
         self.test_result.update({"Failed_iteration_details": {}})
         used_heap = {}
         pairing_duration_info = {}
-        for i in range(1, iterations + 1):
-            logging.info("Started Iteration sequence {}".format(i))
+        for iteration in range(1, iterations + 1):
+            logging.info("Started Iteration sequence {}".format(iteration))
             fail_reason = None
-            self.test_config_dict["current_iteration"] = i
-            self.start_iteration_logging(i, None)
-            start_time = datetime.datetime.now()
+            self.test_config_dict["current_iteration"] = iteration
+            self.start_iteration_logging(iteration, None)
+            await self.capture_start_parameters(pairing_duration=pairing_duration_info)  # start to capture pairing info
             try:
                 iter_result = self.commission_device(
                     kwargs={"timeout": self.test_config_dict["general_configs"]["dut_connection_timeout"]})
@@ -59,60 +59,57 @@ class TC_Pair(MatterQABaseTestCaseClass):
             if iter_result[0]:
                 logging.info('Device has been Commissioned starting pair-unpair operation')
                 time.sleep(2)
-                heap_usage = await self.get_heap_usage()
-                used_heap.update({str(i): heap_usage[0]})
-                self.analytics_json["analytics"].update({"heap_used": used_heap})
+                await self.capture_start_parameters(iteration_number=iteration, heap_usage=used_heap)  # capture heap used after pairing with device
                 unpair_res = self.unpair_dut()
-                if unpair_res.get("stats") is False:
-                    end_time = datetime.datetime.now()
-                    total_pairing_time = round((end_time - start_time).total_seconds(), 4)
+                if unpair_res.get("stats") is False:  # when pairing fails
+                    self.capture_end_parameters(iteration, pairing_duration=pairing_duration_info)
                     fail_reason = unpair_res.get("failed_reason")
-                    pairing_duration_info.update({str(i): total_pairing_time})
-                    self.test_result["Failed_iteration_details"].update({str(i): fail_reason})
-                    self.test_result["Fail Count"]["Iteration"].append(i)
-                    logging.error(f'iteration {i} is failed due to {fail_reason}')
+                    self.test_result["Failed_iteration_details"].update({str(iteration): fail_reason})
+                    self.test_result["Fail Count"]["Iteration"].append(iteration)
+                    logging.error(f'iteration {iteration} is failed due to {fail_reason}')
                     self.test_result["Fail Count"]["Count"] += 1
                     if not self.test_config_dict["general_configs"]["execution_mode_full"]:
+                        # break from script as full execution is false
                         logging.info(
                             'Full Execution mode is disabled \n The iteration {} number has failed hence the '
-                            'execution will stop here'.format(i))
-                        self.analytics_json["analytics"].update({"pairing_duration_info": pairing_duration_info})
+                            'execution will stop here'.format(iteration))
+                        self.update_analytics_json(self.test_config_dict["general_configs"]["analytics_parameters"],
+                                                   [pairing_duration_info,used_heap])
                         summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
                                     completed=True, analytics_json=self.analytics_json)
                         self.dut.factory_reset_dut(stop_reset=True)
                         break
                     continue
-                end_time = datetime.datetime.now()
-                total_pairing_time = round((end_time - start_time).total_seconds(), 4)
-                pairing_duration_info.update({str(i): total_pairing_time})
-                logging.info(f'iteration {i} is passed and unpairing the device is successful')
+                self.capture_end_parameters(iteration, pairing_duration=pairing_duration_info)
+                self.update_analytics_json(self.test_config_dict["general_configs"]["analytics_parameters"],
+                                           [pairing_duration_info, used_heap])
+                logging.info(f'iteration {iteration} is passed and unpairing the device is successful')
                 self.test_result["Pass Count"] += 1
             else:
-                end_time = datetime.datetime.now()
-                total_pairing_time = round((end_time - start_time).total_seconds(), 4)
-                pairing_duration_info.update({str(i): total_pairing_time})
-                self.test_result["Failed_iteration_details"].update({str(i): iter_result[1]})
-                self.test_result["Fail Count"]["Iteration"].append(i)
-                logging.error(f'iteration {i} is failed')
+                self.capture_end_parameters(iteration, pairing_duration=pairing_duration_info)
+                self.test_result["Failed_iteration_details"].update({str(iteration): iter_result[1]})
+                self.test_result["Fail Count"]["Iteration"].append(iteration)
+                logging.error(f'iteration {iteration} is failed')
                 self.test_result["Fail Count"]["Count"] += 1
                 if not self.test_config_dict["general_configs"]["execution_mode_full"]:
                     logging.info(
                         'Full Execution mode is disabled \n The iteration {} number has failed hence the '
-                        'execution will stop here'.format(i))
-                    self.analytics_json["analytics"].update({"pairing_duration_info": pairing_duration_info})
+                        'execution will stop here'.format(iteration))
+                    self.update_analytics_json(["pairing_duration_info"],
+                                               [pairing_duration_info])
                     summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
                                 completed=True, analytics_json=self.analytics_json)
                     self.dut.factory_reset_dut(stop_reset=True)
                     break
-            if i == iterations:
+            if iteration == iterations:
                 self.dut.factory_reset_dut(stop_reset=True)
             else:
                 self.dut.factory_reset_dut(stop_reset=False)
-            logging.info('completed pair and unpair sequence for {}'.format(i))
+            logging.info('completed pair and unpair sequence for {}'.format(iteration))
             self.analytics_json["analytics"].update({"pairing_duration_info": pairing_duration_info})
             summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
                         completed=False, analytics_json=self.analytics_json)
-            self.stop_iteration_logging(i, None)
+            self.stop_iteration_logging(iteration, None)
         self.analytics_json["analytics"].update({"pairing_duration_info": pairing_duration_info})
         summary_log(test_result=self.test_result, test_config_dict=self.test_config_dict,
                     completed=True, analytics_json=self.analytics_json)

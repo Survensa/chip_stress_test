@@ -145,6 +145,7 @@ let svg_objects={}
 analytics_parameters.forEach(analytics_element => {
     let svg_node=svg_node_builder(summary_json,analytics_element)
     let div_element=document.createElement("div");
+    div_element.setAttribute("id",analytics_element)
     let heading =document.createElement("p")
     heading.textContent=analytics_element.toUpperCase()
     div_element.classList.add("graph_styling")
@@ -161,10 +162,8 @@ function zoom_refactor() {
     })
 }
 document.addEventListener("DOMContentLoaded", function() {
-console.log("hi")
     var editIcon = document.getElementById("zoom-edit-button");
     editIcon.addEventListener("click", function(event) {
-        console.log("hi")
         var inputDialog = document.createElement("div");
         inputDialog.innerHTML = '<input type="number" id="zoom-refactor-input" value="' + document.getElementById("zoom-refactor-edit").textContent + '"> <button id="save-btn" class="btn btn-primary sm">Save</button>';
         inputDialog.style.position = "absolute";
@@ -192,4 +191,154 @@ console.log("hi")
         });
     });
 });
+function capture_display_graph(analytics){
+    if(document.getElementById("DisplayAll").checked){
+        document.getElementById("DisplayAll").checked=false;
+        var Checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        Checkboxes.forEach((checkbox)=>{
+            let element_unset = document.getElementById($(checkbox).attr("id"))
+            if($(checkbox).attr("id") != analytics && $(checkbox).attr("id")!="DisplayAll"){
+                element_unset.checked=false
+                document.getElementById(element_unset.value).setAttribute("hidden",true)
 
+            }
+        });
+    }
+    else{
+        let current_element=document.getElementById(analytics)
+                if(!current_element.checked){
+                    document.getElementById(current_element.value).setAttribute("hidden",true)
+                }
+                else {
+                    document.getElementById(current_element.value).removeAttribute("hidden")
+                }
+    }
+    
+}
+(function($) {
+    var CheckboxDropdown = function(el) {
+      var _this = this;
+      this.isOpen = false;
+      this.areAllChecked = false;
+      this.$el = $(el);
+      this.$label = this.$el.find('.dropdown-label');
+      this.$checkAll = this.$el.find('[data-toggle="check-all"]').first();
+      this.$inputs = this.$el.find('[type="checkbox"]');
+      
+      this.onCheckBox();
+      
+      this.$label.on('click', function(e) {
+        e.preventDefault();
+        _this.toggleOpen();
+      });
+      
+      this.$checkAll.on('click', function(e) {
+        e.preventDefault();
+        _this.onCheckAll();
+      });
+      
+      this.$inputs.on('change', function(e) {
+        _this.onCheckBox();
+      });
+    };
+    
+    CheckboxDropdown.prototype.onCheckBox = function() {
+      this.updateStatus();
+    };
+    
+    CheckboxDropdown.prototype.updateStatus = function() {
+      var checked = this.$el.find(':checked');
+      
+      this.areAllChecked = false;
+      this.$checkAll.html('Check All');
+      
+      if(checked.length <= 0) {
+        this.$label.html('Select Options');
+      }
+      else if(checked.length === 1) {
+        this.$label.html(checked.parent('label').text());
+      }
+      else if(checked.length === this.$inputs.length) {
+        this.$label.html('All Selected');
+        this.areAllChecked = true;
+        this.$checkAll.html('Uncheck All');
+      }
+      else {
+        this.$label.html(checked.length + ' Selected');
+      }
+    };
+    
+    CheckboxDropdown.prototype.onCheckAll = function(checkAll) {
+      if(!this.areAllChecked || checkAll) {
+        this.areAllChecked = true;
+        this.$checkAll.html('Uncheck All');
+        this.$inputs.prop('checked', true);
+        console.log("all checked")
+        var selectedCheckboxes = $('input[type=checkbox]:not checked');
+        selectedCheckboxes.each(function(index, checkbox){
+            console.log($(checkbox).attr("id"));
+        });
+      }
+      else {
+        this.areAllChecked = false;
+        this.$checkAll.html('Check All');
+        this.$inputs.prop('checked', false);
+        console.log("unchecked")
+        console.log(this.$inputs)
+        this.$inputs.forEach((data)=>console.log(data))
+      }
+      
+      this.updateStatus();
+    };
+    
+    CheckboxDropdown.prototype.toggleOpen = function(forceOpen) {
+      var _this = this;
+      
+      if(!this.isOpen || forceOpen) {
+         this.isOpen = true;
+         this.$el.addClass('on');
+        $(document).on('click', function(e) {
+          if(!$(e.target).closest('[data-control]').length) {
+           _this.toggleOpen();
+          }
+        });
+      }
+      else {
+        this.isOpen = false;
+        this.$el.removeClass('on');
+        $(document).off('click');
+      }
+    };
+    
+    var checkboxesDropdowns = document.querySelectorAll('[data-control="checkbox-dropdown"]');
+    for(var i = 0, length = checkboxesDropdowns.length; i < length; i++) {
+      new CheckboxDropdown(checkboxesDropdowns[i]);
+    }
+  })(jQuery);
+  $(document).ready(function(){
+    $('input[id=DisplayAll]').prop('checked', true);
+});
+function removeAllGraphs(){
+    var chk_box=document.getElementById("DisplayAll")
+    if(! chk_box.checked){
+        var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
+        selectedCheckboxes.forEach((checkbox)=>{
+            let element_unset = document.getElementById($(checkbox).attr("id"))
+                if(element_unset.id!="DisplayAll"){
+                    let graph=document.getElementById(element_unset.value)
+                    graph.setAttribute("hidden",true)
+                }
+        });
+    }
+    else if(chk_box.checked){
+        var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+        selectedCheckboxes.forEach((checkbox)=>{
+            let element_unset = document.getElementById($(checkbox).attr("id"))
+                if(element_unset.id!="DisplayAll"){
+                    let graph=document.getElementById(element_unset.value)
+                    graph.removeAttribute("hidden")
+                    element_unset.checked=false
+                }
+        });
+    }
+}

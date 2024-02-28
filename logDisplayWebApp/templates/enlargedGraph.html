@@ -19,6 +19,7 @@
 <html lang="en">
 <head>
     <title>Enlarged Graph</title>
+    <script src="{{ url_for('static',path='jquery/jquery-3.7.1.min.js')}}"></script>
     <script src="{{url_for('static',path='d3_js/d3.v7.min.js')}}"></script>
     <script defer type="text/javascript" src="{{ url_for('static', path='enlargedGraph.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
@@ -30,8 +31,26 @@
 <body>
     <div class="graph_container">
         <div id="container">
-          <p id="zoomLevel">Graph Zoom Level: 1 </p>
-          <p id="zoom-refactor-p" >Zoom Re-Factor: <span id="zoom-refactor-edit" value="10">10</span> <span id="zoom-edit-button" class="fa fa-edit"></span> </p>
+          <div class="display_parent">
+            <div class="display_child">
+              <div class="dropdown" data-control="checkbox-dropdown">
+                <label class="dropdown-label">Select</label>
+                <div class="dropdown-list">
+                  <label class="dropdown-option">
+                    <input type="checkbox" id="DisplayAll" onchange="removeAllGraphs()" />Display All Graphs
+                  </label> 
+                  {% for analytics in summary_json["analytics"] %}
+                  <label class="dropdown-option">
+                    <input type="checkbox" id="checkbox_{{analytics}}" value="{{analytics}}" onchange="capture_display_graph('checkbox_{{analytics}}')" />{{analytics.upper()}}
+                  </label>    
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+            <div class="display_child"><p id="zoomLevel">Graph Zoom Level: 1 </p></div>
+            <div class="display_child"><p id="zoom-refactor-p" >Zoom Re-Factor: <span id="zoom-refactor-edit" value="10">10</span> <span id="zoom-edit-button" class="fa fa-edit"></span> </p></div>
+          </div>
+
         </div>
     </div>
 </body>

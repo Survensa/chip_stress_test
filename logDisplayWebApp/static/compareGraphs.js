@@ -105,7 +105,15 @@ function svg_node_builder(data){
         // Group the data by iteration
         let nestedData = d3.group(data, d => d.iteration);
         
+        let legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${width - 400},0)`)  /* defines postion of the legend box */
+        .style("font-size", "10px")
+        .style("overflow-y", "auto")
+        .style("max-height", "150px")
+
         // Generate random colors
+        let legendIndex = 1;
         let colorScale = d3.scaleOrdinal(d3.schemeCategory10);            
         nestedData.forEach((values, key,i) => {
             let color = colorScale(key);
@@ -117,6 +125,19 @@ function svg_node_builder(data){
                 .attr("stroke", color)
                 .attr("stroke-width", 3)
                 .attr("d", line);
+            legend.append("rect")
+                .attr("x", 0)
+                .attr("y", legendIndex * 20)
+                .attr("width", 10)
+                .attr("height", 10)
+                .attr("fill", color);
+    
+            legend.append("text")
+                .attr("x", 15)
+                .attr("y", legendIndex * 20 + 9)
+                .text(`${key}`);
+    
+            legendIndex++;
         });
         let tooltip = d3.select("#container").append("div")
             .attr("class", "tooltip")

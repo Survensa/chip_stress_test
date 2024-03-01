@@ -1,0 +1,9 @@
+fabric~=3.2.2
+pyserial~=3.5
+mobly~=1.12.2
+PyYAML~=6.0.1
+invoke~=2.2.0
+fastapi~=0.104.1
+Jinja2~=3.1.2
+uvicorn~=0.24.0.post1
+python-multipart~=0.0.6

@@ -48,6 +48,37 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.pairing_duration_start = datetime.datetime.now()
         self.__misc__init()
 
+    # initialize all counters before the iteration loop starts
+    def pre_iteration_loop(self):
+        iterations = int(self.test_config_dict["general_configs"]["iteration_number"])
+        device_info = await self.device_info()  # pulls basic cluster information this is must be present at all times
+        self.test_result.update({"device_basic_information": device_info})
+        self.dut.factory_reset_dut(stop_reset=False)
+        self.test_result.update({"Failed_iteration_details": {}})
+        used_heap = {}
+        pairing_duration_info = {}
+        super().pre_iteration_loop()
+        self.dut.pre_iteration_loop()
+        
+    def pre_iteration_loop(self):
+        super().post_iteration_loop()
+        self.dut.pre_iteration_loop()
+
+    def start_iteration():
+        logging.info("Started Iteration sequence {}".format(iteration))
+        fail_reason = None
+        self.test_config.current_iteration = iteration
+        self.start_iteration_logging(iteration, None)
+        await self.capture_start_parameters(pairing_duration=pairing_duration_info) # start to capture pairing info
+    
+    def end_of_iteration(self):
+        # do whatever you need to do and call TC specifi code here.
+        super().end_of_iteration()
+    
+    def end_of_test(self):
+        # do whatever you need to do and call TC specifi code here.
+        super().end_of_test()
+        
     def update_analytics_json(self, analytics_parameters: list, values: list):
         """
         this function will update the analytics json object, it will use zip function and combine the values and parameters
@@ -325,25 +356,30 @@ def test_start(test_class_name):
         if "--yaml-file" in arg_keys:
             test_config_dict = yaml_config_reader(dict_args)
         else:
-            test_config_dict = default_config_reader(dict_args)
-        test_config_dict.update({"test_class_name": test_class_name})
-        MatterQABaseTestCaseClass.test_config_dict = test_config_dict
-        print(test_config_dict)
-        general_configs = test_config_dict["general_configs"]
-        log_path = general_configs["logFilePath"]
+            test_config = default_config_reader()
+        test_config.test_class_name = test_class_name
+        MatterQABaseTestCaseClass.test_config_dict = test_config
+    
+        log_path = test_config.general_configs.logFilePath
+  
+        if not os.path.exists(log_path):
+            os.mkdir(log_path)
+            
         if log_path is not None and os.path.exists(log_path):
             run_set_path = run_set_folder_path(datetime.datetime.now(), log_path)
-            log_path = os.path.join(run_set_path, test_config_dict["test_class_name"])
+            log_path = os.path.join(run_set_path, test_config.test_class_name)
+            ## Chaitanya : is this function required ? 
             log_path_add_args(log_path)
-            general_configs["logFilePath"] = log_path
+            test_config.general_configs.logFilePath = log_path
+            
         else:
             run_set_path = run_set_folder_path(datetime.datetime.now(), os.getcwd())
             log_path = os.path.join(run_set_path, test_config_dict["test_class_name"])
             log_path_add_args(path=log_path)
             general_configs["logFilePath"] = log_path
-        if not os.path.exists(general_configs["logFilePath"]):
-            os.mkdir(log_path)
+        
         test_config_dict = log_info_init(test_config_dict)  # updating config dict with iter_log_dir and current_iter
+        # Chaitanya : Why do we need this code here ? 
         add_args_commissioning_method(general_configs["commissioning_method"])
         dut_object_loader(test_config_dict, dut_objects_list)
     except Exception as e:

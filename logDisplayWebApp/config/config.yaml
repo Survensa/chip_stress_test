@@ -1,6 +1,6 @@
 host: 0.0.0.0
 port: 5000
 workers: 1 # used for scaling
-logs_path: /media/grl/CommonData/logs_matter_2
-python_environment: /media/grl/CommonData/matter_python/no
-script_path: /media/grl/CommonData/matter_python/src/python_testing/Matter_QA/Scripts/ReliabilityScripts
+logs_path: /Users/chaitanyajandhyala/code/stressScripts/Functional/logs
+python_environment: /Users/chaitanyajandhyala/code/chipCode/chip_0104/connectedhomeip/out/python_env
+script_path: /Users/chaitanyajandhyala/code/chipCode/chip_0104/connectedhomeip/src/python_testing/Matter_QA/Scripts/ReliabilityScripts

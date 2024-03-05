@@ -43,6 +43,14 @@ class BaseDutNodeClass(ABC):
     def stop_logging(self):
         pass
 
+    @abstractmethod
+    def pre_iteration_loop(self):
+        pass
+
+    @abstractmethod
+    def post_iteration_loop(self):
+        pass
+
 
 class BaseNodeDutConfiguration(object):
 

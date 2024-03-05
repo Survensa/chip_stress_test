@@ -31,47 +31,30 @@ from chip import ChipDeviceCtrl
 
 from Matter_QA.Library.HelperLibs.matter_testing_support import MatterBaseTest
 from Matter_QA.Library.HelperLibs.utils import (timer, convert_args_dict, dut_object_loader, yaml_config_reader,
-                                                default_config_reader)
+                                                default_config_reader, summary_log)
 
 dut_objects_list = []
 
 
 class MatterQABaseTestCaseClass(MatterBaseTest):
-    test_config_dict = {}
 
     def __init__(self, *args):
+        """
+        self.switch_case member is used a switch case statement for pulling analytics parameter,user must declare here as-well as in config file for self.switch_case to work.
+        for pulling different analytics parameter user must write their own custom function
+        """
         super().__init__(*args)
         self.logger = logging.getLogger('')
         self.logger.setLevel(logging.DEBUG)  # Set the logger's level
-        self.test_config_dict = MatterQABaseTestCaseClass.test_config_dict
+        self.test_config = MatterQABaseTestCaseClass.test_config
         self.dut = None
         self.pairing_duration_start = datetime.datetime.now()
         self.__misc__init()
-
-    def update_analytics_json(self, analytics_parameters: list, values: list):
-        """
-        this function will update the analytics json object, it will use zip function and combine the values and parameters
-        """
-        data = dict(zip(analytics_parameters, values))
-        self.analytics_json["analytics"].update(data)
-
-    async def capture_start_parameters(self, node_id=None,
-                                       dev_ctrl=None, endpoint=0, iteration_number=None, **kwargs):
-        if len(kwargs) > 0:
-            if ("pairing_duration_info" in self.test_config_dict["general_configs"]["analytics_parameters"]
-                    and "pairing_duration" in kwargs):
-                self.pairing_duration_start = datetime.datetime.now()
-            if ("heap_usage" in self.test_config_dict["general_configs"]["analytics_parameters"] and
-                    "heap_usage" in kwargs):
-                heap_usage = await self.get_heap_usage(node_id, dev_ctrl, endpoint)
-                kwargs["heap_usage"].update({str(iteration_number): heap_usage})
-
-    def capture_end_parameters(self, iteration_number, **kwargs):
-        if len(kwargs) > 0:
-            if ("pairing_duration_info" in self.test_config_dict["general_configs"]["analytics_parameters"]
-                    and "pairing_duration" in kwargs):
-                pairing_duration = round((datetime.datetime.now() - self.pairing_duration_start).total_seconds(), 4)
-                kwargs["pairing_duration"].update({str(iteration_number): pairing_duration})
+        self.iterations = self.test_config.general_configs.iteration_number
+        self.switch_case = {
+            "pairing_duration_info": self.pairing_info_collect,
+            "heap_usage": self.heap_usage_dut_collect
+        }
 
     def get_dut_object(self):
         global dut_objects_list
@@ -87,6 +70,46 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.test_result = {'Pass Count': 0, 'Fail Count': {'Count': 0, 'Iteration': []}, 'Error Count': 0}
         self.analytics_json = {"analytics": {}, "test_case_name": "", "iteration_id": ""}
 
+    # initialize all counters before the iteration loop starts
+    async def pre_iteration_loop(self):
+        device_info = await self.device_info()  # pulls basic cluster information this is must be present at all times
+        self.test_result.update({"device_basic_information": device_info})
+        self.dut.factory_reset_dut(stop_reset=False)
+        self.test_result.update({"Failed_iteration_details": {}})
+        for analytic in self.test_config.general_configs.analytics_parameters:
+            self.analytics_json["analytics"].update({analytic: {}})
+        self.dut.pre_iteration_loop()
+
+    async def start_iteration(self, iteration, **kwargs):
+        """
+        In this function we will set the iteration logger for separating the logs by iteration wise,
+        we will also capture the starting time for pairing duration info here if user will set it in config file
+        """
+        self.start_iteration_logging(iteration, None)
+        logging.info("Started Iteration sequence {}".format(iteration))
+        self.test_config.current_iteration = iteration
+        self.start_iteration_logging(iteration, None)
+        await self.collect_basic_analytics_info(
+            pairing_duration_info={"initialise": True})  # start to capture pairing duration info and other things
+
+    def start_iteration_logging(self, iteration_count, dut):
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        # Create a file handler
+        tc_log_path = os.path.join(self.test_config.iter_logs_dir, str(iteration_count))
+        if not os.path.exists(tc_log_path):
+            os.makedirs(tc_log_path)
+        log_filename = os.path.join(tc_log_path, f"log_{timestamp}.log")
+        self.iteration_file_handler = logging.FileHandler(log_filename)
+
+        # Set the format for log messages
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        self.iteration_file_handler.setFormatter(formatter)
+        self.iteration_file_handler.setLevel(logging.DEBUG)
+        # Add the file handler to the logger
+        self.logger.addHandler(self.iteration_file_handler)
+        if dut:
+            dut.start_log()
+
     @timer
     def commission_device(self, *args, **kwargs):
         conf = self.matter_test_config
@@ -99,9 +122,13 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 if commission_response[0]:
                     return commission_response
                 else:
-                    return [False, str(commission_response[1])]
+                    logging.info(f' \n\n commission response {str(commission_response[0])}')
+                    if len(commission_response) > 1:
+                        return [False, str(commission_response[1])]
+                    else:
+                        return [False, str(commission_response[0])]
             except Exception as e:
-                logging.error(e)
+                logging.error(e, exc_info=True)
                 traceback.print_exc()
                 return [False, str(e)]
 
@@ -164,9 +191,45 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 time.sleep(3)
                 return {"stats": True}
         except Exception as e:
-            logging.error(e)
+            logging.error(e, exc_info=True)
             traceback.print_exc()
             return {"stats": False, "failed_reason": str(e)}
+
+    def stop_iteration_logging(self, iteration_count, dut):
+        logging.info('{} iteration completed'.format(iteration_count))
+        self.logger.removeHandler(self.iteration_file_handler)
+        self.iteration_file_handler.close()
+
+    def end_of_iteration(self, iteration, **kwargs):
+        summary_log(test_result=self.test_result, test_config=self.test_config,
+                    completed=False, analytics_json=self.analytics_json)
+        self.dut.factory_reset_dut(stop_reset=False)
+        logging.info('completed pair and unpair sequence for {}'.format(iteration))
+        self.stop_iteration_logging(iteration, None)
+
+    def end_of_test(self, **kwargs):
+        self.dut.factory_reset_dut(stop_reset=True)
+        summary_log(test_result=self.test_result, test_config=self.test_config,
+                    completed=True, analytics_json=self.analytics_json)
+        self.dut.post_iteration_loop()
+
+    async def collect_basic_analytics_info(self, **kwargs):
+        for analytics in kwargs.keys():
+            await self.switch_case.get(analytics)(**kwargs[analytics])
+
+    async def pairing_info_collect(self, **kwargs):
+        if "pairing_duration_info" in self.test_config.general_configs.analytics_parameters:
+            if kwargs.get("initialise"):
+                self.pairing_duration_start = datetime.datetime.now()
+            else:
+                pairing_duration = round((datetime.datetime.now() - self.pairing_duration_start).total_seconds(), 4)
+                self.analytics_json["analytics"]["pairing_duration_info"].update(
+                    {str(kwargs["iteration_number"]): pairing_duration})
+
+    async def heap_usage_dut_collect(self, **kwargs):
+        if "heap_usage" in self.test_config.general_configs.analytics_parameters:
+            heap_usage = await self.get_heap_usage(kwargs["node_id"], kwargs["dev_ctrl"], kwargs["endpoint"])
+            self.analytics_json["analytics"]["heap_usage"].update({str(kwargs["iteration_number"]): heap_usage})
 
     async def on_off_dut(self):
         try:
@@ -188,31 +251,8 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                                                                           endpoint=1)
             logging.info(f"After sending 'Off' command state is  {'ON' if on_off_stats else 'OFF'}")
         except Exception as e:
-            logging.error(e)
+            logging.error(e, exc_info=True)
             traceback.print_exc()
-
-    def start_iteration_logging(self, iteration_count, dut):
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        # Create a file handler
-        tc_log_path = os.path.join(self.test_config_dict["iter_logs_dir"], str(iteration_count))
-        if not os.path.exists(tc_log_path):
-            os.makedirs(tc_log_path)
-        log_filename = os.path.join(tc_log_path, f"log_{timestamp}.log")
-        self.iteration_file_handler = logging.FileHandler(log_filename)
-
-        # Set the format for log messages
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        self.iteration_file_handler.setFormatter(formatter)
-        self.iteration_file_handler.setLevel(logging.DEBUG)
-        # Add the file handler to the logger
-        self.logger.addHandler(self.iteration_file_handler)
-        if dut:
-            dut.start_log()
-
-    def stop_iteration_logging(self, iteration_count, dut):
-        logging.info('{} iteration completed'.format(iteration_count))
-        self.logger.removeHandler(self.iteration_file_handler)
-        self.iteration_file_handler.close()
 
     async def device_info(self, node_id: int = None, dev_ctrl: ChipDeviceCtrl = None, endpoint: int = 0,
                           user_defined_info: dict = None, include_default_info: bool = True) -> dict:
@@ -256,7 +296,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 attr_ret = response[endpoint][Clusters.Objects.BasicInformation][default_info_attributes[device_attr]]
                 info_dict.update({device_attr: attr_ret})
             except Exception as e:
-                logging.error(e)
+                logging.error(e, exc_info=True)
                 traceback.print_exc()
                 info_dict.update({device_attr: f"cannot fetch info because {e}"})
         return info_dict
@@ -273,13 +313,44 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             try:
                 response = await dev_ctrl.ReadAttribute(node_id, [endpoint, cluster])
                 attr_ret = response[endpoint][Clusters.Objects.SoftwareDiagnostics][cluster]
-                data.append(attr_ret / 1000)
+                data = (attr_ret / 1000)
             except Exception as e:
-                logging.error(e)
+                logging.error(f"Exception occurred when reading HEAP USAGE reason {e} ", exc_info=True)
                 traceback.print_exc()
-                data.append(f"error when reading reason {e} ")
+                data = -1
         return data
 
+def test_start(test_class_name):
+    try:
+        global dut_objects_list
+        dict_args = convert_args_dict(sys.argv[1:])
+        arg_keys = dict_args.keys()
+        if "--yaml-file" in arg_keys:
+            test_config = yaml_config_reader(dict_args)
+        else:
+            test_config = default_config_reader()
+        test_config.test_class_name = test_class_name
+        MatterQABaseTestCaseClass.test_config = test_config  # initialise the base class with configs
+        log_path = test_config.general_configs.logFilePath
+        if log_path is not None and os.path.exists(log_path):
+            run_set_path = run_set_folder_path(datetime.datetime.now(), log_path)
+            log_path = os.path.join(run_set_path, test_config.test_class_name)
+            log_path_add_args(log_path)  # this function will set log storage path for mobly
+            test_config.general_configs.logFilePath = log_path
+        else:
+            run_set_path = run_set_folder_path(datetime.datetime.now(), os.getcwd())
+            log_path = os.path.join(run_set_path, test_config.test_class_name)
+            log_path_add_args(path=log_path)
+            test_config.general_configs.logFilePath = log_path
+
+        log_info_init(test_config)  # updating config dict with iter_log_dir and current_iter
+
+        # Function will set the commissioning method for matter_support testing file
+        add_args_commissioning_method(test_config.general_configs.commissioning_method)
+        dut_object_loader(test_config, dut_objects_list)
+    except Exception as e:
+        logging.error(e, exc_info=True)
+        traceback.print_exc()
 
 def log_path_add_args(path):
     args = sys.argv
@@ -298,15 +369,14 @@ def run_set_folder_path(timestamp, log_path) -> str:
         return path
 
 
-def log_info_init(test_config_dict: dict):
+def log_info_init(test_config):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    tc_log_folder = os.path.join(test_config_dict["general_configs"]["logFilePath"], f"{timestamp}")
-    test_config_dict.update({"iteration_id": timestamp})
-    test_config_dict.update({"iter_logs_dir": tc_log_folder})
-    test_config_dict.update({"current_iteration": 0})
+    tc_log_folder = os.path.join(test_config.general_configs.logFilePath, f"{timestamp}")
+    test_config.iteration_id = timestamp
+    test_config.iter_logs_dir = tc_log_folder
+    test_config.current_iteration = 0
     if not os.path.exists(tc_log_folder):
         os.makedirs(tc_log_folder)
-    return test_config_dict
 
 
 def add_args_commissioning_method(commissioning_method):
@@ -315,37 +385,3 @@ def add_args_commissioning_method(commissioning_method):
         copy_argv.append("--commissioning-method")
         copy_argv.append(commissioning_method)
         sys.argv = copy_argv
-
-
-def test_start(test_class_name):
-    try:
-        global dut_objects_list
-        dict_args = convert_args_dict(sys.argv[1:])
-        arg_keys = dict_args.keys()
-        if "--yaml-file" in arg_keys:
-            test_config_dict = yaml_config_reader(dict_args)
-        else:
-            test_config_dict = default_config_reader(dict_args)
-        test_config_dict.update({"test_class_name": test_class_name})
-        MatterQABaseTestCaseClass.test_config_dict = test_config_dict
-        print(test_config_dict)
-        general_configs = test_config_dict["general_configs"]
-        log_path = general_configs["logFilePath"]
-        if log_path is not None and os.path.exists(log_path):
-            run_set_path = run_set_folder_path(datetime.datetime.now(), log_path)
-            log_path = os.path.join(run_set_path, test_config_dict["test_class_name"])
-            log_path_add_args(log_path)
-            general_configs["logFilePath"] = log_path
-        else:
-            run_set_path = run_set_folder_path(datetime.datetime.now(), os.getcwd())
-            log_path = os.path.join(run_set_path, test_config_dict["test_class_name"])
-            log_path_add_args(path=log_path)
-            general_configs["logFilePath"] = log_path
-        if not os.path.exists(general_configs["logFilePath"]):
-            os.mkdir(log_path)
-        test_config_dict = log_info_init(test_config_dict)  # updating config dict with iter_log_dir and current_iter
-        add_args_commissioning_method(general_configs["commissioning_method"])
-        dut_object_loader(test_config_dict, dut_objects_list)
-    except Exception as e:
-        logging.error(e)
-        traceback.print_exc()

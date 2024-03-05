@@ -158,3 +158,15 @@ html{
 .btn_table_filter.small_btn{
     width: 24px;
 }
+#basic_info_index.card{
+    max-height: 700px;
+    overflow-y: auto;
+}
+#basic_info_text_case_index.card{
+    max-height: 700px;
+    overflow-y: auto;
+}
+#log_select_index.card{
+    max-height: 700px;
+    overflow-y: auto;
+}

@@ -33,10 +33,9 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
         super().__init__(test_config)
         self.test_config = test_config
 
-        self.serial_port = SerialPort(port=self.test_config["nordic_config"]["serial_port"],
-                                                          baudrate=self.test_config["nordic_config"]["serial_baudrate"],
-                                                          timeout=self.test_config["nordic_config"][
-                                                              "serial_timeout"])
+        self.serial_port = SerialPort(port=self.test_config.nordic_config.serial_port,
+                                                          baudrate=self.test_config.nordic_config.serial_baudrate,
+                                                          timeout=self.test_config.nordic_config.serial_timeout)
         self.serial_port.open_serial()
 
     def reboot_dut(self):
@@ -69,7 +68,6 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
                 logging.info("The port was closed now opening the port")
                 self.serial_port.serial_port_obj.open()
                 self.serial_port.write_cmd(b'matter device factoryreset\n')
-            self.serial_port.serial_port_obj.close()
             return True
         except Exception as e:
             logging.error(e)
@@ -79,17 +77,17 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
         global event_closer
         if not self.serial_port.serial_port_obj.is_open:
             self.serial_port.open_serial()
-        if self.test_config["current_iteration"] == 0:
-            self.test_config["current_iteration"] += 1
+        if self.test_config.current_iteration == 0:
+            self.test_config.current_iteration += 1
         if self.serial_port.serial_port_obj.is_open:
             while self.serial_port.serial_port_obj.is_open:
                 try:
-                    current_dir = self.test_config["iter_logs_dir"]
-                    log_path = os.path.join(current_dir, str(self.test_config["current_iteration"]))
+                    current_dir = self.test_config.iter_logs_dir
+                    log_path = os.path.join(current_dir, str(self.test_config.current_iteration))
                     if not os.path.exists(log_path):
                         os.mkdir(log_path)
                     log_file = os.path.join(log_path, "Dut_log_{}_"
-                                            .format(str(self.test_config["current_iteration"])) +
+                                            .format(str(self.test_config.current_iteration)) +
                                             str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
                                             + ".log"
                                             )
@@ -106,6 +104,7 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
                 except Exception as e:
                     print(e)
                     traceback.print_exc()
+            self.serial_port.serial_port_obj.close()
         else:
             logging.info("Failed to read the log in thread")
             sys.exit()
@@ -116,6 +115,12 @@ class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
         global event_closer
         event_closer.set()
         return True
+
+    def pre_iteration_loop(self):
+        pass
+
+    def post_iteration_loop(self):
+        pass
 
 
 def create_dut_object(test_config):

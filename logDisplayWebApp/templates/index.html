@@ -31,7 +31,7 @@
         <div class="main_div ms-5">
             <h1>Matter Chip Test execution log viewer</h1>
             <center>
-                <div id="basic_info" class="card">
+                <div id="basic_info_index" class="card">
                     <table class="table table-hover table-scrollable">
                         <thead>
                             <tr>
@@ -53,7 +53,7 @@
                                     <td>{{ dirs.dir_last_modified }}</td>
                                     <td>{{ dirs.dir_size }}</td>
                                     <td>
-                                        <button class="btn btn-success" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','zip')"><span class="fa fa-download"> Download </button>
+                                        <button class="btn btn-success" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','zip')"><span class="fa fa-download"> Download </span></button>
                                         <button class="btn btn-danger" onclick="fileFetch('{{log_dir}}','{{dirs.dir_name}}','delete')"><span class="fa fa-trash"></span> Delete </button>
                                     </td>
                                      

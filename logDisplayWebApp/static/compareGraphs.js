@@ -1,3 +1,19 @@
+/**
+ *
+ * Copyright (c) 2023 Project CHIP Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 const margin = { top: 20, right: 20, bottom: 50, left: 40 };
 let zoom_value = 10
 var json_data
@@ -89,7 +105,15 @@ function svg_node_builder(data){
         // Group the data by iteration
         let nestedData = d3.group(data, d => d.iteration);
         
+        let legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${width - 400},0)`)  /* defines postion of the legend box */
+        .style("font-size", "10px")
+        .style("overflow-y", "auto")
+        .style("max-height", "150px")
+
         // Generate random colors
+        let legendIndex = 1;
         let colorScale = d3.scaleOrdinal(d3.schemeCategory10);            
         nestedData.forEach((values, key,i) => {
             let color = colorScale(key);
@@ -99,8 +123,21 @@ function svg_node_builder(data){
                 .attr("class", "line")
                 .attr("fill", "none")
                 .attr("stroke", color)
-                .attr("stroke-width", 2)
+                .attr("stroke-width", 3)
                 .attr("d", line);
+            legend.append("rect")
+                .attr("x", 0)
+                .attr("y", legendIndex * 20)
+                .attr("width", 10)
+                .attr("height", 10)
+                .attr("fill", color);
+    
+            legend.append("text")
+                .attr("x", 15)
+                .attr("y", legendIndex * 20 + 9)
+                .text(`${key}`);
+    
+            legendIndex++;
         });
         let tooltip = d3.select("#container").append("div")
             .attr("class", "tooltip")

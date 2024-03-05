@@ -8,7 +8,7 @@ general_configs:
   deviceModules: # this option will be used by the script only when 'platform_execution' from the above config option is not 'rpi'
       module_name: nordic.py #Python file which will inherit the BaseDUTNode class and define the behaviour of the DUT Working
       module_path: /home/ubuntu/matter_cntrl/connectedhomeip/src/python_testing/Matter_QA/Library/Platform/nordic/ #path to the DUT class file
-
+  analytics_parameters: ["pairing_duration_info","heap_usage"]
 rpi_config: # these parameters are used to take ssh session to a remote host and start DUT application on a raspberrypi
   rpi_hostname: "192.168.8.100"
   rpi_username: "ubuntu"

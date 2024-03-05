@@ -1,3 +1,20 @@
+<!--/**
+ *
+ * Copyright (c) 2023 Project CHIP Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +23,11 @@
     <script defer id="data" type="application/json">{{test_case_details | tojson}}</script>
     <link rel="stylesheet" href="{{ url_for('static', path='bootstrap/css/bootstrap.min.css') }}">
     <script src="{{ url_for('static', path='bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url_for('static', path='jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ url_for('static', path='jquery/jquery-3.7.1.min.js') }}"></script>
     <script defer src="{{ url_for('static', path='compareGraphs.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', path='compareGraph.css') }}">
     <script src="{{url_for('static',path='d3_js/d3.v7.min.js')}}"></script>
-    <script src="{{url_for('static',path='tree.min.js')}}"></script>
+    <script src="{{url_for('static',path='tree_js/tree.min.js')}}"></script>
     <style>
         .center_div {
             display: block;

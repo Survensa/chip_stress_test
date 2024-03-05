@@ -1,3 +1,19 @@
+#
+#
+#  Copyright (c) 2023 Project CHIP Authors
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
 import datetime
 import logging
 import os
@@ -29,7 +45,33 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.logger.setLevel(logging.DEBUG)  # Set the logger's level
         self.test_config_dict = MatterQABaseTestCaseClass.test_config_dict
         self.dut = None
+        self.pairing_duration_start = datetime.datetime.now()
         self.__misc__init()
+
+    def update_analytics_json(self, analytics_parameters: list, values: list):
+        """
+        this function will update the analytics json object, it will use zip function and combine the values and parameters
+        """
+        data = dict(zip(analytics_parameters, values))
+        self.analytics_json["analytics"].update(data)
+
+    async def capture_start_parameters(self, node_id=None,
+                                       dev_ctrl=None, endpoint=0, iteration_number=None, **kwargs):
+        if len(kwargs) > 0:
+            if ("pairing_duration_info" in self.test_config_dict["general_configs"]["analytics_parameters"]
+                    and "pairing_duration" in kwargs):
+                self.pairing_duration_start = datetime.datetime.now()
+            if ("heap_usage" in self.test_config_dict["general_configs"]["analytics_parameters"] and
+                    "heap_usage" in kwargs):
+                heap_usage = await self.get_heap_usage(node_id, dev_ctrl, endpoint)
+                kwargs["heap_usage"].update({str(iteration_number): heap_usage})
+
+    def capture_end_parameters(self, iteration_number, **kwargs):
+        if len(kwargs) > 0:
+            if ("pairing_duration_info" in self.test_config_dict["general_configs"]["analytics_parameters"]
+                    and "pairing_duration" in kwargs):
+                pairing_duration = round((datetime.datetime.now() - self.pairing_duration_start).total_seconds(), 4)
+                kwargs["pairing_duration"].update({str(iteration_number): pairing_duration})
 
     def get_dut_object(self):
         global dut_objects_list
@@ -106,14 +148,21 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             traceback.print_exc()
             return [False, str(e)]
 
-    def unpair_dut(self) -> dict:
+    def unpair_dut(self, controller=None, node_id=None) -> dict:
         try:
-            self.th1 = self.default_controller
-            self.th1.UnpairDevice(self.dut_node_id)
-            time.sleep(3)
-            self.th1.ExpireSessions(self.dut_node_id)
-            time.sleep(3)
-            return {"stats": True}
+            if controller is None and node_id is None:
+                self.th1 = self.default_controller
+                self.th1.UnpairDevice(self.dut_node_id)
+                time.sleep(3)
+                self.th1.ExpireSessions(self.dut_node_id)
+                time.sleep(3)
+                return {"stats": True}
+            else:
+                controller.UnpairDevice(node_id)
+                time.sleep(3)
+                self.th1.ExpireSessions(node_id)
+                time.sleep(3)
+                return {"stats": True}
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
@@ -168,7 +217,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     async def device_info(self, node_id: int = None, dev_ctrl: ChipDeviceCtrl = None, endpoint: int = 0,
                           user_defined_info: dict = None, include_default_info: bool = True) -> dict:
 
-        '''
+        """
         extra_info: this parameter is optional,is used when user wants more basic info of device input must be list of
         dictionaries having this sample input format
         [{"info_name":Clusters.ClusterObjects.ClusterAttributeDescriptor}]
@@ -177,7 +226,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         this same information will be displayed in the UI
         ex {"product_name":"light Bulb"} -> UI it will be displayed in Caps as "PRODUCT_NAME"
 
-        '''
+        """
         info_dict = {}
         if include_default_info and user_defined_info is None:  # used when user wants only default info given by this function
             default_info_attributes = {"product name": Clusters.BasicInformation.Attributes.ProductName,
@@ -224,7 +273,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             try:
                 response = await dev_ctrl.ReadAttribute(node_id, [endpoint, cluster])
                 attr_ret = response[endpoint][Clusters.Objects.SoftwareDiagnostics][cluster]
-                data.append(attr_ret/1000)
+                data.append(attr_ret / 1000)
             except Exception as e:
                 logging.error(e)
                 traceback.print_exc()

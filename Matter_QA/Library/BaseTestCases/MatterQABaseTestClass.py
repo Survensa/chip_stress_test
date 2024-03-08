@@ -120,61 +120,50 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                              (conf.root_of_trust_index, conf.fabric_id, node_id))
                 logging.info("Commissioning method: %s" % conf.commissioning_method)
                 commission_response = self._commission_device(commission_idx)
-                if commission_response[0]:
-                    return {"status": "success"}
+                if not commission_response.is_success:
+                    return commission_response
                 else:
-                    logging.info(f'commission response {str(commission_response[0])}')
+                    logging.info(f' \n\n commission response {str(commission_response)}')
                     if len(commission_response) > 1:
-                        return {"status": "failed", "failed_reason": str(commission_response[1])}
+                        return [False, str(commission_response)]
                     else:
-                        return {"status": "failed", "failed_reason": str(commission_response[0])}
+                        return [False, str(commission_response)]
             except Exception as e:
                 logging.error(e, exc_info=True)
                 traceback.print_exc()
-                return {"status": "failed", "failed_reason": str(e)}
+                return [False, str(e)]
 
-    def _commission_device(self, i):
-        try:
-            dev_ctrl = self.default_controller
-            conf = self.matter_test_config
+    def _commission_device(self, i, **kwargs):
+        conf = self.matter_test_config
+        if kwargs is None:
             random_nodeid = secrets.randbelow(2 ** 32)
+            dev_ctrl = self.default_controller
             conf.dut_node_ids = [random_nodeid]
-            DiscoveryFilterType = ChipDeviceCtrl.DiscoveryFilterType
-            if conf.commissioning_method == "on-network":
-                return [dev_ctrl.CommissionOnNetwork(
-                    nodeId=conf.dut_node_ids[i],
-                    setupPinCode=conf.setup_passcodes[i],
-                    filterType=DiscoveryFilterType.LONG_DISCRIMINATOR,
-                    filter=conf.discriminators[i]
-                )]
-            elif conf.commissioning_method == "ble-wifi":
-                return [dev_ctrl.CommissionWiFi(
-                    conf.discriminators[i],
-                    conf.setup_passcodes[i],
-                    conf.dut_node_ids[i],
-                    conf.wifi_ssid,
-                    conf.wifi_passphrase
-                )]
-            elif conf.commissioning_method == "ble-thread":
-                return [dev_ctrl.CommissionThread(
-                    conf.discriminators[i],
-                    conf.setup_passcodes[i],
-                    conf.dut_node_ids[i],
-                    conf.thread_operational_dataset
-                )]
-            elif conf.commissioning_method == "on-network-ip":
-                logging.warning("==== USING A DIRECT IP COMMISSIONING METHOD NOT SUPPORTED IN THE LONG TERM ====")
-                return [dev_ctrl.CommissionIP(
-                    ipaddr=conf.commissionee_ip_address_just_for_testing,
-                    setupPinCode=conf.setup_passcodes[i], nodeid=conf.dut_node_ids[i]
-                )]
-            else:
-                logging.error("Invalid commissioning method %s!" % conf.commissioning_method)
-                raise ValueError("Invalid commissioning method %s!" % conf.commissioning_method)
-        except Exception as e:
-            logging.error(f"MatterQABaseTestCaseClass.py:_commission_device: {e}")
-            traceback.print_exc()
-            return [False, str(e)]
+        else:
+            dev_ctrl = kwargs["controller"]
+        DiscoveryFilterType = ChipDeviceCtrl.DiscoveryFilterType
+        if conf.commissioning_method == "on-network":
+            return [dev_ctrl.CommissionOnNetwork(
+                nodeId=conf.dut_node_ids[i],
+                setupPinCode=conf.setup_passcodes[i],
+                filterType=DiscoveryFilterType.LONG_DISCRIMINATOR,
+                filter=conf.discriminators[i]
+            )]
+        elif conf.commissioning_method == "ble-wifi":
+            return [dev_ctrl.CommissionWiFi(
+                conf.discriminators[i],
+                conf.setup_passcodes[i],
+                conf.dut_node_ids[i],
+                conf.wifi_ssid,
+                conf.wifi_passphrase
+            )]
+        elif conf.commissioning_method == "ble-thread":
+            return [dev_ctrl.CommissionThread(
+                conf.discriminators[i],
+                conf.setup_passcodes[i],
+                conf.dut_node_ids[i],
+                conf.thread_operational_dataset
+            )]
 
     def unpair_dut(self, controller=None, node_id=None) -> dict:
         try:

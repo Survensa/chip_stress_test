@@ -42,8 +42,7 @@ function svg_node_builder(summary_json,analytics_parameter){
 
     let line = d3.line()
         .x(d => x(d.x))
-        .y(d => y(d.y))
-        .curve(d3.curveCatmullRom.alpha(0.5));
+        .y(d => y(d.y));
 
     let svg = d3.create("svg")
         .attr("width", width)

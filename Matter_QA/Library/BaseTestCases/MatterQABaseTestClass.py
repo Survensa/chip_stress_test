@@ -21,13 +21,8 @@ import secrets
 import sys
 import time
 import traceback
-import typing
-
 import chip.clusters as Clusters
-from typing import Any, Tuple
-
 import chip.exceptions
-import yaml
 from chip import ChipDeviceCtrl
 
 from Matter_QA.Library.HelperLibs.matter_testing_support import MatterBaseTest
@@ -53,6 +48,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.pairing_duration_start = datetime.datetime.now()
         self.iterations_failure_reason = None
         self.full_execution_mode = self.test_config.general_configs.execution_mode_full
+        self.current_iteration = None
         self.__misc__init()
 
         # creating an object to capture analytics data to json file
@@ -90,9 +86,10 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         In this function we will set the iteration logger for separating the logs by iteration wise,
         we will also capture the starting time for pairing duration info here if user will set it in config file
         """
-        self.start_iteration_logging(iteration, None)
-        logging.info("Started Iteration sequence {}".format(iteration))
-        self.test_config.current_iteration = iteration
+        self.current_iteration = iteration
+        self.start_iteration_logging(self.current_iteration, None)
+        logging.info("Started Iteration sequence {}".format(self.current_iteration))
+        self.test_config.current_iteration = self.current_iteration
         await self.collect_all_basic_analytics_info(
             pairing_duration_info={"initialise": True})  # start to capture pairing duration info and other things
 
@@ -201,8 +198,8 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             else:
                 return {"status": "failed", "failed_reason": str(e)}
 
-    def stop_iteration_logging(self, iteration_count, dut):
-        logging.info('{} iteration completed'.format(iteration_count))
+    def stop_iteration_logging(self):
+        logging.info('{} iteration completed'.format(self.current_iteration))
         self.logger.removeHandler(self.iteration_file_handler)
         self.iteration_file_handler.close()
 
@@ -210,18 +207,21 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         if self.full_execution_mode:
             return "full_execution_mode"
         else:
+            logging.info(
+                'Full Execution mode is disabled \n The iteration {} number has failed hence the '
+                'execution will stop here'.format(self.current_iteration))
             return "partial_execution_mode"
 
-    def end_of_iteration(self, iteration_result, iteration=None, failure_reason=None, **kwargs):
+    def end_of_iteration(self, iteration_result, failure_reason=None, **kwargs):
         try:
             if iteration_result == "failed":
-                self.log_iteration_test_results(iteration_result=iteration_result, iteration=iteration,
+                self.log_iteration_test_results(iteration_result=iteration_result,
                                                 failure_reason=failure_reason)
             else:
                 self.log_iteration_test_results(iteration_result=iteration_result)
             summary_log(test_result=self.test_result, test_config=self.test_config,
                         completed=False, analytics_json=self.analytics_json)
-            self.stop_iteration_logging(iteration, None)
+            self.stop_iteration_logging()
         except Exception as e:
             logging.error(str(e),exc_info=True)
 
@@ -233,15 +233,15 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         except Exception as e:
             logging.error(str(e),exc_info=True)
 
-    def log_iteration_test_results(self, iteration_result: str, iteration=None, failure_reason=None):
+    def log_iteration_test_results(self, iteration_result: str, failure_reason=None):
         try:
             if iteration_result == "success":
                 self.test_result["Pass Count"] += 1
             elif iteration_result == "failed":
-                self.test_result["Failed_iteration_details"].update({str(iteration): failure_reason})
-                self.test_result["Fail Count"]["Iteration"].append(iteration)
+                self.test_result["Failed_iteration_details"].update({str(self.current_iteration): failure_reason})
+                self.test_result["Fail Count"]["Iteration"].append(self.current_iteration)
                 self.test_result["Fail Count"]["Count"] += 1
-                logging.error(f'Iteration Number {iteration} is failed due to reason {failure_reason}')
+                logging.error(f'Iteration Number {self.current_iteration} is failed due to reason {failure_reason}')
         except Exception as e:
             logging.error(str(e), exc_info=True)
 

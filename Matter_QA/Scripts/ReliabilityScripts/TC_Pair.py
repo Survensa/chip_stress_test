@@ -31,10 +31,10 @@ class TC_Pair(MatterQABaseTestCaseClass):
     def __init__(self, *args):
         super().__init__(*args)
 
-    async def pairing_or_unpairing_unsuccessful(self, iteration, pairing_or_pairing_result):
-        await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": iteration})
-        self.iterations_failure_reason = f' iteration {iteration} failed because of {pairing_or_pairing_result.get("failed_reason")}'
-        self.end_of_iteration(iteration=iteration, iteration_result="failed",
+    async def pairing_or_unpairing_unsuccessful(self, pairing_or_pairing_result):
+        await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
+        self.iterations_failure_reason = f' iteration {self.current_iteration} failed because of {pairing_or_pairing_result.get("failed_reason")}'
+        self.end_of_iteration(iteration_result="failed",
                               failure_reason=self.iterations_failure_reason)
         self.dut.factory_reset_dut(stop_reset=False)
 
@@ -63,27 +63,27 @@ class TC_Pair(MatterQABaseTestCaseClass):
 
                     # capture heap used after pairing with device
                     await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
-                                                                            "iteration_number": iteration,
+                                                                            "iteration_number": self.current_iteration,
                                                                             "dev_ctrl": None, "endpoint": 0})
                     unpair_result = self.unpair_dut()  # unpair with commissioned the DUT
                     if unpair_result.get("status") == "failed":  # when unpairing from DUT Fails
-                        await self.pairing_or_unpairing_unsuccessful(iteration, unpair_result)
+                        await self.pairing_or_unpairing_unsuccessful(unpair_result)
                         if self.check_execution_mode() == "full_execution_mode":
                             continue
                         else:
                             break
-                    await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": iteration})
-                    logging.info(f'iteration {iteration} is passed and unpairing the device is successful')
+                    await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
+                    logging.info(f'iteration {self.current_iteration} is passed and unpairing the device is successful')
 
                 else:  # this condition is triggered when pairing is un_successful
-                    await self.pairing_or_unpairing_unsuccessful(iteration, pairing_result)
+                    await self.pairing_or_unpairing_unsuccessful(pairing_result)
                     if self.check_execution_mode() == "full_execution_mode":
                         continue
                     else:
                         break
             except Exception as e:
                 logging.error(f"Exception occurred in TC_Pair.py \n exception is {e}", exc_info=True)
-                self.end_of_iteration(iteration=iteration, iteration_result="failed",
+                self.end_of_iteration(iteration_result="failed",
                                       failure_reason=f"exception in  TC_Pair.py {str(e)}")
                 self.dut.factory_reset_dut(stop_reset=False)
                 continue

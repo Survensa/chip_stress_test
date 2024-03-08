@@ -84,9 +84,11 @@ def test_case_executed(request: Request, dir_path: str):
 
 
 @app.get("/home/displayLogFolder")
-def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size: int = 10,
+def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size: str = '10',
                        filters: str = "all"):
     dirs_list = os.listdir(dir_path)
+    if page_size.isnumeric():
+        page_size = int(page_size)
     if "summary.json" in dirs_list:
         fp = open(os.path.join(dir_path, "summary.json"), "r")
         summary = json.load(fp)
@@ -112,12 +114,17 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
                 filtered_data.append(row)
             elif filters == "all":
                 filtered_data.append(row)
+        if page_size != "all_rows":
             # Paginate the data
-        start_index = (page - 1) * page_size
-        end_index = start_index + page_size
-        paginated_data = list(islice(filtered_data, start_index, end_index))
-        # Calculate total pages
-        total_pages = (len(filtered_data) + page_size - 1) // page_size
+            start_index = (page - 1) * page_size
+            end_index = start_index + page_size
+            paginated_data = list(islice(filtered_data, start_index, end_index))
+            # Calculate total pages
+            total_pages = (len(filtered_data) + page_size - 1) // page_size
+        else:
+            paginated_data = filtered_data
+            total_pages = 1
+
 
         # Render the Jinja2 template with the paginated and filtered data
         return templates.TemplateResponse(

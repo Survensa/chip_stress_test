@@ -82,8 +82,6 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     async def pre_iteration_loop(self):
         device_info = await self.device_info()  # pulls basic cluster information this is must be present at all times
         self.test_result.update({"device_basic_information": device_info})
-        # TODO harshith move dut reset to script
-
         self.test_result.update({"Failed_iteration_details": {}})
         self.dut.pre_iteration_loop()
 

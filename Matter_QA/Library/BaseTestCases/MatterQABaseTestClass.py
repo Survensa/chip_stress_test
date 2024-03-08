@@ -82,7 +82,8 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     async def pre_iteration_loop(self):
         device_info = await self.device_info()  # pulls basic cluster information this is must be present at all times
         self.test_result.update({"device_basic_information": device_info})
-        self.dut.factory_reset_dut(stop_reset=False)
+        # TODO harshith move dut reset to script
+
         self.test_result.update({"Failed_iteration_details": {}})
         self.dut.pre_iteration_loop()
 
@@ -114,7 +115,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.logger.addHandler(self.iteration_file_handler)
         if dut:
             dut.start_log()
-
+    # TODO harshith use matterBase Test class
     @timer
     def commission_device(self, *args, **kwargs):
         conf = self.matter_test_config
@@ -207,24 +208,27 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.logger.removeHandler(self.iteration_file_handler)
         self.iteration_file_handler.close()
 
-    def end_of_iteration(self, iteration, iteration_result, failure_reason=None, **kwargs):
+    def check_execution_mode(self):
+        if self.full_execution_mode:
+            return "full_execution_mode"
+        else:
+            return "partial_execution_mode"
+
+    def end_of_iteration(self, iteration_result, iteration=None, failure_reason=None, **kwargs):
         try:
             if iteration_result == "failed":
                 self.log_iteration_test_results(iteration_result=iteration_result, iteration=iteration,
                                                 failure_reason=failure_reason)
-            elif iteration_result == "success":
+            else:
                 self.log_iteration_test_results(iteration_result=iteration_result)
             summary_log(test_result=self.test_result, test_config=self.test_config,
                         completed=False, analytics_json=self.analytics_json)
-            self.dut.factory_reset_dut(stop_reset=False)
-            logging.info('completed pair and unpair sequence for {}'.format(iteration))
             self.stop_iteration_logging(iteration, None)
         except Exception as e:
             logging.error(str(e),exc_info=True)
 
     def end_of_test(self, **kwargs):
         try:
-            self.dut.factory_reset_dut(stop_reset=True)
             summary_log(test_result=self.test_result, test_config=self.test_config,
                         completed=True, analytics_json=self.analytics_json)
             self.dut.post_iteration_loop()

@@ -33,13 +33,12 @@ class TC_Pair(MatterQABaseTestCaseClass):
 
     async def pairing_or_unpairing_unsuccessful(self, iteration, pairing_or_pairing_result):
         await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": iteration})
-        self.iterations_failure_reason = f' iteration {iteration} because of {pairing_or_pairing_result.get("failed_reason")}'
-        self.end_of_iteration(iteration, iteration_result="failed",
+        self.iterations_failure_reason = f' iteration {iteration} failed because of {pairing_or_pairing_result.get("failed_reason")}'
+        self.end_of_iteration(iteration=iteration, iteration_result="failed",
                               failure_reason=self.iterations_failure_reason)
-        if not self.full_execution_mode:
-            raise StopIteration
+        self.dut.factory_reset_dut(stop_reset=False)
 
-    def pairing_dut(self):
+    def pairing_dut(self) -> dict:
         try:
             pairing_result = self.commission_device(
                 kwargs={"timeout": self.test_config.general_configs.dut_connection_timeout})
@@ -51,8 +50,8 @@ class TC_Pair(MatterQABaseTestCaseClass):
     @async_test_body
     async def test_tc_pair_unpair(self):
         self.dut = self.get_dut_object()
-        logging.info("Entering the test function")
         await self.pre_iteration_loop()
+        self.dut.factory_reset_dut(stop_reset=False)
         for iteration in range(1, self.iterations + 1):
             try:
                 # here iteration_logger will be started, pairing_duration_info will be captured
@@ -68,26 +67,31 @@ class TC_Pair(MatterQABaseTestCaseClass):
                                                                             "dev_ctrl": None, "endpoint": 0})
                     unpair_result = self.unpair_dut()  # unpair with commissioned the DUT
                     if unpair_result.get("status") == "failed":  # when unpairing from DUT Fails
-                        await self.pairing_or_unpairing_unsuccessful(iteration, pairing_result)
-                        continue
+                        await self.pairing_or_unpairing_unsuccessful(iteration, unpair_result)
+                        if self.check_execution_mode() == "full_execution_mode":
+                            continue
+                        else:
+                            break
                     await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": iteration})
                     logging.info(f'iteration {iteration} is passed and unpairing the device is successful')
 
                 else:  # this condition is triggered when pairing is un_successful
                     await self.pairing_or_unpairing_unsuccessful(iteration, pairing_result)
-                    continue
-
-            except StopIteration:  # this will be reached when full_execution_mode is disabled and script will exit
-                logging.info(
-                    'Full Execution mode is disabled \n The iteration {} number has failed hence the '
-                    'execution will stop here'.format(iteration))
-                break
+                    if self.check_execution_mode() == "full_execution_mode":
+                        continue
+                    else:
+                        break
             except Exception as e:
                 logging.error(f"Exception occurred in TC_Pair.py \n exception is {e}", exc_info=True)
-                self.end_of_iteration(iteration, iteration_result="failed",
+                self.end_of_iteration(iteration=iteration, iteration_result="failed",
                                       failure_reason=f"exception in  TC_Pair.py {str(e)}")
+                self.dut.factory_reset_dut(stop_reset=False)
                 continue
+            self.dut.factory_reset_dut(stop_reset=False)
+            self.end_of_iteration(iteration_result="success")
+        self.dut.factory_reset_dut(stop_reset=True)
         self.end_of_test()
+
 
 
 if __name__ == "__main__":

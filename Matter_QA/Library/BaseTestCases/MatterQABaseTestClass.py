@@ -26,12 +26,14 @@ import typing
 import chip.clusters as Clusters
 from typing import Any, Tuple
 
+import chip.exceptions
 import yaml
 from chip import ChipDeviceCtrl
 
 from Matter_QA.Library.HelperLibs.matter_testing_support import MatterBaseTest
 from Matter_QA.Library.HelperLibs.utils import (timer, convert_args_dict, dut_object_loader, yaml_config_reader,
                                                 default_config_reader, summary_log)
+from Matter_QA.Library.HelperLibs.analticalDataCapture import AnalyticalDataCapture
 
 dut_objects_list = []
 
@@ -49,11 +51,17 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.test_config = MatterQABaseTestCaseClass.test_config
         self.dut = None
         self.pairing_duration_start = datetime.datetime.now()
+        self.iterations_failure_reason = None
+        self.full_execution_mode = self.test_config.general_configs.execution_mode_full
         self.__misc__init()
+
+        # creating an object to capture analytics data to json file
+        self.analytics_capture_object = AnalyticalDataCapture(analytics_json=self.analytics_json,
+                                                              test_config=self.test_config)
         self.iterations = self.test_config.general_configs.iteration_number
-        self.switch_case = {
-            "pairing_duration_info": self.pairing_info_collect,
-            "heap_usage": self.heap_usage_dut_collect
+        self.analytics_functions_dict = {
+            "pairing_duration_info": self.collect_pairing_info,
+            "heap_usage": self.collect_dut_heap_usage
         }
 
     def get_dut_object(self):
@@ -76,8 +84,6 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.test_result.update({"device_basic_information": device_info})
         self.dut.factory_reset_dut(stop_reset=False)
         self.test_result.update({"Failed_iteration_details": {}})
-        for analytic in self.test_config.general_configs.analytics_parameters:
-            self.analytics_json["analytics"].update({analytic: {}})
         self.dut.pre_iteration_loop()
 
     async def start_iteration(self, iteration, **kwargs):
@@ -88,8 +94,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.start_iteration_logging(iteration, None)
         logging.info("Started Iteration sequence {}".format(iteration))
         self.test_config.current_iteration = iteration
-        self.start_iteration_logging(iteration, None)
-        await self.collect_basic_analytics_info(
+        await self.collect_all_basic_analytics_info(
             pairing_duration_info={"initialise": True})  # start to capture pairing duration info and other things
 
     def start_iteration_logging(self, iteration_count, dut):
@@ -120,17 +125,17 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 logging.info("Commissioning method: %s" % conf.commissioning_method)
                 commission_response = self._commission_device(commission_idx)
                 if commission_response[0]:
-                    return commission_response
+                    return {"status": "success"}
                 else:
-                    logging.info(f' \n\n commission response {str(commission_response[0])}')
+                    logging.info(f'commission response {str(commission_response[0])}')
                     if len(commission_response) > 1:
-                        return [False, str(commission_response[1])]
+                        return {"status": "failed", "failed_reason": str(commission_response[1])}
                     else:
-                        return [False, str(commission_response[0])]
+                        return {"status": "failed", "failed_reason": str(commission_response[0])}
             except Exception as e:
                 logging.error(e, exc_info=True)
                 traceback.print_exc()
-                return [False, str(e)]
+                return {"status": "failed", "failed_reason": str(e)}
 
     def _commission_device(self, i):
         try:
@@ -183,53 +188,84 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 time.sleep(3)
                 self.th1.ExpireSessions(self.dut_node_id)
                 time.sleep(3)
-                return {"stats": True}
+                return {"status": "success"}
             else:
                 controller.UnpairDevice(node_id)
                 time.sleep(3)
-                self.th1.ExpireSessions(node_id)
+                controller.ExpireSessions(node_id)
                 time.sleep(3)
-                return {"stats": True}
+                return {"status": "success"}
         except Exception as e:
             logging.error(e, exc_info=True)
-            traceback.print_exc()
-            return {"stats": False, "failed_reason": str(e)}
+            if isinstance(e, chip.exceptions.ChipStackError):
+                return {"status": "failed", "failed_reason": e.msg}
+            else:
+                return {"status": "failed", "failed_reason": str(e)}
 
     def stop_iteration_logging(self, iteration_count, dut):
         logging.info('{} iteration completed'.format(iteration_count))
         self.logger.removeHandler(self.iteration_file_handler)
         self.iteration_file_handler.close()
 
-    def end_of_iteration(self, iteration, **kwargs):
-        summary_log(test_result=self.test_result, test_config=self.test_config,
-                    completed=False, analytics_json=self.analytics_json)
-        self.dut.factory_reset_dut(stop_reset=False)
-        logging.info('completed pair and unpair sequence for {}'.format(iteration))
-        self.stop_iteration_logging(iteration, None)
+    def end_of_iteration(self, iteration, iteration_result, failure_reason=None, **kwargs):
+        try:
+            if iteration_result == "failed":
+                self.log_iteration_test_results(iteration_result=iteration_result, iteration=iteration,
+                                                failure_reason=failure_reason)
+            elif iteration_result == "success":
+                self.log_iteration_test_results(iteration_result=iteration_result)
+            summary_log(test_result=self.test_result, test_config=self.test_config,
+                        completed=False, analytics_json=self.analytics_json)
+            self.dut.factory_reset_dut(stop_reset=False)
+            logging.info('completed pair and unpair sequence for {}'.format(iteration))
+            self.stop_iteration_logging(iteration, None)
+        except Exception as e:
+            logging.error(str(e),exc_info=True)
 
     def end_of_test(self, **kwargs):
-        self.dut.factory_reset_dut(stop_reset=True)
-        summary_log(test_result=self.test_result, test_config=self.test_config,
-                    completed=True, analytics_json=self.analytics_json)
-        self.dut.post_iteration_loop()
+        try:
+            self.dut.factory_reset_dut(stop_reset=True)
+            summary_log(test_result=self.test_result, test_config=self.test_config,
+                        completed=True, analytics_json=self.analytics_json)
+            self.dut.post_iteration_loop()
+        except Exception as e:
+            logging.error(str(e),exc_info=True)
 
-    async def collect_basic_analytics_info(self, **kwargs):
+    def log_iteration_test_results(self, iteration_result: str, iteration=None, failure_reason=None):
+        try:
+            if iteration_result == "success":
+                self.test_result["Pass Count"] += 1
+            elif iteration_result == "failed":
+                self.test_result["Failed_iteration_details"].update({str(iteration): failure_reason})
+                self.test_result["Fail Count"]["Iteration"].append(iteration)
+                self.test_result["Fail Count"]["Count"] += 1
+                logging.error(f'Iteration Number {iteration} is failed due to reason {failure_reason}')
+        except Exception as e:
+            logging.error(str(e), exc_info=True)
+
+    async def collect_all_basic_analytics_info(self, **kwargs):
         for analytics in kwargs.keys():
-            await self.switch_case.get(analytics)(**kwargs[analytics])
+            await self.analytics_functions_dict.get(analytics)(**kwargs[analytics])
 
-    async def pairing_info_collect(self, **kwargs):
+    async def collect_pairing_info(self, **kwargs):
         if "pairing_duration_info" in self.test_config.general_configs.analytics_parameters:
             if kwargs.get("initialise"):
                 self.pairing_duration_start = datetime.datetime.now()
             else:
                 pairing_duration = round((datetime.datetime.now() - self.pairing_duration_start).total_seconds(), 4)
-                self.analytics_json["analytics"]["pairing_duration_info"].update(
-                    {str(kwargs["iteration_number"]): pairing_duration})
 
-    async def heap_usage_dut_collect(self, **kwargs):
+                self.analytics_capture_object.capture_analytics_to_json(analytics_name="pairing_duration_info",
+                                                                        analytics_data=pairing_duration,
+                                                                        iteration_number=str(kwargs["iteration_number"])
+                                                                        )
+
+    async def collect_dut_heap_usage(self, **kwargs):
         if "heap_usage" in self.test_config.general_configs.analytics_parameters:
             heap_usage = await self.get_heap_usage(kwargs["node_id"], kwargs["dev_ctrl"], kwargs["endpoint"])
-            self.analytics_json["analytics"]["heap_usage"].update({str(kwargs["iteration_number"]): heap_usage})
+            self.analytics_capture_object.capture_analytics_to_json(analytics_name="heap_usage",
+                                                                    analytics_data=heap_usage,
+                                                                    iteration_number=str(kwargs["iteration_number"])
+                                                                    )
 
     async def on_off_dut(self):
         try:
@@ -352,7 +388,7 @@ def test_start(test_class_name):
         logging.error(e, exc_info=True)
         traceback.print_exc()
 
-def log_path_add_args(path):
+def log_path_add_args(path):  # add log path to python args for matter_base_test class to store logs(used by mobly)
     args = sys.argv
     args.append("--logs-path")
     args.append(path)

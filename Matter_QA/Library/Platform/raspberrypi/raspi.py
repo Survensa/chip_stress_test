@@ -44,7 +44,7 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
             self.ssh_session.send_command_no_output(reboot_command)
             return True
         except Exception as e:
-            logger.error(e,exc_info=True)
+            logger.error(e, exc_info=True)
             return True
 
     def factory_reset_dut(self, stop_reset):
@@ -69,19 +69,18 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                     return True
 
             logger.info("Example App has been closed")
-
+            self.ssh_session.close_ssh_connection()
             if not stop_reset:
                 thread = threading.Thread(target=self.start_matter_app)
                 thread.start()
-            else:
-                self.ssh_session.close_ssh_connection()
             time.sleep(10)
         except Exception as e:
-            logger.error(e,exc_info=True)
+            logger.error(e, exc_info=True)
 
     def start_matter_app(self):
         try:
             logger.info("Starting The Matter application")
+            self.ssh_session.open_ssh_connection()
             self.ssh_session.send_command_no_output('rm -rf /tmp/chip_*')
             command = f'ps aux | grep "{self.matter_app}"'
             pid_val = self.ssh_session.send_command_receive_output(command, hide=True)
@@ -91,19 +90,19 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                 try:
                     if self.matter_app in line:
                         pid = line.split()[1]
-                        conformance = line.split()[7]
-                        if conformance == 'Ssl':
-                            logger.info("the DUT is already working will stop it now")
-                            logger.info("displaying the pid of DUT  {}".format(line))
+                        if "grep" not in line:
+                            logger.info("Displaying the pid and process to terminate {}".format(line))
                             kill_command = f"kill {pid}"
                             self.ssh_session.send_command_no_output(kill_command)
                 except Exception as e:
                     logger.error(e)
                     traceback.print_exc()
-            log = self.ssh_session.send_command_receive_output(self.matter_app, warn=True, hide=True,pty=False)
+                    return True
+
+            log = self.ssh_session.send_command_receive_output(self.matter_app, warn=True, hide=True, pty=False)
             self.start_logging(log)
         except Exception as e:
-            logger.error(e,exc_info=True)
+            logger.error(e, exc_info=True)
             traceback.print_exc()
         return True
 
@@ -125,7 +124,7 @@ class Raspi(BaseDutNodeClass, BaseNodeDutConfiguration):
                 fp.write(log.stdout)
             return True
         except Exception as e:
-            logger.error(e,exc_info=True)
+            logger.error(e, exc_info=True)
 
     def stop_logging(self):
 

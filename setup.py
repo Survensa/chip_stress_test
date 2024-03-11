@@ -28,7 +28,7 @@ with open(os.path.join(DIR_PATH, 'requirements.txt')) as f:
     requirements = f.read().splitlines()
 
 setup(
-    name='MatterQA',
+    name='Matter_QA',
     version='1.0.0',
     description='Matter Automated QA tests',
     long_description='This python modules contains Matter Functional and Reliability Tests',

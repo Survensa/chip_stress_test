@@ -75,11 +75,14 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             return {"status": "failed","failure_reason":str(e)}
 
     async def pairing_failure(self, error):  
-        await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
         self.end_of_iteration(iteration_result = "failed", failure_reason = error)
         if self.check_execution_mode() == "full_execution_mode":
             pass
         else:
+            await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
+                                                                            "iteration_number": self.current_iteration,
+                                                                            "dev_ctrl": None, "endpoint": 0})
+            await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
             self.dut.factory_reset_dut(stop_reset=True)
             self.end_of_test()
             asserts.fail(error, "Failed to pair the New controller")
@@ -100,26 +103,45 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                 return fabricDescriptor.fabricIndex
         return 0
     
-    def shutdown_all_controllers(self, list_of_controllers, list_of_paired_controllers):
+    async def shutdown_all_controllers(self, list_of_controllers, list_of_paired_controllers):
         for controller_details_dict in list_of_controllers:
                 th = controller_details_dict.get("TH_object")
                 dutNodeId = controller_details_dict.get("DUT_node_id")
                 if controller_details_dict in list_of_paired_controllers:
-                    unpair = self.unpair_dut(th, dutNodeId)
+                    unpair_result = self.unpair_dut(th, dutNodeId)
+                    if unpair_result.get("status") == "failed":
+                        logging.error("Failed to unpair the new controller with the error:{}".format(unpair_result.get("failed_reason")))
+                        await self.unpair_failure(unpair_result.get("failed_reason"))
                 th.Shutdown()
-                
                 
     async def controller_creation_failure(self, controller_details_dict):
         if self.check_execution_mode() == "full_execution_mode":
             logging.error(f"Failed to create a Controller with the error : {controller_details_dict.get('failure_reason')}")
             pass
         else:
+            await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
+                                                                            "iteration_number": self.current_iteration,
+                                                                            "dev_ctrl": None, "endpoint": 0})
             await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
             self.end_of_iteration(iteration_result = "failed", failure_reason = controller_details_dict.get("failure_reason"))
             self.dut.factory_reset_dut(stop_reset=True)
             self.end_of_test()
             asserts.fail(controller_details_dict.get("failure_reason"), "Failed to create new controller")
 
+    async def unpair_failure(self, error):
+        if self.check_execution_mode() == "full_execution_mode":
+            pass
+        else:
+            await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
+                                                                            "iteration_number": self.current_iteration,
+                                                                            "dev_ctrl": None, "endpoint": 0})
+            await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
+            self.end_of_iteration(iteration_result = "failed", failure_reason = str(error))
+            self.dut.factory_reset_dut(stop_reset=True)
+            self.end_of_test()
+            asserts.fail(str(error), "Failed to unpair the controller")
+        
+    
     @async_test_body
     async def test_stress_test_multi_fabric(self):
         self.number_of_controllers = self.matter_test_config.global_test_params["controllers"]
@@ -162,7 +184,11 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                     continue
                 await self.check_nodeid_is_in_fabriclist(th, dutNodeId)
                 list_of_paired_controller.append(controller_details_dict)
-            self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller)
+            await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
+                                                                            "iteration_number": self.current_iteration,
+                                                                            "dev_ctrl": None, "endpoint": 0})
+            await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
+            await self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller)
             self.unique_node_id += 1
             self.end_of_iteration(iteration_result = "success")
         self.dut.factory_reset_dut(stop_reset=True)

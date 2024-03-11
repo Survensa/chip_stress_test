@@ -110,6 +110,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.logger.addHandler(self.iteration_file_handler)
         if dut:
             dut.start_log()
+
     # TODO harshith use matterBase Test class
     @timer
     def commission_device(self, *args, **kwargs):
@@ -223,7 +224,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                         completed=False, analytics_json=self.analytics_json)
             self.stop_iteration_logging()
         except Exception as e:
-            logging.error(str(e),exc_info=True)
+            logging.error(str(e), exc_info=True)
 
     def end_of_test(self, **kwargs):
         try:
@@ -231,17 +232,31 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                         completed=True, analytics_json=self.analytics_json)
             self.dut.post_iteration_loop()
         except Exception as e:
-            logging.error(str(e),exc_info=True)
+            logging.error(str(e), exc_info=True)
 
     def log_iteration_test_results(self, iteration_result: str, failure_reason=None):
         try:
-            if iteration_result == "success":
+            if iteration_result == "success" and self.current_iteration not in self.test_result["Fail Count"]["Iteration"]:
                 self.test_result["Pass Count"] += 1
             elif iteration_result == "failed":
-                self.test_result["Failed_iteration_details"].update({str(self.current_iteration): failure_reason})
-                self.test_result["Fail Count"]["Iteration"].append(self.current_iteration)
-                self.test_result["Fail Count"]["Count"] += 1
-                logging.error(f'Iteration Number {self.current_iteration} is failed due to reason {failure_reason}')
+                if self.current_iteration not in self.test_result["Fail Count"]["Iteration"]:
+                    self.test_result["Failed_iteration_details"].update({str(self.current_iteration): failure_reason})
+                    self.test_result["Fail Count"]["Iteration"].append(self.current_iteration)
+                    self.test_result["Fail Count"]["Count"] += 1
+                    logging.error(f'Iteration Number {self.current_iteration} is failed due to reason {failure_reason}')
+                else:
+                    previous_error_captured = self.test_result["Failed_iteration_details"].get(
+                        str(self.current_iteration))
+                    if isinstance(previous_error_captured, str):
+                        updated_error_details = [previous_error_captured, failure_reason]
+                        self.test_result["Failed_iteration_details"].update(
+                            {str(self.current_iteration): updated_error_details})
+                        logging.error(
+                            f'Iteration Number {self.current_iteration} is failed due to reason {failure_reason}')
+                    elif isinstance(previous_error_captured, list):
+                        self.test_result["Failed_iteration_details"][str(self.current_iteration)].append(failure_reason)
+                        logging.error(
+                            f'Iteration Number {self.current_iteration} is failed due to reason {failure_reason}')
         except Exception as e:
             logging.error(str(e), exc_info=True)
 
@@ -358,6 +373,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 data = -1
         return data
 
+
 def test_start(test_class_name):
     try:
         global dut_objects_list
@@ -389,6 +405,7 @@ def test_start(test_class_name):
     except Exception as e:
         logging.error(e, exc_info=True)
         traceback.print_exc()
+
 
 def log_path_add_args(path):  # add log path to python args for matter_base_test class to store logs(used by mobly)
     args = sys.argv

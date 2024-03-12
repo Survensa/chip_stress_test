@@ -14,27 +14,27 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
-import datetime
 import logging
 import random
 import time
-import traceback
-from chip import ChipDeviceCtrl
 import chip.clusters as Clusters
+from chip.exceptions import ChipStackError
 from chip.interaction_model import InteractionModelError
 from mobly import asserts
+import sys
+import os
 from chip.clusters import OperationalCredentials as opCreds
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../')))
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import MatterQABaseTestCaseClass, test_start
 from Matter_QA.Library.HelperLibs.matter_testing_support import CustomCommissioningParameters, async_test_body,\
                  default_matter_test_main, DiscoveryFilterType
-from Matter_QA.Library.HelperLibs.utils import  summary_log
 
 
 class TC_Multi_admin(MatterQABaseTestCaseClass):
     def __init__(self, *args):
         super().__init__(*args)
         self.dut = self.get_dut_object()
-        self.unique_node_id = 0
+        self.current_controller = 0
 
     async def check_the_no_of_controllers_are_in_range(self):
         asserts.assert_true('controllers' in self.matter_test_config.global_test_params,
@@ -42,86 +42,115 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                             "the --int-arg flag as controllers:<Number of controllers>")
         max_fabrics = await self.read_single_attribute(self.default_controller, self.dut_node_id,0,
                                                        Clusters.OperationalCredentials.Attributes.SupportedFabrics)
-        asserts.assert_less_equal(self.number_of_controllers, int(max_fabrics)-1, f"Controller should be less than are equal to the Supported_fabrics:{max_fabrics}")
+        asserts.assert_less_equal(self.number_of_controllers, int(max_fabrics)-1, 
+                                  f"Controller should be less than are equal to the Supported_fabrics:{max_fabrics}")
 
     def build_controller(self, controller_id_itr) -> dict:
         try:
-            controller_node_id = controller_id_itr + (self.unique_node_id * int(self.number_of_controllers))
-            logging.info(f'Controller node id {controller_node_id}')
+            unique_controller_id = controller_id_itr + (self.current_iteration * int(self.number_of_controllers))
+            logging.info(f'Controller node id for controller-{controller_id_itr} in {self.current_iteration} iteration is {unique_controller_id}')
             th_certificate_authority = self.certificate_authority_manager.NewCertificateAuthority()
-            th_fabric_admin = th_certificate_authority.NewFabricAdmin(vendorId=0xFFF1, fabricId=self.th1.fabricId + controller_node_id)
-            dut_node_id =  self.dut_node_id + controller_node_id
-            thNodeId = self.th1.nodeId + controller_node_id
+            th_fabric_admin = th_certificate_authority.NewFabricAdmin(vendorId=0xFFF1, fabricId=self.th1.fabricId + unique_controller_id)
+            dut_node_id =  self.dut_node_id + unique_controller_id
+            thNodeId = self.th1.nodeId + unique_controller_id
             th = th_fabric_admin.NewController(thNodeId)
             return {"status":"success", "dev_controller_dict":{"DUT_node_id": dut_node_id ,
                     "TH_node_id": thNodeId,
                     "TH_object": th,
-                    "TH_Name": f"Commissioner-{controller_node_id}"}}
+                    "TH_Name": f"Commissioner-{unique_controller_id}"}}
         except Exception as e:
-            logging.error(str(e),exc_info=True)
+            logging.error(f"Failed to build the controller {self.current_controller}in the iteration {self.current_iteration} with error {str(e)}"
+                          ,exc_info=True)
             return {"status":"failed", "failure_reason":str(e)} 
         
     async def openCommissioningWindow(self) -> dict:
         rnd_discriminator = random.randint(0, 4095)
         try:
-            commissioning_params = self.th1.OpenCommissioningWindow(nodeid=self.dut_node_id, timeout=900, iteration=1000,
+            commissioning_params = self.th1.OpenCommissioningWindow(nodeid=self.dut_node_id, timeout=180, iteration=1000,
                                                                     discriminator=rnd_discriminator, option=1)
             customcommissioningparameters = CustomCommissioningParameters(commissioning_params, rnd_discriminator)
             return {"status":"Success","commissioning_parameters": customcommissioningparameters}
 
-        except InteractionModelError as e:
-            logging.error(f"Failed to open the commissioning window :{str(e)}")
+        except ChipStackError as e:
+            logging.error(f"Failed to open the commissioning window :{str(e)}", exc_info=True)
             await self.pairing_failure(str(e))
             return {"status": "failed","failure_reason":str(e)}
 
     async def pairing_failure(self, error):  
-        self.end_of_iteration(iteration_result = "failed", failure_reason = error)
+        
         if self.check_execution_mode() == "full_execution_mode":
-            pass
+            self.log_iteration_test_results(iteration_result= "failed", 
+                                            failure_reason=f"Controller{self.current_controller} of the Iteration {self.current_iteration} with the error {str(error)}")
         else:
             await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
                                                                             "iteration_number": self.current_iteration,
                                                                             "dev_ctrl": None, "endpoint": 0})
             await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
+            self.end_of_iteration(iteration_result = "failed", failure_reason = error)
             self.dut.factory_reset_dut(stop_reset=True)
             self.end_of_test()
             asserts.fail(error, "Failed to pair the New controller")
     
-    def controller_pairing(self, th, dutNodeId, setuppincode, discriminator):
+    async def controller_pairing(self,controller_details_dict, iteration):
+        dutNodeId = controller_details_dict.get("DUT_node_id")
+        logging.info('TH1 opens a commissioning window')
+        opencommissioning_result_dict = await self.openCommissioningWindow()
+        if opencommissioning_result_dict.get("status") == "failed":
+            self.pairing_failure(opencommissioning_result_dict.get("failure_reason"))
+            return opencommissioning_result_dict
+        opencommissioning_object = opencommissioning_result_dict.get("commissioning_parameters")
+        #Setuppincode for the current controller
+        setuppincode = opencommissioning_object.commissioningParameters.setupPinCode
+        #discriminator for the current controller
+        discriminator = opencommissioning_object.randomDiscriminator
+        logging.info(f'TH{self.current_controller} starts the commissioning with DUT')
+        th = controller_details_dict.get("TH_object")
         th.ResetTestCommissioner()
         paring_result = th.CommissionOnNetwork(
                         nodeId=dutNodeId, setupPinCode=setuppincode,
                         filterType=DiscoveryFilterType.LONG_DISCRIMINATOR, filter=discriminator)
-        return paring_result
+        if not paring_result.is_success:
+            await self.close_commissioning_window()
+            return{"status":"failed","failure_reason":str(paring_result)}
+        await self.check_nodeid_is_in_fabriclist(th, dutNodeId)
+        return {"status":"Success","paring_result":paring_result}
         
     async def check_nodeid_is_in_fabriclist(self, devCtrl, nodeId):
-        resp = await devCtrl.ReadAttribute(nodeId, [(opCreds.Attributes.Fabrics)])
-        listOfFabricsDescriptor = resp[0][opCreds][Clusters.OperationalCredentials.Attributes.Fabrics]
-        for fabricDescriptor in listOfFabricsDescriptor:
-            print("Fabric Descriptor Read From the Device: ", fabricDescriptor)
-            if fabricDescriptor.nodeID == nodeId:
-                return fabricDescriptor.fabricIndex
-        return 0
+        try:
+            resp = await devCtrl.ReadAttribute(nodeId, [(opCreds.Attributes.Fabrics)])
+            listOfFabricsDescriptor = resp[0][opCreds][Clusters.OperationalCredentials.Attributes.Fabrics]
+            for fabricDescriptor in listOfFabricsDescriptor:
+                print("Fabric Descriptor Read From the Device: ", fabricDescriptor)
+                if fabricDescriptor.nodeID == nodeId:
+                    return fabricDescriptor.fabricIndex
+                else:
+                    self.pairing_failure()
+        except Exception as e:
+            logging.error("Failed to read the listOfFabricsDescriptor", exc_info=True)
+            return 0
     
     async def shutdown_all_controllers(self, list_of_controllers, list_of_paired_controllers):
         for controller_details_dict in list_of_controllers:
                 th = controller_details_dict.get("TH_object")
                 dutNodeId = controller_details_dict.get("DUT_node_id")
                 if controller_details_dict in list_of_paired_controllers:
+                    logging.info("Unpairing the controller-{} of iteration {}"
+                                 .format(list_of_controllers.index(controller_details_dict) , self.current_iteration))
                     unpair_result = self.unpair_dut(th, dutNodeId)
                     if unpair_result.get("status") == "failed":
-                        logging.error("Failed to unpair the new controller with the error:{}".format(unpair_result.get("failed_reason")))
+                        logging.error("Failed to unpair the controller-{} in the iteration {} with the error:{}"
+                                      .format(self.current_controller,self.current_iteration ,unpair_result.get("failed_reason")) 
+                                      ,exc_info=True)
                         await self.unpair_failure(unpair_result.get("failed_reason"))
                 th.Shutdown()
                 
     async def controller_creation_failure(self, controller_details_dict):
         if self.check_execution_mode() == "full_execution_mode":
-            logging.error(f"Failed to create a Controller with the error : {controller_details_dict.get('failure_reason')}")
-            pass
+            logging.error(f"Failed to create a Controller with the error : {controller_details_dict.get('failure_reason')}" ,exc_info=True)
         else:
             await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
-                                                                            "iteration_number": self.current_iteration,
-                                                                            "dev_ctrl": None, "endpoint": 0})
+                                                        "iteration_number": self.current_iteration,
+                                                        "dev_ctrl": None, "endpoint": 0})
             await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
             self.end_of_iteration(iteration_result = "failed", failure_reason = controller_details_dict.get("failure_reason"))
             self.dut.factory_reset_dut(stop_reset=True)
@@ -130,7 +159,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
 
     async def unpair_failure(self, error):
         if self.check_execution_mode() == "full_execution_mode":
-            pass
+            self.log_iteration_test_results(iteration_result= "failed", failure_reason=str(error))
         else:
             await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
                                                                             "iteration_number": self.current_iteration,
@@ -140,7 +169,20 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             self.dut.factory_reset_dut(stop_reset=True)
             self.end_of_test()
             asserts.fail(str(error), "Failed to unpair the controller")
-        
+
+    async def close_commissioning_window(self):
+        while True:
+            try:
+                windowstatus_attribute = Clusters.AdministratorCommissioning.Attributes.WindowStatus
+                windowstatus = await self.read_single_attribute(self.th1, self.dut_node_id, 0 , windowstatus_attribute)
+                logging.info(f"Current windowstaus value is {windowstatus}")
+                if windowstatus == 0:
+                    break
+                revokeCmd = Clusters.AdministratorCommissioning.Commands.RevokeCommissioning()
+                await self.th1.SendCommand(nodeid=self.dut_node_id, endpoint=0, payload=revokeCmd, timedRequestTimeoutMs=1000)
+                time.sleep(1)
+            except Exception as e:
+                logging.error("Failed to close the commissioning window due to the error {}".format(e),exc_info=True)      
     
     @async_test_body
     async def test_stress_test_multi_fabric(self):
@@ -160,36 +202,21 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                     continue
                 controller_details_dict = controller_build_result.get("dev_controller_dict")
                 list_of_controllers.append(controller_details_dict)
-                dutNodeId = controller_details_dict.get("DUT_node_id")
-                logging.info('TH1 opens a commissioning window')
-                opencommissioning_result_dict = await self.openCommissioningWindow()
-                if opencommissioning_result_dict.get("status") == "failed":
-                    self.pairing_failure(opencommissioning_result_dict.get("failure_reason"))
-                    continue
-                opencommissioning_object = opencommissioning_result_dict.get("commissioning_parameters")
-                #Setuppincode for the current controller
-                setuppincode = opencommissioning_object.commissioningParameters.setupPinCode
-                #discriminator for the current controller
-                discriminator = opencommissioning_object.randomDiscriminator
-                logging.info(f'TH{int(iteration)} starts the commissioning with DUT')
-                th = controller_details_dict.get("TH_object")
-                paring_result = self.controller_pairing(th, dutNodeId, setuppincode, discriminator)
-                logging.info('Commissioning complete done. Successful? {}, errorcode = {}'.format(paring_result.is_success, paring_result))
-                if not paring_result.is_success:
-                    logging.error("Failed to Commission the controller for {} in {} iteration with th error : {}".format(list_of_controllers.index(controller_details_dict),iteration, paring_result))
+                self.current_controller =  controller_id_itr
+                paring_result_dict = await self.controller_pairing(controller_details_dict , iteration)
+                if paring_result_dict.get("status") == "failed":
+                    paring_result = paring_result_dict.get("failure_reason")
+                    logging.error("Failed to Commission the controller for {} in {} iteration with th error : {}"
+                                  .format(list_of_controllers.index(controller_details_dict)+1,iteration, paring_result), exc_info=True)
                     await self.pairing_failure(str(paring_result))
-                    revokeCmd = Clusters.AdministratorCommissioning.Commands.RevokeCommissioning()
-                    await self.th1.SendCommand(nodeid=self.dut_node_id, endpoint=0, payload=revokeCmd, timedRequestTimeoutMs=1000)
-                    time.sleep(1)
                     continue
-                await self.check_nodeid_is_in_fabriclist(th, dutNodeId)
+                logging.info("successfully commissioned the {}-controller of {} iteration".format(controller_id_itr, iteration))
                 list_of_paired_controller.append(controller_details_dict)
-            await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
-                                                                            "iteration_number": self.current_iteration,
-                                                                            "dev_ctrl": None, "endpoint": 0})
+            await self.collect_all_basic_analytics_info(heap_usage={"node_id": self.dut_node_id,
+                                                        "iteration_number": self.current_iteration,
+                                                        "dev_ctrl": self.th1, "endpoint": 0})
             await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
             await self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller)
-            self.unique_node_id += 1
             self.end_of_iteration(iteration_result = "success")
         self.dut.factory_reset_dut(stop_reset=True)
         self.end_of_test()

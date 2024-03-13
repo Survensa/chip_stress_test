@@ -23,6 +23,7 @@ from chip.interaction_model import InteractionModelError
 from mobly import asserts
 import sys
 import os
+import resource
 from chip.clusters import OperationalCredentials as opCreds
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../')))
 from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import MatterQABaseTestCaseClass, test_start
@@ -34,6 +35,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     def __init__(self, *args):
         super().__init__(*args)
         self.dut = self.get_dut_object()
+        self.commissioning_window_startime = None
         self.current_controller = 0
 
     async def check_the_no_of_controllers_are_in_range(self):
@@ -44,10 +46,21 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                                                        Clusters.OperationalCredentials.Attributes.SupportedFabrics)
         asserts.assert_less_equal(self.number_of_controllers, int(max_fabrics)-1, 
                                   f"Controller should be less than are equal to the Supported_fabrics:{max_fabrics}")
+        
+    def check_the_commissioning_window_timeout(self):
+        if 'commissioning_window_timeout' in self.matter_test_config.global_test_params:
+            self.commissioning_timeout = self.matter_test_config.global_test_params["commissioning_window_timeout"]
+        else:
+            logging.info("int-arg commissioning_window_timeout is missing, Hence using the default timeout value 180 for opencommissioning")
+            self.commissioning_timeout = 180
+        asserts.assert_less_equal(self.commissioning_timeout, 900, 
+                                  f"commissioning_window_timeout value should be less than 901 seconds")
+        asserts.assert_greater_equal(self.commissioning_timeout, 180, 
+                                  f"commissioning_window_timeout value should be greater than 179 seconds")
 
     def build_controller(self, controller_id_itr) -> dict:
         try:
-            unique_controller_id = controller_id_itr + (self.current_iteration * int(self.number_of_controllers))
+            unique_controller_id = controller_id_itr + ((self.current_iteration-1) * int(self.number_of_controllers))
             logging.info(f'Controller node id for controller-{controller_id_itr} in {self.current_iteration} iteration is {unique_controller_id}')
             th_certificate_authority = self.certificate_authority_manager.NewCertificateAuthority()
             th_fabric_admin = th_certificate_authority.NewFabricAdmin(vendorId=0xFFF1, fabricId=self.th1.fabricId + unique_controller_id)
@@ -66,9 +79,11 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     async def openCommissioningWindow(self) -> dict:
         rnd_discriminator = random.randint(0, 4095)
         try:
-            commissioning_params = self.th1.OpenCommissioningWindow(nodeid=self.dut_node_id, timeout=180, iteration=1000,
+            self.commissioning_window_startime = None
+            commissioning_params = self.th1.OpenCommissioningWindow(nodeid=self.dut_node_id, timeout=self.commissioning_timeout, iteration=1000,
                                                                     discriminator=rnd_discriminator, option=1)
             customcommissioningparameters = CustomCommissioningParameters(commissioning_params, rnd_discriminator)
+            self.commissioning_window_startime = time.time()
             return {"status":"Success","commissioning_parameters": customcommissioningparameters}
 
         except ChipStackError as e:
@@ -171,13 +186,12 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             asserts.fail(str(error), "Failed to unpair the controller")
 
     async def close_commissioning_window(self):
+        if self.commissioning_window_startime == None:
+            return None
         while True:
+            if time.time()- self.commissioning_window_startime > self.commissioning_timeout:
+                break
             try:
-                windowstatus_attribute = Clusters.AdministratorCommissioning.Attributes.WindowStatus
-                windowstatus = await self.read_single_attribute(self.th1, self.dut_node_id, 0 , windowstatus_attribute)
-                logging.info(f"Current windowstaus value is {windowstatus}")
-                if windowstatus == 0:
-                    break
                 revokeCmd = Clusters.AdministratorCommissioning.Commands.RevokeCommissioning()
                 await self.th1.SendCommand(nodeid=self.dut_node_id, endpoint=0, payload=revokeCmd, timedRequestTimeoutMs=1000)
                 time.sleep(1)
@@ -187,10 +201,12 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     @async_test_body
     async def test_stress_test_multi_fabric(self):
         self.number_of_controllers = self.matter_test_config.global_test_params["controllers"]
+        self.check_the_commissioning_window_timeout()
         await self.check_the_no_of_controllers_are_in_range()
         self.th1 = self.default_controller
         await self.pre_iteration_loop()
         for iteration in range(1, self.iterations + 1):
+            logging.info(f"intial memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
             await self.start_iteration(iteration = iteration)
             list_of_controllers = []
             list_of_paired_controller = []
@@ -211,6 +227,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                     await self.pairing_failure(str(paring_result))
                     continue
                 logging.info("successfully commissioned the {}-controller of {} iteration".format(controller_id_itr, iteration))
+                logging.info(f"current memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
                 list_of_paired_controller.append(controller_details_dict)
             await self.collect_all_basic_analytics_info(heap_usage={"node_id": self.dut_node_id,
                                                         "iteration_number": self.current_iteration,
@@ -218,9 +235,12 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
             await self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller)
             self.end_of_iteration(iteration_result = "success")
+            logging.info(f"final memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
         self.dut.factory_reset_dut(stop_reset=True)
         self.end_of_test()
 
 if __name__ == "__main__":
+    logging.info(f"intial memory before execution {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
     test_start(test_class_name=TC_Multi_admin.__name__)
     default_matter_test_main(testclass=TC_Multi_admin)
+    logging.info(f"final memory after execution {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")

@@ -28,10 +28,10 @@ with open(os.path.join(DIR_PATH, 'requirements.txt')) as f:
     requirements = f.read().splitlines()
 
 setup(
-    name='Matter_QA',
+    name='matter_qa',
     version='1.0.0',
     description='Matter Automated QA tests',
     long_description='This python modules contains Matter Functional and Reliability Tests',
-    packages=find_packages(include=('MatterQA/*')),
+    packages=find_packages(include=('matter_qa/*')),
     install_requires=requirements,
     )

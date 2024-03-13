@@ -25,10 +25,10 @@ import chip.clusters as Clusters
 import chip.exceptions
 from chip import ChipDeviceCtrl
 
-from Matter_QA.Library.HelperLibs.matter_testing_support import MatterBaseTest
-from Matter_QA.Library.HelperLibs.utils import (timer, convert_args_dict, dut_object_loader, yaml_config_reader,
-                                                default_config_reader, summary_log)
-from Matter_QA.Library.HelperLibs.analticalDataCapture import AnalyticalDataCapture
+from Matter_QA.Library.helper_libs.matter_testing_support import MatterBaseTest
+from Matter_QA.Library.helper_libs.utils import (timer, convert_args_dict, dut_object_loader, yaml_config_reader,
+                                                 default_config_reader, summary_log)
+from Matter_QA.Library.helper_libs.analtical_data_capture import AnalyticalDataCapture
 
 dut_objects_list = []
 
@@ -236,7 +236,8 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
 
     def log_iteration_test_results(self, iteration_result: str, failure_reason=None):
         try:
-            if iteration_result == "success" and self.current_iteration not in self.test_result["Fail Count"]["Iteration"]:
+            if iteration_result == "success" and self.current_iteration not in self.test_result["Fail Count"][
+                "Iteration"]:
                 self.test_result["Pass Count"] += 1
             elif iteration_result == "failed":
                 if self.current_iteration not in self.test_result["Fail Count"]["Iteration"]:

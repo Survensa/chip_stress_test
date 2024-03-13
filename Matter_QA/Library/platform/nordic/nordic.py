@@ -22,8 +22,8 @@ import logging
 import os
 from threading import Event, Thread
 import sys
-from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
-from Matter_QA.Library.HelperLibs.commonSerialInterface import SerialPort
+from Matter_QA.Library.base_test_classes.base_dut_node_class import BaseDutNodeClass, BaseNodeDutConfiguration
+from Matter_QA.Library.helper_libs.common_serial_interface import SerialPort
 
 event_closer = Event()
 

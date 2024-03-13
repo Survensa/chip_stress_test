@@ -25,7 +25,7 @@ import traceback
 
 import yaml
 
-from Matter_QA.Library.Platform.raspberrypi import raspi
+from Matter_QA.Library.platform.raspberrypi import raspi
 
 _DEFAULT_CONFIG_FILE = os.getcwd()
 

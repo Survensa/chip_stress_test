@@ -21,8 +21,8 @@ import threading
 import time
 import traceback
 
-from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
-from Matter_QA.Library.HelperLibs.commonSSHControl import CommonSSH
+from Matter_QA.Library.base_test_classes.base_dut_node_class import BaseDutNodeClass, BaseNodeDutConfiguration
+from Matter_QA.Library.helper_libs.common_ssh_control import CommonSSH
 
 logging.basicConfig(level=logging.INFO, handlers=[logging.StreamHandler()])
 logger = logging.getLogger(__name__)

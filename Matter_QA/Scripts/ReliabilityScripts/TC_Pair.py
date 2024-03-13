@@ -20,11 +20,11 @@ import os
 import sys
 import time
 
-from Matter_QA.Library.HelperLibs.utils import CommissionTimeoutError, summary_log
+from Matter_QA.Library.helper_libs.utils import CommissionTimeoutError, summary_log
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../')))
-from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import MatterQABaseTestCaseClass, test_start
-from Matter_QA.Library.HelperLibs.matter_testing_support import async_test_body, default_matter_test_main
+from Matter_QA.Library.base_test_classes.matter_qa_base_test_class import MatterQABaseTestCaseClass, test_start
+from Matter_QA.Library.helper_libs.matter_testing_support import async_test_body, default_matter_test_main
 
 
 class TC_Pair(MatterQABaseTestCaseClass):
@@ -91,7 +91,6 @@ class TC_Pair(MatterQABaseTestCaseClass):
             self.end_of_iteration(iteration_result="success")
         self.dut.factory_reset_dut(stop_reset=True)
         self.end_of_test()
-
 
 
 if __name__ == "__main__":

@@ -70,30 +70,32 @@ This option will be used by the `nordic.py` script to interact with Nordic dev b
 | `serial_baudrate` | `integer` | Baudrate number                                                                            |
 | `serial_timeout`  | `integer` | timeout for interacting with the nordic dev board                                          |
 
+
 ### ℹ️ About Test Script 'TC_Pair.py'
 
 The scripts in the repository are used to pair and unpair with DUT multiple times. Currently, two simulated modes of DUT are assumed: Raspberry Pi and nRf52840-DK development thread board. The Raspberry Pi mode prompts the user for necessary inputs, while the nRf52840-DK mode requires the location of the script for advertising and resetting the DUT, among other functions.
 
+**Note**: The flag "--timeout" when running the script must be set appropriately ex: if the script takes 185 seconds to complete 3 iterations then user must set timeout flag to a value greater than 185 say 200 to avoid exceptions from the test runner unit 
 
 ### Raspberry Pi
 
 Execute the following command to run the script, where inputs are read from the project's config file:
 
 ```bash
-python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log
+python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --timeout 90000000000
 ```
 
 If running the code with the argument '--yaml-file', provide the path of the config file with the filename:
 
 ```bash
-python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --yaml-file /home/user/config.yaml
+python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --yaml-file /home/user/config.yaml --timeout 90000000000
 ```
 
 When running the code for 'ble-wifi' commissioning method,in the 'configFile.yaml' file the option for 'commissioning_method'
 must be set to 'ble-wifi' and use the command below
 
 ```bash
-python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --wifi-ssid <wifi-name> --wifi-passphrase <wifi-password>
+python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --wifi-ssid <wifi-name> --wifi-passphrase <wifi-password> --timeout 90000000000
 ```
 
 ### Nordic Thread
@@ -101,7 +103,39 @@ python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin
 For Nordic Thread, use the following command:
 
 ```bash
-python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --ble-interface-id 0  --thread-dataset-hex 0e080000000000010000000300001035060004001fffe0020812611111227222220708fd97e1eb459cbbf3051000112433428566778899aabbccddeeff030f4f70656e54687265616444656d6f63010212320410b775feb5fc41b965747da30c8f76bda30c0402a0f7f8
+python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --ble-interface-id 0  --thread-dataset-hex 0e080000000000010000000300001035060004001fffe0020812611111227222220708fd97e1eb459cbbf3051000112433428566778899aabbccddeeff030f4f70656e54687265616444656d6f63010212320410b775feb5fc41b965747da30c8f76bda30c0402a0f7f8 --timeout 90000000000
+```
+### ℹ️ About Test Script 'TC_Multi_admin.py'
+
+This scripts in the repository is used to pair and unpair the n(supported-fabrics) - number of controllers with the  DUT multiple times. Currently, two simulated modes of DUT are assumed: Raspberry Pi and nRf52840-DK development thread board. The Raspberry Pi mode prompts the user for necessary inputs, while the nRf52840-DK mode requires the location of the script for advertising and resetting the DUT, among other functions as same as TC_Pair.py , But in addtion to this it has to arguments "controllers" and "commissioning_window_timeout" that can be passed using --int-arg argument.
+
+### Raspberry Pi
+
+Execute the following command to run the script, where inputs are read from the project's config file:
+
+```bash
+python3 TC_Multi_admin.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --int-arg controllers:5 commissioning_window_timeout:180  --timeout 90000000000
+```
+
+If running the code with the argument '--yaml-file', provide the path of the config file with the filename:
+
+```bash
+python3 TC_Multi_admin.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --yaml-file /home/user/config.yaml --int-arg controllers:5 commissioning_window_timeout:180  --timeout 90000000000
+```
+
+When running the code for 'ble-wifi' commissioning method,in the 'configFile.yaml' file the option for 'commissioning_method'
+must be set to 'ble-wifi' and use the command below
+
+```bash
+python3 TC_Multi_admin.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --wifi-ssid <wifi-name> --wifi-passphrase <wifi-password> --int-arg controllers:5 commissioning_window_timeout:180  --timeout 90000000000
+```
+
+### Nordic Thread
+
+For Nordic Thread, use the following command:
+
+```bash
+python3 TC_Multi_admin.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --ble-interface-id 0  --thread-dataset-hex 0e080000000000010000000300001035060004001fffe0020812611111227222220708fd97e1eb459cbbf3051000112433428566778899aabbccddeeff030f4f70656e54687265616444656d6f63010212320410b775feb5fc41b965747da30c8f76bda30c0402a0f7f8 --int-arg controllers:5 commissioning_window_timeout:180  --timeout 90000000000
 ```
 
 # LOG Display Web App

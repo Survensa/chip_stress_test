@@ -64,7 +64,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             self.commissioning_timeout = 180
         if self.commissioning_timeout in range(180,901):
             pass
-        # This condition will terimate the testcase if 
+        # This condition will terimate the testcase if commissioning_window_timeout is out of range
         else:
             self.dut.factory_reset_dut(stop_reset=True)
             asserts.assert_less_equal(self.commissioning_timeout, 900, 
@@ -251,7 +251,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                                     .format(list_of_controllers.index(controller_details_dict)+1,iteration, paring_result), exc_info=True)
                         await self.pairing_failure(str(paring_result))
                         continue
-                    logging.info("successfully commissioned the {}-controller of {} iteration".format(controller_id_itr, iteration))
+                    logging.info("Successfully commissioned the {}-controller of {} iteration".format(controller_id_itr, iteration))
                     logging.info(f"current memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
                     list_of_paired_controller_index.append(controller_details_dict.get("DUT_node_id"))
                 await self.collect_all_basic_analytics_info(heap_usage={"node_id": self.dut_node_id,
@@ -259,10 +259,13 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                                                             "dev_ctrl": self.th1, "endpoint": 0})
                 await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
                 await self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller_index)
-                self.end_of_iteration(iteration_result = "success")
                 logging.info(f"Memory used for iteration {self.current_iteration} before garabe-collect = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
                 gc.collect()
                 logging.info(f"Memory used for iteration {self.current_iteration} after garabe-collect = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
+                if list_of_paired_controller_index:
+                    self.end_of_iteration(iteration_result = "success")
+                else:
+                    self.end_of_iteration(iteration_result = "failed", failure_reason = "Failed to pair atleast 1 controller")
             except Exception as e:
                 logging.error(f"Iteration {self.current_iteration} is failed with the error:{str(e)}", exc_info= True)
                 self.end_of_iteration(iteration_result = "failed", 

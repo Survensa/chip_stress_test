@@ -73,6 +73,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                                     f"commissioning_window_timeout value should be greater than 179 seconds")
 
     def build_controller(self, controller_id_itr) -> dict:
+        # This function is used to build the controllers
         try:
             unique_controller_id = controller_id_itr + ((self.current_iteration-1) * int(self.number_of_controllers))
             logging.info(f'Controller node id for controller-{controller_id_itr} in {self.current_iteration} iteration is {unique_controller_id}')
@@ -85,12 +86,14 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                     "TH_node_id": thNodeId,
                     "TH_object": th,
                     "TH_Name": f"Commissioner-{unique_controller_id}"}}
+        # This execption will be catched if the we unable to build the controller
         except Exception as e:
             logging.error(f"Failed to build the controller {self.current_controller}in the iteration {self.current_iteration} with error {str(e)}"
                           ,exc_info=True)
             return {"status":"failed", "failure_reason":str(e)} 
         
     async def openCommissioningWindow(self) -> dict:
+        # This function is used to OPen the commisioning window
         rnd_discriminator = random.randint(0, 4095)
         try:
             self.commissioning_window_start_time = None
@@ -105,7 +108,8 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             await self.pairing_failure(str(e))
             return {"status": "failed","failure_reason":str(e)}
 
-    async def pairing_failure(self, error):      
+    async def pairing_failure(self, error): 
+        # This function is used to store the failure reason for the pairing the controller  
         if self.check_execution_mode() == "full_execution_mode":
             self.log_iteration_test_results(iteration_result= "failed", 
                                             failure_reason=f"Failed to pair the Controller{self.current_controller} of the Iteration {self.current_iteration} with the error {str(error)}")
@@ -127,6 +131,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             if opencommissioning_result_dict.get("status") == "failed":
                 self.pairing_failure(opencommissioning_result_dict.get("failure_reason"))
                 return opencommissioning_result_dict
+            # This object stores the info about the open commissioning window like passcode, discriminator. 
             opencommissioning_object = opencommissioning_result_dict.get("commissioning_parameters")
             #Setuppincode for the current controller
             setuppincode = opencommissioning_object.commissioningParameters.setupPinCode
@@ -138,6 +143,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             paring_result = th.CommissionOnNetwork(
                             nodeId=dutNodeId, setupPinCode=setuppincode,
                             filterType=DiscoveryFilterType.LONG_DISCRIMINATOR, filter=discriminator)
+            # This condition will check for the pairing results Pass/Fail
             if not paring_result.is_success:
                 await self.close_commissioning_window()
                 return{"status":"failed","failure_reason":str(paring_result)}
@@ -148,6 +154,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             
         
     async def check_nodeid_is_in_fabriclist(self, devCtrl, nodeId):
+        # This function will check for the fabric is available in the fabric-list
         try:
             resp = await devCtrl.ReadAttribute(nodeId, [(opCreds.Attributes.Fabrics)])
             listOfFabricsDescriptor = resp[0][opCreds][Clusters.OperationalCredentials.Attributes.Fabrics]
@@ -162,26 +169,31 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             return 0
     
     async def shutdown_all_controllers(self, list_of_controllers, list_of_paired_controller_index):
+        # This function will unpair the paired controller and shutdown all the controllers that created in an iteration
         for controller_details_dict in list_of_controllers:
                 self.current_controller = list_of_controllers.index(controller_details_dict) +1
                 th = controller_details_dict.get("TH_object")
                 dutNodeId = controller_details_dict.get("DUT_node_id")
+                # This condtion is used to confirm that the controller is paired to the DUT
                 if dutNodeId in list_of_paired_controller_index:
                     logging.info("Unpairing the controller-{} of iteration {}"
                                  .format(self.current_controller, self.current_iteration))
                     unpair_result = self.unpair_dut(th, dutNodeId)
+                    # this condition is used to check that the unpair is completed successfully
                     if unpair_result.get("status") == "failed":
                         logging.error("Failed to unpair the controller-{} in the iteration {} with the error:{}"
                                       .format(self.current_controller,self.current_iteration ,unpair_result.get("failed_reason")) 
                                       ,exc_info=True)
                         await self.unpair_failure(unpair_result.get("failed_reason"))
                 try:
+                    # This function is used to shutdown the controller object
                     th.Shutdown()
                 except Exception as e:
                     logging.error(f"Failed to shutdown the controller-{self.current_controller} of the iterartion {self.current_iteration} with error:{str(e)}",
                                   exc_info= True)
                 
     async def controller_creation_failure(self, controller_details_dict):
+         # This function is used to store the failure reason for the build controller 
         if self.check_execution_mode() == "full_execution_mode":
             logging.error(f"Failed to create a Controller with the error : {controller_details_dict.get('failure_reason')}" ,exc_info=True)
         else:
@@ -195,6 +207,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             asserts.fail(controller_details_dict.get("failure_reason"), "Failed to create new controller")
 
     async def unpair_failure(self, error):
+        #  This function is used to store the failure reason for the Unpairing the controller 
         if self.check_execution_mode() == "full_execution_mode":
             self.log_iteration_test_results(iteration_result= "failed", 
                                             failure_reason="Failed to unpair the controller-{} of iteration {}with error {}"
@@ -210,9 +223,12 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             asserts.fail(str(error), "Failed to unpair the controller")
 
     async def close_commissioning_window(self):
+        # This function is used to close the commissioning window if it is open state
         if self.commissioning_window_start_time == None:
             return None
+        # This loop is to confirm that the commissioning window is closed 
         while True:
+            # This condtion used to break loop if the commissioning window time is reached
             if time.time()- self.commissioning_window_start_time > self.commissioning_timeout:
                 break
             try:
@@ -233,16 +249,19 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             try:
                 logging.info(f"intial memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
                 await self.start_iteration(iteration = iteration)
+                # All the controller object created wiol be stored in this list
                 list_of_controllers = []
+                # Controller which are paired will be stored in this list
                 list_of_paired_controller_index = []
                 for controller_id_itr in range(1, int(self.number_of_controllers)+1):
-                    #dut-Node-id for the current controller
                     controller_build_result = self.build_controller(controller_id_itr)
+                    # This condition is used to check the build controled is completed successfully
                     if controller_build_result.get("status") == "failed":
                         await self.controller_creation_failure(controller_details_dict)
                         continue
                     controller_details_dict = controller_build_result.get("dev_controller_dict")
                     list_of_controllers.append(controller_details_dict)
+                    # This variable is used to store index of the controller in the loop
                     self.current_controller =  controller_id_itr
                     paring_result_dict = await self.controller_pairing(controller_details_dict)
                     if paring_result_dict.get("status") == "failed":
@@ -262,6 +281,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                 logging.info(f"Memory used for iteration {self.current_iteration} before garabe-collect = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
                 gc.collect()
                 logging.info(f"Memory used for iteration {self.current_iteration} after garabe-collect = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
+                # This condition will check for the result of the iteration is pass/fail
                 if list_of_paired_controller_index:
                     self.end_of_iteration(iteration_result = "success")
                 else:

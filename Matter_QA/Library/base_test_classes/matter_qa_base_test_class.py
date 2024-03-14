@@ -21,6 +21,8 @@ import secrets
 import sys
 import time
 import traceback
+from typing import Any
+
 import chip.clusters as Clusters
 import chip.exceptions
 from chip import ChipDeviceCtrl
@@ -75,8 +77,8 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.analytics_json = {"analytics": {}, "test_case_name": "", "iteration_id": ""}
 
     # initialize all counters before the iteration loop starts
-    async def pre_iteration_loop(self):
-        device_info = await self.device_info()  # pulls basic cluster information this is must be present at all times
+    async def pre_iteration_loop(self, **kwargs):
+        device_info = await self.device_info(**kwargs)  # pulls basic cluster information this is must be present at all times
         self.test_result.update({"device_basic_information": device_info})
         self.test_result.update({"Failed_iteration_details": {}})
         self.dut.pre_iteration_loop()
@@ -308,10 +310,11 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             logging.error(e, exc_info=True)
             traceback.print_exc()
 
-    async def device_info(self, node_id: int = None, dev_ctrl: ChipDeviceCtrl = None, endpoint: int = 0,
-                          user_defined_info: dict = None, include_default_info: bool = True) -> dict:
+    async def device_info(self, **kwargs) -> dict:
 
         """
+        kwargs must contain the following {node_id:int,dev_ctrl: ChipDeviceCtrl = None, endpoint: int = 0,
+                          user_defined_info: dict = None, include_default_info: bool = True}
         extra_info: this parameter is optional,is used when user wants more basic info of device input must be list of
         dictionaries having this sample input format
         [{"info_name":Clusters.ClusterObjects.ClusterAttributeDescriptor}]
@@ -321,6 +324,11 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         ex {"product_name":"light Bulb"} -> UI it will be displayed in Caps as "PRODUCT_NAME"
 
         """
+        node_id: int = kwargs.get("node_id")
+        dev_ctrl: ChipDeviceCtrl = kwargs.get("dev_ctrl")
+        endpoint: int = 0 if kwargs.get("endpoint") is None else kwargs.get("endpoint")
+        user_defined_info: dict = kwargs.get("user_defined_info")
+        include_default_info = True if kwargs.get("include_default_info") is None else kwargs.get("include_default_info"),
         info_dict = {}
         if include_default_info and user_defined_info is None:  # used when user wants only default info given by this function
             default_info_attributes = {"product name": Clusters.BasicInformation.Attributes.ProductName,

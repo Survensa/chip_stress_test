@@ -38,9 +38,14 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
         self.dut = self.get_dut_object()
         # This variable store the Start-time of the Open commissioning window 
         self.commissioning_window_start_time = None
+        # This variable is used to store index of the controller in the loop
         self.current_controller = 0
 
     async def check_the_no_of_controllers_are_in_range(self):
+        """
+        This function will check that the Number of controllers given in the int-arg controller
+        is less than the supporedfabrics of the DUT by reading the supported fabric from the 
+        Node operational cluster """
         if self.matter_test_config.global_test_params.get("controllers"):
             max_fabrics = await self.read_single_attribute(self.default_controller, self.dut_node_id,0,
                                                         Clusters.OperationalCredentials.Attributes.SupportedFabrics)
@@ -55,7 +60,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                             " controllers must be included on the command line in "
                             "the --int-arg flag as controllers:<Number of controllers>")
         
-    def check_the_commissioning_window_timeout(self):
+    def check_commissioning_window_timeout(self):
         if 'commissioning_window_timeout' in self.matter_test_config.global_test_params:
             self.commissioning_timeout = self.matter_test_config.global_test_params["commissioning_window_timeout"]
         # This condition will assign the default value of 180 to the commissioning_window_timeout if it is not passed to the script
@@ -223,7 +228,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             asserts.fail(str(error), "Failed to unpair the controller")
 
     async def close_commissioning_window(self):
-        # This function is used to close the commissioning window if it is open state
+        # This function is used to close the commissioning window if it is in open state
         if self.commissioning_window_start_time == None:
             return None
         # This loop is to confirm that the commissioning window is closed 
@@ -241,7 +246,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     @async_test_body
     async def test_stress_test_multi_fabric(self):
         self.number_of_controllers = self.matter_test_config.global_test_params.get("controllers")
-        self.check_the_commissioning_window_timeout()
+        self.check_commissioning_window_timeout()
         await self.check_the_no_of_controllers_are_in_range()
         self.th1 = self.default_controller
         await self.pre_iteration_loop()
@@ -261,7 +266,6 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                         continue
                     controller_details_dict = controller_build_result.get("dev_controller_dict")
                     list_of_controllers.append(controller_details_dict)
-                    # This variable is used to store index of the controller in the loop
                     self.current_controller =  controller_id_itr
                     paring_result_dict = await self.controller_pairing(controller_details_dict)
                     if paring_result_dict.get("status") == "failed":
@@ -278,9 +282,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                                                             "dev_ctrl": self.th1, "endpoint": 0})
                 await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
                 await self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller_index)
-                logging.info(f"Memory used for iteration {self.current_iteration} before garabe-collect = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
                 gc.collect()
-                logging.info(f"Memory used for iteration {self.current_iteration} after garabe-collect = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
                 # This condition will check for the result of the iteration is pass/fail
                 if list_of_paired_controller_index:
                     self.end_of_iteration(iteration_result = "success")
@@ -295,7 +297,5 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
         self.end_of_test()
 
 if __name__ == "__main__":
-    logging.info(f"intial memory before execution {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
     test_start(test_class_name=TC_Multi_admin.__name__)
     default_matter_test_main(testclass=TC_Multi_admin)
-    logging.info(f"final memory after execution {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")

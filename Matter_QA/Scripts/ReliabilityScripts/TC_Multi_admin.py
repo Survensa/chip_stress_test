@@ -26,8 +26,8 @@ import os
 import resource
 from chip.clusters import OperationalCredentials as opCreds
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../')))
-from Matter_QA.Library.BaseTestCases.MatterQABaseTestClass import MatterQABaseTestCaseClass, test_start
-from Matter_QA.Library.HelperLibs.matter_testing_support import CustomCommissioningParameters, async_test_body,\
+from Matter_QA.Library.base_test_classes.matter_qa_base_test_class import MatterQABaseTestCaseClass, test_start
+from Matter_QA.Library.helper_libs.matter_testing_support import CustomCommissioningParameters, async_test_body,\
                  default_matter_test_main, DiscoveryFilterType
 
 
@@ -35,28 +35,41 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     def __init__(self, *args):
         super().__init__(*args)
         self.dut = self.get_dut_object()
-        self.commissioning_window_startime = None
+        # This variable store the Start-time of the Open commissioning window 
+        self.commissioning_window_start_time = None
         self.current_controller = 0
 
     async def check_the_no_of_controllers_are_in_range(self):
-        asserts.assert_true('controllers' in self.matter_test_config.global_test_params,
+        if self.matter_test_config.global_test_params.get("controllers"):
+            max_fabrics = await self.read_single_attribute(self.default_controller, self.dut_node_id,0,
+                                                        Clusters.OperationalCredentials.Attributes.SupportedFabrics)
+            # This condition will terimate the testcase if the controllers value is greater than the SupportedFabrics
+            if self.number_of_controllers >= int(max_fabrics):
+                self.dut.factory_reset_dut(stop_reset=True)
+                asserts.fail(f"Controller should be less than the Supported_fabrics:{max_fabrics}")
+        # This condition will terimate the testcase if the controllers argument is not passed to the script
+        else:
+            self.dut.factory_reset_dut(stop_reset=True)
+            asserts.assert_true('controllers' in self.matter_test_config.global_test_params,
                             " controllers must be included on the command line in "
                             "the --int-arg flag as controllers:<Number of controllers>")
-        max_fabrics = await self.read_single_attribute(self.default_controller, self.dut_node_id,0,
-                                                       Clusters.OperationalCredentials.Attributes.SupportedFabrics)
-        asserts.assert_less_equal(self.number_of_controllers, int(max_fabrics)-1, 
-                                  f"Controller should be less than are equal to the Supported_fabrics:{max_fabrics}")
         
     def check_the_commissioning_window_timeout(self):
         if 'commissioning_window_timeout' in self.matter_test_config.global_test_params:
             self.commissioning_timeout = self.matter_test_config.global_test_params["commissioning_window_timeout"]
+        # This condition will assign the default value of 180 to the commissioning_window_timeout if it is not passed to the script
         else:
             logging.info("int-arg commissioning_window_timeout is missing, Hence using the default timeout value 180 for opencommissioning")
             self.commissioning_timeout = 180
-        asserts.assert_less_equal(self.commissioning_timeout, 900, 
-                                  f"commissioning_window_timeout value should be less than 901 seconds")
-        asserts.assert_greater_equal(self.commissioning_timeout, 180, 
-                                  f"commissioning_window_timeout value should be greater than 179 seconds")
+        if self.commissioning_timeout in range(180,901):
+            pass
+        # This condition will terimate the testcase if 
+        else:
+            self.dut.factory_reset_dut(stop_reset=True)
+            asserts.assert_less_equal(self.commissioning_timeout, 900, 
+                                    f"commissioning_window_timeout value should be less than 901 seconds")
+            asserts.assert_greater_equal(self.commissioning_timeout, 180, 
+                                    f"commissioning_window_timeout value should be greater than 179 seconds")
 
     def build_controller(self, controller_id_itr) -> dict:
         try:
@@ -79,11 +92,11 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     async def openCommissioningWindow(self) -> dict:
         rnd_discriminator = random.randint(0, 4095)
         try:
-            self.commissioning_window_startime = None
+            self.commissioning_window_start_time = None
             commissioning_params = self.th1.OpenCommissioningWindow(nodeid=self.dut_node_id, timeout=self.commissioning_timeout, iteration=1000,
                                                                     discriminator=rnd_discriminator, option=1)
             customcommissioningparameters = CustomCommissioningParameters(commissioning_params, rnd_discriminator)
-            self.commissioning_window_startime = time.time()
+            self.commissioning_window_start_time = time.time()
             return {"status":"Success","commissioning_parameters": customcommissioningparameters}
 
         except ChipStackError as e:
@@ -91,11 +104,10 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             await self.pairing_failure(str(e))
             return {"status": "failed","failure_reason":str(e)}
 
-    async def pairing_failure(self, error):  
-        
+    async def pairing_failure(self, error):      
         if self.check_execution_mode() == "full_execution_mode":
             self.log_iteration_test_results(iteration_result= "failed", 
-                                            failure_reason=f"Controller{self.current_controller} of the Iteration {self.current_iteration} with the error {str(error)}")
+                                            failure_reason=f"Failed to pair the Controller{self.current_controller} of the Iteration {self.current_iteration} with the error {str(error)}")
         else:
             await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
                                                                             "iteration_number": self.current_iteration,
@@ -146,11 +158,12 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     
     async def shutdown_all_controllers(self, list_of_controllers, list_of_paired_controllers):
         for controller_details_dict in list_of_controllers:
+                self.current_controller = list_of_controllers.index(controller_details_dict) +1
                 th = controller_details_dict.get("TH_object")
                 dutNodeId = controller_details_dict.get("DUT_node_id")
                 if controller_details_dict in list_of_paired_controllers:
                     logging.info("Unpairing the controller-{} of iteration {}"
-                                 .format(list_of_controllers.index(controller_details_dict) , self.current_iteration))
+                                 .format(self.current_controller, self.current_iteration))
                     unpair_result = self.unpair_dut(th, dutNodeId)
                     if unpair_result.get("status") == "failed":
                         logging.error("Failed to unpair the controller-{} in the iteration {} with the error:{}"
@@ -174,7 +187,9 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
 
     async def unpair_failure(self, error):
         if self.check_execution_mode() == "full_execution_mode":
-            self.log_iteration_test_results(iteration_result= "failed", failure_reason=str(error))
+            self.log_iteration_test_results(iteration_result= "failed", 
+                                            failure_reason="Failed to unpair the controller-{} of iteration {}with error {}"
+                                            .format(self.current_controller,self.current_iteration,str(error)))
         else:
             await self.collect_all_basic_analytics_info(heap_usage={"node_id": None,
                                                                             "iteration_number": self.current_iteration,
@@ -186,10 +201,10 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             asserts.fail(str(error), "Failed to unpair the controller")
 
     async def close_commissioning_window(self):
-        if self.commissioning_window_startime == None:
+        if self.commissioning_window_start_time == None:
             return None
         while True:
-            if time.time()- self.commissioning_window_startime > self.commissioning_timeout:
+            if time.time()- self.commissioning_window_start_time > self.commissioning_timeout:
                 break
             try:
                 revokeCmd = Clusters.AdministratorCommissioning.Commands.RevokeCommissioning()
@@ -200,7 +215,7 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
     
     @async_test_body
     async def test_stress_test_multi_fabric(self):
-        self.number_of_controllers = self.matter_test_config.global_test_params["controllers"]
+        self.number_of_controllers = self.matter_test_config.global_test_params.get("controllers")
         self.check_the_commissioning_window_timeout()
         await self.check_the_no_of_controllers_are_in_range()
         self.th1 = self.default_controller

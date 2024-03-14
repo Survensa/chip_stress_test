@@ -64,7 +64,7 @@ class TC_ON_OFF(MatterQABaseTestCaseClass):
             return {"status": "failed", "failure_reason": str(e)}
 
     @async_test_body
-    async def test_tc_pair_unpair(self):
+    async def test_tc_on_off_cluster_operation(self):
         self.dut = self.get_dut_object()
         await self.pre_iteration_loop()
         for iteration in range(1, self.iterations + 1):
@@ -77,7 +77,7 @@ class TC_ON_OFF(MatterQABaseTestCaseClass):
                                                             pairing_duration_info={
                                                                 "iteration_number": self.current_iteration})
                 time.sleep(1)
-                if operation_result.get("status") == "failed":  # when unpairing from DUT Fails
+                if operation_result.get("status") == "failed":  # when the cluster operation fails
                     if self.check_execution_mode() == "full_execution_mode":
                         logging.info(f'iteration {self.current_iteration} is Failed')
                         self.end_of_iteration(iteration_result=operation_result.get("status"),

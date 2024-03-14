@@ -26,6 +26,7 @@ import os
 import resource
 from chip.clusters import OperationalCredentials as opCreds
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../')))
+import gc
 from Matter_QA.Library.base_test_classes.matter_qa_base_test_class import MatterQABaseTestCaseClass, test_start
 from Matter_QA.Library.helper_libs.matter_testing_support import CustomCommissioningParameters, async_test_body,\
                  default_matter_test_main, DiscoveryFilterType
@@ -118,29 +119,33 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             self.end_of_test()
             asserts.fail(error, "Failed to pair the New controller")
     
-    async def controller_pairing(self,controller_details_dict, iteration):
-        dutNodeId = controller_details_dict.get("DUT_node_id")
-        logging.info('TH1 opens a commissioning window')
-        opencommissioning_result_dict = await self.openCommissioningWindow()
-        if opencommissioning_result_dict.get("status") == "failed":
-            self.pairing_failure(opencommissioning_result_dict.get("failure_reason"))
-            return opencommissioning_result_dict
-        opencommissioning_object = opencommissioning_result_dict.get("commissioning_parameters")
-        #Setuppincode for the current controller
-        setuppincode = opencommissioning_object.commissioningParameters.setupPinCode
-        #discriminator for the current controller
-        discriminator = opencommissioning_object.randomDiscriminator
-        logging.info(f'TH{self.current_controller} starts the commissioning with DUT')
-        th = controller_details_dict.get("TH_object")
-        th.ResetTestCommissioner()
-        paring_result = th.CommissionOnNetwork(
-                        nodeId=dutNodeId, setupPinCode=setuppincode,
-                        filterType=DiscoveryFilterType.LONG_DISCRIMINATOR, filter=discriminator)
-        if not paring_result.is_success:
-            await self.close_commissioning_window()
-            return{"status":"failed","failure_reason":str(paring_result)}
-        await self.check_nodeid_is_in_fabriclist(th, dutNodeId)
-        return {"status":"Success","paring_result":paring_result}
+    async def controller_pairing(self,controller_details_dict):
+        try:
+            dutNodeId = controller_details_dict.get("DUT_node_id")
+            logging.info('TH1 opens a commissioning window')
+            opencommissioning_result_dict = await self.openCommissioningWindow()
+            if opencommissioning_result_dict.get("status") == "failed":
+                self.pairing_failure(opencommissioning_result_dict.get("failure_reason"))
+                return opencommissioning_result_dict
+            opencommissioning_object = opencommissioning_result_dict.get("commissioning_parameters")
+            #Setuppincode for the current controller
+            setuppincode = opencommissioning_object.commissioningParameters.setupPinCode
+            #discriminator for the current controller
+            discriminator = opencommissioning_object.randomDiscriminator
+            logging.info(f'TH{self.current_controller} starts the commissioning with DUT')
+            th = controller_details_dict.get("TH_object")
+            th.ResetTestCommissioner()
+            paring_result = th.CommissionOnNetwork(
+                            nodeId=dutNodeId, setupPinCode=setuppincode,
+                            filterType=DiscoveryFilterType.LONG_DISCRIMINATOR, filter=discriminator)
+            if not paring_result.is_success:
+                await self.close_commissioning_window()
+                return{"status":"failed","failure_reason":str(paring_result)}
+            await self.check_nodeid_is_in_fabriclist(th, dutNodeId)
+            return {"status":"Success","paring_result":paring_result}
+        except Exception as e:
+            return{"status":"failed","failure_reason":str(e)}
+            
         
     async def check_nodeid_is_in_fabriclist(self, devCtrl, nodeId):
         try:
@@ -156,12 +161,12 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
             logging.error("Failed to read the listOfFabricsDescriptor", exc_info=True)
             return 0
     
-    async def shutdown_all_controllers(self, list_of_controllers, list_of_paired_controllers):
+    async def shutdown_all_controllers(self, list_of_controllers, list_of_paired_controller_index):
         for controller_details_dict in list_of_controllers:
                 self.current_controller = list_of_controllers.index(controller_details_dict) +1
                 th = controller_details_dict.get("TH_object")
                 dutNodeId = controller_details_dict.get("DUT_node_id")
-                if controller_details_dict in list_of_paired_controllers:
+                if dutNodeId in list_of_paired_controller_index:
                     logging.info("Unpairing the controller-{} of iteration {}"
                                  .format(self.current_controller, self.current_iteration))
                     unpair_result = self.unpair_dut(th, dutNodeId)
@@ -170,7 +175,11 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
                                       .format(self.current_controller,self.current_iteration ,unpair_result.get("failed_reason")) 
                                       ,exc_info=True)
                         await self.unpair_failure(unpair_result.get("failed_reason"))
-                th.Shutdown()
+                try:
+                    th.Shutdown()
+                except Exception as e:
+                    logging.error(f"Failed to shutdown the controller-{self.current_controller} of the iterartion {self.current_iteration} with error:{str(e)}",
+                                  exc_info= True)
                 
     async def controller_creation_failure(self, controller_details_dict):
         if self.check_execution_mode() == "full_execution_mode":
@@ -221,36 +230,44 @@ class TC_Multi_admin(MatterQABaseTestCaseClass):
         self.th1 = self.default_controller
         await self.pre_iteration_loop()
         for iteration in range(1, self.iterations + 1):
-            logging.info(f"intial memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
-            await self.start_iteration(iteration = iteration)
-            list_of_controllers = []
-            list_of_paired_controller = []
-            for controller_id_itr in range(1, int(self.number_of_controllers)+1):
-                #dut-Node-id for the current controller
-                controller_build_result = self.build_controller(controller_id_itr)
-                if controller_build_result.get("status") == "failed":
-                    await self.controller_creation_failure(controller_details_dict)
-                    continue
-                controller_details_dict = controller_build_result.get("dev_controller_dict")
-                list_of_controllers.append(controller_details_dict)
-                self.current_controller =  controller_id_itr
-                paring_result_dict = await self.controller_pairing(controller_details_dict , iteration)
-                if paring_result_dict.get("status") == "failed":
-                    paring_result = paring_result_dict.get("failure_reason")
-                    logging.error("Failed to Commission the controller for {} in {} iteration with th error : {}"
-                                  .format(list_of_controllers.index(controller_details_dict)+1,iteration, paring_result), exc_info=True)
-                    await self.pairing_failure(str(paring_result))
-                    continue
-                logging.info("successfully commissioned the {}-controller of {} iteration".format(controller_id_itr, iteration))
-                logging.info(f"current memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
-                list_of_paired_controller.append(controller_details_dict)
-            await self.collect_all_basic_analytics_info(heap_usage={"node_id": self.dut_node_id,
-                                                        "iteration_number": self.current_iteration,
-                                                        "dev_ctrl": self.th1, "endpoint": 0})
-            await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
-            await self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller)
-            self.end_of_iteration(iteration_result = "success")
-            logging.info(f"final memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
+            try:
+                logging.info(f"intial memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
+                await self.start_iteration(iteration = iteration)
+                list_of_controllers = []
+                list_of_paired_controller_index = []
+                for controller_id_itr in range(1, int(self.number_of_controllers)+1):
+                    #dut-Node-id for the current controller
+                    controller_build_result = self.build_controller(controller_id_itr)
+                    if controller_build_result.get("status") == "failed":
+                        await self.controller_creation_failure(controller_details_dict)
+                        continue
+                    controller_details_dict = controller_build_result.get("dev_controller_dict")
+                    list_of_controllers.append(controller_details_dict)
+                    self.current_controller =  controller_id_itr
+                    paring_result_dict = await self.controller_pairing(controller_details_dict)
+                    if paring_result_dict.get("status") == "failed":
+                        paring_result = paring_result_dict.get("failure_reason")
+                        logging.error("Failed to Commission the controller for {} in {} iteration with th error : {}"
+                                    .format(list_of_controllers.index(controller_details_dict)+1,iteration, paring_result), exc_info=True)
+                        await self.pairing_failure(str(paring_result))
+                        continue
+                    logging.info("successfully commissioned the {}-controller of {} iteration".format(controller_id_itr, iteration))
+                    logging.info(f"current memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
+                    list_of_paired_controller_index.append(controller_details_dict.get("DUT_node_id"))
+                await self.collect_all_basic_analytics_info(heap_usage={"node_id": self.dut_node_id,
+                                                            "iteration_number": self.current_iteration,
+                                                            "dev_ctrl": self.th1, "endpoint": 0})
+                await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
+                await self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller_index)
+                self.end_of_iteration(iteration_result = "success")
+                logging.info(f"Memory used for iteration {self.current_iteration} before garabe-collect = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
+                gc.collect()
+                logging.info(f"Memory used for iteration {self.current_iteration} after garabe-collect = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
+            except Exception as e:
+                logging.error(f"Iteration {self.current_iteration} is failed with the error:{str(e)}", exc_info= True)
+                self.end_of_iteration(iteration_result = "failed", 
+                                            failure_reason="Iteration {} is failed with error {}"
+                                            .format(self.current_controller,self.current_iteration,str(e)))
         self.dut.factory_reset_dut(stop_reset=True)
         self.end_of_test()
 

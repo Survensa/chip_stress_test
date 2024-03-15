@@ -1,8 +1,8 @@
-from Matter_QA.Library.BaseTestCases.dut_base_class import BaseDutNodeClass
-from Matter_QA.Library.HelperLibs.Logger import log
+import logging
+import os
+from matter_qa.library.base_test_classes.dut_base_class import BaseDutNodeClass
 
-
-
+log = logging.getLogger("dut")
 class dut_class(BaseDutNodeClass):
     
     def reboot_dut(self):

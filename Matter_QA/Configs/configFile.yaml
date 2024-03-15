@@ -10,17 +10,18 @@ general_configs:
       module_path: /home/ubuntu/matter_cntrl/connectedhomeip/src/python_testing/Matter_QA/Library/Platform/nordic/ #path to the DUT class file
   analytics_parameters: ["pairing_duration_info","heap_usage"]
 
-rpi_config: # these parameters are used to take ssh session to a remote host and start DUT application on a raspberrypi
-  rpi_hostname: "192.168.8.100"
-  rpi_username: "ubuntu"
-  rpi_password: "raspberrypi"
-  app_config: # these parameters are used to start the DUT application os user's choice
-    matter_app: "/home/ubuntu/matter_cntrl/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app/chip-all-clusters-app --discriminator 3890 --passcode 45612378"
+dut_config:
+  rpi_config: # these parameters are used to take ssh session to a remote host and start DUT application on a raspberrypi
+    rpi_hostname: "192.168.8.100"
+    rpi_username: "ubuntu"
+    rpi_password: "raspberrypi"
+    app_config: # these parameters are used to start the DUT application os user's choice
+      matter_app: "/home/ubuntu/matter_cntrl/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app/chip-all-clusters-app --discriminator 3890 --passcode 45612378"
 
-nordic_config:
-  serial_port: "/dev/ttyACM1"
-  serial_baudrate: 115200
-  serial_timeout: 60
+  nordic_config:
+    serial_port: "/dev/ttyACM1"
+    serial_baudrate: 115200
+    serial_timeout: 60
 
 test_case_configs:
   TC_Pair:

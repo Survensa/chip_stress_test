@@ -4,7 +4,8 @@ import sys
 import io
 import traceback
 import yaml
-from matter_qa.library.helper_libs.logger import log
+import logging
+log = logging.getLogger("utils")
 DEFAULT_CONFIG_DIR = './Matter_QA/Configs/'
 
 class TestConfig(object):

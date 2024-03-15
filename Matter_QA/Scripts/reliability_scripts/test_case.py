@@ -1,13 +1,15 @@
-import time,sys,random,os
+import time,sys,random,os,logging,datetime
 #TODO remove this reference
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../../../')))
 
-from matter_qa.library.base_test_cases.base_test_case import BaseTestCase
+import matter_qa.library.helper_libs.logger
+from matter_qa.library.base_test_classes.matter_qa_base_test_class import MatterQABaseTestCaseClass
 from matter_qa.library.helper_libs.exceptions import IterationError
-from matter_qa.library.helper_libs.logger import log
 
 
-class TC_Pair(BaseTestCase):
+log = logging.getLogger("tc_logger")
+
+class TC_Pair(MatterQABaseTestCaseClass):
     # In case TC wants to overwrite
     def pre_iteration(self,iteration):
         if not self.iteration_log_created:
@@ -28,13 +30,19 @@ class TC_Pair(BaseTestCase):
         log.info("I am in pairing")
         if not bool(random.getrandbits(1)):
             raise IterationError(custom_kwarg='')
+        if not bool(random.getrandbits(1)):
+            try:
+                r = 1/0
+            except ZeroDivisionError as e:
+                log.error(f"Failed to open the commissioning window :{str(e)}")
         
     def unpair_dut(self):
-        log.info("I am in unpairing")
+        date = datetime.datetime.now
+        log.info("I am in unpairing %s",date)
 
     def test_tc_pair_unpair(self):
 
-        @BaseTestCase.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
+        @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
         def pair_unpair_dut(*args,**kwargs):
             try:
                 self.pair_dut()

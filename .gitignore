@@ -1,0 +1,90 @@
+# VS Code Configs
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Platforms
+.DS_Store
+
+# Build System
+out/
+/src/test_driver/nrfconnect/build/
+/src/darwin/Framework/build/
+no/
+
+# Pigweed Environment
+.environment/
+build_overrides/pigweed_environment.gni
+
+# Temporary Directories
+.tmp/
+
+# Xcode, other development environment stuff
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+*.xcodeproj/*
+*.xcworkspace/*
+TAGS
+
+# Text editors
+.*.sw[a-z]
+
+# Patch files
+*.rej
+*.orig
+
+# C-Lion / IDEA files
+.idea/**
+
+# Python bytecodes
+__pycache__
+*.pyc
+*.egg-info
+
+# Doxygen outputs
+docs/html
+
+# Python venv
+.venv
+
+# Documentation
+docs/_build
+
+# VSCode java extensions
+.project
+
+# clangd index files
+.cache
+
+# compilation database for VSCode and other Ides
+compile_commands.json
+
+# backup files, usually created by the ZAP tool
+*~
+
+# log files
+*.log
+
+# jupyter temporary files
+.ipynb_checkpoints
+
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env.local
+.env.*.local
+
+.mypy_cache

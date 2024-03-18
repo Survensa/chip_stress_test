@@ -1,0 +1,463 @@
+03-17 16:26:20.298 DEBUG Test output folder: "./MatterTest/03-17-2024_16-26-20-297"
+03-17 16:26:20.556 DEBUG Didn't see any /etc/invoke.yaml, skipping.
+03-17 16:26:20.556 DEBUG Didn't see any /etc/invoke.yml, skipping.
+03-17 16:26:20.556 DEBUG Didn't see any /etc/invoke.json, skipping.
+03-17 16:26:20.557 DEBUG Didn't see any /Users/chaitanyajandhyala/.invoke.yaml, skipping.
+03-17 16:26:20.557 DEBUG Didn't see any /Users/chaitanyajandhyala/.invoke.yml, skipping.
+03-17 16:26:20.557 DEBUG Didn't see any /Users/chaitanyajandhyala/.invoke.json, skipping.
+03-17 16:26:20.557 DEBUG Merging config sources in order onto new empty _config...
+03-17 16:26:20.557 DEBUG Defaults: {'run': {'asynchronous': False, 'disown': False, 'dry': False, 'echo': False, 'echo_stdin': None, 'encoding': None, 'env': {}, 'err_stream': None, 'fallback': True, 'hide': None, 'in_stream': None, 'out_stream': None, 'echo_format': '\x1b[1;37m{command}\x1b[0m', 'pty': False, 'replace_env': False, 'shell': '/bin/bash', 'warn': False, 'watchers': []}, 'runners': {'local': <class 'invoke.runners.Local'>}, 'sudo': {'password': None, 'prompt': '[sudo] password: ', 'user': None}, 'tasks': {'auto_dash_names': True, 'collection_name': 'tasks', 'dedupe': True, 'executor_class': None, 'ignore_unknown_help': False, 'search_root': None}, 'timeouts': {'command': None}}
+03-17 16:26:20.557 DEBUG Collection-driven: {}
+03-17 16:26:20.557 DEBUG System-wide config file (/etc/invoke.py): {}
+03-17 16:26:20.557 DEBUG Per-user config file (/Users/chaitanyajandhyala/.invoke.py): {}
+03-17 16:26:20.557 DEBUG Per-project config file has not been loaded yet, skipping
+03-17 16:26:20.557 DEBUG Environment variable config: {}
+03-17 16:26:20.557 DEBUG Runtime config file has not been loaded yet, skipping
+03-17 16:26:20.557 DEBUG Overrides: {}
+03-17 16:26:20.557 DEBUG Modifications: {}
+03-17 16:26:20.558 DEBUG Deletions: {}
+03-17 16:26:20.558 DEBUG Didn't see any /etc/fabric.yaml, skipping.
+03-17 16:26:20.558 DEBUG Didn't see any /etc/fabric.yml, skipping.
+03-17 16:26:20.558 DEBUG Didn't see any /etc/fabric.json, skipping.
+03-17 16:26:20.558 DEBUG Didn't see any /Users/chaitanyajandhyala/.fabric.yaml, skipping.
+03-17 16:26:20.558 DEBUG Didn't see any /Users/chaitanyajandhyala/.fabric.yml, skipping.
+03-17 16:26:20.558 DEBUG Didn't see any /Users/chaitanyajandhyala/.fabric.json, skipping.
+03-17 16:26:20.558 DEBUG Merging config sources in order onto new empty _config...
+03-17 16:26:20.558 DEBUG Defaults: {'run': {'asynchronous': False, 'disown': False, 'dry': False, 'echo': False, 'echo_stdin': None, 'encoding': None, 'env': {}, 'err_stream': None, 'fallback': True, 'hide': None, 'in_stream': None, 'out_stream': None, 'echo_format': '\x1b[1;37m{command}\x1b[0m', 'pty': False, 'replace_env': False, 'shell': '/bin/bash', 'warn': False, 'watchers': []}, 'runners': {'local': <class 'invoke.runners.Local'>, 'remote': <class 'fabric.runners.Remote'>, 'remote_shell': <class 'fabric.runners.RemoteShell'>}, 'sudo': {'password': None, 'prompt': '[sudo] password: ', 'user': None}, 'tasks': {'auto_dash_names': True, 'collection_name': 'fabfile', 'dedupe': True, 'executor_class': None, 'ignore_unknown_help': False, 'search_root': None}, 'timeouts': {'command': None, 'connect': None}, 'authentication': {'identities': [], 'strategy_class': None}, 'connect_kwargs': {}, 'forward_agent': False, 'gateway': None, 'inline_ssh_env': True, 'load_ssh_configs': True, 'port': 22, 'ssh_config_path': None, 'user': 'chaitanyajandhyala'}
+03-17 16:26:20.559 DEBUG Collection-driven: {}
+03-17 16:26:20.559 DEBUG System-wide config file (/etc/fabric.py): {}
+03-17 16:26:20.559 DEBUG Per-user config file (/Users/chaitanyajandhyala/.fabric.py): {}
+03-17 16:26:20.559 DEBUG Per-project config file has not been loaded yet, skipping
+03-17 16:26:20.559 DEBUG Environment variable config: {}
+03-17 16:26:20.559 DEBUG Runtime config file has not been loaded yet, skipping
+03-17 16:26:20.559 DEBUG Overrides: {}
+03-17 16:26:20.559 DEBUG Modifications: {}
+03-17 16:26:20.559 DEBUG Deletions: {}
+03-17 16:26:20.560 DEBUG Loaded 4 new ssh_config rules from '/Users/chaitanyajandhyala/.ssh/config'
+03-17 16:26:20.561 DEBUG Loaded 2 new ssh_config rules from '/etc/ssh/ssh_config'
+03-17 16:26:20.563 DEBUG Merging config sources in order onto new empty _config...
+03-17 16:26:20.563 DEBUG Defaults: {'run': {'asynchronous': False, 'disown': False, 'dry': False, 'echo': False, 'echo_stdin': None, 'encoding': None, 'env': {}, 'err_stream': None, 'fallback': True, 'hide': None, 'in_stream': None, 'out_stream': None, 'echo_format': '\x1b[1;37m{command}\x1b[0m', 'pty': False, 'replace_env': False, 'shell': '/bin/bash', 'warn': False, 'watchers': []}, 'runners': {'local': <class 'invoke.runners.Local'>, 'remote': <class 'fabric.runners.Remote'>, 'remote_shell': <class 'fabric.runners.RemoteShell'>}, 'sudo': {'password': None, 'prompt': '[sudo] password: ', 'user': None}, 'tasks': {'auto_dash_names': True, 'collection_name': 'fabfile', 'dedupe': True, 'executor_class': None, 'ignore_unknown_help': False, 'search_root': None}, 'timeouts': {'command': None, 'connect': None}, 'authentication': {'identities': [], 'strategy_class': None}, 'connect_kwargs': {}, 'forward_agent': False, 'gateway': None, 'inline_ssh_env': True, 'load_ssh_configs': True, 'port': 22, 'ssh_config_path': None, 'user': 'chaitanyajandhyala'}
+03-17 16:26:20.563 DEBUG Collection-driven: {}
+03-17 16:26:20.563 DEBUG System-wide config file (/etc/fabric.py): {}
+03-17 16:26:20.563 DEBUG Per-user config file (/Users/chaitanyajandhyala/.fabric.py): {}
+03-17 16:26:20.564 DEBUG Per-project config file has not been loaded yet, skipping
+03-17 16:26:20.564 DEBUG Environment variable config: {}
+03-17 16:26:20.564 DEBUG Runtime config file has not been loaded yet, skipping
+03-17 16:26:20.564 DEBUG Overrides: {}
+03-17 16:26:20.564 DEBUG Modifications: {'inline_ssh_env': True}
+03-17 16:26:20.564 DEBUG Deletions: {}
+03-17 16:26:20.569 DEBUG starting thread (client mode): 0xc23f220
+03-17 16:26:20.569 DEBUG Local version/idstring: SSH-2.0-paramiko_3.4.0
+03-17 16:26:20.607 DEBUG Remote version/idstring: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.6
+03-17 16:26:20.607 INFO Connected (version 2.0, client OpenSSH_8.9p1)
+03-17 16:26:20.612 DEBUG === Key exchange possibilities ===
+03-17 16:26:20.612 DEBUG kex algos: curve25519-sha256, curve25519-sha256@libssh.org, ecdh-sha2-nistp256, ecdh-sha2-nistp384, ecdh-sha2-nistp521, sntrup761x25519-sha512@openssh.com, diffie-hellman-group-exchange-sha256, diffie-hellman-group16-sha512, diffie-hellman-group18-sha512, diffie-hellman-group14-sha256, kex-strict-s-v00@openssh.com
+03-17 16:26:20.612 DEBUG server key: rsa-sha2-512, rsa-sha2-256, ecdsa-sha2-nistp256, ssh-ed25519
+03-17 16:26:20.612 DEBUG client encrypt: chacha20-poly1305@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com, aes256-gcm@openssh.com
+03-17 16:26:20.612 DEBUG server encrypt: chacha20-poly1305@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com, aes256-gcm@openssh.com
+03-17 16:26:20.612 DEBUG client mac: umac-64-etm@openssh.com, umac-128-etm@openssh.com, hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, umac-128@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1
+03-17 16:26:20.612 DEBUG server mac: umac-64-etm@openssh.com, umac-128-etm@openssh.com, hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, umac-128@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1
+03-17 16:26:20.612 DEBUG client compress: none, zlib@openssh.com
+03-17 16:26:20.612 DEBUG server compress: none, zlib@openssh.com
+03-17 16:26:20.612 DEBUG client lang: <none>
+03-17 16:26:20.612 DEBUG server lang: <none>
+03-17 16:26:20.612 DEBUG kex follows: False
+03-17 16:26:20.612 DEBUG === Key exchange agreements ===
+03-17 16:26:20.612 DEBUG Strict kex mode: True
+03-17 16:26:20.612 DEBUG Kex: curve25519-sha256@libssh.org
+03-17 16:26:20.612 DEBUG HostKey: ssh-ed25519
+03-17 16:26:20.613 DEBUG Cipher: aes128-ctr
+03-17 16:26:20.613 DEBUG MAC: hmac-sha2-256
+03-17 16:26:20.613 DEBUG Compression: none
+03-17 16:26:20.613 DEBUG === End of kex handshake ===
+03-17 16:26:20.636 DEBUG Resetting outbound seqno after NEWKEYS due to strict mode
+03-17 16:26:20.637 DEBUG kex engine KexCurve25519 specified hash_algo <built-in function openssl_sha256>
+03-17 16:26:20.637 DEBUG Switch to new keys ...
+03-17 16:26:20.637 DEBUG Resetting inbound seqno after NEWKEYS due to strict mode
+03-17 16:26:20.638 DEBUG Adding ssh-ed25519 host key for 192.168.1.107: b'850bf169105922fba0ec92d2f0ca7daf'
+03-17 16:26:20.638 DEBUG Got EXT_INFO: {'server-sig-algs': b'ssh-ed25519,sk-ssh-ed25519@openssh.com,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com', 'publickey-hostbound@openssh.com': b'0'}
+03-17 16:26:20.841 DEBUG Trying discovered key b'f7914fca3a9515ae2e9d6b5790d57e00' in /Users/chaitanyajandhyala/.ssh/id_rsa
+03-17 16:26:20.843 DEBUG userauth is OK
+03-17 16:26:20.843 DEBUG Finalizing pubkey algorithm for key of type 'ssh-rsa'
+03-17 16:26:20.843 DEBUG Our pubkey algorithm list: ['rsa-sha2-512', 'rsa-sha2-256', 'ssh-rsa']
+03-17 16:26:20.843 DEBUG Server-side algorithm list: ['ssh-ed25519', 'sk-ssh-ed25519@openssh.com', 'ssh-rsa', 'rsa-sha2-256', 'rsa-sha2-512', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'sk-ecdsa-sha2-nistp256@openssh.com', 'webauthn-sk-ecdsa-sha2-nistp256@openssh.com']
+03-17 16:26:20.843 DEBUG Agreed upon 'rsa-sha2-512' pubkey algorithm
+03-17 16:26:20.894 INFO Authentication (publickey) successful!
+03-17 16:26:20.894 DEBUG Executing test class "TC_Pair" with config: {'controller_configs': {},
+ 'log_path': './MatterTest/03-17-2024_16-26-20-297',
+ 'test_bed_name': None,
+ 'test_class_name_suffix': None,
+ 'testbed_name': 'MatterTest',
+ 'user_params': {'certificate_authority_manager': 'c2c510fa-e4b5-11ee-8633-4e0ca6b3a342',
+                 'default_controller': 'c2c50ede-e4b5-11ee-8633-4e0ca6b3a342',
+                 'matter_stack': 'c2b6a66e-e4b5-11ee-8633-4e0ca6b3a342',
+                 'matter_test_config': 'c2c50fce-e4b5-11ee-8633-4e0ca6b3a342',
+                 'meta_config': {'admin_vendor_id': 65521,
+                                 'ble_interface_id': None,
+                                 'case_admin_subject': 112233,
+                                 'chip_tool_credentials_path': None,
+                                 'commission_only': False,
+                                 'commissionee_ip_address_just_for_testing': None,
+                                 'commissioning_method': 'on-network',
+                                 'controller_cat_tags': [],
+                                 'controller_node_id': 112233,
+                                 'discriminators': [3890],
+                                 'dut_node_ids': [305414945],
+                                 'fabric_id': 1,
+                                 'logs_path': PosixPath('.'),
+                                 'manual_code': None,
+                                 'maximize_cert_chains': False,
+                                 'paa_trust_store_path': PosixPath('/Users/chaitanyajandhyala/chipCode/chip_0104/connectedhomeip/credentials/development/paa-root-certs'),
+                                 'pics': {},
+                                 'qr_code_content': None,
+                                 'root_of_trust_index': 1,
+                                 'setup_passcodes': [45612378],
+                                 'storage_path': PosixPath('admin_storage.json'),
+                                 'tests': [],
+                                 'thread_operational_dataset': None,
+                                 'trace_to': ['json:log'],
+                                 'wifi_passphrase': None,
+                                 'wifi_ssid': None}}}
+03-17 16:26:20.897 DEBUG [TC_Pair]#pre_run >>> BEGIN >>>
+03-17 16:26:20.897 DEBUG [TC_Pair]#pre_run <<< END <<<
+03-17 16:26:20.897 DEBUG [TC_Pair]#pre_run >>> BEGIN >>>
+03-17 16:26:20.897 DEBUG [TC_Pair]#pre_run <<< END <<<
+03-17 16:26:20.897 INFO ==========> TC_Pair <==========
+03-17 16:26:20.899 DEBUG [TC_Pair]#setup_class >>> BEGIN >>>
+03-17 16:26:20.899 DEBUG [TC_Pair]#setup_class <<< END <<<
+03-17 16:26:20.899 INFO [Test] test_tc_pair_unpair
+03-17 16:26:20.899 DEBUG [test_tc_pair_unpair]#setup_test >>> BEGIN >>>
+03-17 16:26:20.899 DEBUG [test_tc_pair_unpair]#setup_test <<< END <<<
+03-17 16:26:20.899 DEBUG Using selector: KqueueSelector
+03-17 16:26:20.900 INFO Started Iteration 1
+03-17 16:26:20.901 INFO Starting to Reset RPI as the DUT
+03-17 16:26:20.902 DEBUG [chan 0] Max packet in: 32768 bytes
+03-17 16:26:20.982 INFO Mdns: OnRegister name: BA8DEBFDFA5CADF2-000000000001B669, type: _matter._tcp., domain: local., flags: 2
+03-17 16:26:20.982 INFO mDNS service published: _matter._tcp; instance name: BA8DEBFDFA5CADF2-000000000001B669
+03-17 16:26:20.983 INFO Status: Satisfied
+03-17 16:26:20.983 INFO 	lo0 (1)
+03-17 16:26:20.983 INFO 		* ipv4: 127.0.0.1
+03-17 16:26:20.983 INFO 		* ipv6: ::1
+03-17 16:26:20.983 INFO 		* ipv6: fe80::1
+03-17 16:26:20.985 INFO 	en0 (6 / Wired)
+03-17 16:26:20.985 INFO 		* ipv4: 192.168.1.88
+03-17 16:26:20.985 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 16:26:20.985 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 16:26:20.985 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 16:26:20.985 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-17 16:26:20.985 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 16:26:20.985 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 16:26:20.985 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 16:26:20.985 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 16:26:20.986 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 16:26:20.986 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 16:26:20.987 INFO 	en1 (13 / WiFi)
+03-17 16:26:20.987 INFO 		* ipv4: 192.168.7.243
+03-17 16:26:20.988 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 16:26:20.988 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 16:26:20.988 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 16:26:20.988 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 16:26:20.988 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 16:26:20.988 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 16:26:20.988 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 16:26:20.990 INFO 	utun7 (48 / Other)
+03-17 16:26:20.990 INFO 		* ipv4: 17.11.157.124
+03-17 16:26:20.992 INFO Mdns: OnRegister name: 801AE53DCE1970BE, type: _matterd._udp., domain: local., flags: 2
+03-17 16:26:20.993 INFO mDNS service published: _matterd._udp; instance name: 801AE53DCE1970BE
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.993 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.994 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.994 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.994 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.994 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.994 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:20.994 INFO Mdns: OnRegisterRecord flags: 0
+03-17 16:26:20.994 INFO Status: Satisfied
+03-17 16:26:20.994 INFO 	lo0 (1)
+03-17 16:26:20.994 INFO 		* ipv4: 127.0.0.1
+03-17 16:26:20.994 INFO 		* ipv6: ::1
+03-17 16:26:20.994 INFO 		* ipv6: fe80::1
+03-17 16:26:20.996 INFO 	en0 (6 / Wired)
+03-17 16:26:20.996 INFO 		* ipv4: 192.168.1.88
+03-17 16:26:20.996 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 16:26:20.996 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 16:26:20.996 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 16:26:20.996 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-17 16:26:20.996 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 16:26:20.996 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 16:26:20.996 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 16:26:20.996 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 16:26:20.997 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 16:26:20.997 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 16:26:20.998 INFO 	en1 (13 / WiFi)
+03-17 16:26:20.998 INFO 		* ipv4: 192.168.7.243
+03-17 16:26:20.998 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 16:26:20.998 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 16:26:20.998 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 16:26:20.998 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 16:26:20.999 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 16:26:20.999 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 16:26:20.999 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 16:26:21.000 INFO 	utun7 (48 / Other)
+03-17 16:26:21.000 INFO 		* ipv4: 17.11.157.124
+03-17 16:26:21.003 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.003 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.003 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:21.004 INFO Mdns: OnRegisterRecord flags: 0
+03-17 16:26:22.316 DEBUG Received global request "hostkeys-00@openssh.com"
+03-17 16:26:22.316 DEBUG Rejecting "hostkeys-00@openssh.com" global request from server.
+03-17 16:26:22.316 DEBUG Debug msg: b'/home/ubuntu/.ssh/authorized_keys:1: key options: agent-forwarding port-forwarding pty user-rc x11-forwarding'
+03-17 16:26:22.317 DEBUG [chan 0] Max packet out: 32768 bytes
+03-17 16:26:22.317 DEBUG Secsh channel 0 opened.
+03-17 16:26:22.319 DEBUG [chan 0] Sesch channel 0 request ok
+03-17 16:26:22.368 DEBUG [chan 0] EOF received (0)
+03-17 16:26:22.369 DEBUG [chan 0] EOF sent (0)
+03-17 16:26:22.392 INFO Example App has been killed
+03-17 16:26:22.393 DEBUG [chan 1] Max packet in: 32768 bytes
+03-17 16:26:22.413 DEBUG [chan 1] Max packet out: 32768 bytes
+03-17 16:26:22.413 DEBUG Secsh channel 1 opened.
+03-17 16:26:22.416 DEBUG [chan 1] Sesch channel 1 request ok
+03-17 16:26:22.434 DEBUG [chan 1] EOF received (1)
+03-17 16:26:22.435 DEBUG [chan 1] EOF sent (1)
+03-17 16:26:27.447 DEBUG [chan 2] Max packet in: 32768 bytes
+03-17 16:26:27.449 DEBUG [chan 2] Max packet out: 32768 bytes
+03-17 16:26:27.449 DEBUG Secsh channel 2 opened.
+03-17 16:26:27.453 DEBUG [chan 2] Sesch channel 2 request ok
+03-17 16:26:59.247 INFO Status: Satisfied
+03-17 16:26:59.252 INFO 	lo0 (1)
+03-17 16:26:59.253 INFO 		* ipv4: 127.0.0.1
+03-17 16:26:59.253 INFO 		* ipv6: ::1
+03-17 16:26:59.253 INFO 		* ipv6: fe80::1
+03-17 16:26:59.255 INFO 	en0 (6 / Wired)
+03-17 16:26:59.255 INFO 		* ipv4: 192.168.1.88
+03-17 16:26:59.255 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 16:26:59.257 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 16:26:59.257 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 16:26:59.257 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-17 16:26:59.257 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 16:26:59.257 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 16:26:59.257 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 16:26:59.257 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 16:26:59.257 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 16:26:59.335 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 16:26:59.338 INFO 	en1 (13 / WiFi)
+03-17 16:26:59.341 INFO 		* ipv4: 192.168.7.243
+03-17 16:26:59.341 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 16:26:59.342 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 16:26:59.342 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 16:26:59.342 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 16:26:59.342 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 16:26:59.342 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 16:26:59.342 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 16:26:59.345 INFO 	utun7 (48 / Other)
+03-17 16:26:59.345 INFO 		* ipv4: 17.11.157.124
+03-17 16:26:59.433 INFO Status: Satisfied
+03-17 16:26:59.433 INFO 	lo0 (1)
+03-17 16:26:59.433 INFO 		* ipv4: 127.0.0.1
+03-17 16:26:59.433 INFO 		* ipv6: ::1
+03-17 16:26:59.433 INFO 		* ipv6: fe80::1
+03-17 16:26:59.435 INFO 	en0 (6 / Wired)
+03-17 16:26:59.435 INFO 		* ipv4: 192.168.1.88
+03-17 16:26:59.435 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 16:26:59.435 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 16:26:59.436 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 16:26:59.436 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-17 16:26:59.436 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 16:26:59.436 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 16:26:59.436 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 16:26:59.436 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 16:26:59.436 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 16:26:59.436 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 16:26:59.438 INFO 	en1 (13 / WiFi)
+03-17 16:26:59.438 INFO 		* ipv4: 192.168.7.243
+03-17 16:26:59.438 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 16:26:59.438 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 16:26:59.438 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 16:26:59.438 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 16:26:59.438 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 16:26:59.439 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 16:26:59.439 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 16:26:59.441 INFO 	utun7 (48 / Other)
+03-17 16:26:59.441 INFO 		* ipv4: 17.11.157.124
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.473 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 0
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.474 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.475 INFO Mdns: OnRegisterRecord flags: 0
+03-17 16:26:59.492 INFO Status: Satisfied
+03-17 16:26:59.492 INFO 	lo0 (1)
+03-17 16:26:59.492 INFO 		* ipv4: 127.0.0.1
+03-17 16:26:59.492 INFO 		* ipv6: ::1
+03-17 16:26:59.492 INFO 		* ipv6: fe80::1
+03-17 16:26:59.496 INFO 	en0 (6 / Wired)
+03-17 16:26:59.496 INFO 		* ipv4: 192.168.1.88
+03-17 16:26:59.496 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 16:26:59.497 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 16:26:59.499 INFO 	en1 (13 / WiFi)
+03-17 16:26:59.499 INFO 		* ipv4: 192.168.7.243
+03-17 16:26:59.499 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 16:26:59.499 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 16:26:59.499 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 16:26:59.499 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 16:26:59.499 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 16:26:59.499 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 16:26:59.499 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 16:26:59.501 INFO 	utun7 (48 / Other)
+03-17 16:26:59.501 INFO 		* ipv4: 17.11.157.124
+03-17 16:26:59.536 INFO Status: Satisfied
+03-17 16:26:59.537 INFO 	lo0 (1)
+03-17 16:26:59.537 INFO 		* ipv4: 127.0.0.1
+03-17 16:26:59.537 INFO 		* ipv6: ::1
+03-17 16:26:59.537 INFO 		* ipv6: fe80::1
+03-17 16:26:59.539 INFO 	en0 (6 / Wired)
+03-17 16:26:59.539 INFO 		* ipv4: 192.168.1.88
+03-17 16:26:59.539 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 16:26:59.539 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 16:26:59.539 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 16:26:59.539 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-17 16:26:59.539 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 16:26:59.539 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 16:26:59.540 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 16:26:59.540 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 16:26:59.540 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 16:26:59.540 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 16:26:59.543 INFO 	en1 (13 / WiFi)
+03-17 16:26:59.543 INFO 		* ipv4: 192.168.7.243
+03-17 16:26:59.543 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 16:26:59.543 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 16:26:59.543 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 16:26:59.543 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 16:26:59.544 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 16:26:59.544 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 16:26:59.544 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 16:26:59.546 INFO 	utun7 (48 / Other)
+03-17 16:26:59.547 INFO 		* ipv4: 17.11.157.124
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.556 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 0
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.557 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:26:59.558 INFO Mdns: OnRegisterRecord flags: 0

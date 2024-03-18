@@ -1,0 +1,16 @@
+03-15 13:49:17.474 INFO Summary for test run MatterTest@03-15-2024_13-49-17-471:
+Total time elapsed 0.002204625000000071s
+Artifacts are saved in "./MatterTest/03-15-2024_13-49-17-471"
+Test summary saved in "./MatterTest/03-15-2024_13-49-17-471/test_summary.yaml"
+Test results: Error 0, Executed 0, Failed 0, Passed 0, Requested 0, Skipped 0
+03-15 13:49:17.474 ERROR Exception when executing MatterTest.
+Traceback (most recent call last):
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/helper_libs/matter_testing_support.py", line 1209, in default_matter_test_main
+    runner.run()
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/test_runner.py", line 437, in run
+    self._run_test_class(config=test_config,
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/test_runner.py", line 379, in _run_test_class
+    test_instance = test_class(config)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/scripts/reliability_scripts/TC_Pair.py", line 32, in __init__
+    super(self).__init__(*args)
+TypeError: super() argument 1 must be type, not TC_Pair

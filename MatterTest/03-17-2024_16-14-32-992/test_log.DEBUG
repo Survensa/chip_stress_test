@@ -1,0 +1,313 @@
+03-17 16:14:32.993 DEBUG Test output folder: "./MatterTest/03-17-2024_16-14-32-992"
+03-17 16:14:33.346 DEBUG Didn't see any /etc/invoke.yaml, skipping.
+03-17 16:14:33.346 DEBUG Didn't see any /etc/invoke.yml, skipping.
+03-17 16:14:33.346 DEBUG Didn't see any /etc/invoke.json, skipping.
+03-17 16:14:33.346 DEBUG Didn't see any /Users/chaitanyajandhyala/.invoke.yaml, skipping.
+03-17 16:14:33.346 DEBUG Didn't see any /Users/chaitanyajandhyala/.invoke.yml, skipping.
+03-17 16:14:33.346 DEBUG Didn't see any /Users/chaitanyajandhyala/.invoke.json, skipping.
+03-17 16:14:33.347 DEBUG Merging config sources in order onto new empty _config...
+03-17 16:14:33.347 DEBUG Defaults: {'run': {'asynchronous': False, 'disown': False, 'dry': False, 'echo': False, 'echo_stdin': None, 'encoding': None, 'env': {}, 'err_stream': None, 'fallback': True, 'hide': None, 'in_stream': None, 'out_stream': None, 'echo_format': '\x1b[1;37m{command}\x1b[0m', 'pty': False, 'replace_env': False, 'shell': '/bin/bash', 'warn': False, 'watchers': []}, 'runners': {'local': <class 'invoke.runners.Local'>}, 'sudo': {'password': None, 'prompt': '[sudo] password: ', 'user': None}, 'tasks': {'auto_dash_names': True, 'collection_name': 'tasks', 'dedupe': True, 'executor_class': None, 'ignore_unknown_help': False, 'search_root': None}, 'timeouts': {'command': None}}
+03-17 16:14:33.347 DEBUG Collection-driven: {}
+03-17 16:14:33.347 DEBUG System-wide config file (/etc/invoke.py): {}
+03-17 16:14:33.347 DEBUG Per-user config file (/Users/chaitanyajandhyala/.invoke.py): {}
+03-17 16:14:33.347 DEBUG Per-project config file has not been loaded yet, skipping
+03-17 16:14:33.347 DEBUG Environment variable config: {}
+03-17 16:14:33.347 DEBUG Runtime config file has not been loaded yet, skipping
+03-17 16:14:33.347 DEBUG Overrides: {}
+03-17 16:14:33.347 DEBUG Modifications: {}
+03-17 16:14:33.347 DEBUG Deletions: {}
+03-17 16:14:33.348 DEBUG Didn't see any /etc/fabric.yaml, skipping.
+03-17 16:14:33.348 DEBUG Didn't see any /etc/fabric.yml, skipping.
+03-17 16:14:33.348 DEBUG Didn't see any /etc/fabric.json, skipping.
+03-17 16:14:33.348 DEBUG Didn't see any /Users/chaitanyajandhyala/.fabric.yaml, skipping.
+03-17 16:14:33.348 DEBUG Didn't see any /Users/chaitanyajandhyala/.fabric.yml, skipping.
+03-17 16:14:33.348 DEBUG Didn't see any /Users/chaitanyajandhyala/.fabric.json, skipping.
+03-17 16:14:33.348 DEBUG Merging config sources in order onto new empty _config...
+03-17 16:14:33.348 DEBUG Defaults: {'run': {'asynchronous': False, 'disown': False, 'dry': False, 'echo': False, 'echo_stdin': None, 'encoding': None, 'env': {}, 'err_stream': None, 'fallback': True, 'hide': None, 'in_stream': None, 'out_stream': None, 'echo_format': '\x1b[1;37m{command}\x1b[0m', 'pty': False, 'replace_env': False, 'shell': '/bin/bash', 'warn': False, 'watchers': []}, 'runners': {'local': <class 'invoke.runners.Local'>, 'remote': <class 'fabric.runners.Remote'>, 'remote_shell': <class 'fabric.runners.RemoteShell'>}, 'sudo': {'password': None, 'prompt': '[sudo] password: ', 'user': None}, 'tasks': {'auto_dash_names': True, 'collection_name': 'fabfile', 'dedupe': True, 'executor_class': None, 'ignore_unknown_help': False, 'search_root': None}, 'timeouts': {'command': None, 'connect': None}, 'authentication': {'identities': [], 'strategy_class': None}, 'connect_kwargs': {}, 'forward_agent': False, 'gateway': None, 'inline_ssh_env': True, 'load_ssh_configs': True, 'port': 22, 'ssh_config_path': None, 'user': 'chaitanyajandhyala'}
+03-17 16:14:33.349 DEBUG Collection-driven: {}
+03-17 16:14:33.349 DEBUG System-wide config file (/etc/fabric.py): {}
+03-17 16:14:33.349 DEBUG Per-user config file (/Users/chaitanyajandhyala/.fabric.py): {}
+03-17 16:14:33.349 DEBUG Per-project config file has not been loaded yet, skipping
+03-17 16:14:33.349 DEBUG Environment variable config: {}
+03-17 16:14:33.349 DEBUG Runtime config file has not been loaded yet, skipping
+03-17 16:14:33.349 DEBUG Overrides: {}
+03-17 16:14:33.349 DEBUG Modifications: {}
+03-17 16:14:33.349 DEBUG Deletions: {}
+03-17 16:14:33.351 DEBUG Loaded 4 new ssh_config rules from '/Users/chaitanyajandhyala/.ssh/config'
+03-17 16:14:33.352 DEBUG Loaded 2 new ssh_config rules from '/etc/ssh/ssh_config'
+03-17 16:14:33.354 DEBUG Merging config sources in order onto new empty _config...
+03-17 16:14:33.354 DEBUG Defaults: {'run': {'asynchronous': False, 'disown': False, 'dry': False, 'echo': False, 'echo_stdin': None, 'encoding': None, 'env': {}, 'err_stream': None, 'fallback': True, 'hide': None, 'in_stream': None, 'out_stream': None, 'echo_format': '\x1b[1;37m{command}\x1b[0m', 'pty': False, 'replace_env': False, 'shell': '/bin/bash', 'warn': False, 'watchers': []}, 'runners': {'local': <class 'invoke.runners.Local'>, 'remote': <class 'fabric.runners.Remote'>, 'remote_shell': <class 'fabric.runners.RemoteShell'>}, 'sudo': {'password': None, 'prompt': '[sudo] password: ', 'user': None}, 'tasks': {'auto_dash_names': True, 'collection_name': 'fabfile', 'dedupe': True, 'executor_class': None, 'ignore_unknown_help': False, 'search_root': None}, 'timeouts': {'command': None, 'connect': None}, 'authentication': {'identities': [], 'strategy_class': None}, 'connect_kwargs': {}, 'forward_agent': False, 'gateway': None, 'inline_ssh_env': True, 'load_ssh_configs': True, 'port': 22, 'ssh_config_path': None, 'user': 'chaitanyajandhyala'}
+03-17 16:14:33.354 DEBUG Collection-driven: {}
+03-17 16:14:33.354 DEBUG System-wide config file (/etc/fabric.py): {}
+03-17 16:14:33.354 DEBUG Per-user config file (/Users/chaitanyajandhyala/.fabric.py): {}
+03-17 16:14:33.355 DEBUG Per-project config file has not been loaded yet, skipping
+03-17 16:14:33.355 DEBUG Environment variable config: {}
+03-17 16:14:33.355 DEBUG Runtime config file has not been loaded yet, skipping
+03-17 16:14:33.355 DEBUG Overrides: {}
+03-17 16:14:33.355 DEBUG Modifications: {'inline_ssh_env': True}
+03-17 16:14:33.355 DEBUG Deletions: {}
+03-17 16:14:33.358 DEBUG starting thread (client mode): 0x126cf190
+03-17 16:14:33.359 DEBUG Local version/idstring: SSH-2.0-paramiko_3.4.0
+03-17 16:14:33.398 DEBUG Remote version/idstring: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.6
+03-17 16:14:33.398 INFO Connected (version 2.0, client OpenSSH_8.9p1)
+03-17 16:14:33.403 DEBUG === Key exchange possibilities ===
+03-17 16:14:33.403 DEBUG kex algos: curve25519-sha256, curve25519-sha256@libssh.org, ecdh-sha2-nistp256, ecdh-sha2-nistp384, ecdh-sha2-nistp521, sntrup761x25519-sha512@openssh.com, diffie-hellman-group-exchange-sha256, diffie-hellman-group16-sha512, diffie-hellman-group18-sha512, diffie-hellman-group14-sha256, kex-strict-s-v00@openssh.com
+03-17 16:14:33.403 DEBUG server key: rsa-sha2-512, rsa-sha2-256, ecdsa-sha2-nistp256, ssh-ed25519
+03-17 16:14:33.403 DEBUG client encrypt: chacha20-poly1305@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com, aes256-gcm@openssh.com
+03-17 16:14:33.403 DEBUG server encrypt: chacha20-poly1305@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com, aes256-gcm@openssh.com
+03-17 16:14:33.403 DEBUG client mac: umac-64-etm@openssh.com, umac-128-etm@openssh.com, hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, umac-128@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1
+03-17 16:14:33.403 DEBUG server mac: umac-64-etm@openssh.com, umac-128-etm@openssh.com, hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, umac-128@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1
+03-17 16:14:33.403 DEBUG client compress: none, zlib@openssh.com
+03-17 16:14:33.403 DEBUG server compress: none, zlib@openssh.com
+03-17 16:14:33.404 DEBUG client lang: <none>
+03-17 16:14:33.404 DEBUG server lang: <none>
+03-17 16:14:33.404 DEBUG kex follows: False
+03-17 16:14:33.404 DEBUG === Key exchange agreements ===
+03-17 16:14:33.404 DEBUG Strict kex mode: True
+03-17 16:14:33.404 DEBUG Kex: curve25519-sha256@libssh.org
+03-17 16:14:33.404 DEBUG HostKey: ssh-ed25519
+03-17 16:14:33.405 DEBUG Cipher: aes128-ctr
+03-17 16:14:33.405 DEBUG MAC: hmac-sha2-256
+03-17 16:14:33.405 DEBUG Compression: none
+03-17 16:14:33.405 DEBUG === End of kex handshake ===
+03-17 16:14:33.440 DEBUG Resetting outbound seqno after NEWKEYS due to strict mode
+03-17 16:14:33.441 DEBUG kex engine KexCurve25519 specified hash_algo <built-in function openssl_sha256>
+03-17 16:14:33.443 DEBUG Switch to new keys ...
+03-17 16:14:33.446 DEBUG Resetting inbound seqno after NEWKEYS due to strict mode
+03-17 16:14:33.447 DEBUG Got EXT_INFO: {'server-sig-algs': b'ssh-ed25519,sk-ssh-ed25519@openssh.com,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com', 'publickey-hostbound@openssh.com': b'0'}
+03-17 16:14:33.449 DEBUG Adding ssh-ed25519 host key for 192.168.1.107: b'850bf169105922fba0ec92d2f0ca7daf'
+03-17 16:14:33.719 DEBUG Trying discovered key b'f7914fca3a9515ae2e9d6b5790d57e00' in /Users/chaitanyajandhyala/.ssh/id_rsa
+03-17 16:14:33.720 INFO Mdns: OnRegister name: BA8DEBFDFA5CADF2-000000000001B669, type: _matter._tcp., domain: local., flags: 2
+03-17 16:14:33.720 INFO mDNS service published: _matter._tcp; instance name: BA8DEBFDFA5CADF2-000000000001B669
+03-17 16:14:33.721 INFO Mdns: OnRegister name: BD84E8523307E61C, type: _matterd._udp., domain: local., flags: 2
+03-17 16:14:33.721 INFO mDNS service published: _matterd._udp; instance name: BD84E8523307E61C
+03-17 16:14:33.721 DEBUG userauth is OK
+03-17 16:14:33.721 DEBUG Finalizing pubkey algorithm for key of type 'ssh-rsa'
+03-17 16:14:33.721 DEBUG Our pubkey algorithm list: ['rsa-sha2-512', 'rsa-sha2-256', 'ssh-rsa']
+03-17 16:14:33.721 DEBUG Server-side algorithm list: ['ssh-ed25519', 'sk-ssh-ed25519@openssh.com', 'ssh-rsa', 'rsa-sha2-256', 'rsa-sha2-512', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'sk-ecdsa-sha2-nistp256@openssh.com', 'webauthn-sk-ecdsa-sha2-nistp256@openssh.com']
+03-17 16:14:33.721 INFO Status: Satisfied
+03-17 16:14:33.721 DEBUG Agreed upon 'rsa-sha2-512' pubkey algorithm
+03-17 16:14:33.729 INFO 	lo0 (1)
+03-17 16:14:33.729 INFO 		* ipv4: 127.0.0.1
+03-17 16:14:33.729 INFO 		* ipv6: ::1
+03-17 16:14:33.729 INFO 		* ipv6: fe80::1
+03-17 16:14:33.731 INFO 	en0 (6 / Wired)
+03-17 16:14:33.731 INFO 		* ipv4: 192.168.1.88
+03-17 16:14:33.731 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 16:14:33.731 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 16:14:33.731 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 16:14:33.731 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-17 16:14:33.731 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 16:14:33.732 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 16:14:33.732 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 16:14:33.732 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 16:14:33.732 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 16:14:33.732 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 16:14:33.733 INFO 	en1 (13 / WiFi)
+03-17 16:14:33.733 INFO 		* ipv4: 192.168.7.243
+03-17 16:14:33.733 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 16:14:33.733 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 16:14:33.733 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 16:14:33.734 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 16:14:33.734 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 16:14:33.734 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 16:14:33.734 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 16:14:33.736 INFO 	utun7 (48 / Other)
+03-17 16:14:33.736 INFO 		* ipv4: 17.11.157.124
+03-17 16:14:33.740 INFO Status: Satisfied
+03-17 16:14:33.741 INFO 	lo0 (1)
+03-17 16:14:33.741 INFO 		* ipv4: 127.0.0.1
+03-17 16:14:33.741 INFO 		* ipv6: ::1
+03-17 16:14:33.741 INFO 		* ipv6: fe80::1
+03-17 16:14:33.743 INFO 	en0 (6 / Wired)
+03-17 16:14:33.743 INFO 		* ipv4: 192.168.1.88
+03-17 16:14:33.743 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 16:14:33.743 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 16:14:33.745 INFO 	en1 (13 / WiFi)
+03-17 16:14:33.745 INFO 		* ipv4: 192.168.7.243
+03-17 16:14:33.745 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 16:14:33.745 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 16:14:33.745 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 16:14:33.745 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 16:14:33.745 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 16:14:33.745 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 16:14:33.745 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 16:14:33.747 INFO 	utun7 (48 / Other)
+03-17 16:14:33.747 INFO 		* ipv4: 17.11.157.124
+03-17 16:14:33.752 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.753 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 0
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.754 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 1
+03-17 16:14:33.755 INFO Mdns: OnRegisterRecord flags: 0
+03-17 16:14:33.762 INFO Authentication (publickey) successful!
+03-17 16:14:33.762 DEBUG Executing test class "TC_Pair" with config: {'controller_configs': {},
+ 'log_path': './MatterTest/03-17-2024_16-14-32-992',
+ 'test_bed_name': None,
+ 'test_class_name_suffix': None,
+ 'testbed_name': 'MatterTest',
+ 'user_params': {'certificate_authority_manager': '1d2eef72-e4b4-11ee-9266-4e0ca6b3a342',
+                 'default_controller': '1d2eecc0-e4b4-11ee-9266-4e0ca6b3a342',
+                 'matter_stack': '1d1e5752-e4b4-11ee-9266-4e0ca6b3a342',
+                 'matter_test_config': '1d2eee0a-e4b4-11ee-9266-4e0ca6b3a342',
+                 'meta_config': {'admin_vendor_id': 65521,
+                                 'ble_interface_id': None,
+                                 'case_admin_subject': 112233,
+                                 'chip_tool_credentials_path': None,
+                                 'commission_only': False,
+                                 'commissionee_ip_address_just_for_testing': None,
+                                 'commissioning_method': 'on-network',
+                                 'controller_cat_tags': [],
+                                 'controller_node_id': 112233,
+                                 'discriminators': [3890],
+                                 'dut_node_ids': [305414945],
+                                 'fabric_id': 1,
+                                 'logs_path': PosixPath('.'),
+                                 'manual_code': None,
+                                 'maximize_cert_chains': False,
+                                 'paa_trust_store_path': PosixPath('/Users/chaitanyajandhyala/chipCode/chip_0104/connectedhomeip/credentials/development/paa-root-certs'),
+                                 'pics': {},
+                                 'qr_code_content': None,
+                                 'root_of_trust_index': 1,
+                                 'setup_passcodes': [45612378],
+                                 'storage_path': PosixPath('admin_storage.json'),
+                                 'tests': [],
+                                 'thread_operational_dataset': None,
+                                 'trace_to': ['json:log'],
+                                 'wifi_passphrase': None,
+                                 'wifi_ssid': None}}}
+03-17 16:14:33.765 DEBUG [TC_Pair]#pre_run >>> BEGIN >>>
+03-17 16:14:33.765 DEBUG [TC_Pair]#pre_run <<< END <<<
+03-17 16:14:33.765 DEBUG [TC_Pair]#pre_run >>> BEGIN >>>
+03-17 16:14:33.765 DEBUG [TC_Pair]#pre_run <<< END <<<
+03-17 16:14:33.765 INFO ==========> TC_Pair <==========
+03-17 16:14:33.767 DEBUG [TC_Pair]#setup_class >>> BEGIN >>>
+03-17 16:14:33.767 DEBUG [TC_Pair]#setup_class <<< END <<<
+03-17 16:14:33.767 INFO [Test] test_tc_pair_unpair
+03-17 16:14:33.767 DEBUG [test_tc_pair_unpair]#setup_test >>> BEGIN >>>
+03-17 16:14:33.767 DEBUG [test_tc_pair_unpair]#setup_test <<< END <<<
+03-17 16:14:33.768 DEBUG Using selector: KqueueSelector
+03-17 16:14:33.769 INFO Started Iteration 1
+03-17 16:14:33.770 INFO Starting to Reset RPI as the DUT
+03-17 16:14:33.771 DEBUG [chan 0] Max packet in: 32768 bytes
+03-17 16:14:35.184 DEBUG Received global request "hostkeys-00@openssh.com"
+03-17 16:14:35.184 DEBUG Rejecting "hostkeys-00@openssh.com" global request from server.
+03-17 16:14:35.184 DEBUG Debug msg: b'/home/ubuntu/.ssh/authorized_keys:1: key options: agent-forwarding port-forwarding pty user-rc x11-forwarding'
+03-17 16:14:35.184 DEBUG [chan 0] Max packet out: 32768 bytes
+03-17 16:14:35.185 DEBUG Secsh channel 0 opened.
+03-17 16:14:35.188 DEBUG [chan 0] Sesch channel 0 request ok
+03-17 16:14:35.239 DEBUG [chan 0] EOF received (0)
+03-17 16:14:35.239 DEBUG [chan 0] EOF sent (0)
+03-17 16:14:35.249 INFO Displaying the pid and process to terminate ubuntu     96541  0.2  0.4 256152 17312 ?        Ssl  23:13   0:00 ./out/all-clusters-app/chip-all-clusters-app --discriminator 3890 --passcode 45612378
+03-17 16:14:35.254 DEBUG [chan 1] Max packet in: 32768 bytes
+03-17 16:14:35.285 DEBUG [chan 1] Max packet out: 32768 bytes
+03-17 16:14:35.285 DEBUG Secsh channel 1 opened.
+03-17 16:14:35.289 DEBUG [chan 1] Sesch channel 1 request ok
+03-17 16:14:35.302 DEBUG [chan 1] EOF received (1)
+03-17 16:14:35.303 DEBUG [chan 1] EOF sent (1)
+03-17 16:14:35.303 INFO Example App has been closed
+03-17 16:14:35.405 DEBUG EOF in transport thread
+03-17 16:14:40.307 INFO Start Matter App
+03-17 16:14:40.310 DEBUG starting thread (client mode): 0x12736ac0
+03-17 16:14:40.311 DEBUG Local version/idstring: SSH-2.0-paramiko_3.4.0
+03-17 16:14:40.350 DEBUG Remote version/idstring: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.6
+03-17 16:14:40.350 INFO Connected (version 2.0, client OpenSSH_8.9p1)
+03-17 16:14:40.354 DEBUG === Key exchange possibilities ===
+03-17 16:14:40.354 DEBUG kex algos: curve25519-sha256, curve25519-sha256@libssh.org, ecdh-sha2-nistp256, ecdh-sha2-nistp384, ecdh-sha2-nistp521, sntrup761x25519-sha512@openssh.com, diffie-hellman-group-exchange-sha256, diffie-hellman-group16-sha512, diffie-hellman-group18-sha512, diffie-hellman-group14-sha256, kex-strict-s-v00@openssh.com
+03-17 16:14:40.354 DEBUG server key: rsa-sha2-512, rsa-sha2-256, ecdsa-sha2-nistp256, ssh-ed25519
+03-17 16:14:40.354 DEBUG client encrypt: chacha20-poly1305@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com, aes256-gcm@openssh.com
+03-17 16:14:40.354 DEBUG server encrypt: chacha20-poly1305@openssh.com, aes128-ctr, aes192-ctr, aes256-ctr, aes128-gcm@openssh.com, aes256-gcm@openssh.com
+03-17 16:14:40.354 DEBUG client mac: umac-64-etm@openssh.com, umac-128-etm@openssh.com, hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, umac-128@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1
+03-17 16:14:40.355 DEBUG server mac: umac-64-etm@openssh.com, umac-128-etm@openssh.com, hmac-sha2-256-etm@openssh.com, hmac-sha2-512-etm@openssh.com, hmac-sha1-etm@openssh.com, umac-64@openssh.com, umac-128@openssh.com, hmac-sha2-256, hmac-sha2-512, hmac-sha1
+03-17 16:14:40.355 DEBUG client compress: none, zlib@openssh.com
+03-17 16:14:40.355 DEBUG server compress: none, zlib@openssh.com
+03-17 16:14:40.355 DEBUG client lang: <none>
+03-17 16:14:40.355 DEBUG server lang: <none>
+03-17 16:14:40.355 DEBUG kex follows: False
+03-17 16:14:40.355 DEBUG === Key exchange agreements ===
+03-17 16:14:40.355 DEBUG Strict kex mode: True
+03-17 16:14:40.355 DEBUG Kex: curve25519-sha256@libssh.org
+03-17 16:14:40.355 DEBUG HostKey: ssh-ed25519
+03-17 16:14:40.355 DEBUG Cipher: aes128-ctr
+03-17 16:14:40.355 DEBUG MAC: hmac-sha2-256
+03-17 16:14:40.356 DEBUG Compression: none
+03-17 16:14:40.356 DEBUG === End of kex handshake ===
+03-17 16:14:40.376 DEBUG Resetting outbound seqno after NEWKEYS due to strict mode
+03-17 16:14:40.376 DEBUG kex engine KexCurve25519 specified hash_algo <built-in function openssl_sha256>
+03-17 16:14:40.376 DEBUG Switch to new keys ...
+03-17 16:14:40.377 DEBUG Resetting inbound seqno after NEWKEYS due to strict mode
+03-17 16:14:40.377 DEBUG Got EXT_INFO: {'server-sig-algs': b'ssh-ed25519,sk-ssh-ed25519@openssh.com,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,sk-ecdsa-sha2-nistp256@openssh.com,webauthn-sk-ecdsa-sha2-nistp256@openssh.com', 'publickey-hostbound@openssh.com': b'0'}
+03-17 16:14:40.554 DEBUG Trying discovered key b'f7914fca3a9515ae2e9d6b5790d57e00' in /Users/chaitanyajandhyala/.ssh/id_rsa
+03-17 16:14:40.555 DEBUG userauth is OK
+03-17 16:14:40.555 DEBUG Finalizing pubkey algorithm for key of type 'ssh-rsa'
+03-17 16:14:40.555 DEBUG Our pubkey algorithm list: ['rsa-sha2-512', 'rsa-sha2-256', 'ssh-rsa']
+03-17 16:14:40.555 DEBUG Server-side algorithm list: ['ssh-ed25519', 'sk-ssh-ed25519@openssh.com', 'ssh-rsa', 'rsa-sha2-256', 'rsa-sha2-512', 'ssh-dss', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'sk-ecdsa-sha2-nistp256@openssh.com', 'webauthn-sk-ecdsa-sha2-nistp256@openssh.com']
+03-17 16:14:40.555 DEBUG Agreed upon 'rsa-sha2-512' pubkey algorithm
+03-17 16:14:40.593 INFO Authentication (publickey) successful!
+03-17 16:14:40.594 DEBUG [chan 0] Max packet in: 32768 bytes
+03-17 16:14:40.778 DEBUG Received global request "hostkeys-00@openssh.com"
+03-17 16:14:40.778 DEBUG Rejecting "hostkeys-00@openssh.com" global request from server.
+03-17 16:14:40.779 DEBUG Debug msg: b'/home/ubuntu/.ssh/authorized_keys:1: key options: agent-forwarding port-forwarding pty user-rc x11-forwarding'
+03-17 16:14:40.779 DEBUG [chan 0] Max packet out: 32768 bytes
+03-17 16:14:40.779 DEBUG Secsh channel 0 opened.
+03-17 16:14:40.782 DEBUG [chan 0] Sesch channel 0 request ok
+03-17 16:14:40.794 DEBUG [chan 0] EOF received (0)
+03-17 16:14:40.795 DEBUG [chan 0] EOF sent (0)
+03-17 16:14:40.809 DEBUG [chan 1] Max packet in: 32768 bytes
+03-17 16:14:40.837 DEBUG [chan 1] Max packet out: 32768 bytes
+03-17 16:14:40.837 DEBUG Secsh channel 1 opened.
+03-17 16:14:40.841 DEBUG [chan 1] Sesch channel 1 request ok
+03-17 16:14:40.895 DEBUG [chan 1] EOF received (1)
+03-17 16:14:40.896 DEBUG [chan 1] EOF sent (1)
+03-17 16:14:40.903 DEBUG [chan 2] Max packet in: 32768 bytes
+03-17 16:14:40.941 DEBUG [chan 2] Max packet out: 32768 bytes
+03-17 16:14:40.941 DEBUG Secsh channel 2 opened.
+03-17 16:14:40.944 DEBUG [chan 2] Sesch channel 2 request ok

@@ -1,0 +1,199 @@
+03-15 14:18:19.893 DEBUG Test output folder: "./MatterTest/03-15-2024_14-18-19-892"
+03-15 14:18:20.514 INFO Mdns: OnRegister name: 3ED5984C719BEF41-000000000001B669, type: _matter._tcp., domain: local., flags: 2
+03-15 14:18:20.515 INFO mDNS service published: _matter._tcp; instance name: 3ED5984C719BEF41-000000000001B669
+03-15 14:18:20.519 INFO Status: Satisfied
+03-15 14:18:20.520 INFO 	lo0 (1)
+03-15 14:18:20.521 INFO 		* ipv4: 127.0.0.1
+03-15 14:18:20.522 INFO 		* ipv6: ::1
+03-15 14:18:20.522 INFO 		* ipv6: fe80::1
+03-15 14:18:20.527 INFO 	en0 (6 / Wired)
+03-15 14:18:20.528 INFO 		* ipv4: 192.168.1.88
+03-15 14:18:20.528 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 14:18:20.528 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 14:18:20.528 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 14:18:20.528 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 14:18:20.529 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 14:18:20.529 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 14:18:20.529 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 14:18:20.529 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 14:18:20.529 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 14:18:20.529 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 14:18:20.531 INFO 	en1 (13 / WiFi)
+03-15 14:18:20.531 INFO 		* ipv4: 192.168.7.243
+03-15 14:18:20.531 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 14:18:20.531 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 14:18:20.531 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 14:18:20.531 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 14:18:20.531 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 14:18:20.533 INFO 	utun7 (42 / Other)
+03-15 14:18:20.533 INFO 		* ipv4: 17.234.81.24
+03-15 14:18:20.538 INFO Mdns: OnRegister name: EBB37D14D12A2DC3, type: _matterd._udp., domain: local., flags: 2
+03-15 14:18:20.538 INFO mDNS service published: _matterd._udp; instance name: EBB37D14D12A2DC3
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.540 INFO Mdns: OnRegisterRecord flags: 0
+03-15 14:18:20.540 INFO Status: Satisfied
+03-15 14:18:20.541 INFO 	lo0 (1)
+03-15 14:18:20.541 INFO 		* ipv4: 127.0.0.1
+03-15 14:18:20.541 INFO 		* ipv6: ::1
+03-15 14:18:20.541 INFO 		* ipv6: fe80::1
+03-15 14:18:20.543 INFO 	en0 (6 / Wired)
+03-15 14:18:20.544 INFO 		* ipv4: 192.168.1.88
+03-15 14:18:20.544 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 14:18:20.544 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 14:18:20.544 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 14:18:20.544 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 14:18:20.544 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 14:18:20.544 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 14:18:20.544 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 14:18:20.544 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 14:18:20.544 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 14:18:20.545 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 14:18:20.546 INFO 	en1 (13 / WiFi)
+03-15 14:18:20.546 INFO 		* ipv4: 192.168.7.243
+03-15 14:18:20.546 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 14:18:20.547 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 14:18:20.547 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 14:18:20.547 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 14:18:20.547 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 14:18:20.549 INFO 	utun7 (42 / Other)
+03-15 14:18:20.550 INFO 		* ipv4: 17.234.81.24
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.555 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.556 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.556 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.556 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.556 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.556 INFO Mdns: OnRegisterRecord flags: 1
+03-15 14:18:20.556 INFO Mdns: OnRegisterRecord flags: 0
+03-15 14:18:21.472 DEBUG Executing test class "TC_Pair" with config: {'controller_configs': {},
+ 'log_path': './MatterTest/03-15-2024_14-18-19-892',
+ 'test_bed_name': None,
+ 'test_class_name_suffix': None,
+ 'testbed_name': 'MatterTest',
+ 'user_params': {'certificate_authority_manager': '8c10d1fc-e311-11ee-991d-4e0ca6b3a342',
+                 'default_controller': '8c10ce3c-e311-11ee-991d-4e0ca6b3a342',
+                 'matter_stack': '8bf9b4fe-e311-11ee-991d-4e0ca6b3a342',
+                 'matter_test_config': '8c10d04e-e311-11ee-991d-4e0ca6b3a342',
+                 'meta_config': {'admin_vendor_id': 65521,
+                                 'ble_interface_id': None,
+                                 'case_admin_subject': 112233,
+                                 'chip_tool_credentials_path': None,
+                                 'commission_only': False,
+                                 'commissionee_ip_address_just_for_testing': None,
+                                 'commissioning_method': 'on-network',
+                                 'controller_cat_tags': [],
+                                 'controller_node_id': 112233,
+                                 'discriminators': [3840],
+                                 'dut_node_ids': [305414945],
+                                 'fabric_id': 1,
+                                 'logs_path': PosixPath('.'),
+                                 'manual_code': None,
+                                 'maximize_cert_chains': False,
+                                 'paa_trust_store_path': PosixPath('/Users/chaitanyajandhyala/chipCode/chip_0104/connectedhomeip/credentials/development/paa-root-certs'),
+                                 'pics': {},
+                                 'qr_code_content': None,
+                                 'root_of_trust_index': 1,
+                                 'setup_passcodes': [20202021],
+                                 'storage_path': PosixPath('admin_storage.json'),
+                                 'tests': [],
+                                 'thread_operational_dataset': None,
+                                 'trace_to': ['json:log'],
+                                 'wifi_passphrase': None,
+                                 'wifi_ssid': None}}}
+03-15 14:18:21.480 DEBUG [TC_Pair]#pre_run >>> BEGIN >>>
+03-15 14:18:21.480 DEBUG [TC_Pair]#pre_run <<< END <<<
+03-15 14:18:21.481 DEBUG [TC_Pair]#pre_run >>> BEGIN >>>
+03-15 14:18:21.481 DEBUG [TC_Pair]#pre_run <<< END <<<
+03-15 14:18:21.482 INFO ==========> TC_Pair <==========
+03-15 14:18:21.494 DEBUG [TC_Pair]#setup_class >>> BEGIN >>>
+03-15 14:18:21.495 DEBUG [TC_Pair]#setup_class <<< END <<<
+03-15 14:18:21.496 INFO [Test] test_tc_pair_unpair
+03-15 14:18:21.497 DEBUG [test_tc_pair_unpair]#setup_test >>> BEGIN >>>
+03-15 14:18:21.497 DEBUG [test_tc_pair_unpair]#setup_test <<< END <<<
+03-15 14:18:21.504 DEBUG Using selector: KqueueSelector
+03-15 14:18:25.281 INFO Started Iteration 1
+03-15 14:18:25.284 INFO I am in base class pre-iteration 
+03-15 14:18:25.285 ERROR this is test error
+03-15 14:18:25.286 INFO I am in dut class pre_iteration_loop
+03-15 14:18:25.287 INFO I am in dut reboot class
+03-15 14:18:25.288 INFO I am in dut class factory_reset_dut
+03-15 14:18:25.403 ERROR Exception occurred in test_tc_pair_unpair.
+Traceback (most recent call last):
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/matter_qa_base_test_class.py", line 110, in pair_dut
+    if self._commission_device():
+TypeError: _commission_device() missing 1 required positional argument: 'i'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/scripts/reliability_scripts/TC_Pair.py", line 41, in tc_pair_unpair
+    if self.pair_dut():  # pairing operation with DUT begins.
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/matter_qa_base_test_class.py", line 115, in pair_dut
+    raise TestCaseError(pairing_result,tb)
+matter_qa.library.helper_libs.exceptions.TestCaseError: ({'status': 'failed', 'failed_reason': "_commission_device() missing 1 required positional argument: 'i'"}, 'Traceback (most recent call last):\n  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/matter_qa_base_test_class.py", line 110, in pair_dut\n    if self._commission_device():\nTypeError: _commission_device() missing 1 required positional argument: \'i\'\n')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/base_test.py", line 783, in exec_one_test
+    test_method()
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/helper_libs/matter_testing_support.py", line 1111, in async_runner
+    return asyncio.run(body(*args, **kwargs))
+  File "/AppleInternal/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/AppleInternal/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/scripts/reliability_scripts/TC_Pair.py", line 51, in test_tc_pair_unpair
+    tc_pair_unpair(self)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/matter_qa_base_test_class.py", line 96, in wrapper
+    result = func(*args, **kwargs)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/scripts/reliability_scripts/TC_Pair.py", line 50, in tc_pair_unpair
+    raise TestCaseError(e)
+matter_qa.library.helper_libs.exceptions.TestCaseError: ({'status': 'failed', 'failed_reason': "_commission_device() missing 1 required positional argument: 'i'"}, 'Traceback (most recent call last):\n  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/matter_qa_base_test_class.py", line 110, in pair_dut\n    if self._commission_device():\nTypeError: _commission_device() missing 1 required positional argument: \'i\'\n')
+03-15 14:18:25.459 DEBUG [test_tc_pair_unpair]#teardown_test >>> BEGIN >>>
+03-15 14:18:25.459 DEBUG [test_tc_pair_unpair]#teardown_test <<< END <<<
+03-15 14:18:25.462 DEBUG [test_tc_pair_unpair]#on_fail >>> BEGIN >>>
+03-15 14:18:25.464 DEBUG [test_tc_pair_unpair]#on_fail <<< END <<<
+03-15 14:18:25.464 INFO [Test] test_tc_pair_unpair ERROR
+03-15 14:18:25.507 DEBUG [TC_Pair]#teardown_class >>> BEGIN >>>
+03-15 14:18:25.507 DEBUG [TC_Pair]#teardown_class <<< END <<<
+03-15 14:18:25.507 DEBUG [TC_Pair]#clean_up >>> BEGIN >>>
+03-15 14:18:25.507 DEBUG [TC_Pair]#clean_up <<< END <<<
+03-15 14:18:25.507 INFO Summary for test class TC_Pair: Error 1, Executed 1, Failed 0, Passed 0, Requested 1, Skipped 0
+03-15 14:18:25.510 INFO Summary for test run MatterTest@03-15-2024_14-18-19-892:
+Total time elapsed 5.6155416250000005s
+Artifacts are saved in "./MatterTest/03-15-2024_14-18-19-892"
+Test summary saved in "./MatterTest/03-15-2024_14-18-19-892/test_summary.yaml"
+Test results: Error 1, Executed 1, Failed 0, Passed 0, Requested 1, Skipped 0

@@ -1,0 +1,58 @@
+---
+Requested Tests:
+- test_run_commissioning
+Type: TestNameList
+...
+---
+Begin Time: 1710532846155
+Details: null
+End Time: 1710532847457
+Extra Errors: {}
+Extras: null
+Result: PASS
+Retry Parent: null
+Signature: test_run_commissioning-1710532846155
+Stacktrace: null
+Termination Signal Type: null
+Test Class: CommissionDeviceTest
+Test Name: test_run_commissioning
+Type: Record
+UID: null
+...
+---
+Requested Tests:
+- test_tc_pair_unpair
+Type: TestNameList
+...
+---
+Begin Time: 1710532860863
+Details: '''TC_Pair'' object has no attribute ''get_dut_object'''
+End Time: 1710532869077
+Extra Errors: {}
+Extras: null
+Result: ERROR
+Retry Parent: null
+Signature: test_tc_pair_unpair-1710532860863
+Stacktrace: "Traceback (most recent call last):\n  File \"/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/base_test.py\"\
+    , line 783, in exec_one_test\n    test_method()\n  File \"/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/helper_libs/matter_testing_support.py\"\
+    , line 1111, in async_runner\n    return asyncio.run(body(*args, **kwargs))\n\
+    \  File \"/AppleInternal/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/runners.py\"\
+    , line 44, in run\n    return loop.run_until_complete(main)\n  File \"/AppleInternal/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py\"\
+    , line 642, in run_until_complete\n    return future.result()\n  File \"/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/scripts/reliability_scripts/TC_Pair.py\"\
+    , line 36, in test_tc_pair_unpair\n    self.dut = self.get_dut_object()\nAttributeError:\
+    \ 'TC_Pair' object has no attribute 'get_dut_object'\n"
+Termination Signal Type: AttributeError
+Test Class: TC_Pair
+Test Name: test_tc_pair_unpair
+Type: Record
+UID: null
+...
+---
+Error: 1
+Executed: 2
+Failed: 0
+Passed: 1
+Requested: 2
+Skipped: 0
+Type: Summary
+...

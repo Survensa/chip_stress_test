@@ -1,0 +1,475 @@
+03-15 13:32:36.110 DEBUG Test output folder: "./MatterTest/03-15-2024_13-32-36-109"
+03-15 13:32:36.818 INFO Mdns: OnRegister name: 3ED5984C719BEF41-000000000001B669, type: _matter._tcp., domain: local., flags: 2
+03-15 13:32:36.819 INFO mDNS service published: _matter._tcp; instance name: 3ED5984C719BEF41-000000000001B669
+03-15 13:32:36.821 INFO Mdns: OnRegister name: 8B77B4F106B09B2C, type: _matterd._udp., domain: local., flags: 2
+03-15 13:32:36.821 INFO mDNS service published: _matterd._udp; instance name: 8B77B4F106B09B2C
+03-15 13:32:36.821 INFO Status: Satisfied
+03-15 13:32:36.821 INFO 	lo0 (1)
+03-15 13:32:36.821 INFO 		* ipv4: 127.0.0.1
+03-15 13:32:36.821 INFO 		* ipv6: ::1
+03-15 13:32:36.822 INFO 		* ipv6: fe80::1
+03-15 13:32:36.823 INFO 	en0 (6 / Wired)
+03-15 13:32:36.823 INFO 		* ipv4: 192.168.1.88
+03-15 13:32:36.823 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:32:36.823 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:32:36.825 INFO 	en1 (13 / WiFi)
+03-15 13:32:36.825 INFO 		* ipv4: 192.168.7.243
+03-15 13:32:36.825 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:32:36.825 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:32:36.825 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:32:36.825 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:32:36.825 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:32:36.826 INFO 	utun7 (42 / Other)
+03-15 13:32:36.826 INFO 		* ipv4: 17.234.81.24
+03-15 13:32:36.828 INFO Status: Satisfied
+03-15 13:32:36.828 INFO 	lo0 (1)
+03-15 13:32:36.828 INFO 		* ipv4: 127.0.0.1
+03-15 13:32:36.828 INFO 		* ipv6: ::1
+03-15 13:32:36.828 INFO 		* ipv6: fe80::1
+03-15 13:32:36.830 INFO 	en0 (6 / Wired)
+03-15 13:32:36.830 INFO 		* ipv4: 192.168.1.88
+03-15 13:32:36.830 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:32:36.830 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:32:36.832 INFO 	en1 (13 / WiFi)
+03-15 13:32:36.832 INFO 		* ipv4: 192.168.7.243
+03-15 13:32:36.832 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:32:36.832 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:32:36.832 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:32:36.832 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:32:36.832 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:32:36.833 INFO 	utun7 (42 / Other)
+03-15 13:32:36.833 INFO 		* ipv4: 17.234.81.24
+03-15 13:32:36.835 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.835 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.836 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:32:36.837 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:33:32.286 INFO Status: Satisfied
+03-15 13:33:32.290 INFO 	lo0 (1)
+03-15 13:33:32.291 INFO 		* ipv4: 127.0.0.1
+03-15 13:33:32.291 INFO 		* ipv6: ::1
+03-15 13:33:32.291 INFO 		* ipv6: fe80::1
+03-15 13:33:32.297 INFO 	en0 (6 / Wired)
+03-15 13:33:32.297 INFO 		* ipv4: 192.168.1.88
+03-15 13:33:32.298 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:33:32.304 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:33:32.304 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:33:32.304 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:33:32.305 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:33:32.305 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:33:32.337 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:33:32.350 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:33:32.353 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:33:32.353 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:33:32.358 INFO 	en1 (13 / WiFi)
+03-15 13:33:32.365 INFO 		* ipv4: 192.168.7.243
+03-15 13:33:32.365 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:33:32.365 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:33:32.365 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:33:32.365 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:33:32.367 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:33:32.370 INFO 	utun7 (42 / Other)
+03-15 13:33:32.370 INFO 		* ipv4: 17.234.81.24
+03-15 13:33:32.448 INFO Status: Satisfied
+03-15 13:33:32.448 INFO 	lo0 (1)
+03-15 13:33:32.448 INFO 		* ipv4: 127.0.0.1
+03-15 13:33:32.449 INFO 		* ipv6: ::1
+03-15 13:33:32.449 INFO 		* ipv6: fe80::1
+03-15 13:33:32.450 INFO 	en0 (6 / Wired)
+03-15 13:33:32.450 INFO 		* ipv4: 192.168.1.88
+03-15 13:33:32.450 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:33:32.451 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:33:32.455 INFO 	en1 (13 / WiFi)
+03-15 13:33:32.455 INFO 		* ipv4: 192.168.7.243
+03-15 13:33:32.455 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:33:32.455 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:33:32.455 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:33:32.456 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:33:32.456 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:33:32.459 INFO 	utun7 (42 / Other)
+03-15 13:33:32.459 INFO 		* ipv4: 17.234.81.24
+03-15 13:33:32.535 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.536 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.537 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.538 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.539 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.540 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:33:32.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.540 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.541 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.544 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.544 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.544 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.544 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.544 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:33:32.553 INFO Status: Satisfied
+03-15 13:33:32.554 INFO 	lo0 (1)
+03-15 13:33:32.554 INFO 		* ipv4: 127.0.0.1
+03-15 13:33:32.555 INFO 		* ipv6: ::1
+03-15 13:33:32.555 INFO 		* ipv6: fe80::1
+03-15 13:33:32.558 INFO 	en0 (6 / Wired)
+03-15 13:33:32.558 INFO 		* ipv4: 192.168.1.88
+03-15 13:33:32.558 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:33:32.558 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:33:32.565 INFO 	en1 (13 / WiFi)
+03-15 13:33:32.565 INFO 		* ipv4: 192.168.7.243
+03-15 13:33:32.566 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:33:32.566 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:33:32.566 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:33:32.566 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:33:32.566 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:33:32.580 INFO 	utun7 (42 / Other)
+03-15 13:33:32.581 INFO 		* ipv4: 17.234.81.24
+03-15 13:33:32.665 INFO Status: Satisfied
+03-15 13:33:32.666 INFO 	lo0 (1)
+03-15 13:33:32.666 INFO 		* ipv4: 127.0.0.1
+03-15 13:33:32.666 INFO 		* ipv6: ::1
+03-15 13:33:32.666 INFO 		* ipv6: fe80::1
+03-15 13:33:32.667 INFO 	en0 (6 / Wired)
+03-15 13:33:32.667 INFO 		* ipv4: 192.168.1.88
+03-15 13:33:32.667 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:33:32.668 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:33:32.673 INFO 	en1 (13 / WiFi)
+03-15 13:33:32.673 INFO 		* ipv4: 192.168.7.243
+03-15 13:33:32.674 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:33:32.674 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:33:32.674 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:33:32.674 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:33:32.674 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:33:32.677 INFO 	utun7 (42 / Other)
+03-15 13:33:32.677 INFO 		* ipv4: 17.234.81.24
+03-15 13:33:32.698 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.698 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.698 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.698 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.698 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.698 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.699 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.699 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.699 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.699 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.699 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.700 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.700 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.700 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.700 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.700 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.700 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.701 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.701 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.701 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.701 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.702 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.703 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.703 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.703 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.703 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.703 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.703 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.704 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.705 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.705 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:33:32.705 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:35:40.913 INFO Status: Satisfied
+03-15 13:35:40.924 INFO 	lo0 (1)
+03-15 13:35:40.924 INFO 		* ipv4: 127.0.0.1
+03-15 13:35:40.924 INFO 		* ipv6: ::1
+03-15 13:35:40.924 INFO 		* ipv6: fe80::1
+03-15 13:35:40.926 INFO 	en0 (6 / Wired)
+03-15 13:35:40.926 INFO 		* ipv4: 192.168.1.88
+03-15 13:35:40.926 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:35:40.926 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:35:40.926 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:35:40.926 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:35:40.926 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:35:40.926 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:35:40.926 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:35:40.926 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:35:40.926 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:35:40.928 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:35:40.930 INFO 	en1 (13 / WiFi)
+03-15 13:35:40.930 INFO 		* ipv4: 192.168.7.243
+03-15 13:35:40.930 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:35:40.930 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:35:40.930 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:35:40.930 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:35:40.930 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:35:40.932 INFO 	utun7 (42 / Other)
+03-15 13:35:40.932 INFO 		* ipv4: 17.234.81.24
+03-15 13:35:40.940 INFO Status: Satisfied
+03-15 13:35:40.941 INFO 	lo0 (1)
+03-15 13:35:40.941 INFO 		* ipv4: 127.0.0.1
+03-15 13:35:40.941 INFO 		* ipv6: ::1
+03-15 13:35:40.941 INFO 		* ipv6: fe80::1
+03-15 13:35:40.944 INFO 	en0 (6 / Wired)
+03-15 13:35:40.947 INFO 		* ipv4: 192.168.1.88
+03-15 13:35:40.948 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:35:40.948 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:35:40.948 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:35:40.948 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:35:40.948 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:35:40.949 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:35:40.949 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:35:40.949 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:35:40.949 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:35:40.949 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:35:40.951 INFO 	en1 (13 / WiFi)
+03-15 13:35:40.951 INFO 		* ipv4: 192.168.7.243
+03-15 13:35:40.951 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:35:40.951 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:35:40.951 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:35:40.951 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:35:40.952 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:35:40.957 INFO 	utun7 (42 / Other)
+03-15 13:35:40.957 INFO 		* ipv4: 17.234.81.24
+03-15 13:35:40.964 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.965 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.966 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.967 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.967 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:40.967 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:35:41.192 INFO Status: Satisfied
+03-15 13:35:41.192 INFO 	lo0 (1)
+03-15 13:35:41.192 INFO 		* ipv4: 127.0.0.1
+03-15 13:35:41.192 INFO 		* ipv6: ::1
+03-15 13:35:41.192 INFO 		* ipv6: fe80::1
+03-15 13:35:41.194 INFO 	en0 (6 / Wired)
+03-15 13:35:41.194 INFO 		* ipv4: 192.168.1.88
+03-15 13:35:41.194 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:35:41.194 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:35:41.194 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:35:41.194 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:35:41.194 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:35:41.194 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:35:41.194 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:35:41.194 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:35:41.208 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:35:41.208 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:35:41.211 INFO 	en1 (13 / WiFi)
+03-15 13:35:41.212 INFO 		* ipv4: 192.168.7.243
+03-15 13:35:41.212 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:35:41.212 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:35:41.212 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:35:41.212 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:35:41.212 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:35:41.215 INFO 	utun7 (42 / Other)
+03-15 13:35:41.215 INFO 		* ipv4: 17.234.81.24
+03-15 13:35:41.279 INFO Status: Satisfied
+03-15 13:35:41.280 INFO 	lo0 (1)
+03-15 13:35:41.280 INFO 		* ipv4: 127.0.0.1
+03-15 13:35:41.280 INFO 		* ipv6: ::1
+03-15 13:35:41.281 INFO 		* ipv6: fe80::1
+03-15 13:35:41.285 INFO 	en0 (6 / Wired)
+03-15 13:35:41.285 INFO 		* ipv4: 192.168.1.88
+03-15 13:35:41.285 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-15 13:35:41.285 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-15 13:35:41.286 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-15 13:35:41.286 INFO 		* ipv6: 2600:1700:5390:be60:7430:4d1e:a42:d5d4
+03-15 13:35:41.286 INFO 		* ipv6: 2600:1700:5390:be60:fc84:33b7:8850:18d9
+03-15 13:35:41.286 INFO 		* ipv6: 2600:1700:5390:be60:f534:4d81:2841:b147
+03-15 13:35:41.286 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-15 13:35:41.286 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-15 13:35:41.286 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-15 13:35:41.286 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-15 13:35:41.295 INFO 	en1 (13 / WiFi)
+03-15 13:35:41.299 INFO 		* ipv4: 192.168.7.243
+03-15 13:35:41.299 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-15 13:35:41.300 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-15 13:35:41.300 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-15 13:35:41.300 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-15 13:35:41.300 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-15 13:35:41.302 INFO 	utun7 (42 / Other)
+03-15 13:35:41.305 INFO 		* ipv4: 17.234.81.24
+03-15 13:35:41.319 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.319 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.320 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.321 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.321 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.321 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.321 INFO Mdns: OnRegisterRecord flags: 0
+03-15 13:35:41.321 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.321 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.321 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.321 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.322 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.323 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.323 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.323 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.323 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.323 INFO Mdns: OnRegisterRecord flags: 1
+03-15 13:35:41.323 INFO Mdns: OnRegisterRecord flags: 0

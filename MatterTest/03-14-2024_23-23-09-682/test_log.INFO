@@ -1,0 +1,16 @@
+03-14 23:23:09.683 INFO Summary for test run MatterTest@03-14-2024_23-23-09-682:
+Total time elapsed 0.0011008749999998901s
+Artifacts are saved in "./MatterTest/03-14-2024_23-23-09-682"
+Test summary saved in "./MatterTest/03-14-2024_23-23-09-682/test_summary.yaml"
+Test results: Error 0, Executed 0, Failed 0, Passed 0, Requested 0, Skipped 0
+03-14 23:23:09.683 ERROR Exception when executing MatterTest.
+Traceback (most recent call last):
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/helper_libs/matter_testing_support.py", line 1208, in default_matter_test_main
+    runner.run()
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/test_runner.py", line 437, in run
+    self._run_test_class(config=test_config,
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/test_runner.py", line 383, in _run_test_class
+    cls_result = test_instance.run(tests)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/base_test.py", line 1018, in run
+    logging.log_path = self.log_path
+AttributeError: 'TC_Pair' object has no attribute 'log_path'

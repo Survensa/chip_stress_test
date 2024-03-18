@@ -1,0 +1,117 @@
+03-17 22:02:44.213 INFO Connected (version 2.0, client OpenSSH_8.9p1)
+03-17 22:02:44.466 INFO Authentication (publickey) successful!
+03-17 22:02:44.469 INFO ==========> TC_Pair <==========
+03-17 22:02:44.470 INFO [Test] test_tc_pair_unpair
+03-17 22:02:44.471 INFO Starting to Reset RPI as the DUT
+03-17 22:02:44.588 INFO Mdns: OnRegister name: 205DF19E2AAC1064-000000000001B669, type: _matter._tcp., domain: local., flags: 2
+03-17 22:02:44.588 INFO mDNS service published: _matter._tcp; instance name: 205DF19E2AAC1064-000000000001B669
+03-17 22:02:44.589 INFO Mdns: OnRegister name: CAE48351509EF659, type: _matterd._udp., domain: local., flags: 2
+03-17 22:02:44.589 INFO mDNS service published: _matterd._udp; instance name: CAE48351509EF659
+03-17 22:02:44.589 INFO Status: Satisfied
+03-17 22:02:44.590 INFO 	lo0 (1)
+03-17 22:02:44.590 INFO 		* ipv4: 127.0.0.1
+03-17 22:02:44.590 INFO 		* ipv6: ::1
+03-17 22:02:44.590 INFO 		* ipv6: fe80::1
+03-17 22:02:44.591 INFO 	en0 (6 / Wired)
+03-17 22:02:44.591 INFO 		* ipv4: 192.168.1.88
+03-17 22:02:44.591 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 22:02:44.592 INFO 		* ipv6: 2600:1700:5390:be60:ec78:9a8d:9e1a:1d87
+03-17 22:02:44.593 INFO 	en1 (13 / WiFi)
+03-17 22:02:44.594 INFO 		* ipv4: 192.168.7.243
+03-17 22:02:44.594 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 22:02:44.594 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 22:02:44.594 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 22:02:44.594 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 22:02:44.594 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 22:02:44.594 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 22:02:44.594 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 22:02:44.598 INFO Status: Satisfied
+03-17 22:02:44.598 INFO 	lo0 (1)
+03-17 22:02:44.598 INFO 		* ipv4: 127.0.0.1
+03-17 22:02:44.598 INFO 		* ipv6: ::1
+03-17 22:02:44.598 INFO 		* ipv6: fe80::1
+03-17 22:02:44.600 INFO 	en0 (6 / Wired)
+03-17 22:02:44.600 INFO 		* ipv4: 192.168.1.88
+03-17 22:02:44.600 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-17 22:02:44.600 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-17 22:02:44.600 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-17 22:02:44.600 INFO 		* ipv6: 2600:1700:5390:be60:bc5e:34d8:5a8c:1f22
+03-17 22:02:44.600 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-17 22:02:44.600 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-17 22:02:44.600 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-17 22:02:44.600 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-17 22:02:44.600 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-17 22:02:44.601 INFO 		* ipv6: 2600:1700:5390:be60:ec78:9a8d:9e1a:1d87
+03-17 22:02:44.603 INFO 	en1 (13 / WiFi)
+03-17 22:02:44.603 INFO 		* ipv4: 192.168.7.243
+03-17 22:02:44.603 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-17 22:02:44.603 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-17 22:02:44.603 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-17 22:02:44.603 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-17 22:02:44.603 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-17 22:02:44.603 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-17 22:02:44.603 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.606 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 0
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.607 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 1
+03-17 22:02:44.608 INFO Mdns: OnRegisterRecord flags: 0
+03-17 22:02:45.953 INFO Displaying the pid and process to terminate ubuntu     98740  0.0  0.4 256276 17700 ?        Ssl  04:51   0:00 ./out/all-clusters-app/chip-all-clusters-app --discriminator 3890 --passcode 45612378
+03-17 22:02:51.035 INFO Example App has been killed
+03-17 22:02:51.118 INFO Connected (version 2.0, client OpenSSH_8.9p1)
+03-17 22:02:51.377 INFO Authentication (publickey) successful!
+03-17 22:02:52.086 INFO Started Iteration 1
+03-17 22:02:52.087 INFO Starting to Reset RPI as the DUT
+03-17 22:02:52.167 INFO Displaying the pid and process to terminate ubuntu     98883  0.0  0.4 256152 16308 ?        Ssl  05:02   0:00 ./out/all-clusters-app/chip-all-clusters-app --discriminator 3890 --passcode 45612378
+03-17 22:02:52.234 ERROR 'Raspi' object has no attribute 'test_config'
+Traceback (most recent call last):
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/platform/raspberrypi/raspi.py", line 120, in _start_logging
+    log_path = os.path.join(self.test_config.iter_log_path, str(self.test_config.current_iteration))
+AttributeError: 'Raspi' object has no attribute 'test_config'

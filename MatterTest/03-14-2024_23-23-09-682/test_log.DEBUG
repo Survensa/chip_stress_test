@@ -1,0 +1,52 @@
+03-14 23:23:09.682 DEBUG Test output folder: "./MatterTest/03-14-2024_23-23-09-682"
+03-14 23:23:09.682 DEBUG Executing test class "TC_Pair" with config: {'controller_configs': {},
+ 'log_path': './MatterTest/03-14-2024_23-23-09-682',
+ 'test_bed_name': None,
+ 'test_class_name_suffix': None,
+ 'testbed_name': 'MatterTest',
+ 'user_params': {'certificate_authority_manager': '7e4914bc-e294-11ee-a291-4e0ca6b3a342',
+                 'default_controller': '7e491412-e294-11ee-a291-4e0ca6b3a342',
+                 'matter_stack': '7e3bb812-e294-11ee-a291-4e0ca6b3a342',
+                 'matter_test_config': '7e49148a-e294-11ee-a291-4e0ca6b3a342',
+                 'meta_config': {'admin_vendor_id': 65521,
+                                 'ble_interface_id': None,
+                                 'case_admin_subject': 112233,
+                                 'chip_tool_credentials_path': None,
+                                 'commission_only': False,
+                                 'commissionee_ip_address_just_for_testing': None,
+                                 'commissioning_method': 'on-network',
+                                 'controller_cat_tags': [],
+                                 'controller_node_id': 112233,
+                                 'discriminators': [3840],
+                                 'dut_node_ids': [305414945],
+                                 'fabric_id': 1,
+                                 'logs_path': PosixPath('.'),
+                                 'manual_code': None,
+                                 'maximize_cert_chains': False,
+                                 'paa_trust_store_path': PosixPath('/Users/chaitanyajandhyala/chipCode/chip_0104/connectedhomeip/credentials/development/paa-root-certs'),
+                                 'pics': {},
+                                 'qr_code_content': None,
+                                 'root_of_trust_index': 1,
+                                 'setup_passcodes': [20202021],
+                                 'storage_path': PosixPath('admin_storage.json'),
+                                 'tests': [],
+                                 'thread_operational_dataset': None,
+                                 'trace_to': ['json:log'],
+                                 'wifi_passphrase': None,
+                                 'wifi_ssid': None}}}
+03-14 23:23:09.683 INFO Summary for test run MatterTest@03-14-2024_23-23-09-682:
+Total time elapsed 0.0011008749999998901s
+Artifacts are saved in "./MatterTest/03-14-2024_23-23-09-682"
+Test summary saved in "./MatterTest/03-14-2024_23-23-09-682/test_summary.yaml"
+Test results: Error 0, Executed 0, Failed 0, Passed 0, Requested 0, Skipped 0
+03-14 23:23:09.683 ERROR Exception when executing MatterTest.
+Traceback (most recent call last):
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/helper_libs/matter_testing_support.py", line 1208, in default_matter_test_main
+    runner.run()
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/test_runner.py", line 437, in run
+    self._run_test_class(config=test_config,
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/test_runner.py", line 383, in _run_test_class
+    cls_result = test_instance.run(tests)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/base_test.py", line 1018, in run
+    logging.log_path = self.log_path
+AttributeError: 'TC_Pair' object has no attribute 'log_path'

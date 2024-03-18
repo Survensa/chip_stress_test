@@ -17,7 +17,7 @@
 """
 Matter QA Python Module install
 """
-import imp
+import importlib
 import os
 
 from setuptools import find_packages, setup

@@ -12,6 +12,10 @@ from matter_qa.library.helper_libs.utils import default_config_reader
 from matter_qa.library.platform.dut_class import dut_class
 from matter_qa.library.helper_libs.matter_testing_support import MatterBaseTest
 from matter_qa.configs.config import TestConfig
+from matter_qa.library.base_test_classes.test_results_record import TestresultsRecord,ResultsRecordType, TestResultEnums,IterationTestResultsEnums,SummaryTestResultsEnums
+
+from .test_result_observable import TestResultObservable
+from .test_result_observer import TestResultObserver
 
 from mobly.config_parser import ENV_MOBLY_LOGPATH, TestRunConfig
 
@@ -33,6 +37,12 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.qa_logger = qa_logger()
         # create a dut object to use in TC
         self.dut = self._get_dut_obj()
+        self.test_result_observable = TestResultObservable()
+        #TODO fix this file business properly
+        summary_file = os.path.join(self.run_set_folder, 'summary.json')
+        iterations_file = os.path.join(self.run_set_folder, 'iterations.json')
+        self.test_result_observer = TestResultObserver(summary_file,iterations_file)
+        self.test_result_observable.subscribe(self.test_result_observer)
 
     def _config_reader(self, config=None):
         test_config = TestConfig(self.matter_test_config.reliability_tests_config)
@@ -100,17 +110,35 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     def _create_dut_obj(self,module):
         return module.create_dut_object(self.test_config)
     
-    def pre_iteration(self, iteration_count):
+    def pre_iteration(self, iteration_number):
         if not self.iteration_log_created:
-            self._create_iteration_log_file(iteration_count)
+            self._create_iteration_log_file(iteration_number)
         self.dut.pre_iteration_loop()
-    
-    def post_iteration(self):
+        self.summary_record = TestresultsRecord.create_record(ResultsRecordType.SummaryRecordType,
+                                                self.tc_name,type(self).__name__)
+        self.summary_record.summary_record_begin(self.test_config.general_configs.number_of_iterations)
+
+
+        self.iteration_result_record = TestresultsRecord.create_record(ResultsRecordType.IterationRecordType,
+                                                         self.tc_name,type(self).__name__,iteration_number )
+        self.iteration_result_record.iteration_begin(iteration_number)
+        
+
+    def post_iteration(self, iteration_number, iteration_result,e=None):
         self.dut.post_iteration_loop()
         log.info("Test Iteration Completed")
         self.qa_logger.close_log_file(self.iteration_log)
         # set this flag to create log in next iteration
         self.iteration_log_created = False
+
+        iteration_result_data = {IterationTestResultsEnums.RECORD_ITERATION_NUMBER : iteration_number,
+                                 IterationTestResultsEnums.RECORD_ITERATION_RESULT : iteration_result}
+        
+        self.iteration_result_record.iteration_end(iteration_result_data,e)
+        summary_result_data = {SummaryTestResultsEnums.RECORD_TEST_STATUS: SummaryTestResultsEnums.RECORD_TEST_COMPLETED}
+        self.summary_record.summary_record_end(summary_result_data)
+        self.test_result_observable.notify(self.iteration_result_record)
+        self.test_result_observable.notify(self.summary_record)
     
     def end_of_test(self):
         print("I am in base class end of test ")
@@ -119,18 +147,20 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         def decorator(func):
             def wrapper(self, *args, **kwargs):
                 print("Decorator parameter:", iterations)
-                for i in range(1,iterations+1):
-                    self.pre_iteration(i)
-                    self.test_config.current_iteration = i
+                for current_iteration in range(1,iterations+1):
+                    self.pre_iteration(current_iteration)
+                    self.test_config.current_iteration = current_iteration
                     try:
                         result = func(*args, **kwargs)
+                        iteration_test_result = TestResultEnums.TEST_RESULT_PASS
                         self.update_analytics()
                     except IterationError as e:
                         print("I got exception, failed iteration {}".format(i))
                         logging.error(e, exc_info=True)
                         self.update_iteration_logs()
+                        iteration_test_result = TestResultEnums.TEST_RESULT_FAIL
                         #return result# you dont need this
-                    self.post_iteration()
+                    self.post_iteration(current_iteration, iteration_test_result)
                 self.end_of_test()
             return wrapper
         return decorator

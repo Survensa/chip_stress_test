@@ -5,11 +5,15 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath
 import matter_qa.library.helper_libs.logger
 from matter_qa.library.base_test_classes.matter_qa_base_test_class import MatterQABaseTestCaseClass
 from matter_qa.library.helper_libs.exceptions import IterationError
+from matter_qa.library.helper_libs.matter_testing_support import async_test_body, default_matter_test_main
 
 
 log = logging.getLogger("tc_logger")
 
 class TC_Pair(MatterQABaseTestCaseClass):
+    def __init__(self, *args) -> None:
+        self.tc_name = "test_case"
+        super().__init__(*args)
     # In case TC wants to overwrite
     def pre_iteration(self,iteration):
         if not self.iteration_log_created:
@@ -41,13 +45,12 @@ class TC_Pair(MatterQABaseTestCaseClass):
         log.info("I am in unpairing %s",date)
 
     def test_tc_pair_unpair(self):
-
         @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
         def pair_unpair_dut(*args,**kwargs):
             try:
                 self.pair_dut()
                 time.sleep(1)
-                self.dut.factory_reset_dut(True)
+                self.dut.factory_reset_dut()
                 self.unpair_dut()
             # write specific exception here, if required.
             # otherwise control to the exception in base class.
@@ -56,9 +59,14 @@ class TC_Pair(MatterQABaseTestCaseClass):
         
         #core piece of the test case. 
         pair_unpair_dut(self)
-
+"""
     def run(self, **kwargs):
         super().start_test(**kwargs)
         self.test_tc_pair_unpair()
 
 TC_Pair().run()
+"""
+
+if __name__ == "__main__":
+    #test_start(TC_Pair.__name__)
+    default_matter_test_main(testclass=TC_Pair,do_not_commision_first=True)

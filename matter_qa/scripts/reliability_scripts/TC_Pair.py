@@ -27,8 +27,10 @@ from matter_qa.library.base_test_classes.matter_qa_base_test_class import Matter
 from matter_qa.library.helper_libs.matter_testing_support import async_test_body, default_matter_test_main
 from matter_qa.library.helper_libs.exceptions import TestCaseError
 
+
 class TC_Pair(MatterQABaseTestCaseClass):
     def __init__(self, *args):
+        self.tc_name = "Pair_Unpair"
         super().__init__(*args)
     
     @async_test_body
@@ -41,7 +43,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
                     logging.info('Device has been Commissioned starting pair-unpair operation')
                     time.sleep(2)
                     self.unpair_dut()  # unpair with commissioned the DUT
-                self.dut.factory_reset_dut()
+                
             except Exception as e:
                 #TODO fix this properly.
                 raise TestCaseError(e)

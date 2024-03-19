@@ -1,0 +1,3365 @@
+03-18 23:59:12.595 INFO Connected (version 2.0, client OpenSSH_8.9p1)
+03-18 23:59:12.865 INFO Authentication (publickey) successful!
+03-18 23:59:12.866 INFO ==========> TC_Pair <==========
+03-18 23:59:12.867 INFO [Test] test_tc_pair_unpair
+03-18 23:59:12.867 INFO Starting to Reset RPI as the DUT
+03-18 23:59:12.979 INFO Mdns: OnRegister name: 205DF19E2AAC1064-000000000001B669, type: _matter._tcp., domain: local., flags: 2
+03-18 23:59:12.980 INFO mDNS service published: _matter._tcp; instance name: 205DF19E2AAC1064-000000000001B669
+03-18 23:59:12.981 INFO Mdns: OnRegister name: 7996F90D0B40EC59, type: _matterd._udp., domain: local., flags: 2
+03-18 23:59:12.981 INFO mDNS service published: _matterd._udp; instance name: 7996F90D0B40EC59
+03-18 23:59:12.981 INFO Status: Satisfied
+03-18 23:59:12.981 INFO 	lo0 (1)
+03-18 23:59:12.981 INFO 		* ipv4: 127.0.0.1
+03-18 23:59:12.982 INFO 		* ipv6: ::1
+03-18 23:59:12.982 INFO 		* ipv6: fe80::1
+03-18 23:59:12.983 INFO 	en0 (6 / Wired)
+03-18 23:59:12.983 INFO 		* ipv4: 192.168.1.88
+03-18 23:59:12.983 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-18 23:59:12.983 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-18 23:59:12.983 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-18 23:59:12.983 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-18 23:59:12.984 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-18 23:59:12.984 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-18 23:59:12.984 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-18 23:59:12.984 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-18 23:59:12.984 INFO 		* ipv6: 2600:1700:5390:be60:ec78:9a8d:9e1a:1d87
+03-18 23:59:12.984 INFO 		* ipv6: 2600:1700:5390:be60:2178:fd45:41ca:bec4
+03-18 23:59:12.986 INFO 	en1 (13 / WiFi)
+03-18 23:59:12.986 INFO 		* ipv4: 192.168.7.243
+03-18 23:59:12.986 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-18 23:59:12.986 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-18 23:59:12.986 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-18 23:59:12.986 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-18 23:59:12.986 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-18 23:59:12.986 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-18 23:59:12.986 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-18 23:59:12.986 INFO 		* ipv6: 2600:1700:5390:be6e:891c:c462:847e:f7e
+03-18 23:59:12.988 INFO 	utun7 (48 / Other)
+03-18 23:59:12.988 INFO 		* ipv4: 17.11.81.57
+03-18 23:59:12.991 INFO Status: Satisfied
+03-18 23:59:12.991 INFO 	lo0 (1)
+03-18 23:59:12.991 INFO 		* ipv4: 127.0.0.1
+03-18 23:59:12.991 INFO 		* ipv6: ::1
+03-18 23:59:12.991 INFO 		* ipv6: fe80::1
+03-18 23:59:12.993 INFO 	en0 (6 / Wired)
+03-18 23:59:12.993 INFO 		* ipv4: 192.168.1.88
+03-18 23:59:12.993 INFO 		* ipv6: fe80::185c:4c33:78d6:4e2f
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60:ee:8667:8d43:1ae9
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60::49
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60:ec0a:3fb0:a4c2:6b5b
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60:b90d:777a:b631:f055
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60:d5d9:79b0:47ea:2ff0
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60:18df:40a4:516b:f653
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60:a422:231c:3a08:dc1c
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60:ec78:9a8d:9e1a:1d87
+03-18 23:59:12.993 INFO 		* ipv6: 2600:1700:5390:be60:2178:fd45:41ca:bec4
+03-18 23:59:12.995 INFO 	en1 (13 / WiFi)
+03-18 23:59:12.995 INFO 		* ipv4: 192.168.7.243
+03-18 23:59:12.995 INFO 		* ipv6: fe80::41a:b01a:70fd:6879
+03-18 23:59:12.995 INFO 		* ipv6: fd68:d473:dd1a:1:1040:d357:744d:d39a
+03-18 23:59:12.995 INFO 		* ipv6: 2600:1700:5390:be6e:45f:6ae5:7db5:d448
+03-18 23:59:12.995 INFO 		* ipv6: 2600:1700:5390:be6e:1481:3167:22a4:bd7a
+03-18 23:59:12.995 INFO 		* ipv6: fda8:9958:ac2:1:4e6:928b:4014:76ab
+03-18 23:59:12.995 INFO 		* ipv6: 2600:1700:5390:be6e:8513:3ad2:e689:da9a
+03-18 23:59:12.995 INFO 		* ipv6: 2600:1700:5390:be6e:ac8d:c4dd:d6:c452
+03-18 23:59:12.996 INFO 		* ipv6: 2600:1700:5390:be6e:891c:c462:847e:f7e
+03-18 23:59:12.997 INFO 	utun7 (48 / Other)
+03-18 23:59:12.997 INFO 		* ipv4: 17.11.81.57
+03-18 23:59:13.000 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.000 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.000 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.000 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.000 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 0
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.001 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 1
+03-18 23:59:13.002 INFO Mdns: OnRegisterRecord flags: 0
+03-18 23:59:13.127 INFO Displaying the pid and process to terminate ubuntu    105180  0.6  0.4 256280 17696 ?        Ssl  06:58   0:00 ./out/all-clusters-app/chip-all-clusters-app --discriminator 3890 --passcode 45612378
+03-18 23:59:18.200 INFO Example App has been killed
+03-18 23:59:18.252 INFO Started Iteration 1
+03-18 23:59:18.296 INFO Connected (version 2.0, client OpenSSH_8.9p1)
+03-18 23:59:18.577 INFO Authentication (publickey) successful!
+03-18 23:59:20.263 INFO Browsing for: _matterc._udp,_L3890
+03-18 23:59:20.264 INFO Mdns: OnBrowseAdd  name: 8493837F596E3812, type: _matterc._udp., domain: local., interface: 6
+03-18 23:59:20.265 INFO Mdns: OnBrowseAdd  name: 8493837F596E3812, type: _matterc._udp., domain: local., interface: 13
+03-18 23:59:20.266 INFO Resolve type=_matterc._udp name=8493837F596E3812 interface=6
+03-18 23:59:20.267 INFO Resolve type=_matterc._udp name=8493837F596E3812 interface=13
+03-18 23:59:20.267 INFO Mdns: OnResolve flags: 0, interface: 6, fullname: 8493837F596E3812._matterc._udp.local., hostname: DCA632AB25E50000.local., port: 5540
+03-18 23:59:20.268 INFO Mdns : OnNewInterface hostname:DCA632AB25E50000.local. fullname:8493837F596E3812._matterc._udp.local. interface: 6 port: 5540 TXT:"VP=65521+32769,DT=65535,D=3890,CM=1,PH=33,PI="
+03-18 23:59:20.269 INFO Mdns: OnResolve flags: 0, interface: 13, fullname: 8493837F596E3812._matterc._udp.local., hostname: DCA632AB25E50000.local., port: 5540
+03-18 23:59:20.270 INFO Mdns : OnNewInterface hostname:DCA632AB25E50000.local. fullname:8493837F596E3812._matterc._udp.local. interface: 13 port: 5540 TXT:"VP=65521+32769,DT=65535,D=3890,CM=1,PH=33,PI="
+03-18 23:59:20.271 INFO Mdns: OnGetAddrInfo flags: 1073741827, interface: 6, hostname: DCA632AB25E50000.local.
+03-18 23:59:20.271 INFO Mdns: OnNewAddress interface: 6 ip:2600:1700:5390:be60::41
+03-18 23:59:20.271 INFO Mdns: OnGetAddrInfo flags: 1073741827, interface: 6, hostname: DCA632AB25E50000.local.
+03-18 23:59:20.272 INFO Mdns: OnNewAddress interface: 6 ip:2600:1700:5390:be60:dea6:32ff:feab:25e4
+03-18 23:59:20.272 INFO Mdns: OnGetAddrInfo flags: 1073741826, interface: 6, hostname: DCA632AB25E50000.local.
+03-18 23:59:20.272 INFO Mdns: OnNewAddress interface: 6 ip:fe80::dea6:32ff:feab:25e4
+03-18 23:59:20.272 INFO Mdns: Resolve success on interface 6
+03-18 23:59:20.275 INFO Discovered Device: fe80::dea6:32ff:feab:25e4:5540
+03-18 23:59:20.277 INFO {
+03-18 23:59:20.277 INFO 	"event" : "MessageSend",
+03-18 23:59:20.277 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:20.278 INFO 	"packetHeader" : 
+03-18 23:59:20.278 INFO 	{
+03-18 23:59:20.278 INFO 		"flags" : 4,
+03-18 23:59:20.278 INFO 		"msgCounter" : 155445440,
+03-18 23:59:20.278 INFO 		"securityFlags" : 0,
+03-18 23:59:20.279 INFO 		"sessionId" : 0,
+03-18 23:59:20.279 INFO 		"sourceNodeId" : 6726627357409482356
+03-18 23:59:20.279 INFO 	},
+03-18 23:59:20.280 INFO 	"payload" : 
+03-18 23:59:20.280 INFO 	{
+03-18 23:59:20.280 INFO 		"decoded" : 
+03-18 23:59:20.281 INFO 		{
+03-18 23:59:20.281 INFO 			"pbkdf_param_request" : 
+03-18 23:59:20.281 INFO 			{
+03-18 23:59:20.282 INFO 				"has_pbkdf_parameters" : "false",
+03-18 23:59:20.282 INFO 				"initiator_random" : "hex:93069F1351E008A40D0444FD6A46695A85ACF3E7BF37F8286667B7BC5017B0FA",
+03-18 23:59:20.282 INFO 				"initiator_session_id" : "50322",
+03-18 23:59:20.283 INFO 				"initiator_session_params" : 
+03-18 23:59:20.283 INFO 				{
+03-18 23:59:20.283 INFO 					"data_model_revision" : "17",
+03-18 23:59:20.283 INFO 					"interaction_model_revision" : "11",
+03-18 23:59:20.284 INFO 					"max_paths_per_invoke" : "1",
+03-18 23:59:20.284 INFO 					"session_active_interval" : "300",
+03-18 23:59:20.284 INFO 					"session_active_threshold" : "4000",
+03-18 23:59:20.285 INFO 					"session_idle_interval" : "500",
+03-18 23:59:20.285 INFO 					"specification_version" : "16973824"
+03-18 23:59:20.285 INFO 				},
+03-18 23:59:20.285 INFO 				"passcode_id" : "0"
+03-18 23:59:20.285 INFO 			}
+03-18 23:59:20.285 INFO 		},
+03-18 23:59:20.285 INFO 		"hex" : "1530012093069F1351E008A40D0444FD6A46695A85ACF3E7BF37F8286667B7BC5017B0FA250292C4240300280435052501F40125022C012503A00F24041124050B2606000003012407011818",
+03-18 23:59:20.286 INFO 		"size" : 76
+03-18 23:59:20.286 INFO 	},
+03-18 23:59:20.286 INFO 	"payloadHeader" : 
+03-18 23:59:20.286 INFO 	{
+03-18 23:59:20.286 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.286 INFO 		"exchangeId" : 28022,
+03-18 23:59:20.287 INFO 		"initiator" : true,
+03-18 23:59:20.287 INFO 		"messageType" : 32,
+03-18 23:59:20.287 INFO 		"needsAck" : true,
+03-18 23:59:20.287 INFO 		"protocolId" : 0
+03-18 23:59:20.287 INFO 	}
+03-18 23:59:20.287 INFO }
+03-18 23:59:20.288 INFO <<< [E:28022i S:0 M:155445440] (U) Msg TX to 0:0000000000000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:20 (SecureChannel:PBKDFParamRequest)
+03-18 23:59:20.288 INFO Setting attestation nonce to random value
+03-18 23:59:20.289 INFO Setting CSR nonce to random value
+03-18 23:59:20.289 INFO Commission called for node ID 0x0000000012344321
+03-18 23:59:20.290 ERROR Unknown filter type; all matches will fail
+03-18 23:59:20.290 INFO Mdns: OnGetAddrInfo flags: 1073741827, interface: 13, hostname: DCA632AB25E50000.local.
+03-18 23:59:20.291 INFO Mdns: OnNewAddress interface: 13 ip:fda8:9958:ac2:1:dea6:32ff:feab:25e5
+03-18 23:59:20.291 INFO Mdns: OnGetAddrInfo flags: 1073741827, interface: 13, hostname: DCA632AB25E50000.local.
+03-18 23:59:20.291 INFO Mdns: OnNewAddress interface: 13 ip:2600:1700:5390:be6e:dea6:32ff:feab:25e5
+03-18 23:59:20.291 INFO Mdns: OnGetAddrInfo flags: 1073741827, interface: 13, hostname: DCA632AB25E50000.local.
+03-18 23:59:20.291 INFO Mdns: OnNewAddress interface: 13 ip:fd68:d473:dd1a:1:dea6:32ff:feab:25e5
+03-18 23:59:20.292 INFO Mdns: OnGetAddrInfo flags: 1073741826, interface: 13, hostname: DCA632AB25E50000.local.
+03-18 23:59:20.292 INFO Mdns: OnNewAddress interface: 13 ip:fe80::dea6:32ff:feab:25e5
+03-18 23:59:20.292 INFO Mdns: Resolve success on interface 13
+03-18 23:59:20.295 ERROR Unknown filter type; all matches will fail
+03-18 23:59:20.296 INFO {
+03-18 23:59:20.296 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.296 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:20.296 INFO 	"packetHeader" : 
+03-18 23:59:20.296 INFO 	{
+03-18 23:59:20.297 INFO 		"destinationNodeId" : 6726627357409482356,
+03-18 23:59:20.297 INFO 		"flags" : 1,
+03-18 23:59:20.297 INFO 		"msgCounter" : 56421606,
+03-18 23:59:20.297 INFO 		"securityFlags" : 0,
+03-18 23:59:20.297 INFO 		"sessionId" : 0
+03-18 23:59:20.297 INFO 	},
+03-18 23:59:20.297 INFO 	"payload" : 
+03-18 23:59:20.297 INFO 	{
+03-18 23:59:20.297 INFO 		"decoded" : 
+03-18 23:59:20.297 INFO 		{
+03-18 23:59:20.297 INFO 			"pbkdf_param_response" : 
+03-18 23:59:20.297 INFO 			{
+03-18 23:59:20.297 INFO 				"initiator_random" : "hex:93069F1351E008A40D0444FD6A46695A85ACF3E7BF37F8286667B7BC5017B0FA",
+03-18 23:59:20.297 INFO 				"pbkdf_parameters" : 
+03-18 23:59:20.297 INFO 				{
+03-18 23:59:20.297 INFO 					"iterations" : "1000",
+03-18 23:59:20.297 INFO 					"salt" : "hex:B0D6D1E7B5AAC2E093F16041E3EEF1A7611CA30CC716B96E0FB85ADDAB1C8DE9"
+03-18 23:59:20.298 INFO 				},
+03-18 23:59:20.298 INFO 				"responder_icd_params" : 
+03-18 23:59:20.298 INFO 				{
+03-18 23:59:20.298 INFO 					"data_model_revision" : "17",
+03-18 23:59:20.298 INFO 					"interaction_model_revision" : "11",
+03-18 23:59:20.298 INFO 					"max_paths_per_invoke" : "5",
+03-18 23:59:20.298 INFO 					"session_active_interval" : "300",
+03-18 23:59:20.298 INFO 					"session_active_threshold" : "4000",
+03-18 23:59:20.298 INFO 					"session_idle_interval" : "500",
+03-18 23:59:20.298 INFO 					"specification_version" : "16973824"
+03-18 23:59:20.298 INFO 				},
+03-18 23:59:20.298 INFO 				"responder_random" : "hex:3899911035D851F9C2264096FB9EF887E21CE7D94945BB31C0ECF83BA2A9E0CE",
+03-18 23:59:20.298 INFO 				"responder_session_id" : "48544"
+03-18 23:59:20.298 INFO 			}
+03-18 23:59:20.298 INFO 		},
+03-18 23:59:20.298 INFO 		"hex" : "1530012093069F1351E008A40D0444FD6A46695A85ACF3E7BF37F8286667B7BC5017B0FA3002203899911035D851F9C2264096FB9EF887E21CE7D94945BB31C0ECF83BA2A9E0CE2503A0BD35042501E803300220B0D6D1E7B5AAC2E093F16041E3EEF1A7611CA30CC716B96E0FB85ADDAB1C8DE91835052501F4
+03-18 23:59:20.298 INFO 		"size" : 148
+03-18 23:59:20.298 INFO 	},
+03-18 23:59:20.299 INFO 	"payloadHeader" : 
+03-18 23:59:20.299 INFO 	{
+03-18 23:59:20.299 INFO 		"ackMessageCounter" : 155445440,
+03-18 23:59:20.299 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.299 INFO 		"exchangeId" : 28022,
+03-18 23:59:20.299 INFO 		"initiator" : false,
+03-18 23:59:20.299 INFO 		"messageType" : 33,
+03-18 23:59:20.299 INFO 		"needsAck" : true,
+03-18 23:59:20.299 INFO 		"protocolId" : 0
+03-18 23:59:20.299 INFO 	}
+03-18 23:59:20.299 INFO }
+03-18 23:59:20.300 INFO >>> [E:28022i S:0 M:56421606 (Ack:155445440)] (U) Msg RX from 0:0000000000000000 [0000] --- Type 0000:21 (SecureChannel:PBKDFParamResponse)
+03-18 23:59:20.312 INFO {
+03-18 23:59:20.313 INFO 	"event" : "MessageSend",
+03-18 23:59:20.313 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:20.313 INFO 	"packetHeader" : 
+03-18 23:59:20.313 INFO 	{
+03-18 23:59:20.313 INFO 		"flags" : 4,
+03-18 23:59:20.313 INFO 		"msgCounter" : 155445441,
+03-18 23:59:20.313 INFO 		"securityFlags" : 0,
+03-18 23:59:20.313 INFO 		"sessionId" : 0,
+03-18 23:59:20.314 INFO 		"sourceNodeId" : 6726627357409482356
+03-18 23:59:20.314 INFO 	},
+03-18 23:59:20.314 INFO 	"payload" : 
+03-18 23:59:20.314 INFO 	{
+03-18 23:59:20.314 INFO 		"decoded" : 
+03-18 23:59:20.314 INFO 		{
+03-18 23:59:20.314 INFO 			"pase_pake1" : 
+03-18 23:59:20.314 INFO 			{
+03-18 23:59:20.314 INFO 				"pA" : "hex:0408F25251D82D546BDE5F1AC12062FFD4EF2DF9E59BA233D8BDDF76DC6750D40D16E1716813537594C922FCBAD371DAB627B97B54C5F823EA1CDAB563106DF63F"
+03-18 23:59:20.314 INFO 			}
+03-18 23:59:20.314 INFO 		},
+03-18 23:59:20.314 INFO 		"hex" : "153001410408F25251D82D546BDE5F1AC12062FFD4EF2DF9E59BA233D8BDDF76DC6750D40D16E1716813537594C922FCBAD371DAB627B97B54C5F823EA1CDAB563106DF63F18",
+03-18 23:59:20.314 INFO 		"size" : 70
+03-18 23:59:20.314 INFO 	},
+03-18 23:59:20.314 INFO 	"payloadHeader" : 
+03-18 23:59:20.314 INFO 	{
+03-18 23:59:20.314 INFO 		"ackMessageCounter" : 56421606,
+03-18 23:59:20.314 INFO 		"exchangeFlags" : 7,
+03-18 23:59:20.315 INFO 		"exchangeId" : 28022,
+03-18 23:59:20.315 INFO 		"initiator" : true,
+03-18 23:59:20.315 INFO 		"messageType" : 34,
+03-18 23:59:20.315 INFO 		"needsAck" : true,
+03-18 23:59:20.315 INFO 		"protocolId" : 0
+03-18 23:59:20.315 INFO 	}
+03-18 23:59:20.315 INFO }
+03-18 23:59:20.315 INFO <<< [E:28022i S:0 M:155445441 (Ack:56421606)] (U) Msg TX to 0:0000000000000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:22 (SecureChannel:PASE_Pake1)
+03-18 23:59:20.322 INFO {
+03-18 23:59:20.322 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.322 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:20.322 INFO 	"packetHeader" : 
+03-18 23:59:20.322 INFO 	{
+03-18 23:59:20.322 INFO 		"destinationNodeId" : 6726627357409482356,
+03-18 23:59:20.322 INFO 		"flags" : 1,
+03-18 23:59:20.322 INFO 		"msgCounter" : 56421607,
+03-18 23:59:20.322 INFO 		"securityFlags" : 0,
+03-18 23:59:20.322 INFO 		"sessionId" : 0
+03-18 23:59:20.323 INFO 	},
+03-18 23:59:20.323 INFO 	"payload" : 
+03-18 23:59:20.323 INFO 	{
+03-18 23:59:20.323 INFO 		"decoded" : 
+03-18 23:59:20.323 INFO 		{
+03-18 23:59:20.323 INFO 			"pase_pake2" : 
+03-18 23:59:20.323 INFO 			{
+03-18 23:59:20.323 INFO 				"cB" : "hex:AE5ED9571083C6E6356A8ACC92A29F3A01D6DBF6307BEDF5ACBCB47C79EBED4D",
+03-18 23:59:20.323 INFO 				"pB" : "hex:04FF08B5B4FAEE0072A9E5DFCDDE1500FA5C9D1506ED382A2D872A1B6502EC7900FEEB3F3B7739F4FBD58A46090A0E8007C3BD9F86C428E5CBCCF9B3B97D29AF91"
+03-18 23:59:20.323 INFO 			}
+03-18 23:59:20.323 INFO 		},
+03-18 23:59:20.323 INFO 		"hex" : "1530014104FF08B5B4FAEE0072A9E5DFCDDE1500FA5C9D1506ED382A2D872A1B6502EC7900FEEB3F3B7739F4FBD58A46090A0E8007C3BD9F86C428E5CBCCF9B3B97D29AF91300220AE5ED9571083C6E6356A8ACC92A29F3A01D6DBF6307BEDF5ACBCB47C79EBED4D18",
+03-18 23:59:20.323 INFO 		"size" : 105
+03-18 23:59:20.323 INFO 	},
+03-18 23:59:20.323 INFO 	"payloadHeader" : 
+03-18 23:59:20.323 INFO 	{
+03-18 23:59:20.323 INFO 		"ackMessageCounter" : 155445441,
+03-18 23:59:20.323 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.324 INFO 		"exchangeId" : 28022,
+03-18 23:59:20.324 INFO 		"initiator" : false,
+03-18 23:59:20.324 INFO 		"messageType" : 35,
+03-18 23:59:20.324 INFO 		"needsAck" : true,
+03-18 23:59:20.324 INFO 		"protocolId" : 0
+03-18 23:59:20.324 INFO 	}
+03-18 23:59:20.324 INFO }
+03-18 23:59:20.324 INFO >>> [E:28022i S:0 M:56421607 (Ack:155445441)] (U) Msg RX from 0:0000000000000000 [0000] --- Type 0000:23 (SecureChannel:PASE_Pake2)
+03-18 23:59:20.333 INFO {
+03-18 23:59:20.333 INFO 	"event" : "MessageSend",
+03-18 23:59:20.333 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:20.333 INFO 	"packetHeader" : 
+03-18 23:59:20.333 INFO 	{
+03-18 23:59:20.333 INFO 		"flags" : 4,
+03-18 23:59:20.333 INFO 		"msgCounter" : 155445442,
+03-18 23:59:20.333 INFO 		"securityFlags" : 0,
+03-18 23:59:20.333 INFO 		"sessionId" : 0,
+03-18 23:59:20.334 INFO 		"sourceNodeId" : 6726627357409482356
+03-18 23:59:20.334 INFO 	},
+03-18 23:59:20.334 INFO 	"payload" : 
+03-18 23:59:20.334 INFO 	{
+03-18 23:59:20.334 INFO 		"decoded" : 
+03-18 23:59:20.334 INFO 		{
+03-18 23:59:20.334 INFO 			"pase_pake3" : 
+03-18 23:59:20.334 INFO 			{
+03-18 23:59:20.334 INFO 				"cA" : "hex:F916CDDF314F1FC3D3E3E387CC5F6259F167B8E417E5E7B52F1321BA58AA9415"
+03-18 23:59:20.334 INFO 			}
+03-18 23:59:20.334 INFO 		},
+03-18 23:59:20.334 INFO 		"hex" : "15300120F916CDDF314F1FC3D3E3E387CC5F6259F167B8E417E5E7B52F1321BA58AA941518",
+03-18 23:59:20.334 INFO 		"size" : 37
+03-18 23:59:20.334 INFO 	},
+03-18 23:59:20.334 INFO 	"payloadHeader" : 
+03-18 23:59:20.334 INFO 	{
+03-18 23:59:20.334 INFO 		"ackMessageCounter" : 56421607,
+03-18 23:59:20.334 INFO 		"exchangeFlags" : 7,
+03-18 23:59:20.334 INFO 		"exchangeId" : 28022,
+03-18 23:59:20.334 INFO 		"initiator" : true,
+03-18 23:59:20.334 INFO 		"messageType" : 36,
+03-18 23:59:20.334 INFO 		"needsAck" : true,
+03-18 23:59:20.334 INFO 		"protocolId" : 0
+03-18 23:59:20.334 INFO 	}
+03-18 23:59:20.334 INFO }
+03-18 23:59:20.335 INFO <<< [E:28022i S:0 M:155445442 (Ack:56421607)] (U) Msg TX to 0:0000000000000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:24 (SecureChannel:PASE_Pake3)
+03-18 23:59:20.336 INFO {
+03-18 23:59:20.336 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.336 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:20.337 INFO 	"packetHeader" : 
+03-18 23:59:20.337 INFO 	{
+03-18 23:59:20.337 INFO 		"destinationNodeId" : 6726627357409482356,
+03-18 23:59:20.337 INFO 		"flags" : 1,
+03-18 23:59:20.337 INFO 		"msgCounter" : 56421608,
+03-18 23:59:20.337 INFO 		"securityFlags" : 0,
+03-18 23:59:20.338 INFO 		"sessionId" : 0
+03-18 23:59:20.338 INFO 	},
+03-18 23:59:20.338 INFO 	"payload" : 
+03-18 23:59:20.338 INFO 	{
+03-18 23:59:20.338 INFO 		"decoded" : 
+03-18 23:59:20.338 INFO 		{
+03-18 23:59:20.339 INFO 			"status_report" : "BINARY DATA"
+03-18 23:59:20.339 INFO 		},
+03-18 23:59:20.340 INFO 		"hex" : "0000000000000000",
+03-18 23:59:20.340 INFO 		"size" : 8
+03-18 23:59:20.340 INFO 	},
+03-18 23:59:20.340 INFO 	"payloadHeader" : 
+03-18 23:59:20.340 INFO 	{
+03-18 23:59:20.340 INFO 		"ackMessageCounter" : 155445442,
+03-18 23:59:20.340 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.340 INFO 		"exchangeId" : 28022,
+03-18 23:59:20.340 INFO 		"initiator" : false,
+03-18 23:59:20.340 INFO 		"messageType" : 64,
+03-18 23:59:20.340 INFO 		"needsAck" : true,
+03-18 23:59:20.340 INFO 		"protocolId" : 0
+03-18 23:59:20.340 INFO 	}
+03-18 23:59:20.340 INFO }
+03-18 23:59:20.340 INFO >>> [E:28022i S:0 M:56421608 (Ack:155445442)] (U) Msg RX from 0:0000000000000000 [0000] --- Type 0000:40 (SecureChannel:StatusReport)
+03-18 23:59:20.341 INFO SecureSession[0x10750c520, LSID:50322]: State change 'kEstablishing' --> 'kActive'
+03-18 23:59:20.341 INFO Established secure session with Device
+03-18 23:59:20.341 INFO Commissioning stage next step: 'SecurePairing' -> 'ReadCommissioningInfo'
+03-18 23:59:20.341 INFO Performing next commissioning step 'ReadCommissioningInfo'
+03-18 23:59:20.341 INFO Sending read request for commissioning information
+03-18 23:59:20.344 INFO {
+03-18 23:59:20.344 INFO 	"event" : "MessageSend",
+03-18 23:59:20.344 INFO 	"messageType" : "Secure",
+03-18 23:59:20.344 INFO 	"packetHeader" : 
+03-18 23:59:20.344 INFO 	{
+03-18 23:59:20.344 INFO 		"flags" : 0,
+03-18 23:59:20.344 INFO 		"msgCounter" : 259071565,
+03-18 23:59:20.344 INFO 		"securityFlags" : 0,
+03-18 23:59:20.344 INFO 		"sessionId" : 48544
+03-18 23:59:20.344 INFO 	},
+03-18 23:59:20.344 INFO 	"payload" : 
+03-18 23:59:20.344 INFO 	{
+03-18 23:59:20.344 INFO 		"decoded" : 
+03-18 23:59:20.344 INFO 		{
+03-18 23:59:20.344 INFO 			"read_request" : 
+03-18 23:59:20.344 INFO 			{
+03-18 23:59:20.344 INFO 				"attribute_requests" : 
+03-18 23:59:20.345 INFO 				{
+03-18 23:59:20.345 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.345 INFO 					{
+03-18 23:59:20.345 INFO 						"attribute_id" : "65532 == 'featureMap'",
+03-18 23:59:20.345 INFO 						"cluster_id" : "49 == 'NetworkCommissioning'"
+03-18 23:59:20.345 INFO 					},
+03-18 23:59:20.345 INFO 					"Anonymous<1>" : 
+03-18 23:59:20.345 INFO 					{
+03-18 23:59:20.345 INFO 						"attribute_id" : "0 == 'breadcrumb'",
+03-18 23:59:20.345 INFO 						"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.345 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.345 INFO 					},
+03-18 23:59:20.345 INFO 					"Anonymous<2>" : 
+03-18 23:59:20.345 INFO 					{
+03-18 23:59:20.345 INFO 						"attribute_id" : "1 == 'basicCommissioningInfo'",
+03-18 23:59:20.345 INFO 						"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.345 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.345 INFO 					},
+03-18 23:59:20.345 INFO 					"Anonymous<3>" : 
+03-18 23:59:20.345 INFO 					{
+03-18 23:59:20.345 INFO 						"attribute_id" : "2 == 'regulatoryConfig'",
+03-18 23:59:20.346 INFO 						"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.346 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.346 INFO 					},
+03-18 23:59:20.346 INFO 					"Anonymous<4>" : 
+03-18 23:59:20.346 INFO 					{
+03-18 23:59:20.346 INFO 						"attribute_id" : "3 == 'locationCapability'",
+03-18 23:59:20.346 INFO 						"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.346 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.346 INFO 					},
+03-18 23:59:20.346 INFO 					"Anonymous<5>" : 
+03-18 23:59:20.346 INFO 					{
+03-18 23:59:20.346 INFO 						"attribute_id" : "2 == 'vendorID'",
+03-18 23:59:20.346 INFO 						"cluster_id" : "40 == 'BasicInformation'",
+03-18 23:59:20.346 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.346 INFO 					},
+03-18 23:59:20.346 INFO 					"Anonymous<6>" : 
+03-18 23:59:20.346 INFO 					{
+03-18 23:59:20.346 INFO 						"attribute_id" : "4 == 'productID'",
+03-18 23:59:20.346 INFO 						"cluster_id" : "40 == 'BasicInformation'",
+03-18 23:59:20.346 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.346 INFO 					},
+03-18 23:59:20.346 INFO 					"Anonymous<7>" : 
+03-18 23:59:20.347 INFO 					{
+03-18 23:59:20.347 INFO 						"attribute_id" : "3 == 'connectMaxTimeSeconds'",
+03-18 23:59:20.347 INFO 						"cluster_id" : "49 == 'NetworkCommissioning'"
+03-18 23:59:20.347 INFO 					},
+03-18 23:59:20.347 INFO 					"Anonymous<8>" : 
+03-18 23:59:20.347 INFO 					{
+03-18 23:59:20.347 INFO 						"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.347 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.347 INFO 					}
+03-18 23:59:20.347 INFO 				},
+03-18 23:59:20.347 INFO 				"fabric_filtered" : "false",
+03-18 23:59:20.347 INFO 				"interaction_model_revison" : "11"
+03-18 23:59:20.347 INFO 			}
+03-18 23:59:20.347 INFO 		},
+03-18 23:59:20.347 INFO 		"hex" : "153600172403312504FCFF181724020024033024040018172402002403302404011817240200240330240402181724020024033024040318172402002403282404021817240200240328240404181724033124040318172402002403381818280324FF0B18",
+03-18 23:59:20.347 INFO 		"size" : 101
+03-18 23:59:20.347 INFO 	},
+03-18 23:59:20.347 INFO 	"payloadHeader" : 
+03-18 23:59:20.348 INFO 	{
+03-18 23:59:20.348 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.348 INFO 		"exchangeId" : 28023,
+03-18 23:59:20.348 INFO 		"initiator" : true,
+03-18 23:59:20.348 INFO 		"messageType" : 2,
+03-18 23:59:20.348 INFO 		"needsAck" : true,
+03-18 23:59:20.348 INFO 		"protocolId" : 1
+03-18 23:59:20.348 INFO 	}
+03-18 23:59:20.348 INFO }
+03-18 23:59:20.348 INFO <<< [E:28023i S:50322 M:259071565] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:02 (IM:ReadRequest)
+03-18 23:59:20.348 INFO {
+03-18 23:59:20.348 INFO 	"event" : "MessageSend",
+03-18 23:59:20.349 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:20.349 INFO 	"packetHeader" : 
+03-18 23:59:20.349 INFO 	{
+03-18 23:59:20.349 INFO 		"flags" : 4,
+03-18 23:59:20.349 INFO 		"msgCounter" : 155445443,
+03-18 23:59:20.349 INFO 		"securityFlags" : 0,
+03-18 23:59:20.349 INFO 		"sessionId" : 0,
+03-18 23:59:20.349 INFO 		"sourceNodeId" : 6726627357409482356
+03-18 23:59:20.349 INFO 	},
+03-18 23:59:20.349 INFO 	"payload" : 
+03-18 23:59:20.349 INFO 	{
+03-18 23:59:20.349 INFO 		"decoded" : 
+03-18 23:59:20.349 INFO 		{
+03-18 23:59:20.349 INFO 			"mrp_ack" : ""
+03-18 23:59:20.349 INFO 		},
+03-18 23:59:20.349 INFO 		"hex" : "",
+03-18 23:59:20.349 INFO 		"size" : 0
+03-18 23:59:20.349 INFO 	},
+03-18 23:59:20.350 INFO 	"payloadHeader" : 
+03-18 23:59:20.350 INFO 	{
+03-18 23:59:20.351 INFO 		"ackMessageCounter" : 56421608,
+03-18 23:59:20.351 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.351 INFO 		"exchangeId" : 28022,
+03-18 23:59:20.351 INFO 		"initiator" : true,
+03-18 23:59:20.351 INFO 		"messageType" : 16,
+03-18 23:59:20.351 INFO 		"needsAck" : false,
+03-18 23:59:20.352 INFO 		"protocolId" : 0
+03-18 23:59:20.352 INFO 	}
+03-18 23:59:20.352 INFO }
+03-18 23:59:20.352 INFO <<< [E:28022i S:0 M:155445443 (Ack:56421608)] (U) Msg TX to 0:0000000000000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.356 INFO {
+03-18 23:59:20.356 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.356 INFO 	"messageType" : "Secure",
+03-18 23:59:20.356 INFO 	"packetHeader" : 
+03-18 23:59:20.357 INFO 	{
+03-18 23:59:20.357 INFO 		"flags" : 0,
+03-18 23:59:20.357 INFO 		"msgCounter" : 232973893,
+03-18 23:59:20.357 INFO 		"securityFlags" : 0,
+03-18 23:59:20.357 INFO 		"sessionId" : 50322
+03-18 23:59:20.357 INFO 	},
+03-18 23:59:20.357 INFO 	"payload" : 
+03-18 23:59:20.357 INFO 	{
+03-18 23:59:20.357 INFO 		"decoded" : 
+03-18 23:59:20.357 INFO 		{
+03-18 23:59:20.357 INFO 			"report_data" : 
+03-18 23:59:20.358 INFO 			{
+03-18 23:59:20.358 INFO 				"attribute_reports" : 
+03-18 23:59:20.358 INFO 				{
+03-18 23:59:20.358 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.358 INFO 					{
+03-18 23:59:20.358 INFO 						"attribute_data" : 
+03-18 23:59:20.358 INFO 						{
+03-18 23:59:20.358 INFO 							"TimeSynchronization::UTCTime" : "764146760349271",
+03-18 23:59:20.358 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.358 INFO 							"path" : 
+03-18 23:59:20.358 INFO 							{
+03-18 23:59:20.358 INFO 								"attribute_id" : "0 == 'UTCTime'",
+03-18 23:59:20.358 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.358 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.358 INFO 							}
+03-18 23:59:20.358 INFO 						}
+03-18 23:59:20.358 INFO 					},
+03-18 23:59:20.358 INFO 					"Anonymous<10>" : 
+03-18 23:59:20.358 INFO 					{
+03-18 23:59:20.358 INFO 						"attribute_data" : 
+03-18 23:59:20.359 INFO 						{
+03-18 23:59:20.359 INFO 							"TimeSynchronization::DSTOffsetListMaxSize" : "2",
+03-18 23:59:20.359 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.359 INFO 							"path" : 
+03-18 23:59:20.359 INFO 							{
+03-18 23:59:20.359 INFO 								"attribute_id" : "11 == 'DSTOffsetListMaxSize'",
+03-18 23:59:20.359 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.359 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.359 INFO 							}
+03-18 23:59:20.359 INFO 						}
+03-18 23:59:20.359 INFO 					},
+03-18 23:59:20.359 INFO 					"Anonymous<11>" : 
+03-18 23:59:20.359 INFO 					{
+03-18 23:59:20.359 INFO 						"attribute_data" : 
+03-18 23:59:20.359 INFO 						{
+03-18 23:59:20.359 INFO 							"TimeSynchronization::supportsDNSResolve" : "true",
+03-18 23:59:20.359 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.359 INFO 							"path" : 
+03-18 23:59:20.359 INFO 							{
+03-18 23:59:20.359 INFO 								"attribute_id" : "12 == 'supportsDNSResolve'",
+03-18 23:59:20.359 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.360 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.360 INFO 							}
+03-18 23:59:20.360 INFO 						}
+03-18 23:59:20.360 INFO 					},
+03-18 23:59:20.360 INFO 					"Anonymous<12>" : 
+03-18 23:59:20.360 INFO 					{
+03-18 23:59:20.360 INFO 						"attribute_data" : 
+03-18 23:59:20.360 INFO 						{
+03-18 23:59:20.360 INFO 							"TimeSynchronization::featureMap" : "11 == kTimeZone | kNTPClient | kTimeSyncClient",
+03-18 23:59:20.360 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.360 INFO 							"path" : 
+03-18 23:59:20.360 INFO 							{
+03-18 23:59:20.360 INFO 								"attribute_id" : "65532 == 'featureMap'",
+03-18 23:59:20.360 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.360 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.360 INFO 							}
+03-18 23:59:20.360 INFO 						}
+03-18 23:59:20.360 INFO 					},
+03-18 23:59:20.360 INFO 					"Anonymous<13>" : 
+03-18 23:59:20.360 INFO 					{
+03-18 23:59:20.360 INFO 						"attribute_data" : 
+03-18 23:59:20.360 INFO 						{
+03-18 23:59:20.361 INFO 							"TimeSynchronization::clusterRevision" : "2",
+03-18 23:59:20.361 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.361 INFO 							"path" : 
+03-18 23:59:20.361 INFO 							{
+03-18 23:59:20.361 INFO 								"attribute_id" : "65533 == 'clusterRevision'",
+03-18 23:59:20.361 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.361 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.361 INFO 							}
+03-18 23:59:20.361 INFO 						}
+03-18 23:59:20.361 INFO 					},
+03-18 23:59:20.361 INFO 					"Anonymous<14>" : 
+03-18 23:59:20.361 INFO 					{
+03-18 23:59:20.361 INFO 						"attribute_data" : 
+03-18 23:59:20.361 INFO 						{
+03-18 23:59:20.362 INFO 							"TimeSynchronization::generatedCommandList" : 
+03-18 23:59:20.362 INFO 							{
+03-18 23:59:20.362 INFO 								"Anonymous<0>" : "3"
+03-18 23:59:20.362 INFO 							},
+03-18 23:59:20.362 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.362 INFO 							"path" : 
+03-18 23:59:20.362 INFO 							{
+03-18 23:59:20.362 INFO 								"attribute_id" : "65528 == 'generatedCommandList'",
+03-18 23:59:20.362 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.362 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.362 INFO 							}
+03-18 23:59:20.362 INFO 						}
+03-18 23:59:20.362 INFO 					},
+03-18 23:59:20.362 INFO 					"Anonymous<15>" : 
+03-18 23:59:20.362 INFO 					{
+03-18 23:59:20.362 INFO 						"attribute_data" : 
+03-18 23:59:20.362 INFO 						{
+03-18 23:59:20.362 INFO 							"TimeSynchronization::acceptedCommandList" : 
+03-18 23:59:20.362 INFO 							{
+03-18 23:59:20.362 INFO 								"Anonymous<0>" : "0",
+03-18 23:59:20.363 INFO 								"Anonymous<1>" : "1",
+03-18 23:59:20.363 INFO 								"Anonymous<2>" : "2",
+03-18 23:59:20.363 INFO 								"Anonymous<3>" : "4",
+03-18 23:59:20.363 INFO 								"Anonymous<4>" : "5"
+03-18 23:59:20.363 INFO 							},
+03-18 23:59:20.363 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.363 INFO 							"path" : 
+03-18 23:59:20.363 INFO 							{
+03-18 23:59:20.363 INFO 								"attribute_id" : "65529 == 'acceptedCommandList'",
+03-18 23:59:20.363 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.363 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.363 INFO 							}
+03-18 23:59:20.363 INFO 						}
+03-18 23:59:20.363 INFO 					},
+03-18 23:59:20.363 INFO 					"Anonymous<16>" : 
+03-18 23:59:20.363 INFO 					{
+03-18 23:59:20.363 INFO 						"attribute_data" : 
+03-18 23:59:20.363 INFO 						{
+03-18 23:59:20.363 INFO 							"TimeSynchronization::attributeList" : 
+03-18 23:59:20.363 INFO 							{
+03-18 23:59:20.363 INFO 								"Anonymous<0>" : "0",
+03-18 23:59:20.363 INFO 								"Anonymous<10>" : "11",
+03-18 23:59:20.363 INFO 								"Anonymous<11>" : "12",
+03-18 23:59:20.364 INFO 								"Anonymous<12>" : "65528",
+03-18 23:59:20.364 INFO 								"Anonymous<13>" : "65529",
+03-18 23:59:20.364 INFO 								"Anonymous<14>" : "65531",
+03-18 23:59:20.364 INFO 								"Anonymous<15>" : "65532",
+03-18 23:59:20.364 INFO 								"Anonymous<16>" : "65533",
+03-18 23:59:20.364 INFO 								"Anonymous<1>" : "1",
+03-18 23:59:20.364 INFO 								"Anonymous<2>" : "2",
+03-18 23:59:20.364 INFO 								"Anonymous<3>" : "3",
+03-18 23:59:20.364 INFO 								"Anonymous<4>" : "4",
+03-18 23:59:20.364 INFO 								"Anonymous<5>" : "5",
+03-18 23:59:20.364 INFO 								"Anonymous<6>" : "6",
+03-18 23:59:20.364 INFO 								"Anonymous<7>" : "7",
+03-18 23:59:20.364 INFO 								"Anonymous<8>" : "8",
+03-18 23:59:20.364 INFO 								"Anonymous<9>" : "10"
+03-18 23:59:20.364 INFO 							},
+03-18 23:59:20.364 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.364 INFO 							"path" : 
+03-18 23:59:20.365 INFO 							{
+03-18 23:59:20.365 INFO 								"attribute_id" : "65531 == 'attributeList'",
+03-18 23:59:20.365 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.365 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.365 INFO 							}
+03-18 23:59:20.365 INFO 						}
+03-18 23:59:20.365 INFO 					},
+03-18 23:59:20.365 INFO 					"Anonymous<17>" : 
+03-18 23:59:20.365 INFO 					{
+03-18 23:59:20.365 INFO 						"attribute_data" : 
+03-18 23:59:20.366 INFO 						{
+03-18 23:59:20.366 INFO 							"NetworkCommissioning::connectMaxTimeSeconds" : "0",
+03-18 23:59:20.366 INFO 							"data_version" : "2848361766",
+03-18 23:59:20.366 INFO 							"path" : 
+03-18 23:59:20.366 INFO 							{
+03-18 23:59:20.366 INFO 								"attribute_id" : "3 == 'connectMaxTimeSeconds'",
+03-18 23:59:20.366 INFO 								"cluster_id" : "49 == 'NetworkCommissioning'",
+03-18 23:59:20.366 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.366 INFO 							}
+03-18 23:59:20.366 INFO 						}
+03-18 23:59:20.366 INFO 					},
+03-18 23:59:20.366 INFO 					"Anonymous<18>" : 
+03-18 23:59:20.366 INFO 					{
+03-18 23:59:20.366 INFO 						"attribute_data" : 
+03-18 23:59:20.366 INFO 						{
+03-18 23:59:20.366 INFO 							"BasicInformation::productID" : "32769",
+03-18 23:59:20.366 INFO 							"data_version" : "1612804540",
+03-18 23:59:20.366 INFO 							"path" : 
+03-18 23:59:20.366 INFO 							{
+03-18 23:59:20.366 INFO 								"attribute_id" : "4 == 'productID'",
+03-18 23:59:20.367 INFO 								"cluster_id" : "40 == 'BasicInformation'",
+03-18 23:59:20.367 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.367 INFO 							}
+03-18 23:59:20.367 INFO 						}
+03-18 23:59:20.367 INFO 					},
+03-18 23:59:20.367 INFO 					"Anonymous<19>" : 
+03-18 23:59:20.368 INFO 					{
+03-18 23:59:20.368 INFO 						"attribute_data" : 
+03-18 23:59:20.368 INFO 						{
+03-18 23:59:20.368 INFO 							"BasicInformation::vendorID" : "65521",
+03-18 23:59:20.368 INFO 							"data_version" : "1612804540",
+03-18 23:59:20.368 INFO 							"path" : 
+03-18 23:59:20.368 INFO 							{
+03-18 23:59:20.368 INFO 								"attribute_id" : "2 == 'vendorID'",
+03-18 23:59:20.368 INFO 								"cluster_id" : "40 == 'BasicInformation'",
+03-18 23:59:20.368 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.368 INFO 							}
+03-18 23:59:20.368 INFO 						}
+03-18 23:59:20.369 INFO 					},
+03-18 23:59:20.369 INFO 					"Anonymous<1>" : 
+03-18 23:59:20.369 INFO 					{
+03-18 23:59:20.369 INFO 						"attribute_data" : 
+03-18 23:59:20.369 INFO 						{
+03-18 23:59:20.369 INFO 							"TimeSynchronization::granularity" : "3 == kMillisecondsGranularity",
+03-18 23:59:20.369 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.369 INFO 							"path" : 
+03-18 23:59:20.369 INFO 							{
+03-18 23:59:20.369 INFO 								"attribute_id" : "1 == 'granularity'",
+03-18 23:59:20.369 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.369 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.369 INFO 							}
+03-18 23:59:20.369 INFO 						}
+03-18 23:59:20.369 INFO 					},
+03-18 23:59:20.369 INFO 					"Anonymous<20>" : 
+03-18 23:59:20.369 INFO 					{
+03-18 23:59:20.369 INFO 						"attribute_data" : 
+03-18 23:59:20.369 INFO 						{
+03-18 23:59:20.370 INFO 							"GeneralCommissioning::locationCapability" : "2 == kIndoorOutdoor",
+03-18 23:59:20.370 INFO 							"data_version" : "1288360510",
+03-18 23:59:20.370 INFO 							"path" : 
+03-18 23:59:20.370 INFO 							{
+03-18 23:59:20.370 INFO 								"attribute_id" : "3 == 'locationCapability'",
+03-18 23:59:20.370 INFO 								"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.370 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.370 INFO 							}
+03-18 23:59:20.370 INFO 						}
+03-18 23:59:20.370 INFO 					},
+03-18 23:59:20.370 INFO 					"Anonymous<21>" : 
+03-18 23:59:20.370 INFO 					{
+03-18 23:59:20.370 INFO 						"attribute_data" : 
+03-18 23:59:20.370 INFO 						{
+03-18 23:59:20.370 INFO 							"GeneralCommissioning::regulatoryConfig" : "0 == kIndoor",
+03-18 23:59:20.370 INFO 							"data_version" : "1288360510",
+03-18 23:59:20.370 INFO 							"path" : 
+03-18 23:59:20.370 INFO 							{
+03-18 23:59:20.370 INFO 								"attribute_id" : "2 == 'regulatoryConfig'",
+03-18 23:59:20.370 INFO 								"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.370 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.370 INFO 							}
+03-18 23:59:20.370 INFO 						}
+03-18 23:59:20.371 INFO 					},
+03-18 23:59:20.371 INFO 					"Anonymous<22>" : 
+03-18 23:59:20.371 INFO 					{
+03-18 23:59:20.371 INFO 						"attribute_data" : 
+03-18 23:59:20.371 INFO 						{
+03-18 23:59:20.371 INFO 							"GeneralCommissioning::basicCommissioningInfo" : 
+03-18 23:59:20.371 INFO 							{
+03-18 23:59:20.371 INFO 								"failSafeExpiryLengthSeconds" : "60",
+03-18 23:59:20.371 INFO 								"maxCumulativeFailsafeSeconds" : "900"
+03-18 23:59:20.371 INFO 							},
+03-18 23:59:20.371 INFO 							"data_version" : "1288360510",
+03-18 23:59:20.371 INFO 							"path" : 
+03-18 23:59:20.371 INFO 							{
+03-18 23:59:20.371 INFO 								"attribute_id" : "1 == 'basicCommissioningInfo'",
+03-18 23:59:20.371 INFO 								"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.371 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.371 INFO 							}
+03-18 23:59:20.372 INFO 						}
+03-18 23:59:20.372 INFO 					},
+03-18 23:59:20.372 INFO 					"Anonymous<23>" : 
+03-18 23:59:20.372 INFO 					{
+03-18 23:59:20.372 INFO 						"attribute_data" : 
+03-18 23:59:20.372 INFO 						{
+03-18 23:59:20.372 INFO 							"GeneralCommissioning::breadcrumb" : "0",
+03-18 23:59:20.372 INFO 							"data_version" : "1288360510",
+03-18 23:59:20.372 INFO 							"path" : 
+03-18 23:59:20.372 INFO 							{
+03-18 23:59:20.372 INFO 								"attribute_id" : "0 == 'breadcrumb'",
+03-18 23:59:20.372 INFO 								"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.372 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.372 INFO 							}
+03-18 23:59:20.372 INFO 						}
+03-18 23:59:20.372 INFO 					},
+03-18 23:59:20.372 INFO 					"Anonymous<24>" : 
+03-18 23:59:20.372 INFO 					{
+03-18 23:59:20.373 INFO 						"attribute_data" : 
+03-18 23:59:20.373 INFO 						{
+03-18 23:59:20.373 INFO 							"NetworkCommissioning::featureMap" : "4 == kEthernetNetworkInterface",
+03-18 23:59:20.373 INFO 							"data_version" : "2848361766",
+03-18 23:59:20.373 INFO 							"path" : 
+03-18 23:59:20.373 INFO 							{
+03-18 23:59:20.373 INFO 								"attribute_id" : "65532 == 'featureMap'",
+03-18 23:59:20.373 INFO 								"cluster_id" : "49 == 'NetworkCommissioning'",
+03-18 23:59:20.373 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.373 INFO 							}
+03-18 23:59:20.373 INFO 						}
+03-18 23:59:20.373 INFO 					},
+03-18 23:59:20.373 INFO 					"Anonymous<2>" : 
+03-18 23:59:20.373 INFO 					{
+03-18 23:59:20.373 INFO 						"attribute_data" : 
+03-18 23:59:20.373 INFO 						{
+03-18 23:59:20.373 INFO 							"TimeSynchronization::timeSource" : "8 == kMixedNTP",
+03-18 23:59:20.374 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.374 INFO 							"path" : 
+03-18 23:59:20.374 INFO 							{
+03-18 23:59:20.374 INFO 								"attribute_id" : "2 == 'timeSource'",
+03-18 23:59:20.374 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.374 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.374 INFO 							}
+03-18 23:59:20.374 INFO 						}
+03-18 23:59:20.374 INFO 					},
+03-18 23:59:20.374 INFO 					"Anonymous<3>" : 
+03-18 23:59:20.374 INFO 					{
+03-18 23:59:20.374 INFO 						"attribute_data" : 
+03-18 23:59:20.374 INFO 						{
+03-18 23:59:20.375 INFO 							"TimeSynchronization::trustedTimeSource" : "NULL",
+03-18 23:59:20.375 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.375 INFO 							"path" : 
+03-18 23:59:20.375 INFO 							{
+03-18 23:59:20.375 INFO 								"attribute_id" : "3 == 'trustedTimeSource'",
+03-18 23:59:20.375 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.375 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.375 INFO 							}
+03-18 23:59:20.375 INFO 						}
+03-18 23:59:20.375 INFO 					},
+03-18 23:59:20.375 INFO 					"Anonymous<4>" : 
+03-18 23:59:20.375 INFO 					{
+03-18 23:59:20.375 INFO 						"attribute_data" : 
+03-18 23:59:20.375 INFO 						{
+03-18 23:59:20.375 INFO 							"TimeSynchronization::defaultNTP" : "NULL",
+03-18 23:59:20.375 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.375 INFO 							"path" : 
+03-18 23:59:20.375 INFO 							{
+03-18 23:59:20.375 INFO 								"attribute_id" : "4 == 'defaultNTP'",
+03-18 23:59:20.375 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.375 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.375 INFO 							}
+03-18 23:59:20.375 INFO 						}
+03-18 23:59:20.375 INFO 					},
+03-18 23:59:20.376 INFO 					"Anonymous<5>" : 
+03-18 23:59:20.376 INFO 					{
+03-18 23:59:20.376 INFO 						"attribute_data" : 
+03-18 23:59:20.376 INFO 						{
+03-18 23:59:20.376 INFO 							"TimeSynchronization::timeZone" : 
+03-18 23:59:20.376 INFO 							{
+03-18 23:59:20.376 INFO 								"Anonymous<0>" : 
+03-18 23:59:20.376 INFO 								{
+03-18 23:59:20.376 INFO 									"offset" : "0",
+03-18 23:59:20.376 INFO 									"validAt" : "0"
+03-18 23:59:20.376 INFO 								}
+03-18 23:59:20.376 INFO 							},
+03-18 23:59:20.376 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.376 INFO 							"path" : 
+03-18 23:59:20.376 INFO 							{
+03-18 23:59:20.376 INFO 								"attribute_id" : "5 == 'timeZone'",
+03-18 23:59:20.376 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.377 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.377 INFO 							}
+03-18 23:59:20.377 INFO 						}
+03-18 23:59:20.377 INFO 					},
+03-18 23:59:20.378 INFO 					"Anonymous<6>" : 
+03-18 23:59:20.378 INFO 					{
+03-18 23:59:20.378 INFO 						"attribute_data" : 
+03-18 23:59:20.378 INFO 						{
+03-18 23:59:20.378 INFO 							"TimeSynchronization::DSTOffset" : null,
+03-18 23:59:20.378 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.379 INFO 							"path" : 
+03-18 23:59:20.379 INFO 							{
+03-18 23:59:20.379 INFO 								"attribute_id" : "6 == 'DSTOffset'",
+03-18 23:59:20.379 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.379 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.379 INFO 							}
+03-18 23:59:20.379 INFO 						}
+03-18 23:59:20.379 INFO 					},
+03-18 23:59:20.379 INFO 					"Anonymous<7>" : 
+03-18 23:59:20.379 INFO 					{
+03-18 23:59:20.379 INFO 						"attribute_data" : 
+03-18 23:59:20.379 INFO 						{
+03-18 23:59:20.379 INFO 							"TimeSynchronization::localTime" : "NULL",
+03-18 23:59:20.379 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.379 INFO 							"path" : 
+03-18 23:59:20.379 INFO 							{
+03-18 23:59:20.379 INFO 								"attribute_id" : "7 == 'localTime'",
+03-18 23:59:20.379 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.379 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.379 INFO 							}
+03-18 23:59:20.379 INFO 						}
+03-18 23:59:20.379 INFO 					},
+03-18 23:59:20.379 INFO 					"Anonymous<8>" : 
+03-18 23:59:20.380 INFO 					{
+03-18 23:59:20.380 INFO 						"attribute_data" : 
+03-18 23:59:20.380 INFO 						{
+03-18 23:59:20.380 INFO 							"TimeSynchronization::timeZoneDatabase" : "0 == kFull",
+03-18 23:59:20.380 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.380 INFO 							"path" : 
+03-18 23:59:20.380 INFO 							{
+03-18 23:59:20.380 INFO 								"attribute_id" : "8 == 'timeZoneDatabase'",
+03-18 23:59:20.380 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.380 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.380 INFO 							}
+03-18 23:59:20.380 INFO 						}
+03-18 23:59:20.380 INFO 					},
+03-18 23:59:20.380 INFO 					"Anonymous<9>" : 
+03-18 23:59:20.380 INFO 					{
+03-18 23:59:20.380 INFO 						"attribute_data" : 
+03-18 23:59:20.381 INFO 						{
+03-18 23:59:20.381 INFO 							"TimeSynchronization::timeZoneListMaxSize" : "2",
+03-18 23:59:20.381 INFO 							"data_version" : "3457875306",
+03-18 23:59:20.381 INFO 							"path" : 
+03-18 23:59:20.381 INFO 							{
+03-18 23:59:20.381 INFO 								"attribute_id" : "10 == 'timeZoneListMaxSize'",
+03-18 23:59:20.381 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.381 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.381 INFO 							}
+03-18 23:59:20.381 INFO 						}
+03-18 23:59:20.381 INFO 					}
+03-18 23:59:20.381 INFO 				},
+03-18 23:59:20.381 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.381 INFO 				"suppress_response" : "true"
+03-18 23:59:20.381 INFO 			}
+03-18 23:59:20.381 INFO 		},
+03-18 23:59:20.381 INFO 		"hex" : "15360115350126006AFD1ACE370124020024033824040018270257F634C8FCB60200181815350126006AFD1ACE370124020024033824040118240203181815350126006AFD1ACE370124020024033824040218240208181815350126006AFD1ACE3701240200240338240403183402181815350126006AFD1ACE
+03-18 23:59:20.382 INFO 		"size" : 737
+03-18 23:59:20.382 INFO 	},
+03-18 23:59:20.382 INFO 	"payloadHeader" : 
+03-18 23:59:20.382 INFO 	{
+03-18 23:59:20.382 INFO 		"ackMessageCounter" : 259071565,
+03-18 23:59:20.382 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.382 INFO 		"exchangeId" : 28023,
+03-18 23:59:20.382 INFO 		"initiator" : false,
+03-18 23:59:20.382 INFO 		"messageType" : 5,
+03-18 23:59:20.382 INFO 		"needsAck" : true,
+03-18 23:59:20.382 INFO 		"protocolId" : 1
+03-18 23:59:20.382 INFO 	}
+03-18 23:59:20.382 INFO }
+03-18 23:59:20.382 INFO >>> [E:28023i S:50322 M:232973893 (Ack:259071565)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:05 (IM:ReportData)
+03-18 23:59:20.403 INFO Successfully finished commissioning step 'ReadCommissioningInfo'
+03-18 23:59:20.403 INFO Commissioning stage next step: 'ReadCommissioningInfo' -> 'ReadCommissioningInfo2'
+03-18 23:59:20.403 INFO Performing next commissioning step 'ReadCommissioningInfo2'
+03-18 23:59:20.404 INFO {
+03-18 23:59:20.404 INFO 	"event" : "MessageSend",
+03-18 23:59:20.404 INFO 	"messageType" : "Secure",
+03-18 23:59:20.404 INFO 	"packetHeader" : 
+03-18 23:59:20.404 INFO 	{
+03-18 23:59:20.404 INFO 		"flags" : 0,
+03-18 23:59:20.404 INFO 		"msgCounter" : 259071566,
+03-18 23:59:20.405 INFO 		"securityFlags" : 0,
+03-18 23:59:20.405 INFO 		"sessionId" : 48544
+03-18 23:59:20.405 INFO 	},
+03-18 23:59:20.405 INFO 	"payload" : 
+03-18 23:59:20.405 INFO 	{
+03-18 23:59:20.405 INFO 		"decoded" : 
+03-18 23:59:20.405 INFO 		{
+03-18 23:59:20.405 INFO 			"read_request" : 
+03-18 23:59:20.405 INFO 			{
+03-18 23:59:20.405 INFO 				"attribute_requests" : 
+03-18 23:59:20.405 INFO 				{
+03-18 23:59:20.405 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.405 INFO 					{
+03-18 23:59:20.406 INFO 						"attribute_id" : "4 == 'supportsConcurrentConnection'",
+03-18 23:59:20.406 INFO 						"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.406 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.406 INFO 					},
+03-18 23:59:20.406 INFO 					"Anonymous<1>" : 
+03-18 23:59:20.406 INFO 					{
+03-18 23:59:20.406 INFO 						"attribute_id" : "6 == 'userActiveModeTriggerHint'",
+03-18 23:59:20.406 INFO 						"cluster_id" : "70 == 'IcdManagement'",
+03-18 23:59:20.406 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.406 INFO 					},
+03-18 23:59:20.406 INFO 					"Anonymous<2>" : 
+03-18 23:59:20.406 INFO 					{
+03-18 23:59:20.406 INFO 						"attribute_id" : "7 == 'userActiveModeTriggerInstruction'",
+03-18 23:59:20.406 INFO 						"cluster_id" : "70 == 'IcdManagement'",
+03-18 23:59:20.406 INFO 						"endpoint_id" : "0"
+03-18 23:59:20.406 INFO 					}
+03-18 23:59:20.406 INFO 				},
+03-18 23:59:20.406 INFO 				"fabric_filtered" : "false",
+03-18 23:59:20.407 INFO 				"interaction_model_revison" : "11"
+03-18 23:59:20.407 INFO 			}
+03-18 23:59:20.407 INFO 		},
+03-18 23:59:20.407 INFO 		"hex" : "15360017240200240330240404181724020024034624040618172402002403462404071818280324FF0B18",
+03-18 23:59:20.407 INFO 		"size" : 43
+03-18 23:59:20.407 INFO 	},
+03-18 23:59:20.407 INFO 	"payloadHeader" : 
+03-18 23:59:20.407 INFO 	{
+03-18 23:59:20.407 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.407 INFO 		"exchangeId" : 28024,
+03-18 23:59:20.407 INFO 		"initiator" : true,
+03-18 23:59:20.407 INFO 		"messageType" : 2,
+03-18 23:59:20.407 INFO 		"needsAck" : true,
+03-18 23:59:20.407 INFO 		"protocolId" : 1
+03-18 23:59:20.407 INFO 	}
+03-18 23:59:20.407 INFO }
+03-18 23:59:20.407 INFO <<< [E:28024i S:50322 M:259071566] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:02 (IM:ReadRequest)
+03-18 23:59:20.408 INFO {
+03-18 23:59:20.408 INFO 	"event" : "MessageSend",
+03-18 23:59:20.408 INFO 	"messageType" : "Secure",
+03-18 23:59:20.408 INFO 	"packetHeader" : 
+03-18 23:59:20.408 INFO 	{
+03-18 23:59:20.408 INFO 		"flags" : 0,
+03-18 23:59:20.408 INFO 		"msgCounter" : 259071567,
+03-18 23:59:20.408 INFO 		"securityFlags" : 0,
+03-18 23:59:20.408 INFO 		"sessionId" : 48544
+03-18 23:59:20.408 INFO 	},
+03-18 23:59:20.408 INFO 	"payload" : 
+03-18 23:59:20.408 INFO 	{
+03-18 23:59:20.408 INFO 		"decoded" : 
+03-18 23:59:20.408 INFO 		{
+03-18 23:59:20.408 INFO 			"mrp_ack" : ""
+03-18 23:59:20.408 INFO 		},
+03-18 23:59:20.408 INFO 		"hex" : "",
+03-18 23:59:20.408 INFO 		"size" : 0
+03-18 23:59:20.409 INFO 	},
+03-18 23:59:20.409 INFO 	"payloadHeader" : 
+03-18 23:59:20.409 INFO 	{
+03-18 23:59:20.409 INFO 		"ackMessageCounter" : 232973893,
+03-18 23:59:20.409 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.409 INFO 		"exchangeId" : 28023,
+03-18 23:59:20.409 INFO 		"initiator" : true,
+03-18 23:59:20.410 INFO 		"messageType" : 16,
+03-18 23:59:20.410 INFO 		"needsAck" : false,
+03-18 23:59:20.411 INFO 		"protocolId" : 0
+03-18 23:59:20.411 INFO 	}
+03-18 23:59:20.411 INFO }
+03-18 23:59:20.413 INFO <<< [E:28023i S:50322 M:259071567 (Ack:232973893)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.415 INFO {
+03-18 23:59:20.415 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.416 INFO 	"messageType" : "Secure",
+03-18 23:59:20.416 INFO 	"packetHeader" : 
+03-18 23:59:20.416 INFO 	{
+03-18 23:59:20.417 INFO 		"flags" : 0,
+03-18 23:59:20.417 INFO 		"msgCounter" : 232973894,
+03-18 23:59:20.417 INFO 		"securityFlags" : 0,
+03-18 23:59:20.417 INFO 		"sessionId" : 50322
+03-18 23:59:20.417 INFO 	},
+03-18 23:59:20.418 INFO 	"payload" : 
+03-18 23:59:20.418 INFO 	{
+03-18 23:59:20.418 INFO 		"decoded" : 
+03-18 23:59:20.418 INFO 		{
+03-18 23:59:20.418 INFO 			"report_data" : 
+03-18 23:59:20.418 INFO 			{
+03-18 23:59:20.419 INFO 				"attribute_reports" : 
+03-18 23:59:20.419 INFO 				{
+03-18 23:59:20.419 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.419 INFO 					{
+03-18 23:59:20.419 INFO 						"attribute_status" : 
+03-18 23:59:20.420 INFO 						{
+03-18 23:59:20.420 INFO 							"path" : 
+03-18 23:59:20.420 INFO 							{
+03-18 23:59:20.420 INFO 								"attribute_id" : "7 == 'userActiveModeTriggerInstruction'",
+03-18 23:59:20.420 INFO 								"cluster_id" : "70 == 'IcdManagement'",
+03-18 23:59:20.420 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.421 INFO 							},
+03-18 23:59:20.421 INFO 							"status" : 
+03-18 23:59:20.421 INFO 							{
+03-18 23:59:20.421 INFO 								"status" : "195 == kUnsupportedCluster"
+03-18 23:59:20.421 INFO 							}
+03-18 23:59:20.421 INFO 						}
+03-18 23:59:20.421 INFO 					},
+03-18 23:59:20.421 INFO 					"Anonymous<1>" : 
+03-18 23:59:20.421 INFO 					{
+03-18 23:59:20.421 INFO 						"attribute_status" : 
+03-18 23:59:20.421 INFO 						{
+03-18 23:59:20.421 INFO 							"path" : 
+03-18 23:59:20.421 INFO 							{
+03-18 23:59:20.421 INFO 								"attribute_id" : "6 == 'userActiveModeTriggerHint'",
+03-18 23:59:20.421 INFO 								"cluster_id" : "70 == 'IcdManagement'",
+03-18 23:59:20.421 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.422 INFO 							},
+03-18 23:59:20.422 INFO 							"status" : 
+03-18 23:59:20.422 INFO 							{
+03-18 23:59:20.422 INFO 								"status" : "195 == kUnsupportedCluster"
+03-18 23:59:20.422 INFO 							}
+03-18 23:59:20.422 INFO 						}
+03-18 23:59:20.422 INFO 					},
+03-18 23:59:20.422 INFO 					"Anonymous<2>" : 
+03-18 23:59:20.422 INFO 					{
+03-18 23:59:20.422 INFO 						"attribute_data" : 
+03-18 23:59:20.422 INFO 						{
+03-18 23:59:20.422 INFO 							"GeneralCommissioning::supportsConcurrentConnection" : "true",
+03-18 23:59:20.422 INFO 							"data_version" : "1288360510",
+03-18 23:59:20.422 INFO 							"path" : 
+03-18 23:59:20.423 INFO 							{
+03-18 23:59:20.423 INFO 								"attribute_id" : "4 == 'supportsConcurrentConnection'",
+03-18 23:59:20.423 INFO 								"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.423 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.423 INFO 							}
+03-18 23:59:20.423 INFO 						}
+03-18 23:59:20.423 INFO 					}
+03-18 23:59:20.424 INFO 				},
+03-18 23:59:20.424 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.424 INFO 				"suppress_response" : "true"
+03-18 23:59:20.424 INFO 			}
+03-18 23:59:20.424 INFO 		},
+03-18 23:59:20.424 INFO 		"hex" : "15360115350037002402002403462404071835012400C318181815350037002402002403462404061835012400C318181815350126003ED2CA4C3701240200240330240404182902181818290424FF0B18",
+03-18 23:59:20.424 INFO 		"size" : 81
+03-18 23:59:20.424 INFO 	},
+03-18 23:59:20.424 INFO 	"payloadHeader" : 
+03-18 23:59:20.424 INFO 	{
+03-18 23:59:20.424 INFO 		"ackMessageCounter" : 259071566,
+03-18 23:59:20.424 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.424 INFO 		"exchangeId" : 28024,
+03-18 23:59:20.424 INFO 		"initiator" : false,
+03-18 23:59:20.424 INFO 		"messageType" : 5,
+03-18 23:59:20.424 INFO 		"needsAck" : true,
+03-18 23:59:20.424 INFO 		"protocolId" : 1
+03-18 23:59:20.424 INFO 	}
+03-18 23:59:20.425 INFO }
+03-18 23:59:20.425 INFO >>> [E:28024i S:50322 M:232973894 (Ack:259071566)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:05 (IM:ReportData)
+03-18 23:59:20.429 INFO ----- NetworkCommissioning Features: has Ethernet. endpointid = 0
+03-18 23:59:20.430 INFO No matching fabric found
+03-18 23:59:20.430 INFO Successfully finished commissioning step 'ReadCommissioningInfo2'
+03-18 23:59:20.430 INFO Commissioning stage next step: 'ReadCommissioningInfo2' -> 'ArmFailSafe'
+03-18 23:59:20.430 INFO Performing next commissioning step 'ArmFailSafe'
+03-18 23:59:20.430 INFO Arming failsafe (60 seconds)
+03-18 23:59:20.432 INFO {
+03-18 23:59:20.432 INFO 	"event" : "MessageSend",
+03-18 23:59:20.433 INFO 	"messageType" : "Secure",
+03-18 23:59:20.433 INFO 	"packetHeader" : 
+03-18 23:59:20.433 INFO 	{
+03-18 23:59:20.433 INFO 		"flags" : 0,
+03-18 23:59:20.433 INFO 		"msgCounter" : 259071568,
+03-18 23:59:20.433 INFO 		"securityFlags" : 0,
+03-18 23:59:20.433 INFO 		"sessionId" : 48544
+03-18 23:59:20.433 INFO 	},
+03-18 23:59:20.433 INFO 	"payload" : 
+03-18 23:59:20.433 INFO 	{
+03-18 23:59:20.433 INFO 		"decoded" : 
+03-18 23:59:20.433 INFO 		{
+03-18 23:59:20.433 INFO 			"invoke_request" : 
+03-18 23:59:20.433 INFO 			{
+03-18 23:59:20.433 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.433 INFO 				"invoke_requests" : 
+03-18 23:59:20.433 INFO 				{
+03-18 23:59:20.433 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.433 INFO 					{
+03-18 23:59:20.434 INFO 						"GeneralCommissioning::ArmFailSafe" : 
+03-18 23:59:20.434 INFO 						{
+03-18 23:59:20.434 INFO 							"breadcrumb" : "4",
+03-18 23:59:20.434 INFO 							"expiryLengthSeconds" : "60"
+03-18 23:59:20.434 INFO 						},
+03-18 23:59:20.434 INFO 						"path" : 
+03-18 23:59:20.434 INFO 						{
+03-18 23:59:20.434 INFO 							"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.434 INFO 							"command_id" : "0 == 'ArmFailSafe'",
+03-18 23:59:20.434 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.434 INFO 						}
+03-18 23:59:20.434 INFO 					}
+03-18 23:59:20.434 INFO 				},
+03-18 23:59:20.434 INFO 				"suppress_response" : "false",
+03-18 23:59:20.434 INFO 				"timed_request" : "false"
+03-18 23:59:20.434 INFO 			}
+03-18 23:59:20.434 INFO 		},
+03-18 23:59:20.434 INFO 		"hex" : "1528002801360215370024000024013024020018350124003C24010418181824FF0B18",
+03-18 23:59:20.434 INFO 		"size" : 35
+03-18 23:59:20.435 INFO 	},
+03-18 23:59:20.435 INFO 	"payloadHeader" : 
+03-18 23:59:20.435 INFO 	{
+03-18 23:59:20.435 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.435 INFO 		"exchangeId" : 28025,
+03-18 23:59:20.435 INFO 		"initiator" : true,
+03-18 23:59:20.435 INFO 		"messageType" : 8,
+03-18 23:59:20.435 INFO 		"needsAck" : true,
+03-18 23:59:20.435 INFO 		"protocolId" : 1
+03-18 23:59:20.435 INFO 	}
+03-18 23:59:20.435 INFO }
+03-18 23:59:20.435 INFO <<< [E:28025i S:50322 M:259071568] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.436 INFO {
+03-18 23:59:20.436 INFO 	"event" : "MessageSend",
+03-18 23:59:20.436 INFO 	"messageType" : "Secure",
+03-18 23:59:20.436 INFO 	"packetHeader" : 
+03-18 23:59:20.436 INFO 	{
+03-18 23:59:20.436 INFO 		"flags" : 0,
+03-18 23:59:20.436 INFO 		"msgCounter" : 259071569,
+03-18 23:59:20.436 INFO 		"securityFlags" : 0,
+03-18 23:59:20.436 INFO 		"sessionId" : 48544
+03-18 23:59:20.436 INFO 	},
+03-18 23:59:20.436 INFO 	"payload" : 
+03-18 23:59:20.436 INFO 	{
+03-18 23:59:20.436 INFO 		"decoded" : 
+03-18 23:59:20.436 INFO 		{
+03-18 23:59:20.437 INFO 			"mrp_ack" : ""
+03-18 23:59:20.437 INFO 		},
+03-18 23:59:20.437 INFO 		"hex" : "",
+03-18 23:59:20.437 INFO 		"size" : 0
+03-18 23:59:20.437 INFO 	},
+03-18 23:59:20.437 INFO 	"payloadHeader" : 
+03-18 23:59:20.437 INFO 	{
+03-18 23:59:20.437 INFO 		"ackMessageCounter" : 232973894,
+03-18 23:59:20.437 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.437 INFO 		"exchangeId" : 28024,
+03-18 23:59:20.437 INFO 		"initiator" : true,
+03-18 23:59:20.437 INFO 		"messageType" : 16,
+03-18 23:59:20.437 INFO 		"needsAck" : false,
+03-18 23:59:20.437 INFO 		"protocolId" : 0
+03-18 23:59:20.437 INFO 	}
+03-18 23:59:20.438 INFO }
+03-18 23:59:20.438 INFO <<< [E:28024i S:50322 M:259071569 (Ack:232973894)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.439 INFO {
+03-18 23:59:20.439 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.439 INFO 	"messageType" : "Secure",
+03-18 23:59:20.439 INFO 	"packetHeader" : 
+03-18 23:59:20.439 INFO 	{
+03-18 23:59:20.439 INFO 		"flags" : 0,
+03-18 23:59:20.439 INFO 		"msgCounter" : 232973895,
+03-18 23:59:20.439 INFO 		"securityFlags" : 0,
+03-18 23:59:20.439 INFO 		"sessionId" : 50322
+03-18 23:59:20.439 INFO 	},
+03-18 23:59:20.440 INFO 	"payload" : 
+03-18 23:59:20.440 INFO 	{
+03-18 23:59:20.440 INFO 		"decoded" : 
+03-18 23:59:20.440 INFO 		{
+03-18 23:59:20.440 INFO 			"invoke_response" : 
+03-18 23:59:20.440 INFO 			{
+03-18 23:59:20.440 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.440 INFO 				"invoke_responses" : 
+03-18 23:59:20.440 INFO 				{
+03-18 23:59:20.440 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.440 INFO 					{
+03-18 23:59:20.440 INFO 						"command" : 
+03-18 23:59:20.440 INFO 						{
+03-18 23:59:20.441 INFO 							"GeneralCommissioning::ArmFailSafeResponse" : 
+03-18 23:59:20.441 INFO 							{
+03-18 23:59:20.441 INFO 								"debugText" : "\"\"",
+03-18 23:59:20.441 INFO 								"errorCode" : "0 == kOK"
+03-18 23:59:20.441 INFO 							},
+03-18 23:59:20.441 INFO 							"path" : 
+03-18 23:59:20.441 INFO 							{
+03-18 23:59:20.442 INFO 								"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.442 INFO 								"command_id" : "1 == 'ArmFailSafeResponse'",
+03-18 23:59:20.443 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.443 INFO 							}
+03-18 23:59:20.443 INFO 						}
+03-18 23:59:20.443 INFO 					}
+03-18 23:59:20.443 INFO 				},
+03-18 23:59:20.443 INFO 				"suppress_response" : "false"
+03-18 23:59:20.443 INFO 			}
+03-18 23:59:20.443 INFO 		},
+03-18 23:59:20.443 INFO 		"hex" : "152800360115350037002400002401302402011835012400002C01001818181824FF0B18",
+03-18 23:59:20.443 INFO 		"size" : 36
+03-18 23:59:20.443 INFO 	},
+03-18 23:59:20.443 INFO 	"payloadHeader" : 
+03-18 23:59:20.443 INFO 	{
+03-18 23:59:20.443 INFO 		"ackMessageCounter" : 259071568,
+03-18 23:59:20.443 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.443 INFO 		"exchangeId" : 28025,
+03-18 23:59:20.443 INFO 		"initiator" : false,
+03-18 23:59:20.443 INFO 		"messageType" : 9,
+03-18 23:59:20.444 INFO 		"needsAck" : true,
+03-18 23:59:20.444 INFO 		"protocolId" : 1
+03-18 23:59:20.444 INFO 	}
+03-18 23:59:20.444 INFO }
+03-18 23:59:20.444 INFO >>> [E:28025i S:50322 M:232973895 (Ack:259071568)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.448 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_0030 Command=0x0000_0001
+03-18 23:59:20.448 INFO Received ArmFailSafe response errorCode=0
+03-18 23:59:20.448 INFO Successfully finished commissioning step 'ArmFailSafe'
+03-18 23:59:20.448 INFO Commissioning stage next step: 'ArmFailSafe' -> 'ConfigRegulatory'
+03-18 23:59:20.448 INFO Performing next commissioning step 'ConfigRegulatory'
+03-18 23:59:20.448 INFO Setting Regulatory Config
+03-18 23:59:20.448 INFO No regulatory config supplied by controller, leaving as device default (0)
+03-18 23:59:20.449 INFO {
+03-18 23:59:20.449 INFO 	"event" : "MessageSend",
+03-18 23:59:20.449 INFO 	"messageType" : "Secure",
+03-18 23:59:20.449 INFO 	"packetHeader" : 
+03-18 23:59:20.449 INFO 	{
+03-18 23:59:20.450 INFO 		"flags" : 0,
+03-18 23:59:20.450 INFO 		"msgCounter" : 259071570,
+03-18 23:59:20.450 INFO 		"securityFlags" : 0,
+03-18 23:59:20.450 INFO 		"sessionId" : 48544
+03-18 23:59:20.450 INFO 	},
+03-18 23:59:20.450 INFO 	"payload" : 
+03-18 23:59:20.450 INFO 	{
+03-18 23:59:20.450 INFO 		"decoded" : 
+03-18 23:59:20.450 INFO 		{
+03-18 23:59:20.450 INFO 			"invoke_request" : 
+03-18 23:59:20.450 INFO 			{
+03-18 23:59:20.450 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.450 INFO 				"invoke_requests" : 
+03-18 23:59:20.450 INFO 				{
+03-18 23:59:20.450 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.450 INFO 					{
+03-18 23:59:20.450 INFO 						"GeneralCommissioning::SetRegulatoryConfig" : 
+03-18 23:59:20.450 INFO 						{
+03-18 23:59:20.450 INFO 							"breadcrumb" : "5",
+03-18 23:59:20.450 INFO 							"countryCode" : "\"XX\"",
+03-18 23:59:20.450 INFO 							"newRegulatoryConfig" : "0 == kIndoor"
+03-18 23:59:20.451 INFO 						},
+03-18 23:59:20.451 INFO 						"path" : 
+03-18 23:59:20.451 INFO 						{
+03-18 23:59:20.451 INFO 							"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.451 INFO 							"command_id" : "2 == 'SetRegulatoryConfig'",
+03-18 23:59:20.451 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.451 INFO 						}
+03-18 23:59:20.451 INFO 					}
+03-18 23:59:20.451 INFO 				},
+03-18 23:59:20.451 INFO 				"suppress_response" : "false",
+03-18 23:59:20.451 INFO 				"timed_request" : "false"
+03-18 23:59:20.451 INFO 			}
+03-18 23:59:20.451 INFO 		},
+03-18 23:59:20.451 INFO 		"hex" : "152800280136021537002400002401302402021835012400002C0102585824020518181824FF0B18",
+03-18 23:59:20.451 INFO 		"size" : 40
+03-18 23:59:20.451 INFO 	},
+03-18 23:59:20.451 INFO 	"payloadHeader" : 
+03-18 23:59:20.451 INFO 	{
+03-18 23:59:20.451 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.452 INFO 		"exchangeId" : 28026,
+03-18 23:59:20.452 INFO 		"initiator" : true,
+03-18 23:59:20.452 INFO 		"messageType" : 8,
+03-18 23:59:20.452 INFO 		"needsAck" : true,
+03-18 23:59:20.452 INFO 		"protocolId" : 1
+03-18 23:59:20.452 INFO 	}
+03-18 23:59:20.452 INFO }
+03-18 23:59:20.453 INFO <<< [E:28026i S:50322 M:259071570] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.454 INFO {
+03-18 23:59:20.454 INFO 	"event" : "MessageSend",
+03-18 23:59:20.454 INFO 	"messageType" : "Secure",
+03-18 23:59:20.454 INFO 	"packetHeader" : 
+03-18 23:59:20.456 INFO 	{
+03-18 23:59:20.457 INFO 		"flags" : 0,
+03-18 23:59:20.457 INFO 		"msgCounter" : 259071571,
+03-18 23:59:20.457 INFO 		"securityFlags" : 0,
+03-18 23:59:20.458 INFO 		"sessionId" : 48544
+03-18 23:59:20.458 INFO 	},
+03-18 23:59:20.458 INFO 	"payload" : 
+03-18 23:59:20.458 INFO 	{
+03-18 23:59:20.458 INFO 		"decoded" : 
+03-18 23:59:20.458 INFO 		{
+03-18 23:59:20.458 INFO 			"mrp_ack" : ""
+03-18 23:59:20.458 INFO 		},
+03-18 23:59:20.458 INFO 		"hex" : "",
+03-18 23:59:20.458 INFO 		"size" : 0
+03-18 23:59:20.458 INFO 	},
+03-18 23:59:20.458 INFO 	"payloadHeader" : 
+03-18 23:59:20.458 INFO 	{
+03-18 23:59:20.458 INFO 		"ackMessageCounter" : 232973895,
+03-18 23:59:20.460 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.460 INFO 		"exchangeId" : 28025,
+03-18 23:59:20.460 INFO 		"initiator" : true,
+03-18 23:59:20.460 INFO 		"messageType" : 16,
+03-18 23:59:20.460 INFO 		"needsAck" : false,
+03-18 23:59:20.460 INFO 		"protocolId" : 0
+03-18 23:59:20.460 INFO 	}
+03-18 23:59:20.460 INFO }
+03-18 23:59:20.461 INFO <<< [E:28025i S:50322 M:259071571 (Ack:232973895)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.461 INFO {
+03-18 23:59:20.461 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.461 INFO 	"messageType" : "Secure",
+03-18 23:59:20.462 INFO 	"packetHeader" : 
+03-18 23:59:20.462 INFO 	{
+03-18 23:59:20.462 INFO 		"flags" : 0,
+03-18 23:59:20.462 INFO 		"msgCounter" : 232973896,
+03-18 23:59:20.463 INFO 		"securityFlags" : 0,
+03-18 23:59:20.463 INFO 		"sessionId" : 50322
+03-18 23:59:20.463 INFO 	},
+03-18 23:59:20.463 INFO 	"payload" : 
+03-18 23:59:20.463 INFO 	{
+03-18 23:59:20.463 INFO 		"decoded" : 
+03-18 23:59:20.463 INFO 		{
+03-18 23:59:20.463 INFO 			"invoke_response" : 
+03-18 23:59:20.463 INFO 			{
+03-18 23:59:20.463 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.463 INFO 				"invoke_responses" : 
+03-18 23:59:20.463 INFO 				{
+03-18 23:59:20.463 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.463 INFO 					{
+03-18 23:59:20.463 INFO 						"command" : 
+03-18 23:59:20.463 INFO 						{
+03-18 23:59:20.463 INFO 							"GeneralCommissioning::SetRegulatoryConfigResponse" : 
+03-18 23:59:20.463 INFO 							{
+03-18 23:59:20.463 INFO 								"debugText" : "\"\"",
+03-18 23:59:20.464 INFO 								"errorCode" : "0 == kOK"
+03-18 23:59:20.464 INFO 							},
+03-18 23:59:20.464 INFO 							"path" : 
+03-18 23:59:20.464 INFO 							{
+03-18 23:59:20.464 INFO 								"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:20.464 INFO 								"command_id" : "3 == 'SetRegulatoryConfigResponse'",
+03-18 23:59:20.464 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.464 INFO 							}
+03-18 23:59:20.464 INFO 						}
+03-18 23:59:20.464 INFO 					}
+03-18 23:59:20.464 INFO 				},
+03-18 23:59:20.464 INFO 				"suppress_response" : "false"
+03-18 23:59:20.464 INFO 			}
+03-18 23:59:20.464 INFO 		},
+03-18 23:59:20.464 INFO 		"hex" : "152800360115350037002400002401302402031835012400002C01001818181824FF0B18",
+03-18 23:59:20.464 INFO 		"size" : 36
+03-18 23:59:20.464 INFO 	},
+03-18 23:59:20.464 INFO 	"payloadHeader" : 
+03-18 23:59:20.464 INFO 	{
+03-18 23:59:20.465 INFO 		"ackMessageCounter" : 259071570,
+03-18 23:59:20.465 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.465 INFO 		"exchangeId" : 28026,
+03-18 23:59:20.465 INFO 		"initiator" : false,
+03-18 23:59:20.465 INFO 		"messageType" : 9,
+03-18 23:59:20.465 INFO 		"needsAck" : true,
+03-18 23:59:20.465 INFO 		"protocolId" : 1
+03-18 23:59:20.465 INFO 	}
+03-18 23:59:20.465 INFO }
+03-18 23:59:20.465 INFO >>> [E:28026i S:50322 M:232973896 (Ack:259071570)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.467 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_0030 Command=0x0000_0003
+03-18 23:59:20.467 INFO Received SetRegulatoryConfig response errorCode=0
+03-18 23:59:20.467 INFO Successfully finished commissioning step 'ConfigRegulatory'
+03-18 23:59:20.467 INFO Commissioning stage next step: 'ConfigRegulatory' -> 'ConfigureUTCTime'
+03-18 23:59:20.467 INFO Performing next commissioning step 'ConfigureUTCTime'
+03-18 23:59:20.469 INFO {
+03-18 23:59:20.469 INFO 	"event" : "MessageSend",
+03-18 23:59:20.470 INFO 	"messageType" : "Secure",
+03-18 23:59:20.470 INFO 	"packetHeader" : 
+03-18 23:59:20.470 INFO 	{
+03-18 23:59:20.470 INFO 		"flags" : 0,
+03-18 23:59:20.470 INFO 		"msgCounter" : 259071572,
+03-18 23:59:20.471 INFO 		"securityFlags" : 0,
+03-18 23:59:20.471 INFO 		"sessionId" : 48544
+03-18 23:59:20.471 INFO 	},
+03-18 23:59:20.471 INFO 	"payload" : 
+03-18 23:59:20.471 INFO 	{
+03-18 23:59:20.471 INFO 		"decoded" : 
+03-18 23:59:20.471 INFO 		{
+03-18 23:59:20.471 INFO 			"invoke_request" : 
+03-18 23:59:20.471 INFO 			{
+03-18 23:59:20.471 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.471 INFO 				"invoke_requests" : 
+03-18 23:59:20.471 INFO 				{
+03-18 23:59:20.471 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.471 INFO 					{
+03-18 23:59:20.472 INFO 						"TimeSynchronization::SetUTCTime" : 
+03-18 23:59:20.472 INFO 						{
+03-18 23:59:20.472 INFO 							"UTCTime" : "764146760467814",
+03-18 23:59:20.472 INFO 							"granularity" : "2 == kSecondsGranularity"
+03-18 23:59:20.472 INFO 						},
+03-18 23:59:20.472 INFO 						"path" : 
+03-18 23:59:20.472 INFO 						{
+03-18 23:59:20.472 INFO 							"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.472 INFO 							"command_id" : "0 == 'SetUTCTime'",
+03-18 23:59:20.472 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.472 INFO 						}
+03-18 23:59:20.472 INFO 					}
+03-18 23:59:20.472 INFO 				},
+03-18 23:59:20.472 INFO 				"suppress_response" : "false",
+03-18 23:59:20.473 INFO 				"timed_request" : "false"
+03-18 23:59:20.473 INFO 			}
+03-18 23:59:20.473 INFO 		},
+03-18 23:59:20.473 INFO 		"hex" : "15280028013602153700240000240138240200183501270066C536C8FCB6020024010218181824FF0B18",
+03-18 23:59:20.473 INFO 		"size" : 42
+03-18 23:59:20.473 INFO 	},
+03-18 23:59:20.474 INFO 	"payloadHeader" : 
+03-18 23:59:20.474 INFO 	{
+03-18 23:59:20.474 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.474 INFO 		"exchangeId" : 28027,
+03-18 23:59:20.474 INFO 		"initiator" : true,
+03-18 23:59:20.474 INFO 		"messageType" : 8,
+03-18 23:59:20.474 INFO 		"needsAck" : true,
+03-18 23:59:20.475 INFO 		"protocolId" : 1
+03-18 23:59:20.475 INFO 	}
+03-18 23:59:20.475 INFO }
+03-18 23:59:20.475 INFO <<< [E:28027i S:50322 M:259071572] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.476 INFO {
+03-18 23:59:20.476 INFO 	"event" : "MessageSend",
+03-18 23:59:20.476 INFO 	"messageType" : "Secure",
+03-18 23:59:20.476 INFO 	"packetHeader" : 
+03-18 23:59:20.476 INFO 	{
+03-18 23:59:20.476 INFO 		"flags" : 0,
+03-18 23:59:20.476 INFO 		"msgCounter" : 259071573,
+03-18 23:59:20.476 INFO 		"securityFlags" : 0,
+03-18 23:59:20.476 INFO 		"sessionId" : 48544
+03-18 23:59:20.476 INFO 	},
+03-18 23:59:20.476 INFO 	"payload" : 
+03-18 23:59:20.477 INFO 	{
+03-18 23:59:20.477 INFO 		"decoded" : 
+03-18 23:59:20.477 INFO 		{
+03-18 23:59:20.477 INFO 			"mrp_ack" : ""
+03-18 23:59:20.477 INFO 		},
+03-18 23:59:20.477 INFO 		"hex" : "",
+03-18 23:59:20.478 INFO 		"size" : 0
+03-18 23:59:20.478 INFO 	},
+03-18 23:59:20.478 INFO 	"payloadHeader" : 
+03-18 23:59:20.478 INFO 	{
+03-18 23:59:20.478 INFO 		"ackMessageCounter" : 232973896,
+03-18 23:59:20.478 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.478 INFO 		"exchangeId" : 28026,
+03-18 23:59:20.478 INFO 		"initiator" : true,
+03-18 23:59:20.479 INFO 		"messageType" : 16,
+03-18 23:59:20.479 INFO 		"needsAck" : false,
+03-18 23:59:20.479 INFO 		"protocolId" : 0
+03-18 23:59:20.479 INFO 	}
+03-18 23:59:20.479 INFO }
+03-18 23:59:20.479 INFO <<< [E:28026i S:50322 M:259071573 (Ack:232973896)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.480 INFO {
+03-18 23:59:20.480 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.480 INFO 	"messageType" : "Secure",
+03-18 23:59:20.480 INFO 	"packetHeader" : 
+03-18 23:59:20.480 INFO 	{
+03-18 23:59:20.480 INFO 		"flags" : 0,
+03-18 23:59:20.480 INFO 		"msgCounter" : 232973897,
+03-18 23:59:20.480 INFO 		"securityFlags" : 0,
+03-18 23:59:20.480 INFO 		"sessionId" : 50322
+03-18 23:59:20.480 INFO 	},
+03-18 23:59:20.480 INFO 	"payload" : 
+03-18 23:59:20.480 INFO 	{
+03-18 23:59:20.480 INFO 		"decoded" : 
+03-18 23:59:20.480 INFO 		{
+03-18 23:59:20.481 INFO 			"invoke_response" : 
+03-18 23:59:20.481 INFO 			{
+03-18 23:59:20.481 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.481 INFO 				"invoke_responses" : 
+03-18 23:59:20.481 INFO 				{
+03-18 23:59:20.481 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.482 INFO 					{
+03-18 23:59:20.482 INFO 						"status" : 
+03-18 23:59:20.482 INFO 						{
+03-18 23:59:20.482 INFO 							"path" : 
+03-18 23:59:20.482 INFO 							{
+03-18 23:59:20.482 INFO 								"cluster_id" : "56 == 'TimeSynchronization'",
+03-18 23:59:20.482 INFO 								"command_id" : "0 == 'SetUTCTime'",
+03-18 23:59:20.482 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.483 INFO 							},
+03-18 23:59:20.483 INFO 							"status" : 
+03-18 23:59:20.483 INFO 							{
+03-18 23:59:20.483 INFO 								"cluster_status" : "2",
+03-18 23:59:20.483 INFO 								"status" : "1 == kFailure"
+03-18 23:59:20.483 INFO 							}
+03-18 23:59:20.483 INFO 						}
+03-18 23:59:20.483 INFO 					}
+03-18 23:59:20.483 INFO 				},
+03-18 23:59:20.483 INFO 				"suppress_response" : "false"
+03-18 23:59:20.483 INFO 			}
+03-18 23:59:20.483 INFO 		},
+03-18 23:59:20.483 INFO 		"hex" : "152800360115350137002400002401382402001835012400012401021818181824FF0B18",
+03-18 23:59:20.483 INFO 		"size" : 36
+03-18 23:59:20.483 INFO 	},
+03-18 23:59:20.483 INFO 	"payloadHeader" : 
+03-18 23:59:20.483 INFO 	{
+03-18 23:59:20.483 INFO 		"ackMessageCounter" : 259071572,
+03-18 23:59:20.484 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.484 INFO 		"exchangeId" : 28027,
+03-18 23:59:20.484 INFO 		"initiator" : false,
+03-18 23:59:20.484 INFO 		"messageType" : 9,
+03-18 23:59:20.484 INFO 		"needsAck" : true,
+03-18 23:59:20.484 INFO 		"protocolId" : 1
+03-18 23:59:20.485 INFO 	}
+03-18 23:59:20.485 INFO }
+03-18 23:59:20.485 INFO >>> [E:28027i S:50322 M:232973897 (Ack:259071572)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.486 INFO Received Command Response Status for Endpoint=0 Cluster=0x0000_0038 Command=0x0000_0000 Status=0x1
+03-18 23:59:20.487 INFO Successfully finished commissioning step 'ConfigureUTCTime'
+03-18 23:59:20.487 INFO Commissioning stage next step: 'ConfigureUTCTime' -> 'SendPAICertificateRequest'
+03-18 23:59:20.487 INFO Performing next commissioning step 'SendPAICertificateRequest'
+03-18 23:59:20.487 INFO Sending request for PAI certificate
+03-18 23:59:20.488 INFO {
+03-18 23:59:20.488 INFO 	"event" : "MessageSend",
+03-18 23:59:20.488 INFO 	"messageType" : "Secure",
+03-18 23:59:20.488 INFO 	"packetHeader" : 
+03-18 23:59:20.488 INFO 	{
+03-18 23:59:20.488 INFO 		"flags" : 0,
+03-18 23:59:20.488 INFO 		"msgCounter" : 259071574,
+03-18 23:59:20.488 INFO 		"securityFlags" : 0,
+03-18 23:59:20.488 INFO 		"sessionId" : 48544
+03-18 23:59:20.488 INFO 	},
+03-18 23:59:20.489 INFO 	"payload" : 
+03-18 23:59:20.489 INFO 	{
+03-18 23:59:20.489 INFO 		"decoded" : 
+03-18 23:59:20.489 INFO 		{
+03-18 23:59:20.489 INFO 			"invoke_request" : 
+03-18 23:59:20.489 INFO 			{
+03-18 23:59:20.489 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.489 INFO 				"invoke_requests" : 
+03-18 23:59:20.489 INFO 				{
+03-18 23:59:20.489 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.489 INFO 					{
+03-18 23:59:20.489 INFO 						"OperationalCredentials::CertificateChainRequest" : 
+03-18 23:59:20.489 INFO 						{
+03-18 23:59:20.489 INFO 							"certificateType" : "2 == kPAICertificate"
+03-18 23:59:20.489 INFO 						},
+03-18 23:59:20.489 INFO 						"path" : 
+03-18 23:59:20.489 INFO 						{
+03-18 23:59:20.489 INFO 							"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.489 INFO 							"command_id" : "2 == 'CertificateChainRequest'",
+03-18 23:59:20.489 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.490 INFO 						}
+03-18 23:59:20.490 INFO 					}
+03-18 23:59:20.490 INFO 				},
+03-18 23:59:20.490 INFO 				"suppress_response" : "false",
+03-18 23:59:20.490 INFO 				"timed_request" : "false"
+03-18 23:59:20.490 INFO 			}
+03-18 23:59:20.490 INFO 		},
+03-18 23:59:20.490 INFO 		"hex" : "1528002801360215370024000024013E24020218350124000218181824FF0B18",
+03-18 23:59:20.490 INFO 		"size" : 32
+03-18 23:59:20.490 INFO 	},
+03-18 23:59:20.490 INFO 	"payloadHeader" : 
+03-18 23:59:20.490 INFO 	{
+03-18 23:59:20.490 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.490 INFO 		"exchangeId" : 28028,
+03-18 23:59:20.490 INFO 		"initiator" : true,
+03-18 23:59:20.490 INFO 		"messageType" : 8,
+03-18 23:59:20.490 INFO 		"needsAck" : true,
+03-18 23:59:20.490 INFO 		"protocolId" : 1
+03-18 23:59:20.491 INFO 	}
+03-18 23:59:20.491 INFO }
+03-18 23:59:20.491 INFO <<< [E:28028i S:50322 M:259071574] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.491 INFO {
+03-18 23:59:20.491 INFO 	"event" : "MessageSend",
+03-18 23:59:20.491 INFO 	"messageType" : "Secure",
+03-18 23:59:20.491 INFO 	"packetHeader" : 
+03-18 23:59:20.491 INFO 	{
+03-18 23:59:20.492 INFO 		"flags" : 0,
+03-18 23:59:20.492 INFO 		"msgCounter" : 259071575,
+03-18 23:59:20.492 INFO 		"securityFlags" : 0,
+03-18 23:59:20.493 INFO 		"sessionId" : 48544
+03-18 23:59:20.494 INFO 	},
+03-18 23:59:20.495 INFO 	"payload" : 
+03-18 23:59:20.495 INFO 	{
+03-18 23:59:20.495 INFO 		"decoded" : 
+03-18 23:59:20.496 INFO 		{
+03-18 23:59:20.496 INFO 			"mrp_ack" : ""
+03-18 23:59:20.497 INFO 		},
+03-18 23:59:20.497 INFO 		"hex" : "",
+03-18 23:59:20.497 INFO 		"size" : 0
+03-18 23:59:20.497 INFO 	},
+03-18 23:59:20.497 INFO 	"payloadHeader" : 
+03-18 23:59:20.497 INFO 	{
+03-18 23:59:20.497 INFO 		"ackMessageCounter" : 232973897,
+03-18 23:59:20.497 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.497 INFO 		"exchangeId" : 28027,
+03-18 23:59:20.497 INFO 		"initiator" : true,
+03-18 23:59:20.497 INFO 		"messageType" : 16,
+03-18 23:59:20.498 INFO 		"needsAck" : false,
+03-18 23:59:20.498 INFO 		"protocolId" : 0
+03-18 23:59:20.498 INFO 	}
+03-18 23:59:20.498 INFO }
+03-18 23:59:20.498 INFO <<< [E:28027i S:50322 M:259071575 (Ack:232973897)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.498 INFO {
+03-18 23:59:20.498 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.498 INFO 	"messageType" : "Secure",
+03-18 23:59:20.498 INFO 	"packetHeader" : 
+03-18 23:59:20.498 INFO 	{
+03-18 23:59:20.499 INFO 		"flags" : 0,
+03-18 23:59:20.499 INFO 		"msgCounter" : 232973898,
+03-18 23:59:20.499 INFO 		"securityFlags" : 0,
+03-18 23:59:20.499 INFO 		"sessionId" : 50322
+03-18 23:59:20.499 INFO 	},
+03-18 23:59:20.499 INFO 	"payload" : 
+03-18 23:59:20.499 INFO 	{
+03-18 23:59:20.499 INFO 		"decoded" : 
+03-18 23:59:20.499 INFO 		{
+03-18 23:59:20.499 INFO 			"invoke_response" : 
+03-18 23:59:20.499 INFO 			{
+03-18 23:59:20.499 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.499 INFO 				"invoke_responses" : 
+03-18 23:59:20.499 INFO 				{
+03-18 23:59:20.499 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.499 INFO 					{
+03-18 23:59:20.499 INFO 						"command" : 
+03-18 23:59:20.499 INFO 						{
+03-18 23:59:20.499 INFO 							"OperationalCredentials::CertificateChainResponse" : 
+03-18 23:59:20.499 INFO 							{
+03-18 23:59:20.499 INFO 								"certificate" : "hex:308201CB30820171A003020102020856AD8222AD945B64300A06082A8648CE3D04030230303118301606035504030C0F4D617474657220546573742050414131143012060A2B0601040182A27C02010C04464646313020170D3232303230353030303030305A180F393939393132333132
+03-18 23:59:20.500 INFO 							},
+03-18 23:59:20.500 INFO 							"path" : 
+03-18 23:59:20.500 INFO 							{
+03-18 23:59:20.500 INFO 								"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.500 INFO 								"command_id" : "3 == 'CertificateChainResponse'",
+03-18 23:59:20.500 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.500 INFO 							}
+03-18 23:59:20.500 INFO 						}
+03-18 23:59:20.500 INFO 					}
+03-18 23:59:20.500 INFO 				},
+03-18 23:59:20.500 INFO 				"suppress_response" : "false"
+03-18 23:59:20.500 INFO 			}
+03-18 23:59:20.500 INFO 		},
+03-18 23:59:20.500 INFO 		"hex" : "1528003601153500370024000024013E2402031835013100CF01308201CB30820171A003020102020856AD8222AD945B64300A06082A8648CE3D04030230303118301606035504030C0F4D617474657220546573742050414131143012060A2B0601040182A27C02010C04464646313020170D32323032303530
+03-18 23:59:20.500 INFO 		"size" : 497
+03-18 23:59:20.500 INFO 	},
+03-18 23:59:20.500 INFO 	"payloadHeader" : 
+03-18 23:59:20.500 INFO 	{
+03-18 23:59:20.500 INFO 		"ackMessageCounter" : 259071574,
+03-18 23:59:20.500 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.500 INFO 		"exchangeId" : 28028,
+03-18 23:59:20.500 INFO 		"initiator" : false,
+03-18 23:59:20.500 INFO 		"messageType" : 9,
+03-18 23:59:20.500 INFO 		"needsAck" : true,
+03-18 23:59:20.500 INFO 		"protocolId" : 1
+03-18 23:59:20.500 INFO 	}
+03-18 23:59:20.501 INFO }
+03-18 23:59:20.501 INFO >>> [E:28028i S:50322 M:232973898 (Ack:259071574)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.501 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_003E Command=0x0000_0003
+03-18 23:59:20.502 INFO Received certificate chain from the device
+03-18 23:59:20.502 INFO Successfully finished commissioning step 'SendPAICertificateRequest'
+03-18 23:59:20.502 INFO Commissioning stage next step: 'SendPAICertificateRequest' -> 'SendDACCertificateRequest'
+03-18 23:59:20.502 INFO Performing next commissioning step 'SendDACCertificateRequest'
+03-18 23:59:20.502 INFO Sending request for DAC certificate
+03-18 23:59:20.502 INFO {
+03-18 23:59:20.502 INFO 	"event" : "MessageSend",
+03-18 23:59:20.502 INFO 	"messageType" : "Secure",
+03-18 23:59:20.502 INFO 	"packetHeader" : 
+03-18 23:59:20.502 INFO 	{
+03-18 23:59:20.502 INFO 		"flags" : 0,
+03-18 23:59:20.502 INFO 		"msgCounter" : 259071576,
+03-18 23:59:20.502 INFO 		"securityFlags" : 0,
+03-18 23:59:20.502 INFO 		"sessionId" : 48544
+03-18 23:59:20.502 INFO 	},
+03-18 23:59:20.502 INFO 	"payload" : 
+03-18 23:59:20.502 INFO 	{
+03-18 23:59:20.502 INFO 		"decoded" : 
+03-18 23:59:20.503 INFO 		{
+03-18 23:59:20.503 INFO 			"invoke_request" : 
+03-18 23:59:20.503 INFO 			{
+03-18 23:59:20.503 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.503 INFO 				"invoke_requests" : 
+03-18 23:59:20.503 INFO 				{
+03-18 23:59:20.503 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.503 INFO 					{
+03-18 23:59:20.503 INFO 						"OperationalCredentials::CertificateChainRequest" : 
+03-18 23:59:20.503 INFO 						{
+03-18 23:59:20.503 INFO 							"certificateType" : "1 == kDACCertificate"
+03-18 23:59:20.503 INFO 						},
+03-18 23:59:20.503 INFO 						"path" : 
+03-18 23:59:20.503 INFO 						{
+03-18 23:59:20.503 INFO 							"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.503 INFO 							"command_id" : "2 == 'CertificateChainRequest'",
+03-18 23:59:20.503 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.503 INFO 						}
+03-18 23:59:20.503 INFO 					}
+03-18 23:59:20.503 INFO 				},
+03-18 23:59:20.503 INFO 				"suppress_response" : "false",
+03-18 23:59:20.503 INFO 				"timed_request" : "false"
+03-18 23:59:20.503 INFO 			}
+03-18 23:59:20.503 INFO 		},
+03-18 23:59:20.503 INFO 		"hex" : "1528002801360215370024000024013E24020218350124000118181824FF0B18",
+03-18 23:59:20.503 INFO 		"size" : 32
+03-18 23:59:20.503 INFO 	},
+03-18 23:59:20.504 INFO 	"payloadHeader" : 
+03-18 23:59:20.504 INFO 	{
+03-18 23:59:20.504 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.504 INFO 		"exchangeId" : 28029,
+03-18 23:59:20.504 INFO 		"initiator" : true,
+03-18 23:59:20.504 INFO 		"messageType" : 8,
+03-18 23:59:20.504 INFO 		"needsAck" : true,
+03-18 23:59:20.504 INFO 		"protocolId" : 1
+03-18 23:59:20.504 INFO 	}
+03-18 23:59:20.504 INFO }
+03-18 23:59:20.504 INFO <<< [E:28029i S:50322 M:259071576] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.504 INFO {
+03-18 23:59:20.504 INFO 	"event" : "MessageSend",
+03-18 23:59:20.504 INFO 	"messageType" : "Secure",
+03-18 23:59:20.504 INFO 	"packetHeader" : 
+03-18 23:59:20.504 INFO 	{
+03-18 23:59:20.505 INFO 		"flags" : 0,
+03-18 23:59:20.505 INFO 		"msgCounter" : 259071577,
+03-18 23:59:20.505 INFO 		"securityFlags" : 0,
+03-18 23:59:20.505 INFO 		"sessionId" : 48544
+03-18 23:59:20.505 INFO 	},
+03-18 23:59:20.505 INFO 	"payload" : 
+03-18 23:59:20.505 INFO 	{
+03-18 23:59:20.505 INFO 		"decoded" : 
+03-18 23:59:20.505 INFO 		{
+03-18 23:59:20.505 INFO 			"mrp_ack" : ""
+03-18 23:59:20.505 INFO 		},
+03-18 23:59:20.505 INFO 		"hex" : "",
+03-18 23:59:20.505 INFO 		"size" : 0
+03-18 23:59:20.506 INFO 	},
+03-18 23:59:20.506 INFO 	"payloadHeader" : 
+03-18 23:59:20.506 INFO 	{
+03-18 23:59:20.506 INFO 		"ackMessageCounter" : 232973898,
+03-18 23:59:20.506 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.506 INFO 		"exchangeId" : 28028,
+03-18 23:59:20.507 INFO 		"initiator" : true,
+03-18 23:59:20.507 INFO 		"messageType" : 16,
+03-18 23:59:20.507 INFO 		"needsAck" : false,
+03-18 23:59:20.507 INFO 		"protocolId" : 0
+03-18 23:59:20.507 INFO 	}
+03-18 23:59:20.507 INFO }
+03-18 23:59:20.507 INFO <<< [E:28028i S:50322 M:259071577 (Ack:232973898)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.508 INFO {
+03-18 23:59:20.509 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.509 INFO 	"messageType" : "Secure",
+03-18 23:59:20.509 INFO 	"packetHeader" : 
+03-18 23:59:20.509 INFO 	{
+03-18 23:59:20.509 INFO 		"flags" : 0,
+03-18 23:59:20.509 INFO 		"msgCounter" : 232973899,
+03-18 23:59:20.509 INFO 		"securityFlags" : 0,
+03-18 23:59:20.509 INFO 		"sessionId" : 50322
+03-18 23:59:20.509 INFO 	},
+03-18 23:59:20.509 INFO 	"payload" : 
+03-18 23:59:20.509 INFO 	{
+03-18 23:59:20.509 INFO 		"decoded" : 
+03-18 23:59:20.509 INFO 		{
+03-18 23:59:20.509 INFO 			"invoke_response" : 
+03-18 23:59:20.509 INFO 			{
+03-18 23:59:20.510 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.510 INFO 				"invoke_responses" : 
+03-18 23:59:20.510 INFO 				{
+03-18 23:59:20.510 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.510 INFO 					{
+03-18 23:59:20.510 INFO 						"command" : 
+03-18 23:59:20.510 INFO 						{
+03-18 23:59:20.510 INFO 							"OperationalCredentials::CertificateChainResponse" : 
+03-18 23:59:20.510 INFO 							{
+03-18 23:59:20.510 INFO 								"certificate" : "hex:308201E73082018EA003020102020869CDF10DE9E54ED1300A06082A8648CE3D040302303D3125302306035504030C1C4D6174746572204465762050414920307846464631206E6F2050494431143012060A2B0601040182A27C02010C04464646313020170D3232303230353030303030
+03-18 23:59:20.510 INFO 							},
+03-18 23:59:20.510 INFO 							"path" : 
+03-18 23:59:20.510 INFO 							{
+03-18 23:59:20.510 INFO 								"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.510 INFO 								"command_id" : "3 == 'CertificateChainResponse'",
+03-18 23:59:20.510 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.510 INFO 							}
+03-18 23:59:20.510 INFO 						}
+03-18 23:59:20.510 INFO 					}
+03-18 23:59:20.510 INFO 				},
+03-18 23:59:20.510 INFO 				"suppress_response" : "false"
+03-18 23:59:20.510 INFO 			}
+03-18 23:59:20.511 INFO 		},
+03-18 23:59:20.511 INFO 		"hex" : "1528003601153500370024000024013E2402031835013100EB01308201E73082018EA003020102020869CDF10DE9E54ED1300A06082A8648CE3D040302303D3125302306035504030C1C4D6174746572204465762050414920307846464631206E6F2050494431143012060A2B0601040182A27C02010C044646
+03-18 23:59:20.511 INFO 		"size" : 525
+03-18 23:59:20.511 INFO 	},
+03-18 23:59:20.511 INFO 	"payloadHeader" : 
+03-18 23:59:20.511 INFO 	{
+03-18 23:59:20.511 INFO 		"ackMessageCounter" : 259071576,
+03-18 23:59:20.511 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.511 INFO 		"exchangeId" : 28029,
+03-18 23:59:20.511 INFO 		"initiator" : false,
+03-18 23:59:20.511 INFO 		"messageType" : 9,
+03-18 23:59:20.511 INFO 		"needsAck" : true,
+03-18 23:59:20.511 INFO 		"protocolId" : 1
+03-18 23:59:20.511 INFO 	}
+03-18 23:59:20.511 INFO }
+03-18 23:59:20.511 INFO >>> [E:28029i S:50322 M:232973899 (Ack:259071576)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.512 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_003E Command=0x0000_0003
+03-18 23:59:20.512 INFO Received certificate chain from the device
+03-18 23:59:20.512 INFO Successfully finished commissioning step 'SendDACCertificateRequest'
+03-18 23:59:20.512 INFO Commissioning stage next step: 'SendDACCertificateRequest' -> 'SendAttestationRequest'
+03-18 23:59:20.512 INFO Performing next commissioning step 'SendAttestationRequest'
+03-18 23:59:20.512 INFO Sending Attestation Request to the device.
+03-18 23:59:20.513 INFO {
+03-18 23:59:20.513 INFO 	"event" : "MessageSend",
+03-18 23:59:20.513 INFO 	"messageType" : "Secure",
+03-18 23:59:20.514 INFO 	"packetHeader" : 
+03-18 23:59:20.514 INFO 	{
+03-18 23:59:20.514 INFO 		"flags" : 0,
+03-18 23:59:20.514 INFO 		"msgCounter" : 259071578,
+03-18 23:59:20.514 INFO 		"securityFlags" : 0,
+03-18 23:59:20.514 INFO 		"sessionId" : 48544
+03-18 23:59:20.514 INFO 	},
+03-18 23:59:20.514 INFO 	"payload" : 
+03-18 23:59:20.514 INFO 	{
+03-18 23:59:20.514 INFO 		"decoded" : 
+03-18 23:59:20.514 INFO 		{
+03-18 23:59:20.514 INFO 			"invoke_request" : 
+03-18 23:59:20.514 INFO 			{
+03-18 23:59:20.514 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.514 INFO 				"invoke_requests" : 
+03-18 23:59:20.514 INFO 				{
+03-18 23:59:20.514 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.514 INFO 					{
+03-18 23:59:20.514 INFO 						"OperationalCredentials::AttestationRequest" : 
+03-18 23:59:20.514 INFO 						{
+03-18 23:59:20.514 INFO 							"attestationNonce" : "hex:6353D1E0FCEBB6B8D9F72A4827C61CF2D961D456AD065B842E9044C7BF24E6C1"
+03-18 23:59:20.514 INFO 						},
+03-18 23:59:20.514 INFO 						"path" : 
+03-18 23:59:20.514 INFO 						{
+03-18 23:59:20.514 INFO 							"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.514 INFO 							"command_id" : "0 == 'AttestationRequest'",
+03-18 23:59:20.514 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.515 INFO 						}
+03-18 23:59:20.515 INFO 					}
+03-18 23:59:20.515 INFO 				},
+03-18 23:59:20.515 INFO 				"suppress_response" : "false",
+03-18 23:59:20.515 INFO 				"timed_request" : "false"
+03-18 23:59:20.515 INFO 			}
+03-18 23:59:20.515 INFO 		},
+03-18 23:59:20.515 INFO 		"hex" : "1528002801360215370024000024013E2402001835013000206353D1E0FCEBB6B8D9F72A4827C61CF2D961D456AD065B842E9044C7BF24E6C118181824FF0B18",
+03-18 23:59:20.515 INFO 		"size" : 64
+03-18 23:59:20.515 INFO 	},
+03-18 23:59:20.515 INFO 	"payloadHeader" : 
+03-18 23:59:20.515 INFO 	{
+03-18 23:59:20.515 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.515 INFO 		"exchangeId" : 28030,
+03-18 23:59:20.515 INFO 		"initiator" : true,
+03-18 23:59:20.515 INFO 		"messageType" : 8,
+03-18 23:59:20.515 INFO 		"needsAck" : true,
+03-18 23:59:20.515 INFO 		"protocolId" : 1
+03-18 23:59:20.515 INFO 	}
+03-18 23:59:20.515 INFO }
+03-18 23:59:20.515 INFO <<< [E:28030i S:50322 M:259071578] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.516 INFO {
+03-18 23:59:20.516 INFO 	"event" : "MessageSend",
+03-18 23:59:20.516 INFO 	"messageType" : "Secure",
+03-18 23:59:20.516 INFO 	"packetHeader" : 
+03-18 23:59:20.516 INFO 	{
+03-18 23:59:20.516 INFO 		"flags" : 0,
+03-18 23:59:20.516 INFO 		"msgCounter" : 259071579,
+03-18 23:59:20.516 INFO 		"securityFlags" : 0,
+03-18 23:59:20.516 INFO 		"sessionId" : 48544
+03-18 23:59:20.516 INFO 	},
+03-18 23:59:20.516 INFO 	"payload" : 
+03-18 23:59:20.516 INFO 	{
+03-18 23:59:20.516 INFO 		"decoded" : 
+03-18 23:59:20.517 INFO 		{
+03-18 23:59:20.517 INFO 			"mrp_ack" : ""
+03-18 23:59:20.517 INFO 		},
+03-18 23:59:20.517 INFO 		"hex" : "",
+03-18 23:59:20.517 INFO 		"size" : 0
+03-18 23:59:20.517 INFO 	},
+03-18 23:59:20.517 INFO 	"payloadHeader" : 
+03-18 23:59:20.517 INFO 	{
+03-18 23:59:20.517 INFO 		"ackMessageCounter" : 232973899,
+03-18 23:59:20.517 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.518 INFO 		"exchangeId" : 28029,
+03-18 23:59:20.518 INFO 		"initiator" : true,
+03-18 23:59:20.518 INFO 		"messageType" : 16,
+03-18 23:59:20.518 INFO 		"needsAck" : false,
+03-18 23:59:20.518 INFO 		"protocolId" : 0
+03-18 23:59:20.518 INFO 	}
+03-18 23:59:20.518 INFO }
+03-18 23:59:20.518 INFO <<< [E:28029i S:50322 M:259071579 (Ack:232973899)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.519 INFO {
+03-18 23:59:20.519 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.520 INFO 	"messageType" : "Secure",
+03-18 23:59:20.520 INFO 	"packetHeader" : 
+03-18 23:59:20.520 INFO 	{
+03-18 23:59:20.520 INFO 		"flags" : 0,
+03-18 23:59:20.520 INFO 		"msgCounter" : 232973900,
+03-18 23:59:20.520 INFO 		"securityFlags" : 0,
+03-18 23:59:20.520 INFO 		"sessionId" : 50322
+03-18 23:59:20.520 INFO 	},
+03-18 23:59:20.520 INFO 	"payload" : 
+03-18 23:59:20.520 INFO 	{
+03-18 23:59:20.520 INFO 		"decoded" : 
+03-18 23:59:20.520 INFO 		{
+03-18 23:59:20.520 INFO 			"mrp_ack" : ""
+03-18 23:59:20.520 INFO 		},
+03-18 23:59:20.520 INFO 		"hex" : "",
+03-18 23:59:20.521 INFO 		"size" : 0
+03-18 23:59:20.521 INFO 	},
+03-18 23:59:20.521 INFO 	"payloadHeader" : 
+03-18 23:59:20.521 INFO 	{
+03-18 23:59:20.521 INFO 		"ackMessageCounter" : 259071578,
+03-18 23:59:20.521 INFO 		"exchangeFlags" : 2,
+03-18 23:59:20.521 INFO 		"exchangeId" : 28030,
+03-18 23:59:20.521 INFO 		"initiator" : false,
+03-18 23:59:20.521 INFO 		"messageType" : 16,
+03-18 23:59:20.521 INFO 		"needsAck" : false,
+03-18 23:59:20.521 INFO 		"protocolId" : 0
+03-18 23:59:20.521 INFO 	}
+03-18 23:59:20.521 INFO }
+03-18 23:59:20.521 INFO >>> [E:28030i S:50322 M:232973900 (Ack:259071578)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.522 INFO {
+03-18 23:59:20.522 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.522 INFO 	"messageType" : "Secure",
+03-18 23:59:20.522 INFO 	"packetHeader" : 
+03-18 23:59:20.522 INFO 	{
+03-18 23:59:20.522 INFO 		"flags" : 0,
+03-18 23:59:20.522 INFO 		"msgCounter" : 232973901,
+03-18 23:59:20.522 INFO 		"securityFlags" : 0,
+03-18 23:59:20.522 INFO 		"sessionId" : 50322
+03-18 23:59:20.522 INFO 	},
+03-18 23:59:20.522 INFO 	"payload" : 
+03-18 23:59:20.522 INFO 	{
+03-18 23:59:20.522 INFO 		"decoded" : 
+03-18 23:59:20.522 INFO 		{
+03-18 23:59:20.522 INFO 			"invoke_response" : 
+03-18 23:59:20.522 INFO 			{
+03-18 23:59:20.522 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.522 INFO 				"invoke_responses" : 
+03-18 23:59:20.522 INFO 				{
+03-18 23:59:20.522 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.522 INFO 					{
+03-18 23:59:20.522 INFO 						"command" : 
+03-18 23:59:20.522 INFO 						{
+03-18 23:59:20.522 INFO 							"OperationalCredentials::AttestationResponse" : 
+03-18 23:59:20.522 INFO 							{
+03-18 23:59:20.523 INFO 								"attestationElements" : "hex:1531011B023082021706092A864886F70D010702A082020830820204020103310D300B06096086480165030402013082017006092A864886F70D010701A08201610482015D152400012501F1FF3602050080050180050280050380050480050580050680050780050880050980
+03-18 23:59:20.523 INFO 								"attestationSignature" : "hex:9C66CC4A395C41A8D18B933C3F8300A03389E4F379C1EF4D0866A6191A62F2DE52E264B128A002E9A9E37EBF3E336FC7876C50A7755146E1B54D04E092FB7BD1"
+03-18 23:59:20.523 INFO 							},
+03-18 23:59:20.523 INFO 							"path" : 
+03-18 23:59:20.523 INFO 							{
+03-18 23:59:20.523 INFO 								"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.523 INFO 								"command_id" : "1 == 'AttestationResponse'",
+03-18 23:59:20.523 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.523 INFO 							}
+03-18 23:59:20.523 INFO 						}
+03-18 23:59:20.523 INFO 					}
+03-18 23:59:20.523 INFO 				},
+03-18 23:59:20.523 INFO 				"suppress_response" : "false"
+03-18 23:59:20.523 INFO 			}
+03-18 23:59:20.523 INFO 		},
+03-18 23:59:20.523 INFO 		"hex" : "1528003601153500370024000024013E240201183501310047021531011B023082021706092A864886F70D010702A082020830820204020103310D300B06096086480165030402013082017006092A864886F70D010701A08201610482015D152400012501F1FF36020500800501800502800503800504800505
+03-18 23:59:20.523 INFO 		"size" : 684
+03-18 23:59:20.523 INFO 	},
+03-18 23:59:20.523 INFO 	"payloadHeader" : 
+03-18 23:59:20.523 INFO 	{
+03-18 23:59:20.523 INFO 		"ackMessageCounter" : 259071578,
+03-18 23:59:20.523 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.523 INFO 		"exchangeId" : 28030,
+03-18 23:59:20.523 INFO 		"initiator" : false,
+03-18 23:59:20.523 INFO 		"messageType" : 9,
+03-18 23:59:20.524 INFO 		"needsAck" : true,
+03-18 23:59:20.524 INFO 		"protocolId" : 1
+03-18 23:59:20.524 INFO 	}
+03-18 23:59:20.524 INFO }
+03-18 23:59:20.524 INFO >>> [E:28030i S:50322 M:232973901 (Ack:259071578)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.525 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_003E Command=0x0000_0001
+03-18 23:59:20.525 INFO Received Attestation Information from the device
+03-18 23:59:20.525 INFO Successfully finished commissioning step 'SendAttestationRequest'
+03-18 23:59:20.525 INFO Commissioning stage next step: 'SendAttestationRequest' -> 'AttestationVerification'
+03-18 23:59:20.525 INFO Performing next commissioning step 'AttestationVerification'
+03-18 23:59:20.525 INFO Verifying attestation
+03-18 23:59:20.539 INFO Successfully validated 'Attestation Information' command received from the device.
+03-18 23:59:20.539 INFO Successfully finished commissioning step 'AttestationVerification'
+03-18 23:59:20.539 INFO Commissioning stage next step: 'AttestationVerification' -> 'SendOpCertSigningRequest'
+03-18 23:59:20.539 INFO Performing next commissioning step 'SendOpCertSigningRequest'
+03-18 23:59:20.540 INFO {
+03-18 23:59:20.540 INFO 	"event" : "MessageSend",
+03-18 23:59:20.540 INFO 	"messageType" : "Secure",
+03-18 23:59:20.540 INFO 	"packetHeader" : 
+03-18 23:59:20.540 INFO 	{
+03-18 23:59:20.540 INFO 		"flags" : 0,
+03-18 23:59:20.540 INFO 		"msgCounter" : 259071580,
+03-18 23:59:20.540 INFO 		"securityFlags" : 0,
+03-18 23:59:20.540 INFO 		"sessionId" : 48544
+03-18 23:59:20.541 INFO 	},
+03-18 23:59:20.541 INFO 	"payload" : 
+03-18 23:59:20.541 INFO 	{
+03-18 23:59:20.541 INFO 		"decoded" : 
+03-18 23:59:20.541 INFO 		{
+03-18 23:59:20.541 INFO 			"invoke_request" : 
+03-18 23:59:20.541 INFO 			{
+03-18 23:59:20.541 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.541 INFO 				"invoke_requests" : 
+03-18 23:59:20.541 INFO 				{
+03-18 23:59:20.541 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.541 INFO 					{
+03-18 23:59:20.541 INFO 						"OperationalCredentials::CSRRequest" : 
+03-18 23:59:20.541 INFO 						{
+03-18 23:59:20.541 INFO 							"CSRNonce" : "hex:9FF9EA146A856DA4DC21FD469ED99F0340D35D3B64373231BBD06CB8F1DBCD95"
+03-18 23:59:20.541 INFO 						},
+03-18 23:59:20.541 INFO 						"path" : 
+03-18 23:59:20.541 INFO 						{
+03-18 23:59:20.541 INFO 							"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.541 INFO 							"command_id" : "4 == 'CSRRequest'",
+03-18 23:59:20.541 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.541 INFO 						}
+03-18 23:59:20.542 INFO 					}
+03-18 23:59:20.542 INFO 				},
+03-18 23:59:20.542 INFO 				"suppress_response" : "false",
+03-18 23:59:20.542 INFO 				"timed_request" : "false"
+03-18 23:59:20.542 INFO 			}
+03-18 23:59:20.542 INFO 		},
+03-18 23:59:20.542 INFO 		"hex" : "1528002801360215370024000024013E2402041835013000209FF9EA146A856DA4DC21FD469ED99F0340D35D3B64373231BBD06CB8F1DBCD9518181824FF0B18",
+03-18 23:59:20.542 INFO 		"size" : 64
+03-18 23:59:20.542 INFO 	},
+03-18 23:59:20.542 INFO 	"payloadHeader" : 
+03-18 23:59:20.542 INFO 	{
+03-18 23:59:20.542 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.542 INFO 		"exchangeId" : 28031,
+03-18 23:59:20.542 INFO 		"initiator" : true,
+03-18 23:59:20.542 INFO 		"messageType" : 8,
+03-18 23:59:20.543 INFO 		"needsAck" : true,
+03-18 23:59:20.543 INFO 		"protocolId" : 1
+03-18 23:59:20.543 INFO 	}
+03-18 23:59:20.543 INFO }
+03-18 23:59:20.543 INFO <<< [E:28031i S:50322 M:259071580] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.543 INFO {
+03-18 23:59:20.543 INFO 	"event" : "MessageSend",
+03-18 23:59:20.543 INFO 	"messageType" : "Secure",
+03-18 23:59:20.543 INFO 	"packetHeader" : 
+03-18 23:59:20.543 INFO 	{
+03-18 23:59:20.544 INFO 		"flags" : 0,
+03-18 23:59:20.544 INFO 		"msgCounter" : 259071581,
+03-18 23:59:20.544 INFO 		"securityFlags" : 0,
+03-18 23:59:20.544 INFO 		"sessionId" : 48544
+03-18 23:59:20.544 INFO 	},
+03-18 23:59:20.544 INFO 	"payload" : 
+03-18 23:59:20.544 INFO 	{
+03-18 23:59:20.544 INFO 		"decoded" : 
+03-18 23:59:20.544 INFO 		{
+03-18 23:59:20.544 INFO 			"mrp_ack" : ""
+03-18 23:59:20.544 INFO 		},
+03-18 23:59:20.544 INFO 		"hex" : "",
+03-18 23:59:20.544 INFO 		"size" : 0
+03-18 23:59:20.544 INFO 	},
+03-18 23:59:20.545 INFO 	"payloadHeader" : 
+03-18 23:59:20.545 INFO 	{
+03-18 23:59:20.545 INFO 		"ackMessageCounter" : 232973901,
+03-18 23:59:20.545 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.545 INFO 		"exchangeId" : 28030,
+03-18 23:59:20.545 INFO 		"initiator" : true,
+03-18 23:59:20.545 INFO 		"messageType" : 16,
+03-18 23:59:20.545 INFO 		"needsAck" : false,
+03-18 23:59:20.545 INFO 		"protocolId" : 0
+03-18 23:59:20.545 INFO 	}
+03-18 23:59:20.545 INFO }
+03-18 23:59:20.546 INFO <<< [E:28030i S:50322 M:259071581 (Ack:232973901)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.546 INFO {
+03-18 23:59:20.546 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.546 INFO 	"messageType" : "Secure",
+03-18 23:59:20.546 INFO 	"packetHeader" : 
+03-18 23:59:20.546 INFO 	{
+03-18 23:59:20.546 INFO 		"flags" : 0,
+03-18 23:59:20.546 INFO 		"msgCounter" : 232973902,
+03-18 23:59:20.546 INFO 		"securityFlags" : 0,
+03-18 23:59:20.546 INFO 		"sessionId" : 50322
+03-18 23:59:20.546 INFO 	},
+03-18 23:59:20.546 INFO 	"payload" : 
+03-18 23:59:20.546 INFO 	{
+03-18 23:59:20.546 INFO 		"decoded" : 
+03-18 23:59:20.547 INFO 		{
+03-18 23:59:20.547 INFO 			"mrp_ack" : ""
+03-18 23:59:20.547 INFO 		},
+03-18 23:59:20.547 INFO 		"hex" : "",
+03-18 23:59:20.547 INFO 		"size" : 0
+03-18 23:59:20.547 INFO 	},
+03-18 23:59:20.547 INFO 	"payloadHeader" : 
+03-18 23:59:20.547 INFO 	{
+03-18 23:59:20.547 INFO 		"ackMessageCounter" : 259071580,
+03-18 23:59:20.547 INFO 		"exchangeFlags" : 2,
+03-18 23:59:20.547 INFO 		"exchangeId" : 28031,
+03-18 23:59:20.547 INFO 		"initiator" : false,
+03-18 23:59:20.547 INFO 		"messageType" : 16,
+03-18 23:59:20.547 INFO 		"needsAck" : false,
+03-18 23:59:20.547 INFO 		"protocolId" : 0
+03-18 23:59:20.547 INFO 	}
+03-18 23:59:20.547 INFO }
+03-18 23:59:20.547 INFO >>> [E:28031i S:50322 M:232973902 (Ack:259071580)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.550 INFO {
+03-18 23:59:20.550 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.550 INFO 	"messageType" : "Secure",
+03-18 23:59:20.551 INFO 	"packetHeader" : 
+03-18 23:59:20.551 INFO 	{
+03-18 23:59:20.551 INFO 		"flags" : 0,
+03-18 23:59:20.551 INFO 		"msgCounter" : 232973903,
+03-18 23:59:20.551 INFO 		"securityFlags" : 0,
+03-18 23:59:20.551 INFO 		"sessionId" : 50322
+03-18 23:59:20.551 INFO 	},
+03-18 23:59:20.551 INFO 	"payload" : 
+03-18 23:59:20.551 INFO 	{
+03-18 23:59:20.551 INFO 		"decoded" : 
+03-18 23:59:20.551 INFO 		{
+03-18 23:59:20.551 INFO 			"invoke_response" : 
+03-18 23:59:20.551 INFO 			{
+03-18 23:59:20.551 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.551 INFO 				"invoke_responses" : 
+03-18 23:59:20.551 INFO 				{
+03-18 23:59:20.551 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.552 INFO 					{
+03-18 23:59:20.552 INFO 						"command" : 
+03-18 23:59:20.552 INFO 						{
+03-18 23:59:20.552 INFO 							"OperationalCredentials::CSRResponse" : 
+03-18 23:59:20.552 INFO 							{
+03-18 23:59:20.552 INFO 								"NOCSRElements" : "hex:153001CB3081C83070020100300E310C300A060355040A0C034353523059301306072A8648CE3D020106082A8648CE3D0301070342000452A71EC13BF8C03335BD86047483F5C03DEA8C2AE290752AE18C2D350BF032B593A4A8BBD2B1403A76AE9EDE21A7DBB2227F63F387E16EB2BB
+03-18 23:59:20.552 INFO 								"attestationSignature" : "hex:FC8B733A66EA22A98FC9DBB616B4E3EA2084DBA7E779BC64F58AF54383A92E2C3FFEBF21377F26A652D6F6A0E4DF982A975C1CBA6C06B81E3D7E40EFDF23C681"
+03-18 23:59:20.552 INFO 							},
+03-18 23:59:20.552 INFO 							"path" : 
+03-18 23:59:20.552 INFO 							{
+03-18 23:59:20.552 INFO 								"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.552 INFO 								"command_id" : "5 == 'CSRResponse'",
+03-18 23:59:20.552 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.552 INFO 							}
+03-18 23:59:20.552 INFO 						}
+03-18 23:59:20.552 INFO 					}
+03-18 23:59:20.552 INFO 				},
+03-18 23:59:20.552 INFO 				"suppress_response" : "false"
+03-18 23:59:20.552 INFO 			}
+03-18 23:59:20.552 INFO 		},
+03-18 23:59:20.553 INFO 		"hex" : "1528003601153500370024000024013E2402051835013000F3153001CB3081C83070020100300E310C300A060355040A0C034353523059301306072A8648CE3D020106082A8648CE3D0301070342000452A71EC13BF8C03335BD86047483F5C03DEA8C2AE290752AE18C2D350BF032B593A4A8BBD2B1403A76AE
+03-18 23:59:20.553 INFO 		"size" : 343
+03-18 23:59:20.553 INFO 	},
+03-18 23:59:20.553 INFO 	"payloadHeader" : 
+03-18 23:59:20.553 INFO 	{
+03-18 23:59:20.553 INFO 		"ackMessageCounter" : 259071580,
+03-18 23:59:20.553 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.553 INFO 		"exchangeId" : 28031,
+03-18 23:59:20.553 INFO 		"initiator" : false,
+03-18 23:59:20.553 INFO 		"messageType" : 9,
+03-18 23:59:20.553 INFO 		"needsAck" : true,
+03-18 23:59:20.553 INFO 		"protocolId" : 1
+03-18 23:59:20.553 INFO 	}
+03-18 23:59:20.553 INFO }
+03-18 23:59:20.553 INFO >>> [E:28031i S:50322 M:232973903 (Ack:259071580)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.554 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_003E Command=0x0000_0005
+03-18 23:59:20.554 INFO Received certificate signing request from the device
+03-18 23:59:20.555 INFO Successfully finished commissioning step 'SendOpCertSigningRequest'
+03-18 23:59:20.555 INFO Commissioning stage next step: 'SendOpCertSigningRequest' -> 'ValidateCSR'
+03-18 23:59:20.555 INFO Performing next commissioning step 'ValidateCSR'
+03-18 23:59:20.557 INFO Successfully finished commissioning step 'ValidateCSR'
+03-18 23:59:20.557 INFO Commissioning stage next step: 'ValidateCSR' -> 'GenerateNOCChain'
+03-18 23:59:20.557 INFO Performing next commissioning step 'GenerateNOCChain'
+03-18 23:59:20.557 INFO Getting certificate chain for the device from the issuer
+03-18 23:59:20.558 INFO Verifying Certificate Signing Request
+03-18 23:59:20.560 INFO Generating NOC
+03-18 23:59:20.561 INFO Providing certificate chain to the commissioner
+03-18 23:59:20.561 INFO Received callback from the CA for NOC Chain generation. Status src/controller/ExampleOperationalCredentialsIssuer.cpp:395: Success
+03-18 23:59:20.561 INFO Successfully finished commissioning step 'GenerateNOCChain'
+03-18 23:59:20.561 INFO Performing next commissioning step 'SendTrustedRootCert'
+03-18 23:59:20.561 INFO Sending root certificate to the device
+03-18 23:59:20.561 INFO {
+03-18 23:59:20.561 INFO 	"event" : "MessageSend",
+03-18 23:59:20.561 INFO 	"messageType" : "Secure",
+03-18 23:59:20.561 INFO 	"packetHeader" : 
+03-18 23:59:20.561 INFO 	{
+03-18 23:59:20.562 INFO 		"flags" : 0,
+03-18 23:59:20.562 INFO 		"msgCounter" : 259071582,
+03-18 23:59:20.562 INFO 		"securityFlags" : 0,
+03-18 23:59:20.562 INFO 		"sessionId" : 48544
+03-18 23:59:20.562 INFO 	},
+03-18 23:59:20.562 INFO 	"payload" : 
+03-18 23:59:20.562 INFO 	{
+03-18 23:59:20.562 INFO 		"decoded" : 
+03-18 23:59:20.562 INFO 		{
+03-18 23:59:20.562 INFO 			"invoke_request" : 
+03-18 23:59:20.562 INFO 			{
+03-18 23:59:20.562 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.562 INFO 				"invoke_requests" : 
+03-18 23:59:20.562 INFO 				{
+03-18 23:59:20.562 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.562 INFO 					{
+03-18 23:59:20.562 INFO 						"OperationalCredentials::AddTrustedRootCertificate" : 
+03-18 23:59:20.562 INFO 						{
+03-18 23:59:20.562 INFO 							"rootCACertificate" : "hex:1530010101240201370324140118260480228127260580254D3A3706241401182407012408013009410431A75A8D3393655513DE31C1F553453C020BDF09E7BCC752CCE6D8BAC5F238E4965C1CA995F0C61BD791F1A0B74A8297D319B8E2C0A60142FDC6B15A2DB0D8D0370A35012
+03-18 23:59:20.562 INFO 						},
+03-18 23:59:20.562 INFO 						"path" : 
+03-18 23:59:20.562 INFO 						{
+03-18 23:59:20.562 INFO 							"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.562 INFO 							"command_id" : "11 == 'AddTrustedRootCertificate'",
+03-18 23:59:20.562 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.562 INFO 						}
+03-18 23:59:20.562 INFO 					}
+03-18 23:59:20.563 INFO 				},
+03-18 23:59:20.563 INFO 				"suppress_response" : "false",
+03-18 23:59:20.563 INFO 				"timed_request" : "false"
+03-18 23:59:20.563 INFO 			}
+03-18 23:59:20.563 INFO 		},
+03-18 23:59:20.563 INFO 		"hex" : "1528002801360215370024000024013E24020B1835013000E71530010101240201370324140118260480228127260580254D3A3706241401182407012408013009410431A75A8D3393655513DE31C1F553453C020BDF09E7BCC752CCE6D8BAC5F238E4965C1CA995F0C61BD791F1A0B74A8297D319B8E2C0A601
+03-18 23:59:20.563 INFO 		"size" : 263
+03-18 23:59:20.563 INFO 	},
+03-18 23:59:20.563 INFO 	"payloadHeader" : 
+03-18 23:59:20.563 INFO 	{
+03-18 23:59:20.563 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.563 INFO 		"exchangeId" : 28032,
+03-18 23:59:20.563 INFO 		"initiator" : true,
+03-18 23:59:20.563 INFO 		"messageType" : 8,
+03-18 23:59:20.563 INFO 		"needsAck" : true,
+03-18 23:59:20.563 INFO 		"protocolId" : 1
+03-18 23:59:20.563 INFO 	}
+03-18 23:59:20.563 INFO }
+03-18 23:59:20.563 INFO <<< [E:28032i S:50322 M:259071582] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.564 INFO Sent root certificate to the device
+03-18 23:59:20.564 INFO {
+03-18 23:59:20.564 INFO 	"event" : "MessageSend",
+03-18 23:59:20.564 INFO 	"messageType" : "Secure",
+03-18 23:59:20.564 INFO 	"packetHeader" : 
+03-18 23:59:20.564 INFO 	{
+03-18 23:59:20.564 INFO 		"flags" : 0,
+03-18 23:59:20.564 INFO 		"msgCounter" : 259071583,
+03-18 23:59:20.564 INFO 		"securityFlags" : 0,
+03-18 23:59:20.564 INFO 		"sessionId" : 48544
+03-18 23:59:20.565 INFO 	},
+03-18 23:59:20.565 INFO 	"payload" : 
+03-18 23:59:20.565 INFO 	{
+03-18 23:59:20.566 INFO 		"decoded" : 
+03-18 23:59:20.566 INFO 		{
+03-18 23:59:20.566 INFO 			"mrp_ack" : ""
+03-18 23:59:20.566 INFO 		},
+03-18 23:59:20.566 INFO 		"hex" : "",
+03-18 23:59:20.566 INFO 		"size" : 0
+03-18 23:59:20.566 INFO 	},
+03-18 23:59:20.566 INFO 	"payloadHeader" : 
+03-18 23:59:20.566 INFO 	{
+03-18 23:59:20.567 INFO 		"ackMessageCounter" : 232973903,
+03-18 23:59:20.567 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.567 INFO 		"exchangeId" : 28031,
+03-18 23:59:20.567 INFO 		"initiator" : true,
+03-18 23:59:20.567 INFO 		"messageType" : 16,
+03-18 23:59:20.567 INFO 		"needsAck" : false,
+03-18 23:59:20.567 INFO 		"protocolId" : 0
+03-18 23:59:20.567 INFO 	}
+03-18 23:59:20.567 INFO }
+03-18 23:59:20.568 INFO <<< [E:28031i S:50322 M:259071583 (Ack:232973903)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.568 INFO {
+03-18 23:59:20.568 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.568 INFO 	"messageType" : "Secure",
+03-18 23:59:20.569 INFO 	"packetHeader" : 
+03-18 23:59:20.569 INFO 	{
+03-18 23:59:20.569 INFO 		"flags" : 0,
+03-18 23:59:20.569 INFO 		"msgCounter" : 232973904,
+03-18 23:59:20.569 INFO 		"securityFlags" : 0,
+03-18 23:59:20.569 INFO 		"sessionId" : 50322
+03-18 23:59:20.569 INFO 	},
+03-18 23:59:20.569 INFO 	"payload" : 
+03-18 23:59:20.569 INFO 	{
+03-18 23:59:20.569 INFO 		"decoded" : 
+03-18 23:59:20.570 INFO 		{
+03-18 23:59:20.570 INFO 			"mrp_ack" : ""
+03-18 23:59:20.570 INFO 		},
+03-18 23:59:20.570 INFO 		"hex" : "",
+03-18 23:59:20.570 INFO 		"size" : 0
+03-18 23:59:20.570 INFO 	},
+03-18 23:59:20.570 INFO 	"payloadHeader" : 
+03-18 23:59:20.570 INFO 	{
+03-18 23:59:20.570 INFO 		"ackMessageCounter" : 259071582,
+03-18 23:59:20.570 INFO 		"exchangeFlags" : 2,
+03-18 23:59:20.570 INFO 		"exchangeId" : 28032,
+03-18 23:59:20.570 INFO 		"initiator" : false,
+03-18 23:59:20.570 INFO 		"messageType" : 16,
+03-18 23:59:20.570 INFO 		"needsAck" : false,
+03-18 23:59:20.570 INFO 		"protocolId" : 0
+03-18 23:59:20.570 INFO 	}
+03-18 23:59:20.570 INFO }
+03-18 23:59:20.570 INFO >>> [E:28032i S:50322 M:232973904 (Ack:259071582)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.571 INFO {
+03-18 23:59:20.571 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.571 INFO 	"messageType" : "Secure",
+03-18 23:59:20.571 INFO 	"packetHeader" : 
+03-18 23:59:20.571 INFO 	{
+03-18 23:59:20.571 INFO 		"flags" : 0,
+03-18 23:59:20.571 INFO 		"msgCounter" : 232973905,
+03-18 23:59:20.571 INFO 		"securityFlags" : 0,
+03-18 23:59:20.571 INFO 		"sessionId" : 50322
+03-18 23:59:20.571 INFO 	},
+03-18 23:59:20.571 INFO 	"payload" : 
+03-18 23:59:20.571 INFO 	{
+03-18 23:59:20.571 INFO 		"decoded" : 
+03-18 23:59:20.571 INFO 		{
+03-18 23:59:20.571 INFO 			"invoke_response" : 
+03-18 23:59:20.571 INFO 			{
+03-18 23:59:20.571 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.571 INFO 				"invoke_responses" : 
+03-18 23:59:20.571 INFO 				{
+03-18 23:59:20.571 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.571 INFO 					{
+03-18 23:59:20.572 INFO 						"status" : 
+03-18 23:59:20.572 INFO 						{
+03-18 23:59:20.572 INFO 							"path" : 
+03-18 23:59:20.572 INFO 							{
+03-18 23:59:20.572 INFO 								"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.572 INFO 								"command_id" : "11 == 'AddTrustedRootCertificate'",
+03-18 23:59:20.572 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.572 INFO 							},
+03-18 23:59:20.572 INFO 							"status" : 
+03-18 23:59:20.572 INFO 							{
+03-18 23:59:20.572 INFO 								"status" : "0 == kSuccess"
+03-18 23:59:20.572 INFO 							}
+03-18 23:59:20.572 INFO 						}
+03-18 23:59:20.572 INFO 					}
+03-18 23:59:20.572 INFO 				},
+03-18 23:59:20.572 INFO 				"suppress_response" : "false"
+03-18 23:59:20.572 INFO 			}
+03-18 23:59:20.572 INFO 		},
+03-18 23:59:20.572 INFO 		"hex" : "1528003601153501370024000024013E24020B1835012400001818181824FF0B18",
+03-18 23:59:20.573 INFO 		"size" : 33
+03-18 23:59:20.573 INFO 	},
+03-18 23:59:20.573 INFO 	"payloadHeader" : 
+03-18 23:59:20.573 INFO 	{
+03-18 23:59:20.573 INFO 		"ackMessageCounter" : 259071582,
+03-18 23:59:20.573 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.573 INFO 		"exchangeId" : 28032,
+03-18 23:59:20.573 INFO 		"initiator" : false,
+03-18 23:59:20.573 INFO 		"messageType" : 9,
+03-18 23:59:20.573 INFO 		"needsAck" : true,
+03-18 23:59:20.573 INFO 		"protocolId" : 1
+03-18 23:59:20.573 INFO 	}
+03-18 23:59:20.573 INFO }
+03-18 23:59:20.573 INFO >>> [E:28032i S:50322 M:232973905 (Ack:259071582)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.574 INFO Received Command Response Status for Endpoint=0 Cluster=0x0000_003E Command=0x0000_000B Status=0x0
+03-18 23:59:20.574 INFO Device confirmed that it has received the root certificate
+03-18 23:59:20.574 INFO Successfully finished commissioning step 'SendTrustedRootCert'
+03-18 23:59:20.574 INFO Commissioning stage next step: 'SendTrustedRootCert' -> 'SendNOC'
+03-18 23:59:20.574 INFO Performing next commissioning step 'SendNOC'
+03-18 23:59:20.576 INFO {
+03-18 23:59:20.576 INFO 	"event" : "MessageSend",
+03-18 23:59:20.576 INFO 	"messageType" : "Secure",
+03-18 23:59:20.576 INFO 	"packetHeader" : 
+03-18 23:59:20.576 INFO 	{
+03-18 23:59:20.576 INFO 		"flags" : 0,
+03-18 23:59:20.576 INFO 		"msgCounter" : 259071584,
+03-18 23:59:20.576 INFO 		"securityFlags" : 0,
+03-18 23:59:20.577 INFO 		"sessionId" : 48544
+03-18 23:59:20.577 INFO 	},
+03-18 23:59:20.577 INFO 	"payload" : 
+03-18 23:59:20.577 INFO 	{
+03-18 23:59:20.577 INFO 		"decoded" : 
+03-18 23:59:20.577 INFO 		{
+03-18 23:59:20.577 INFO 			"invoke_request" : 
+03-18 23:59:20.577 INFO 			{
+03-18 23:59:20.577 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.578 INFO 				"invoke_requests" : 
+03-18 23:59:20.578 INFO 				{
+03-18 23:59:20.578 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.578 INFO 					{
+03-18 23:59:20.578 INFO 						"OperationalCredentials::AddNOC" : 
+03-18 23:59:20.578 INFO 						{
+03-18 23:59:20.578 INFO 							"ICACValue" : "hex:1530010101240201370324140118260480228127260580254D3A37062413021824070124080130094104E45C7BB7BF1936581DD63AFBDEF9799CFBD934C6983520CA143E2C97AFA1D1A4BF20245ADDBCC33BDCE63F73752C7E2F70196525FEC3626FF965B7BC921397BE370A3501290118240
+03-18 23:59:20.578 INFO 							"IPKValue" : "hex:74656D706F726172792069706B203031",
+03-18 23:59:20.578 INFO 							"NOCValue" : "hex:1530010101240201370324130218260480228127260580254D3A3706241501261121433412182407012408013009410452A71EC13BF8C03335BD86047483F5C03DEA8C2AE290752AE18C2D350BF032B593A4A8BBD2B1403A76AE9EDE21A7DBB2227F63F387E16EB2BBB07E5C46E6A878370A35
+03-18 23:59:20.579 INFO 							"adminVendorId" : "65521",
+03-18 23:59:20.579 INFO 							"caseAdminSubject" : "112233"
+03-18 23:59:20.579 INFO 						},
+03-18 23:59:20.579 INFO 						"path" : 
+03-18 23:59:20.579 INFO 						{
+03-18 23:59:20.579 INFO 							"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.580 INFO 							"command_id" : "6 == 'AddNOC'",
+03-18 23:59:20.580 INFO 							"endpoint_id" : "0"
+03-18 23:59:20.580 INFO 						}
+03-18 23:59:20.580 INFO 					}
+03-18 23:59:20.580 INFO 				},
+03-18 23:59:20.580 INFO 				"suppress_response" : "false",
+03-18 23:59:20.580 INFO 				"timed_request" : "false"
+03-18 23:59:20.580 INFO 			}
+03-18 23:59:20.580 INFO 		},
+03-18 23:59:20.580 INFO 		"hex" : "1528002801360215370024000024013E2402061835013000F41530010101240201370324130218260480228127260580254D3A3706241501261121433412182407012408013009410452A71EC13BF8C03335BD86047483F5C03DEA8C2AE290752AE18C2D350BF032B593A4A8BBD2B1403A76AE9EDE21A7DBB222
+03-18 23:59:20.580 INFO 		"size" : 539
+03-18 23:59:20.580 INFO 	},
+03-18 23:59:20.580 INFO 	"payloadHeader" : 
+03-18 23:59:20.580 INFO 	{
+03-18 23:59:20.581 INFO 		"exchangeFlags" : 5,
+03-18 23:59:20.581 INFO 		"exchangeId" : 28033,
+03-18 23:59:20.581 INFO 		"initiator" : true,
+03-18 23:59:20.581 INFO 		"messageType" : 8,
+03-18 23:59:20.581 INFO 		"needsAck" : true,
+03-18 23:59:20.581 INFO 		"protocolId" : 1
+03-18 23:59:20.581 INFO 	}
+03-18 23:59:20.581 INFO }
+03-18 23:59:20.581 INFO <<< [E:28033i S:50322 M:259071584] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:20.582 INFO Sent operational certificate to the device
+03-18 23:59:20.582 INFO {
+03-18 23:59:20.582 INFO 	"event" : "MessageSend",
+03-18 23:59:20.582 INFO 	"messageType" : "Secure",
+03-18 23:59:20.582 INFO 	"packetHeader" : 
+03-18 23:59:20.582 INFO 	{
+03-18 23:59:20.582 INFO 		"flags" : 0,
+03-18 23:59:20.582 INFO 		"msgCounter" : 259071585,
+03-18 23:59:20.582 INFO 		"securityFlags" : 0,
+03-18 23:59:20.582 INFO 		"sessionId" : 48544
+03-18 23:59:20.582 INFO 	},
+03-18 23:59:20.582 INFO 	"payload" : 
+03-18 23:59:20.582 INFO 	{
+03-18 23:59:20.582 INFO 		"decoded" : 
+03-18 23:59:20.582 INFO 		{
+03-18 23:59:20.582 INFO 			"mrp_ack" : ""
+03-18 23:59:20.582 INFO 		},
+03-18 23:59:20.582 INFO 		"hex" : "",
+03-18 23:59:20.582 INFO 		"size" : 0
+03-18 23:59:20.583 INFO 	},
+03-18 23:59:20.583 INFO 	"payloadHeader" : 
+03-18 23:59:20.583 INFO 	{
+03-18 23:59:20.583 INFO 		"ackMessageCounter" : 232973905,
+03-18 23:59:20.583 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.583 INFO 		"exchangeId" : 28032,
+03-18 23:59:20.584 INFO 		"initiator" : true,
+03-18 23:59:20.584 INFO 		"messageType" : 16,
+03-18 23:59:20.584 INFO 		"needsAck" : false,
+03-18 23:59:20.584 INFO 		"protocolId" : 0
+03-18 23:59:20.584 INFO 	}
+03-18 23:59:20.584 INFO }
+03-18 23:59:20.584 INFO <<< [E:28032i S:50322 M:259071585 (Ack:232973905)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.585 INFO {
+03-18 23:59:20.585 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.585 INFO 	"messageType" : "Secure",
+03-18 23:59:20.585 INFO 	"packetHeader" : 
+03-18 23:59:20.585 INFO 	{
+03-18 23:59:20.585 INFO 		"flags" : 0,
+03-18 23:59:20.585 INFO 		"msgCounter" : 232973906,
+03-18 23:59:20.585 INFO 		"securityFlags" : 0,
+03-18 23:59:20.585 INFO 		"sessionId" : 50322
+03-18 23:59:20.585 INFO 	},
+03-18 23:59:20.585 INFO 	"payload" : 
+03-18 23:59:20.585 INFO 	{
+03-18 23:59:20.585 INFO 		"decoded" : 
+03-18 23:59:20.585 INFO 		{
+03-18 23:59:20.585 INFO 			"mrp_ack" : ""
+03-18 23:59:20.585 INFO 		},
+03-18 23:59:20.585 INFO 		"hex" : "",
+03-18 23:59:20.586 INFO 		"size" : 0
+03-18 23:59:20.586 INFO 	},
+03-18 23:59:20.586 INFO 	"payloadHeader" : 
+03-18 23:59:20.586 INFO 	{
+03-18 23:59:20.586 INFO 		"ackMessageCounter" : 259071584,
+03-18 23:59:20.586 INFO 		"exchangeFlags" : 2,
+03-18 23:59:20.586 INFO 		"exchangeId" : 28033,
+03-18 23:59:20.586 INFO 		"initiator" : false,
+03-18 23:59:20.586 INFO 		"messageType" : 16,
+03-18 23:59:20.586 INFO 		"needsAck" : false,
+03-18 23:59:20.586 INFO 		"protocolId" : 0
+03-18 23:59:20.586 INFO 	}
+03-18 23:59:20.586 INFO }
+03-18 23:59:20.586 INFO >>> [E:28033i S:50322 M:232973906 (Ack:259071584)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.603 INFO {
+03-18 23:59:20.604 INFO 	"event" : "MessageReceived",
+03-18 23:59:20.604 INFO 	"messageType" : "Secure",
+03-18 23:59:20.604 INFO 	"packetHeader" : 
+03-18 23:59:20.604 INFO 	{
+03-18 23:59:20.604 INFO 		"flags" : 0,
+03-18 23:59:20.604 INFO 		"msgCounter" : 232973907,
+03-18 23:59:20.604 INFO 		"securityFlags" : 0,
+03-18 23:59:20.604 INFO 		"sessionId" : 50322
+03-18 23:59:20.605 INFO 	},
+03-18 23:59:20.605 INFO 	"payload" : 
+03-18 23:59:20.605 INFO 	{
+03-18 23:59:20.605 INFO 		"decoded" : 
+03-18 23:59:20.605 INFO 		{
+03-18 23:59:20.605 INFO 			"invoke_response" : 
+03-18 23:59:20.605 INFO 			{
+03-18 23:59:20.605 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:20.605 INFO 				"invoke_responses" : 
+03-18 23:59:20.605 INFO 				{
+03-18 23:59:20.605 INFO 					"Anonymous<0>" : 
+03-18 23:59:20.605 INFO 					{
+03-18 23:59:20.605 INFO 						"command" : 
+03-18 23:59:20.605 INFO 						{
+03-18 23:59:20.605 INFO 							"OperationalCredentials::NOCResponse" : 
+03-18 23:59:20.606 INFO 							{
+03-18 23:59:20.606 INFO 								"fabricIndex" : "1",
+03-18 23:59:20.606 INFO 								"statusCode" : "0 == kOK"
+03-18 23:59:20.606 INFO 							},
+03-18 23:59:20.606 INFO 							"path" : 
+03-18 23:59:20.606 INFO 							{
+03-18 23:59:20.606 INFO 								"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:20.606 INFO 								"command_id" : "8 == 'NOCResponse'",
+03-18 23:59:20.607 INFO 								"endpoint_id" : "0"
+03-18 23:59:20.607 INFO 							}
+03-18 23:59:20.607 INFO 						}
+03-18 23:59:20.607 INFO 					}
+03-18 23:59:20.607 INFO 				},
+03-18 23:59:20.607 INFO 				"suppress_response" : "false"
+03-18 23:59:20.607 INFO 			}
+03-18 23:59:20.607 INFO 		},
+03-18 23:59:20.607 INFO 		"hex" : "1528003601153500370024000024013E2402081835012400002401011818181824FF0B18",
+03-18 23:59:20.607 INFO 		"size" : 36
+03-18 23:59:20.607 INFO 	},
+03-18 23:59:20.607 INFO 	"payloadHeader" : 
+03-18 23:59:20.607 INFO 	{
+03-18 23:59:20.607 INFO 		"ackMessageCounter" : 259071584,
+03-18 23:59:20.607 INFO 		"exchangeFlags" : 6,
+03-18 23:59:20.607 INFO 		"exchangeId" : 28033,
+03-18 23:59:20.607 INFO 		"initiator" : false,
+03-18 23:59:20.607 INFO 		"messageType" : 9,
+03-18 23:59:20.607 INFO 		"needsAck" : true,
+03-18 23:59:20.607 INFO 		"protocolId" : 1
+03-18 23:59:20.608 INFO 	}
+03-18 23:59:20.608 INFO }
+03-18 23:59:20.608 INFO >>> [E:28033i S:50322 M:232973907 (Ack:259071584)] (S) Msg RX from 0:FFFFFFFB00000000 [0000] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:20.609 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_003E Command=0x0000_0008
+03-18 23:59:20.609 INFO Device returned status 0 on receiving the NOC
+03-18 23:59:20.609 INFO Operational credentials provisioned on device 0x11100c400
+03-18 23:59:20.609 INFO Secure Pairing Success
+03-18 23:59:20.609 INFO Successfully finished commissioning step 'SendNOC'
+03-18 23:59:20.609 INFO Commissioning stage next step: 'SendNOC' -> 'FindOperational'
+03-18 23:59:20.609 INFO Performing next commissioning step 'FindOperational'
+03-18 23:59:20.609 INFO {
+03-18 23:59:20.609 INFO 	"compressed_fabric_id" : 2332285843670831204,
+03-18 23:59:20.609 INFO 	"event" : "LogNodeLookup",
+03-18 23:59:20.610 INFO 	"max_lookup_time_ms" : 45000,
+03-18 23:59:20.610 INFO 	"min_lookup_time_ms" : 200,
+03-18 23:59:20.610 INFO 	"node_id" : 305414945
+03-18 23:59:20.610 INFO }
+03-18 23:59:20.610 INFO Resolving 205DF19E2AAC1064:0000000012344321 ...
+03-18 23:59:20.610 INFO Resolve type=_matter._tcp name=205DF19E2AAC1064-0000000012344321 interface=0
+03-18 23:59:20.610 INFO {
+03-18 23:59:20.610 INFO 	"event" : "MessageSend",
+03-18 23:59:20.610 INFO 	"messageType" : "Secure",
+03-18 23:59:20.611 INFO 	"packetHeader" : 
+03-18 23:59:20.611 INFO 	{
+03-18 23:59:20.611 INFO 		"flags" : 0,
+03-18 23:59:20.611 INFO 		"msgCounter" : 259071586,
+03-18 23:59:20.611 INFO 		"securityFlags" : 0,
+03-18 23:59:20.611 INFO 		"sessionId" : 48544
+03-18 23:59:20.611 INFO 	},
+03-18 23:59:20.611 INFO 	"payload" : 
+03-18 23:59:20.611 INFO 	{
+03-18 23:59:20.611 INFO 		"decoded" : 
+03-18 23:59:20.612 INFO 		{
+03-18 23:59:20.612 INFO 			"mrp_ack" : ""
+03-18 23:59:20.612 INFO 		},
+03-18 23:59:20.612 INFO 		"hex" : "",
+03-18 23:59:20.613 INFO 		"size" : 0
+03-18 23:59:20.613 INFO 	},
+03-18 23:59:20.613 INFO 	"payloadHeader" : 
+03-18 23:59:20.613 INFO 	{
+03-18 23:59:20.613 INFO 		"ackMessageCounter" : 232973907,
+03-18 23:59:20.614 INFO 		"exchangeFlags" : 3,
+03-18 23:59:20.614 INFO 		"exchangeId" : 28033,
+03-18 23:59:20.614 INFO 		"initiator" : true,
+03-18 23:59:20.614 INFO 		"messageType" : 16,
+03-18 23:59:20.614 INFO 		"needsAck" : false,
+03-18 23:59:20.614 INFO 		"protocolId" : 0
+03-18 23:59:20.615 INFO 	}
+03-18 23:59:20.615 INFO }
+03-18 23:59:20.615 INFO <<< [E:28033i S:50322 M:259071586 (Ack:232973907)] (S) Msg TX to 0:FFFFFFFB00000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:20.812 INFO Checking node lookup status after 202 ms
+03-18 23:59:21.443 INFO Mdns: OnResolve flags: 0, interface: 6, fullname: 205DF19E2AAC1064-0000000012344321._matter._tcp.local., hostname: DCA632AB25E50000.local., port: 5540
+03-18 23:59:21.444 INFO Mdns : OnNewInterface hostname:DCA632AB25E50000.local. fullname:205DF19E2AAC1064-0000000012344321._matter._tcp.local. interface: 6 port: 5540 TXT:""
+03-18 23:59:21.446 INFO Mdns: OnGetAddrInfo flags: 1073741827, interface: 6, hostname: DCA632AB25E50000.local.
+03-18 23:59:21.447 INFO Mdns: OnNewAddress interface: 6 ip:2600:1700:5390:be60::41
+03-18 23:59:21.447 INFO Mdns: OnGetAddrInfo flags: 1073741827, interface: 6, hostname: DCA632AB25E50000.local.
+03-18 23:59:21.447 INFO Mdns: OnNewAddress interface: 6 ip:2600:1700:5390:be60:dea6:32ff:feab:25e4
+03-18 23:59:21.448 INFO Mdns: OnGetAddrInfo flags: 1073741826, interface: 6, hostname: DCA632AB25E50000.local.
+03-18 23:59:21.448 INFO Mdns: OnNewAddress interface: 6 ip:fe80::dea6:32ff:feab:25e4
+03-18 23:59:21.448 INFO Mdns: Resolve success on interface 6
+03-18 23:59:21.449 INFO Node ID resolved for 205DF19E2AAC1064:0000000012344321
+03-18 23:59:21.450 INFO {
+03-18 23:59:21.450 INFO 	"compressed_fabric_id" : 2332285843670831204,
+03-18 23:59:21.451 INFO 	"event" : "LogNodeDiscovered",
+03-18 23:59:21.451 INFO 	"node_id" : 305414945,
+03-18 23:59:21.451 INFO 	"result" : 
+03-18 23:59:21.451 INFO 	{
+03-18 23:59:21.451 INFO 		"address" : "UDP:[2600:1700:5390:be60::41%en0]:5540",
+03-18 23:59:21.451 INFO 		"isICDOperatingAsLIT" : false,
+03-18 23:59:21.451 INFO 		"mrp" : 
+03-18 23:59:21.452 INFO 		{
+03-18 23:59:21.452 INFO 			"active_retransmit_timeout_ms" : 300,
+03-18 23:59:21.452 INFO 			"active_threshold_time_ms" : 4000,
+03-18 23:59:21.452 INFO 			"idle_retransmit_timeout_ms" : 500
+03-18 23:59:21.452 INFO 		},
+03-18 23:59:21.453 INFO 		"supports_tcp" : false
+03-18 23:59:21.453 INFO 	},
+03-18 23:59:21.453 INFO 	"type" : "intermediate"
+03-18 23:59:21.453 INFO }
+03-18 23:59:21.454 INFO UDP:[2600:1700:5390:be60::41%en0]:5540: new best score: 6
+03-18 23:59:21.454 INFO {
+03-18 23:59:21.454 INFO 	"compressed_fabric_id" : 2332285843670831204,
+03-18 23:59:21.454 INFO 	"event" : "LogNodeDiscovered",
+03-18 23:59:21.455 INFO 	"node_id" : 305414945,
+03-18 23:59:21.455 INFO 	"result" : 
+03-18 23:59:21.455 INFO 	{
+03-18 23:59:21.455 INFO 		"address" : "UDP:[2600:1700:5390:be60:dea6:32ff:feab:25e4%en0]:5540",
+03-18 23:59:21.455 INFO 		"isICDOperatingAsLIT" : false,
+03-18 23:59:21.455 INFO 		"mrp" : 
+03-18 23:59:21.456 INFO 		{
+03-18 23:59:21.456 INFO 			"active_retransmit_timeout_ms" : 300,
+03-18 23:59:21.456 INFO 			"active_threshold_time_ms" : 4000,
+03-18 23:59:21.456 INFO 			"idle_retransmit_timeout_ms" : 500
+03-18 23:59:21.456 INFO 		},
+03-18 23:59:21.457 INFO 		"supports_tcp" : false
+03-18 23:59:21.457 INFO 	},
+03-18 23:59:21.457 INFO 	"type" : "intermediate"
+03-18 23:59:21.457 INFO }
+03-18 23:59:21.458 INFO UDP:[2600:1700:5390:be60:dea6:32ff:feab:25e4%en0]:5540: new best score: 6
+03-18 23:59:21.458 INFO {
+03-18 23:59:21.458 INFO 	"compressed_fabric_id" : 2332285843670831204,
+03-18 23:59:21.459 INFO 	"event" : "LogNodeDiscovered",
+03-18 23:59:21.459 INFO 	"node_id" : 305414945,
+03-18 23:59:21.459 INFO 	"result" : 
+03-18 23:59:21.459 INFO 	{
+03-18 23:59:21.460 INFO 		"address" : "UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540",
+03-18 23:59:21.460 INFO 		"isICDOperatingAsLIT" : false,
+03-18 23:59:21.461 INFO 		"mrp" : 
+03-18 23:59:21.461 INFO 		{
+03-18 23:59:21.461 INFO 			"active_retransmit_timeout_ms" : 300,
+03-18 23:59:21.461 INFO 			"active_threshold_time_ms" : 4000,
+03-18 23:59:21.462 INFO 			"idle_retransmit_timeout_ms" : 500
+03-18 23:59:21.462 INFO 		},
+03-18 23:59:21.462 INFO 		"supports_tcp" : false
+03-18 23:59:21.463 INFO 	},
+03-18 23:59:21.463 INFO 	"type" : "intermediate"
+03-18 23:59:21.463 INFO }
+03-18 23:59:21.463 INFO UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540: new best score: 7
+03-18 23:59:21.464 INFO Checking node lookup status after 854 ms
+03-18 23:59:21.464 INFO No longer need resolve for 205DF19E2AAC1064-0000000012344321
+03-18 23:59:21.480 INFO {
+03-18 23:59:21.480 INFO 	"compressed_fabric_id" : 2332285843670831204,
+03-18 23:59:21.480 INFO 	"event" : "LogNodeDiscovered",
+03-18 23:59:21.480 INFO 	"node_id" : 305414945,
+03-18 23:59:21.480 INFO 	"result" : 
+03-18 23:59:21.480 INFO 	{
+03-18 23:59:21.480 INFO 		"address" : "UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540",
+03-18 23:59:21.480 INFO 		"isICDOperatingAsLIT" : false,
+03-18 23:59:21.480 INFO 		"mrp" : 
+03-18 23:59:21.480 INFO 		{
+03-18 23:59:21.480 INFO 			"active_retransmit_timeout_ms" : 300,
+03-18 23:59:21.480 INFO 			"active_threshold_time_ms" : 4000,
+03-18 23:59:21.480 INFO 			"idle_retransmit_timeout_ms" : 500
+03-18 23:59:21.481 INFO 		},
+03-18 23:59:21.481 INFO 		"supports_tcp" : false
+03-18 23:59:21.481 INFO 	},
+03-18 23:59:21.481 INFO 	"type" : "done"
+03-18 23:59:21.481 INFO }
+03-18 23:59:21.482 INFO Initiating session on local FabricIndex 1 from 0x000000000001B669 -> 0x0000000012344321
+03-18 23:59:21.486 INFO {
+03-18 23:59:21.486 INFO 	"event" : "MessageSend",
+03-18 23:59:21.486 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:21.486 INFO 	"packetHeader" : 
+03-18 23:59:21.486 INFO 	{
+03-18 23:59:21.487 INFO 		"flags" : 4,
+03-18 23:59:21.487 INFO 		"msgCounter" : 155445444,
+03-18 23:59:21.487 INFO 		"securityFlags" : 0,
+03-18 23:59:21.487 INFO 		"sessionId" : 0,
+03-18 23:59:21.487 INFO 		"sourceNodeId" : 15441951588621123265
+03-18 23:59:21.487 INFO 	},
+03-18 23:59:21.487 INFO 	"payload" : 
+03-18 23:59:21.487 INFO 	{
+03-18 23:59:21.488 INFO 		"decoded" : 
+03-18 23:59:21.488 INFO 		{
+03-18 23:59:21.488 INFO 			"case_sigma1" : 
+03-18 23:59:21.488 INFO 			{
+03-18 23:59:21.488 INFO 				"destination_id" : "hex:5A87B35A3BED07D3C5BFFA5FF14AC3EA71B735FED9B7B3F6930A3954E2E5B06F",
+03-18 23:59:21.488 INFO 				"initiator_eph_pub_key" : "hex:04A6A9F333190017C89FE39E0CFFA65DA745CA28A1CB7C440289C81E543096519636AAABB789437C35E7CA73D00F8D365358C0A9DC0BA04755075DE902AD695925",
+03-18 23:59:21.488 INFO 				"initiator_random" : "hex:3BA599FE2D10F72697FDABE84F06E434B58A91005B0B2EBEFA6C7209C41E4E31",
+03-18 23:59:21.489 INFO 				"initiator_session_id" : "50323",
+03-18 23:59:21.490 INFO 				"initiator_session_params" : 
+03-18 23:59:21.490 INFO 				{
+03-18 23:59:21.490 INFO 					"data_model_revision" : "17",
+03-18 23:59:21.490 INFO 					"interaction_model_revision" : "11",
+03-18 23:59:21.491 INFO 					"max_paths_per_invoke" : "1",
+03-18 23:59:21.491 INFO 					"session_active_interval" : "300",
+03-18 23:59:21.491 INFO 					"session_active_threshold" : "4000",
+03-18 23:59:21.491 INFO 					"session_idle_interval" : "500",
+03-18 23:59:21.491 INFO 					"specification_version" : "16973824"
+03-18 23:59:21.491 INFO 				}
+03-18 23:59:21.491 INFO 			}
+03-18 23:59:21.491 INFO 		},
+03-18 23:59:21.492 INFO 		"hex" : "153001203BA599FE2D10F72697FDABE84F06E434B58A91005B0B2EBEFA6C7209C41E4E31250293C43003205A87B35A3BED07D3C5BFFA5FF14AC3EA71B735FED9B7B3F6930A3954E2E5B06F30044104A6A9F333190017C89FE39E0CFFA65DA745CA28A1CB7C440289C81E543096519636AAABB789437C35E7CA73
+03-18 23:59:21.492 INFO 		"size" : 174
+03-18 23:59:21.492 INFO 	},
+03-18 23:59:21.492 INFO 	"payloadHeader" : 
+03-18 23:59:21.492 INFO 	{
+03-18 23:59:21.492 INFO 		"exchangeFlags" : 5,
+03-18 23:59:21.492 INFO 		"exchangeId" : 28034,
+03-18 23:59:21.492 INFO 		"initiator" : true,
+03-18 23:59:21.492 INFO 		"messageType" : 48,
+03-18 23:59:21.492 INFO 		"needsAck" : true,
+03-18 23:59:21.493 INFO 		"protocolId" : 0
+03-18 23:59:21.493 INFO 	}
+03-18 23:59:21.493 INFO }
+03-18 23:59:21.493 INFO <<< [E:28034i S:0 M:155445444] (U) Msg TX to 0:0000000000000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:30 (SecureChannel:CASE_Sigma1)
+03-18 23:59:21.493 INFO Sent Sigma1 msg
+03-18 23:59:21.493 INFO Mdns: OnBrowseRemove  name: 8493837F596E3812, type: _matterc._udp., domain: local., interface: 6
+03-18 23:59:21.500 INFO {
+03-18 23:59:21.500 INFO 	"event" : "MessageReceived",
+03-18 23:59:21.500 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:21.500 INFO 	"packetHeader" : 
+03-18 23:59:21.500 INFO 	{
+03-18 23:59:21.500 INFO 		"destinationNodeId" : 15441951588621123265,
+03-18 23:59:21.500 INFO 		"flags" : 1,
+03-18 23:59:21.500 INFO 		"msgCounter" : 56421609,
+03-18 23:59:21.500 INFO 		"securityFlags" : 0,
+03-18 23:59:21.500 INFO 		"sessionId" : 0
+03-18 23:59:21.501 INFO 	},
+03-18 23:59:21.501 INFO 	"payload" : 
+03-18 23:59:21.501 INFO 	{
+03-18 23:59:21.501 INFO 		"decoded" : 
+03-18 23:59:21.501 INFO 		{
+03-18 23:59:21.501 INFO 			"case_sigma2" : 
+03-18 23:59:21.501 INFO 			{
+03-18 23:59:21.501 INFO 				"encrypted2" : "hex:92FA6E863B3DFDDE119BCBFEBE51962E92DFA05B8C07729C062E58D7367704AA3527E4A852DBC4125D1D6F146BB5E7B802214AA1F571EE05B14F50987F795C21388A947FE0D2450D5414634BE709321C779B023ACCD39543FDF4015E0015BBBB9BDA855393CC780C8D95BD1C1292A7A35102706
+03-18 23:59:21.501 INFO 				"responder_eph_pub_key" : "hex:049BA014D15B3F36D179D9CE1A4DA12F19B3E96E2A150A0A52A0052EA5D626F872FBD1334A1F16FD246BC402B2F3D7E24D4B74836F5630D9C894FCCE359923A44E",
+03-18 23:59:21.501 INFO 				"responder_random" : "hex:B4516D826E766B2D3130E1B0F85CF453E97AB3E8E1956626B455A4374C1A50A7",
+03-18 23:59:21.501 INFO 				"responder_session_params" : 
+03-18 23:59:21.501 INFO 				{
+03-18 23:59:21.501 INFO 					"data_model_revision" : "17",
+03-18 23:59:21.501 INFO 					"interaction_model_revision" : "11",
+03-18 23:59:21.501 INFO 					"max_paths_per_invoke" : "5",
+03-18 23:59:21.501 INFO 					"session_active_interval" : "300",
+03-18 23:59:21.501 INFO 					"session_active_threshold" : "4000",
+03-18 23:59:21.501 INFO 					"session_idle_interval" : "500",
+03-18 23:59:21.501 INFO 					"specification_version" : "16973824"
+03-18 23:59:21.501 INFO 				},
+03-18 23:59:21.502 INFO 				"responder_sessoion_id" : "48545"
+03-18 23:59:21.502 INFO 			}
+03-18 23:59:21.502 INFO 		},
+03-18 23:59:21.502 INFO 		"hex" : "15300120B4516D826E766B2D3130E1B0F85CF453E97AB3E8E1956626B455A4374C1A50A72502A1BD300341049BA014D15B3F36D179D9CE1A4DA12F19B3E96E2A150A0A52A0052EA5D626F872FBD1334A1F16FD246BC402B2F3D7E24D4B74836F5630D9C894FCCE359923A44E3104490292FA6E863B3DFDDE119B
+03-18 23:59:21.502 INFO 		"size" : 728
+03-18 23:59:21.502 INFO 	},
+03-18 23:59:21.502 INFO 	"payloadHeader" : 
+03-18 23:59:21.502 INFO 	{
+03-18 23:59:21.502 INFO 		"ackMessageCounter" : 155445444,
+03-18 23:59:21.502 INFO 		"exchangeFlags" : 6,
+03-18 23:59:21.502 INFO 		"exchangeId" : 28034,
+03-18 23:59:21.502 INFO 		"initiator" : false,
+03-18 23:59:21.502 INFO 		"messageType" : 49,
+03-18 23:59:21.502 INFO 		"needsAck" : true,
+03-18 23:59:21.502 INFO 		"protocolId" : 0
+03-18 23:59:21.502 INFO 	}
+03-18 23:59:21.502 INFO }
+03-18 23:59:21.502 INFO >>> [E:28034i S:0 M:56421609 (Ack:155445444)] (U) Msg RX from 0:0000000000000000 [0000] --- Type 0000:31 (SecureChannel:CASE_Sigma2)
+03-18 23:59:21.502 INFO Received Sigma2 msg
+03-18 23:59:21.515 INFO {
+03-18 23:59:21.515 INFO 	"event" : "MessageSend",
+03-18 23:59:21.515 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:21.515 INFO 	"packetHeader" : 
+03-18 23:59:21.515 INFO 	{
+03-18 23:59:21.515 INFO 		"flags" : 4,
+03-18 23:59:21.515 INFO 		"msgCounter" : 155445445,
+03-18 23:59:21.515 INFO 		"securityFlags" : 0,
+03-18 23:59:21.515 INFO 		"sessionId" : 0,
+03-18 23:59:21.515 INFO 		"sourceNodeId" : 15441951588621123265
+03-18 23:59:21.515 INFO 	},
+03-18 23:59:21.515 INFO 	"payload" : 
+03-18 23:59:21.516 INFO 	{
+03-18 23:59:21.516 INFO 		"decoded" : 
+03-18 23:59:21.516 INFO 		{
+03-18 23:59:21.516 INFO 			"case_sigma3" : 
+03-18 23:59:21.516 INFO 			{
+03-18 23:59:21.516 INFO 				"encrypted" : "hex:3CCCCD293DA0C009EFAE01F25E99CE22F5E688DBC28C437D2E1DCBEE55C89608FFC8089F94E58BD2239FCBB567766121573FFFFAA963AB6A99C64678234D7C90DC3059C4A618856B672068FDB3E92707A873DF62D39CD5EAA104E824D9DAD224BCFCA963DE5096E50724ECF7F2F4CD6261EC044E
+03-18 23:59:21.516 INFO 			}
+03-18 23:59:21.516 INFO 		},
+03-18 23:59:21.516 INFO 		"hex" : "15310136023CCCCD293DA0C009EFAE01F25E99CE22F5E688DBC28C437D2E1DCBEE55C89608FFC8089F94E58BD2239FCBB567766121573FFFFAA963AB6A99C64678234D7C90DC3059C4A618856B672068FDB3E92707A873DF62D39CD5EAA104E824D9DAD224BCFCA963DE5096E50724ECF7F2F4CD6261EC044ED2
+03-18 23:59:21.516 INFO 		"size" : 572
+03-18 23:59:21.516 INFO 	},
+03-18 23:59:21.516 INFO 	"payloadHeader" : 
+03-18 23:59:21.516 INFO 	{
+03-18 23:59:21.516 INFO 		"ackMessageCounter" : 56421609,
+03-18 23:59:21.516 INFO 		"exchangeFlags" : 7,
+03-18 23:59:21.516 INFO 		"exchangeId" : 28034,
+03-18 23:59:21.516 INFO 		"initiator" : true,
+03-18 23:59:21.516 INFO 		"messageType" : 50,
+03-18 23:59:21.516 INFO 		"needsAck" : true,
+03-18 23:59:21.516 INFO 		"protocolId" : 0
+03-18 23:59:21.516 INFO 	}
+03-18 23:59:21.517 INFO }
+03-18 23:59:21.517 INFO <<< [E:28034i S:0 M:155445445 (Ack:56421609)] (U) Msg TX to 0:0000000000000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:32 (SecureChannel:CASE_Sigma3)
+03-18 23:59:21.517 INFO Sent Sigma3 msg
+03-18 23:59:21.517 INFO Mdns: OnBrowseRemove  name: 8493837F596E3812, type: _matterc._udp., domain: local., interface: 13
+03-18 23:59:21.530 INFO {
+03-18 23:59:21.530 INFO 	"event" : "MessageReceived",
+03-18 23:59:21.531 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:21.531 INFO 	"packetHeader" : 
+03-18 23:59:21.531 INFO 	{
+03-18 23:59:21.531 INFO 		"destinationNodeId" : 15441951588621123265,
+03-18 23:59:21.531 INFO 		"flags" : 1,
+03-18 23:59:21.532 INFO 		"msgCounter" : 56421610,
+03-18 23:59:21.532 INFO 		"securityFlags" : 0,
+03-18 23:59:21.532 INFO 		"sessionId" : 0
+03-18 23:59:21.532 INFO 	},
+03-18 23:59:21.532 INFO 	"payload" : 
+03-18 23:59:21.533 INFO 	{
+03-18 23:59:21.533 INFO 		"decoded" : 
+03-18 23:59:21.533 INFO 		{
+03-18 23:59:21.533 INFO 			"status_report" : "BINARY DATA"
+03-18 23:59:21.533 INFO 		},
+03-18 23:59:21.533 INFO 		"hex" : "0000000000000000",
+03-18 23:59:21.533 INFO 		"size" : 8
+03-18 23:59:21.534 INFO 	},
+03-18 23:59:21.534 INFO 	"payloadHeader" : 
+03-18 23:59:21.534 INFO 	{
+03-18 23:59:21.534 INFO 		"ackMessageCounter" : 155445445,
+03-18 23:59:21.534 INFO 		"exchangeFlags" : 6,
+03-18 23:59:21.534 INFO 		"exchangeId" : 28034,
+03-18 23:59:21.534 INFO 		"initiator" : false,
+03-18 23:59:21.534 INFO 		"messageType" : 64,
+03-18 23:59:21.534 INFO 		"needsAck" : true,
+03-18 23:59:21.534 INFO 		"protocolId" : 0
+03-18 23:59:21.534 INFO 	}
+03-18 23:59:21.534 INFO }
+03-18 23:59:21.534 INFO >>> [E:28034i S:0 M:56421610 (Ack:155445445)] (U) Msg RX from 0:0000000000000000 [0000] --- Type 0000:40 (SecureChannel:StatusReport)
+03-18 23:59:21.535 INFO Success status report received. Session was established
+03-18 23:59:21.535 INFO SetSdkKey: f/1/s/0000000012344321 = b'\x150\x03\x10=\x86\x04l\x1a|\x10\xd1\xa1:\x02a\xab\x9c\xdb/0\x04 \xa6tR\x15k\xee\x01\x01\xa4\x18w\xc6\xadE\x89\x98\x01\xf3\xf3\x8c\xb4X\xd0*I\x05\x8a\xe1\xc3f3W0\x05\x0c\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x18'
+03-18 23:59:21.535 INFO Committing...
+03-18 23:59:21.535 INFO SetSdkKey: g/s/PYYEbBp8ENGhOgJhq5zbLw== = b'\x15$\x01\x01&\x02!C4\x12\x18'
+03-18 23:59:21.535 INFO Committing...
+03-18 23:59:21.536 INFO SetSdkKey: g/sri = b'\x16\x15$\x01\x01&\x02!C4\x12\x18\x18'
+03-18 23:59:21.536 INFO Committing...
+03-18 23:59:21.536 INFO SecureSession[0x10750cd70, LSID:50323]: State change 'kEstablishing' --> 'kActive'
+03-18 23:59:21.536 INFO Successfully finished commissioning step 'FindOperational'
+03-18 23:59:21.536 INFO Commissioning stage next step: 'FindOperational' -> 'SendComplete'
+03-18 23:59:21.536 INFO Performing next commissioning step 'SendComplete'
+03-18 23:59:21.537 INFO {
+03-18 23:59:21.537 INFO 	"event" : "MessageSend",
+03-18 23:59:21.537 INFO 	"messageType" : "Secure",
+03-18 23:59:21.537 INFO 	"packetHeader" : 
+03-18 23:59:21.537 INFO 	{
+03-18 23:59:21.537 INFO 		"flags" : 0,
+03-18 23:59:21.538 INFO 		"msgCounter" : 122634793,
+03-18 23:59:21.538 INFO 		"securityFlags" : 0,
+03-18 23:59:21.538 INFO 		"sessionId" : 48545
+03-18 23:59:21.538 INFO 	},
+03-18 23:59:21.538 INFO 	"payload" : 
+03-18 23:59:21.538 INFO 	{
+03-18 23:59:21.538 INFO 		"decoded" : 
+03-18 23:59:21.538 INFO 		{
+03-18 23:59:21.538 INFO 			"invoke_request" : 
+03-18 23:59:21.538 INFO 			{
+03-18 23:59:21.538 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:21.538 INFO 				"invoke_requests" : 
+03-18 23:59:21.538 INFO 				{
+03-18 23:59:21.538 INFO 					"Anonymous<0>" : 
+03-18 23:59:21.538 INFO 					{
+03-18 23:59:21.538 INFO 						"GeneralCommissioning::CommissioningComplete" : null,
+03-18 23:59:21.538 INFO 						"path" : 
+03-18 23:59:21.538 INFO 						{
+03-18 23:59:21.538 INFO 							"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:21.538 INFO 							"command_id" : "4 == 'CommissioningComplete'",
+03-18 23:59:21.538 INFO 							"endpoint_id" : "0"
+03-18 23:59:21.539 INFO 						}
+03-18 23:59:21.539 INFO 					}
+03-18 23:59:21.539 INFO 				},
+03-18 23:59:21.539 INFO 				"suppress_response" : "false",
+03-18 23:59:21.539 INFO 				"timed_request" : "false"
+03-18 23:59:21.539 INFO 			}
+03-18 23:59:21.539 INFO 		},
+03-18 23:59:21.539 INFO 		"hex" : "1528002801360215370024000024013024020418350118181824FF0B18",
+03-18 23:59:21.539 INFO 		"size" : 29
+03-18 23:59:21.539 INFO 	},
+03-18 23:59:21.539 INFO 	"payloadHeader" : 
+03-18 23:59:21.539 INFO 	{
+03-18 23:59:21.539 INFO 		"exchangeFlags" : 5,
+03-18 23:59:21.539 INFO 		"exchangeId" : 28035,
+03-18 23:59:21.539 INFO 		"initiator" : true,
+03-18 23:59:21.539 INFO 		"messageType" : 8,
+03-18 23:59:21.539 INFO 		"needsAck" : true,
+03-18 23:59:21.539 INFO 		"protocolId" : 1
+03-18 23:59:21.539 INFO 	}
+03-18 23:59:21.539 INFO }
+03-18 23:59:21.539 INFO <<< [E:28035i S:50323 M:122634793] (S) Msg TX to 1:0000000012344321 [1064] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:21.540 INFO {
+03-18 23:59:21.540 INFO 	"event" : "MessageSend",
+03-18 23:59:21.540 INFO 	"messageType" : "Unauthenticated",
+03-18 23:59:21.540 INFO 	"packetHeader" : 
+03-18 23:59:21.540 INFO 	{
+03-18 23:59:21.540 INFO 		"flags" : 4,
+03-18 23:59:21.540 INFO 		"msgCounter" : 155445446,
+03-18 23:59:21.540 INFO 		"securityFlags" : 0,
+03-18 23:59:21.540 INFO 		"sessionId" : 0,
+03-18 23:59:21.540 INFO 		"sourceNodeId" : 15441951588621123265
+03-18 23:59:21.540 INFO 	},
+03-18 23:59:21.540 INFO 	"payload" : 
+03-18 23:59:21.540 INFO 	{
+03-18 23:59:21.540 INFO 		"decoded" : 
+03-18 23:59:21.540 INFO 		{
+03-18 23:59:21.540 INFO 			"mrp_ack" : ""
+03-18 23:59:21.540 INFO 		},
+03-18 23:59:21.541 INFO 		"hex" : "",
+03-18 23:59:21.541 INFO 		"size" : 0
+03-18 23:59:21.541 INFO 	},
+03-18 23:59:21.542 INFO 	"payloadHeader" : 
+03-18 23:59:21.543 INFO 	{
+03-18 23:59:21.543 INFO 		"ackMessageCounter" : 56421610,
+03-18 23:59:21.543 INFO 		"exchangeFlags" : 3,
+03-18 23:59:21.544 INFO 		"exchangeId" : 28034,
+03-18 23:59:21.544 INFO 		"initiator" : true,
+03-18 23:59:21.545 INFO 		"messageType" : 16,
+03-18 23:59:21.545 INFO 		"needsAck" : false,
+03-18 23:59:21.545 INFO 		"protocolId" : 0
+03-18 23:59:21.545 INFO 	}
+03-18 23:59:21.545 INFO }
+03-18 23:59:21.545 INFO <<< [E:28034i S:0 M:155445446 (Ack:56421610)] (U) Msg TX to 0:0000000000000000 [0000] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:21.554 INFO {
+03-18 23:59:21.555 INFO 	"event" : "MessageReceived",
+03-18 23:59:21.555 INFO 	"messageType" : "Secure",
+03-18 23:59:21.555 INFO 	"packetHeader" : 
+03-18 23:59:21.555 INFO 	{
+03-18 23:59:21.555 INFO 		"flags" : 0,
+03-18 23:59:21.555 INFO 		"msgCounter" : 53403235,
+03-18 23:59:21.555 INFO 		"securityFlags" : 0,
+03-18 23:59:21.555 INFO 		"sessionId" : 50323
+03-18 23:59:21.555 INFO 	},
+03-18 23:59:21.555 INFO 	"payload" : 
+03-18 23:59:21.555 INFO 	{
+03-18 23:59:21.556 INFO 		"decoded" : 
+03-18 23:59:21.556 INFO 		{
+03-18 23:59:21.556 INFO 			"invoke_response" : 
+03-18 23:59:21.556 INFO 			{
+03-18 23:59:21.556 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:21.556 INFO 				"invoke_responses" : 
+03-18 23:59:21.556 INFO 				{
+03-18 23:59:21.556 INFO 					"Anonymous<0>" : 
+03-18 23:59:21.557 INFO 					{
+03-18 23:59:21.557 INFO 						"command" : 
+03-18 23:59:21.557 INFO 						{
+03-18 23:59:21.557 INFO 							"GeneralCommissioning::CommissioningCompleteResponse" : 
+03-18 23:59:21.557 INFO 							{
+03-18 23:59:21.557 INFO 								"debugText" : "\"\"",
+03-18 23:59:21.557 INFO 								"errorCode" : "0 == kOK"
+03-18 23:59:21.557 INFO 							},
+03-18 23:59:21.558 INFO 							"path" : 
+03-18 23:59:21.558 INFO 							{
+03-18 23:59:21.558 INFO 								"cluster_id" : "48 == 'GeneralCommissioning'",
+03-18 23:59:21.558 INFO 								"command_id" : "5 == 'CommissioningCompleteResponse'",
+03-18 23:59:21.558 INFO 								"endpoint_id" : "0"
+03-18 23:59:21.558 INFO 							}
+03-18 23:59:21.558 INFO 						}
+03-18 23:59:21.558 INFO 					}
+03-18 23:59:21.558 INFO 				},
+03-18 23:59:21.558 INFO 				"suppress_response" : "false"
+03-18 23:59:21.558 INFO 			}
+03-18 23:59:21.558 INFO 		},
+03-18 23:59:21.558 INFO 		"hex" : "152800360115350037002400002401302402051835012400002C01001818181824FF0B18",
+03-18 23:59:21.558 INFO 		"size" : 36
+03-18 23:59:21.558 INFO 	},
+03-18 23:59:21.558 INFO 	"payloadHeader" : 
+03-18 23:59:21.558 INFO 	{
+03-18 23:59:21.558 INFO 		"ackMessageCounter" : 122634793,
+03-18 23:59:21.558 INFO 		"exchangeFlags" : 6,
+03-18 23:59:21.558 INFO 		"exchangeId" : 28035,
+03-18 23:59:21.558 INFO 		"initiator" : false,
+03-18 23:59:21.559 INFO 		"messageType" : 9,
+03-18 23:59:21.559 INFO 		"needsAck" : true,
+03-18 23:59:21.559 INFO 		"protocolId" : 1
+03-18 23:59:21.559 INFO 	}
+03-18 23:59:21.559 INFO }
+03-18 23:59:21.559 INFO >>> [E:28035i S:50323 M:53403235 (Ack:122634793)] (S) Msg RX from 1:0000000012344321 [1064] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:21.560 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_0030 Command=0x0000_0005
+03-18 23:59:21.560 INFO Received CommissioningComplete response, errorCode=0
+03-18 23:59:21.560 INFO Successfully finished commissioning step 'SendComplete'
+03-18 23:59:21.560 INFO Commissioning stage next step: 'SendComplete' -> 'Cleanup'
+03-18 23:59:21.560 INFO Performing next commissioning step 'Cleanup'
+03-18 23:59:21.560 INFO SecureSession[0x10750c520, LSID:50322]: State change 'kActive' --> 'kPendingEviction'
+03-18 23:59:21.560 INFO Successfully finished commissioning step 'Cleanup'
+03-18 23:59:21.560 INFO Commissioning complete for node ID 0x0000000012344321: success
+03-18 23:59:21.560 INFO Commissioning complete
+03-18 23:59:21.560 INFO Device has been Commissioned starting pair-unpair operation
+03-18 23:59:21.561 INFO {
+03-18 23:59:21.561 INFO 	"event" : "MessageSend",
+03-18 23:59:21.561 INFO 	"messageType" : "Secure",
+03-18 23:59:21.561 INFO 	"packetHeader" : 
+03-18 23:59:21.561 INFO 	{
+03-18 23:59:21.561 INFO 		"flags" : 0,
+03-18 23:59:21.561 INFO 		"msgCounter" : 122634794,
+03-18 23:59:21.561 INFO 		"securityFlags" : 0,
+03-18 23:59:21.561 INFO 		"sessionId" : 48545
+03-18 23:59:21.561 INFO 	},
+03-18 23:59:21.561 INFO 	"payload" : 
+03-18 23:59:21.561 INFO 	{
+03-18 23:59:21.561 INFO 		"decoded" : 
+03-18 23:59:21.561 INFO 		{
+03-18 23:59:21.561 INFO 			"mrp_ack" : ""
+03-18 23:59:21.561 INFO 		},
+03-18 23:59:21.561 INFO 		"hex" : "",
+03-18 23:59:21.561 INFO 		"size" : 0
+03-18 23:59:21.561 INFO 	},
+03-18 23:59:21.562 INFO 	"payloadHeader" : 
+03-18 23:59:21.562 INFO 	{
+03-18 23:59:21.562 INFO 		"ackMessageCounter" : 53403235,
+03-18 23:59:21.562 INFO 		"exchangeFlags" : 3,
+03-18 23:59:21.562 INFO 		"exchangeId" : 28035,
+03-18 23:59:21.562 INFO 		"initiator" : true,
+03-18 23:59:21.562 INFO 		"messageType" : 16,
+03-18 23:59:21.562 INFO 		"needsAck" : false,
+03-18 23:59:21.562 INFO 		"protocolId" : 0
+03-18 23:59:21.562 INFO 	}
+03-18 23:59:21.562 INFO }
+03-18 23:59:21.562 INFO <<< [E:28035i S:50323 M:122634794 (Ack:53403235)] (S) Msg TX to 1:0000000012344321 [1064] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:23.567 INFO Found an existing secure session to [1:0000000012344321]!
+03-18 23:59:23.569 INFO {
+03-18 23:59:23.569 INFO 	"event" : "MessageSend",
+03-18 23:59:23.569 INFO 	"messageType" : "Secure",
+03-18 23:59:23.569 INFO 	"packetHeader" : 
+03-18 23:59:23.569 INFO 	{
+03-18 23:59:23.569 INFO 		"flags" : 0,
+03-18 23:59:23.569 INFO 		"msgCounter" : 122634795,
+03-18 23:59:23.569 INFO 		"securityFlags" : 0,
+03-18 23:59:23.569 INFO 		"sessionId" : 48545
+03-18 23:59:23.569 INFO 	},
+03-18 23:59:23.569 INFO 	"payload" : 
+03-18 23:59:23.569 INFO 	{
+03-18 23:59:23.570 INFO 		"decoded" : 
+03-18 23:59:23.570 INFO 		{
+03-18 23:59:23.570 INFO 			"read_request" : 
+03-18 23:59:23.570 INFO 			{
+03-18 23:59:23.570 INFO 				"attribute_requests" : 
+03-18 23:59:23.570 INFO 				{
+03-18 23:59:23.570 INFO 					"Anonymous<0>" : 
+03-18 23:59:23.570 INFO 					{
+03-18 23:59:23.570 INFO 						"attribute_id" : "5 == 'currentFabricIndex'",
+03-18 23:59:23.570 INFO 						"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:23.570 INFO 						"endpoint_id" : "0"
+03-18 23:59:23.570 INFO 					}
+03-18 23:59:23.570 INFO 				},
+03-18 23:59:23.570 INFO 				"fabric_filtered" : "true",
+03-18 23:59:23.570 INFO 				"interaction_model_revison" : "11"
+03-18 23:59:23.570 INFO 			}
+03-18 23:59:23.570 INFO 		},
+03-18 23:59:23.570 INFO 		"hex" : "1536001724020024033E2404051818290324FF0B18",
+03-18 23:59:23.570 INFO 		"size" : 21
+03-18 23:59:23.570 INFO 	},
+03-18 23:59:23.570 INFO 	"payloadHeader" : 
+03-18 23:59:23.570 INFO 	{
+03-18 23:59:23.570 INFO 		"exchangeFlags" : 5,
+03-18 23:59:23.571 INFO 		"exchangeId" : 28036,
+03-18 23:59:23.571 INFO 		"initiator" : true,
+03-18 23:59:23.571 INFO 		"messageType" : 2,
+03-18 23:59:23.571 INFO 		"needsAck" : true,
+03-18 23:59:23.571 INFO 		"protocolId" : 1
+03-18 23:59:23.571 INFO 	}
+03-18 23:59:23.571 INFO }
+03-18 23:59:23.571 INFO <<< [E:28036i S:50323 M:122634795] (S) Msg TX to 1:0000000012344321 [1064] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:02 (IM:ReadRequest)
+03-18 23:59:23.574 INFO {
+03-18 23:59:23.574 INFO 	"event" : "MessageReceived",
+03-18 23:59:23.574 INFO 	"messageType" : "Secure",
+03-18 23:59:23.574 INFO 	"packetHeader" : 
+03-18 23:59:23.574 INFO 	{
+03-18 23:59:23.574 INFO 		"flags" : 0,
+03-18 23:59:23.574 INFO 		"msgCounter" : 53403236,
+03-18 23:59:23.575 INFO 		"securityFlags" : 0,
+03-18 23:59:23.575 INFO 		"sessionId" : 50323
+03-18 23:59:23.575 INFO 	},
+03-18 23:59:23.575 INFO 	"payload" : 
+03-18 23:59:23.575 INFO 	{
+03-18 23:59:23.575 INFO 		"decoded" : 
+03-18 23:59:23.575 INFO 		{
+03-18 23:59:23.575 INFO 			"report_data" : 
+03-18 23:59:23.575 INFO 			{
+03-18 23:59:23.575 INFO 				"attribute_reports" : 
+03-18 23:59:23.575 INFO 				{
+03-18 23:59:23.575 INFO 					"Anonymous<0>" : 
+03-18 23:59:23.575 INFO 					{
+03-18 23:59:23.575 INFO 						"attribute_data" : 
+03-18 23:59:23.575 INFO 						{
+03-18 23:59:23.576 INFO 							"OperationalCredentials::currentFabricIndex" : "1",
+03-18 23:59:23.576 INFO 							"data_version" : "972758694",
+03-18 23:59:23.576 INFO 							"path" : 
+03-18 23:59:23.576 INFO 							{
+03-18 23:59:23.576 INFO 								"attribute_id" : "5 == 'currentFabricIndex'",
+03-18 23:59:23.576 INFO 								"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:23.576 INFO 								"endpoint_id" : "0"
+03-18 23:59:23.576 INFO 							}
+03-18 23:59:23.576 INFO 						}
+03-18 23:59:23.576 INFO 					}
+03-18 23:59:23.576 INFO 				},
+03-18 23:59:23.576 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:23.576 INFO 				"suppress_response" : "true"
+03-18 23:59:23.576 INFO 			}
+03-18 23:59:23.576 INFO 		},
+03-18 23:59:23.576 INFO 		"hex" : "1536011535012600A61EFB39370124020024033E24040518240201181818290424FF0B18",
+03-18 23:59:23.576 INFO 		"size" : 36
+03-18 23:59:23.576 INFO 	},
+03-18 23:59:23.576 INFO 	"payloadHeader" : 
+03-18 23:59:23.576 INFO 	{
+03-18 23:59:23.577 INFO 		"ackMessageCounter" : 122634795,
+03-18 23:59:23.577 INFO 		"exchangeFlags" : 6,
+03-18 23:59:23.577 INFO 		"exchangeId" : 28036,
+03-18 23:59:23.577 INFO 		"initiator" : false,
+03-18 23:59:23.577 INFO 		"messageType" : 5,
+03-18 23:59:23.577 INFO 		"needsAck" : true,
+03-18 23:59:23.577 INFO 		"protocolId" : 1
+03-18 23:59:23.577 INFO 	}
+03-18 23:59:23.577 INFO }
+03-18 23:59:23.577 INFO >>> [E:28036i S:50323 M:53403236 (Ack:122634795)] (S) Msg RX from 1:0000000012344321 [1064] --- Type 0001:05 (IM:ReportData)
+03-18 23:59:23.578 INFO Found an existing secure session to [1:0000000012344321]!
+03-18 23:59:23.578 INFO {
+03-18 23:59:23.578 INFO 	"event" : "MessageSend",
+03-18 23:59:23.578 INFO 	"messageType" : "Secure",
+03-18 23:59:23.578 INFO 	"packetHeader" : 
+03-18 23:59:23.578 INFO 	{
+03-18 23:59:23.578 INFO 		"flags" : 0,
+03-18 23:59:23.578 INFO 		"msgCounter" : 122634796,
+03-18 23:59:23.578 INFO 		"securityFlags" : 0,
+03-18 23:59:23.578 INFO 		"sessionId" : 48545
+03-18 23:59:23.579 INFO 	},
+03-18 23:59:23.579 INFO 	"payload" : 
+03-18 23:59:23.579 INFO 	{
+03-18 23:59:23.579 INFO 		"decoded" : 
+03-18 23:59:23.579 INFO 		{
+03-18 23:59:23.579 INFO 			"invoke_request" : 
+03-18 23:59:23.579 INFO 			{
+03-18 23:59:23.579 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:23.579 INFO 				"invoke_requests" : 
+03-18 23:59:23.579 INFO 				{
+03-18 23:59:23.579 INFO 					"Anonymous<0>" : 
+03-18 23:59:23.579 INFO 					{
+03-18 23:59:23.579 INFO 						"OperationalCredentials::RemoveFabric" : 
+03-18 23:59:23.579 INFO 						{
+03-18 23:59:23.579 INFO 							"fabricIndex" : "1"
+03-18 23:59:23.579 INFO 						},
+03-18 23:59:23.579 INFO 						"path" : 
+03-18 23:59:23.579 INFO 						{
+03-18 23:59:23.579 INFO 							"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:23.579 INFO 							"command_id" : "10 == 'RemoveFabric'",
+03-18 23:59:23.579 INFO 							"endpoint_id" : "0"
+03-18 23:59:23.579 INFO 						}
+03-18 23:59:23.579 INFO 					}
+03-18 23:59:23.579 INFO 				},
+03-18 23:59:23.579 INFO 				"suppress_response" : "false",
+03-18 23:59:23.579 INFO 				"timed_request" : "false"
+03-18 23:59:23.580 INFO 			}
+03-18 23:59:23.580 INFO 		},
+03-18 23:59:23.580 INFO 		"hex" : "1528002801360215370024000024013E24020A18350124000118181824FF0B18",
+03-18 23:59:23.580 INFO 		"size" : 32
+03-18 23:59:23.580 INFO 	},
+03-18 23:59:23.580 INFO 	"payloadHeader" : 
+03-18 23:59:23.580 INFO 	{
+03-18 23:59:23.580 INFO 		"exchangeFlags" : 5,
+03-18 23:59:23.580 INFO 		"exchangeId" : 28037,
+03-18 23:59:23.580 INFO 		"initiator" : true,
+03-18 23:59:23.580 INFO 		"messageType" : 8,
+03-18 23:59:23.580 INFO 		"needsAck" : true,
+03-18 23:59:23.580 INFO 		"protocolId" : 1
+03-18 23:59:23.580 INFO 	}
+03-18 23:59:23.580 INFO }
+03-18 23:59:23.580 INFO <<< [E:28037i S:50323 M:122634796] (S) Msg TX to 1:0000000012344321 [1064] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0001:08 (IM:InvokeCommandRequest)
+03-18 23:59:23.580 INFO {
+03-18 23:59:23.580 INFO 	"event" : "MessageSend",
+03-18 23:59:23.581 INFO 	"messageType" : "Secure",
+03-18 23:59:23.581 INFO 	"packetHeader" : 
+03-18 23:59:23.581 INFO 	{
+03-18 23:59:23.581 INFO 		"flags" : 0,
+03-18 23:59:23.581 INFO 		"msgCounter" : 122634797,
+03-18 23:59:23.581 INFO 		"securityFlags" : 0,
+03-18 23:59:23.581 INFO 		"sessionId" : 48545
+03-18 23:59:23.581 INFO 	},
+03-18 23:59:23.581 INFO 	"payload" : 
+03-18 23:59:23.581 INFO 	{
+03-18 23:59:23.581 INFO 		"decoded" : 
+03-18 23:59:23.581 INFO 		{
+03-18 23:59:23.581 INFO 			"mrp_ack" : ""
+03-18 23:59:23.581 INFO 		},
+03-18 23:59:23.581 INFO 		"hex" : "",
+03-18 23:59:23.581 INFO 		"size" : 0
+03-18 23:59:23.581 INFO 	},
+03-18 23:59:23.581 INFO 	"payloadHeader" : 
+03-18 23:59:23.581 INFO 	{
+03-18 23:59:23.581 INFO 		"ackMessageCounter" : 53403236,
+03-18 23:59:23.581 INFO 		"exchangeFlags" : 3,
+03-18 23:59:23.582 INFO 		"exchangeId" : 28036,
+03-18 23:59:23.582 INFO 		"initiator" : true,
+03-18 23:59:23.582 INFO 		"messageType" : 16,
+03-18 23:59:23.582 INFO 		"needsAck" : false,
+03-18 23:59:23.582 INFO 		"protocolId" : 0
+03-18 23:59:23.582 INFO 	}
+03-18 23:59:23.582 INFO }
+03-18 23:59:23.582 INFO <<< [E:28036i S:50323 M:122634797 (Ack:53403236)] (S) Msg TX to 1:0000000012344321 [1064] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:23.583 INFO {
+03-18 23:59:23.583 INFO 	"event" : "MessageReceived",
+03-18 23:59:23.583 INFO 	"messageType" : "Secure",
+03-18 23:59:23.583 INFO 	"packetHeader" : 
+03-18 23:59:23.583 INFO 	{
+03-18 23:59:23.583 INFO 		"flags" : 0,
+03-18 23:59:23.583 INFO 		"msgCounter" : 53403237,
+03-18 23:59:23.583 INFO 		"securityFlags" : 0,
+03-18 23:59:23.583 INFO 		"sessionId" : 50323
+03-18 23:59:23.583 INFO 	},
+03-18 23:59:23.584 INFO 	"payload" : 
+03-18 23:59:23.584 INFO 	{
+03-18 23:59:23.584 INFO 		"decoded" : 
+03-18 23:59:23.584 INFO 		{
+03-18 23:59:23.584 INFO 			"mrp_ack" : ""
+03-18 23:59:23.584 INFO 		},
+03-18 23:59:23.584 INFO 		"hex" : "",
+03-18 23:59:23.584 INFO 		"size" : 0
+03-18 23:59:23.584 INFO 	},
+03-18 23:59:23.584 INFO 	"payloadHeader" : 
+03-18 23:59:23.584 INFO 	{
+03-18 23:59:23.584 INFO 		"ackMessageCounter" : 122634796,
+03-18 23:59:23.584 INFO 		"exchangeFlags" : 2,
+03-18 23:59:23.584 INFO 		"exchangeId" : 28037,
+03-18 23:59:23.584 INFO 		"initiator" : false,
+03-18 23:59:23.584 INFO 		"messageType" : 16,
+03-18 23:59:23.584 INFO 		"needsAck" : false,
+03-18 23:59:23.584 INFO 		"protocolId" : 0
+03-18 23:59:23.584 INFO 	}
+03-18 23:59:23.584 INFO }
+03-18 23:59:23.584 INFO >>> [E:28037i S:50323 M:53403237 (Ack:122634796)] (S) Msg RX from 1:0000000012344321 [1064] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:23.602 INFO {
+03-18 23:59:23.602 INFO 	"event" : "MessageReceived",
+03-18 23:59:23.602 INFO 	"messageType" : "Secure",
+03-18 23:59:23.603 INFO 	"packetHeader" : 
+03-18 23:59:23.603 INFO 	{
+03-18 23:59:23.603 INFO 		"flags" : 0,
+03-18 23:59:23.603 INFO 		"msgCounter" : 53403238,
+03-18 23:59:23.603 INFO 		"securityFlags" : 0,
+03-18 23:59:23.603 INFO 		"sessionId" : 50323
+03-18 23:59:23.603 INFO 	},
+03-18 23:59:23.603 INFO 	"payload" : 
+03-18 23:59:23.603 INFO 	{
+03-18 23:59:23.603 INFO 		"decoded" : 
+03-18 23:59:23.603 INFO 		{
+03-18 23:59:23.603 INFO 			"invoke_response" : 
+03-18 23:59:23.603 INFO 			{
+03-18 23:59:23.603 INFO 				"interaction_model_revison" : "11",
+03-18 23:59:23.603 INFO 				"invoke_responses" : 
+03-18 23:59:23.603 INFO 				{
+03-18 23:59:23.603 INFO 					"Anonymous<0>" : 
+03-18 23:59:23.603 INFO 					{
+03-18 23:59:23.603 INFO 						"command" : 
+03-18 23:59:23.603 INFO 						{
+03-18 23:59:23.603 INFO 							"OperationalCredentials::NOCResponse" : 
+03-18 23:59:23.603 INFO 							{
+03-18 23:59:23.604 INFO 								"fabricIndex" : "1",
+03-18 23:59:23.604 INFO 								"statusCode" : "0 == kOK"
+03-18 23:59:23.604 INFO 							},
+03-18 23:59:23.604 INFO 							"path" : 
+03-18 23:59:23.604 INFO 							{
+03-18 23:59:23.604 INFO 								"cluster_id" : "62 == 'OperationalCredentials'",
+03-18 23:59:23.604 INFO 								"command_id" : "8 == 'NOCResponse'",
+03-18 23:59:23.604 INFO 								"endpoint_id" : "0"
+03-18 23:59:23.604 INFO 							}
+03-18 23:59:23.604 INFO 						}
+03-18 23:59:23.604 INFO 					}
+03-18 23:59:23.604 INFO 				},
+03-18 23:59:23.604 INFO 				"suppress_response" : "false"
+03-18 23:59:23.604 INFO 			}
+03-18 23:59:23.604 INFO 		},
+03-18 23:59:23.604 INFO 		"hex" : "1528003601153500370024000024013E2402081835012400002401011818181824FF0B18",
+03-18 23:59:23.604 INFO 		"size" : 36
+03-18 23:59:23.604 INFO 	},
+03-18 23:59:23.604 INFO 	"payloadHeader" : 
+03-18 23:59:23.604 INFO 	{
+03-18 23:59:23.604 INFO 		"ackMessageCounter" : 122634796,
+03-18 23:59:23.604 INFO 		"exchangeFlags" : 6,
+03-18 23:59:23.605 INFO 		"exchangeId" : 28037,
+03-18 23:59:23.605 INFO 		"initiator" : false,
+03-18 23:59:23.605 INFO 		"messageType" : 9,
+03-18 23:59:23.605 INFO 		"needsAck" : true,
+03-18 23:59:23.605 INFO 		"protocolId" : 1
+03-18 23:59:23.605 INFO 	}
+03-18 23:59:23.605 INFO }
+03-18 23:59:23.605 INFO >>> [E:28037i S:50323 M:53403238 (Ack:122634796)] (S) Msg RX from 1:0000000012344321 [1064] --- Type 0001:09 (IM:InvokeCommandResponse)
+03-18 23:59:23.606 INFO Received Command Response Data, Endpoint=0 Cluster=0x0000_003E Command=0x0000_0008
+03-18 23:59:23.606 ERROR Remove Current Fabric Result : src/controller/CurrentFabricRemover.cpp:133: Success
+03-18 23:59:23.606 INFO Succesfully unpaired device with nodeid 305414945
+03-18 23:59:23.606 INFO {
+03-18 23:59:23.606 INFO 	"event" : "MessageSend",
+03-18 23:59:23.606 INFO 	"messageType" : "Secure",
+03-18 23:59:23.606 INFO 	"packetHeader" : 
+03-18 23:59:23.607 INFO 	{
+03-18 23:59:23.607 INFO 		"flags" : 0,
+03-18 23:59:23.607 INFO 		"msgCounter" : 122634798,
+03-18 23:59:23.607 INFO 		"securityFlags" : 0,
+03-18 23:59:23.607 INFO 		"sessionId" : 48545
+03-18 23:59:23.607 INFO 	},
+03-18 23:59:23.607 INFO 	"payload" : 
+03-18 23:59:23.607 INFO 	{
+03-18 23:59:23.607 INFO 		"decoded" : 
+03-18 23:59:23.607 INFO 		{
+03-18 23:59:23.607 INFO 			"mrp_ack" : ""
+03-18 23:59:23.607 INFO 		},
+03-18 23:59:23.607 INFO 		"hex" : "",
+03-18 23:59:23.607 INFO 		"size" : 0
+03-18 23:59:23.607 INFO 	},
+03-18 23:59:23.607 INFO 	"payloadHeader" : 
+03-18 23:59:23.607 INFO 	{
+03-18 23:59:23.607 INFO 		"ackMessageCounter" : 53403238,
+03-18 23:59:23.607 INFO 		"exchangeFlags" : 3,
+03-18 23:59:23.607 INFO 		"exchangeId" : 28037,
+03-18 23:59:23.607 INFO 		"initiator" : true,
+03-18 23:59:23.607 INFO 		"messageType" : 16,
+03-18 23:59:23.607 INFO 		"needsAck" : false,
+03-18 23:59:23.607 INFO 		"protocolId" : 0
+03-18 23:59:23.607 INFO 	}
+03-18 23:59:23.608 INFO }
+03-18 23:59:23.608 INFO <<< [E:28037i S:50323 M:122634798 (Ack:53403238)] (S) Msg TX to 1:0000000012344321 [1064] [UDP:[fe80::dea6:32ff:feab:25e4%en0]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck)
+03-18 23:59:26.612 INFO StopPairing called for node ID 0x0000000012344321
+03-18 23:59:26.613 INFO SecureSession[0x10750cd70, LSID:50323]: State change 'kActive' --> 'kPendingEviction'
+03-18 23:59:29.619 INFO unpair_dut completed successfully
+03-18 23:59:34.625 INFO Test Iteration Completed
+03-18 23:59:34.631 ERROR Exception occurred in test_tc_pair_unpair.
+Traceback (most recent call last):
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/.venv/lib/python3.9/site-packages/mobly/base_test.py", line 783, in exec_one_test
+    test_method()
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/helper_libs/matter_testing_support.py", line 1128, in async_runner
+    return asyncio.run(body(*args, **kwargs))
+  File "/AppleInternal/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/AppleInternal/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/scripts/reliability_scripts/TC_Pair.py", line 50, in test_tc_pair_unpair
+    tc_pair_unpair(self)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/matter_qa_base_test_class.py", line 163, in wrapper
+    self.post_iteration(current_iteration, iteration_test_result)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/matter_qa_base_test_class.py", line 140, in post_iteration
+    self.test_result_observable.notify(self.iteration_result_record)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/test_result_observable.py", line 15, in notify
+    observer.dispatch(record)
+  File "/Users/chaitanyajandhyala/code/python/template_code/Functional/matter_qa/library/base_test_classes/test_result_observer.py", line 18, in dispatch
+    f.write(json_data + '\n')
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'str'
+03-18 23:59:34.645 INFO [Test] test_tc_pair_unpair ERROR
+03-18 23:59:34.648 INFO Summary for test class TC_Pair: Error 1, Executed 1, Failed 0, Passed 0, Requested 1, Skipped 0
+03-18 23:59:34.648 INFO Summary for test run MatterTest@03-18-2024_23-59-12-343:
+Total time elapsed 22.303834625s
+Artifacts are saved in "./MatterTest/03-18-2024_23-59-12-343"
+Test summary saved in "./MatterTest/03-18-2024_23-59-12-343/test_summary.yaml"
+Test results: Error 1, Executed 1, Failed 0, Passed 0, Requested 1, Skipped 0

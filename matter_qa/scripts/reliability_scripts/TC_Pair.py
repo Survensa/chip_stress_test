@@ -30,7 +30,9 @@ from matter_qa.library.helper_libs.exceptions import TestCaseError
 
 class TC_Pair(MatterQABaseTestCaseClass):
     def __init__(self, *args):
+        #Todo move this into some meta data
         self.tc_name = "Pair_Unpair"
+        self.tc_id = "stress_1_1"
         super().__init__(*args)
     
     @async_test_body

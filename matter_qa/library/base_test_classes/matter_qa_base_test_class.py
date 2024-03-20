@@ -5,6 +5,7 @@ import traceback
 import time
 import importlib
 import sys
+import datetime
 
 from matter_qa.library.helper_libs.logger import qa_logger
 from matter_qa.library.helper_libs.exceptions import *
@@ -12,7 +13,7 @@ from matter_qa.library.helper_libs.utils import default_config_reader
 from matter_qa.library.platform.dut_class import dut_class
 from matter_qa.library.helper_libs.matter_testing_support import MatterBaseTest
 from matter_qa.configs.config import TestConfig
-from matter_qa.library.base_test_classes.test_results_record import TestresultsRecord,ResultsRecordType, TestResultEnums,IterationTestResultsEnums,SummaryTestResultsEnums
+from matter_qa.library.base_test_classes.test_results_record import TestresultsRecord,TestResultEnums,IterationTestResultsEnums,SummaryTestResultsEnums
 
 from .test_result_observable import TestResultObservable
 from .test_result_observer import TestResultObserver
@@ -40,9 +41,18 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.test_result_observable = TestResultObservable()
         #TODO fix this file business properly
         summary_file = os.path.join(self.run_set_folder, 'summary.json')
-        iterations_file = os.path.join(self.run_set_folder, 'iterations.json')
-        self.test_result_observer = TestResultObserver(summary_file,iterations_file)
+        self.test_result_observer = TestResultObserver(summary_file)
         self.test_result_observable.subscribe(self.test_result_observer)
+        
+        summary_record = { SummaryTestResultsEnums.RECORD_TEST_NAME : self.tc_name,
+                        SummaryTestResultsEnums.RECORD_TEST_CASE_ID : self.tc_id,
+                        SummaryTestResultsEnums.RECORD_TEST_CLASS : type(self).__name__,
+                        SummaryTestResultsEnums.REPORT_TEST_BEGIN_TIME : datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                        SummaryTestResultsEnums.RECORD_TOTAL_NUMBER_OF_ITERATIONS :self.test_config.general_configs.number_of_iterations,
+                        SummaryTestResultsEnums.RECORD_TEST_COMPLETION_STATUS : SummaryTestResultsEnums.RECORD_TEST_IN_PROGRESS}
+    
+        self.test_results_record = TestresultsRecord(summary_record)
+        self.test_result_observable.notify(self.test_results_record)
 
     def _config_reader(self, config=None):
         test_config = TestConfig(self.matter_test_config.reliability_tests_config)
@@ -60,14 +70,14 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     
     def _create_run_set_folder(self):
         """
-                here we will set the path for storing the iteration logs. We are re-using the directories created by mobly framework
-                mobly will create a runset id and folder like '03-19-2024_12-36-26-432'
-                iteration wise data will be stored in the directory <log_path>/MatterTest/<run-set>/<test_case_name>
-                if this path does not exist then current directory will be used.
+            here we will set the path for storing the iteration logs. We are re-using the directories created by mobly framework
+        mobly will create a runset id and folder like '03-19-2024_12-36-26-432'
+        iteration wise data will be stored in the directory <log_path>/MatterTest/<run-set>/<test_case_name>
+        if this path does not exist then current directory will be used.
 
-                self.root_output_path -> created by mobly will have structure of <log_path>/MatterTest/<run-set>
+        self.root_output_path -> created by mobly will have structure of <log_path>/MatterTest/<run-set>
                 self.TAG -> created by mobly will have test_class_name
-                """
+        """
         run_set_folder_path = os.path.join(self.root_output_path, self.TAG)
         if not os.path.exists(run_set_folder_path):
             run_set_folder_path = os.path.join(os.getcwd(), datetime.datetime.now().strftime("%d-%m-%Y_%H-%M-%S-%f"),

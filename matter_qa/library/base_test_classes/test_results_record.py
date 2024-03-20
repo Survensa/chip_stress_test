@@ -2,61 +2,96 @@ from mobly.records import TestResultEnums, TestResultRecord, ExceptionRecord
 import mobly.utils as utils
 from enum import Enum, auto
 
-class ResultsRecordType(Enum):
+class ResultsRecordTypeEnums:
     SummaryRecordType = "Summary Record"
+    DUTNodeInformationRecordType = "DUT Record"
     IterationRecordType = "Iteration Record"
+class DUTInformationRecordEnums:
+    RECORD_VENDOR_NAME  = "Vendor Name"
+    RECORD_PRODUCT_NAME = "Product Name"
+    RECORD_PRODUCT_ID   = "Product Id"
+    RECORD_VENDOR_ID    = "Vendor Id"
+    RECORD_SOFTWARE_VERSION = "Software Version"
+    RECORD_HARDWARE_VERSION = "Hardware Version"
+    RECORD_PLATFORM = "Platform"
+    RECORD_COMMISSIONING_METHOD = "Commissioning-method"
+class DUTInformationRecord:
+    def __init__(self) -> None:
+        self.record_dict = {}
+        self.record_dict[DUTInformationRecordEnums.RECORD_VENDOR_NAME] = None
+        self.record_dict[DUTInformationRecordEnums.RECORD_PRODUCT_NAME] = None
+        self.record_dict[DUTInformationRecordEnums.RECORD_PRODUCT_ID] = None
+        self.record_dict[DUTInformationRecordEnums.RECORD_VENDOR_ID] = None
+        self.record_dict[DUTInformationRecordEnums.RECORD_SOFTWARE_VERSION] = None
+        self.record_dict[DUTInformationRecordEnums.RECORD_HARDWARE_VERSION] = None
+        self.record_dict[DUTInformationRecordEnums.RECORD_PLATFORM] = None
+        self.record_dict[DUTInformationRecordEnums.RECORD_COMMISSIONING_METHOD] = None
+    
+    def update_record(self, **kwargs):
+        for k,v in kwargs.items():
+            if hasattr(DUTInformationRecordEnums,k):
+                self.record_dict.update(k,v)
 
-class IterationTestResultsEnums(TestResultEnums):
+class SummaryTestResultsEnums:
+    RECORD_TEST_NAME = "Test Case Name"
+    RECORD_TEST_CASE_ID = "Test Case ID"
+    RECORD_TEST_CLASS = "Test Case Class"
+    REPORT_TEST_BEGIN_TIME = "Test Case Beginned at"
+    REPORT_TEST_END_TIME = "Test Case Ended at"
+    RECORD_TEST_COMPLETION_STATUS = "test_compleition_status"
+    RECORD_TEST_STATUS = "TestCase Status"
+    RECORD_TEST_COMPLETED = "Test Completed"
+    RECORD_TEST_IN_PROGRESS = "Test In Progress"
+    RECORD_TOTAL_NUMBER_OF_ITERATIONS = "Total number of iterations"
+    RECORD_NUMBER_OF_ITERATIONS_COMPLETED = "number of iterations completed"
+    RECORD_NUMBER_OF_ITERATIONS_PASSED = "number of iterations Passed"
+    RECORD_NUMBER_OF_ITERATIONS_FAILED = "number of iterations Failed"
+    RECORD_LIST_OF_ITERATIONS_FAILED = "List of Iterations Failed"
+ 
+                
+class SummaryTestResultRecord:
+    def __init__(self, **kwargs) -> None:
+        self.record_dict = {}
+        self.record_dict[SummaryTestResultsEnums.RECORD_TEST_NAME] = None
+        self.record_dict[SummaryTestResultsEnums.RECORD_TEST_CASE_ID] = None
+        self.record_dict[SummaryTestResultsEnums.RECORD_TEST_CLASS] = None
+        self.record_dict[SummaryTestResultsEnums.REPORT_TEST_BEGIN_TIME] = None
+        self.record_dict[SummaryTestResultsEnums.REPORT_TEST_END_TIME] = None
+        self.record_dict[SummaryTestResultsEnums.RECORD_TEST_COMPLETION_STATUS] = None
+        self.record_dict[SummaryTestResultsEnums.RECORD_TEST_STATUS] = SummaryTestResultsEnums.RECORD_TEST_IN_PROGRESS
+        self.record_dict[SummaryTestResultsEnums.RECORD_TOTAL_NUMBER_OF_ITERATIONS] = None
+        self.record_dict[SummaryTestResultsEnums.RECORD_NUMBER_OF_ITERATIONS_COMPLETED] = None
+        self.record_dict[SummaryTestResultsEnums.RECORD_NUMBER_OF_ITERATIONS_PASSED] = None
+        self.record_dict[SummaryTestResultsEnums.RECORD_NUMBER_OF_ITERATIONS_FAILED] = None
+        self.record_dict[SummaryTestResultsEnums.RECORD_LIST_OF_ITERATIONS_FAILED] = []
+
+    def update_record(self, **kwargs):
+        for k,v in kwargs.items():
+            if hasattr(SummaryTestResultsEnums,k):
+                self.record_dict.update(k,v)
+
+class IterationTestResultsEnums:
     RECORD_ITERATION_NUMBER = 'Iteration Number'
-    RECORD_ITERATION_RESULT = 'Iteration Result'
     RECORD_ITERATION_BEGIN_TIME = 'Iteration Begin Time'
     RECORD_ITERATION_END_TIME = 'Iteration End Time'
+    RECORD_ITERATION_RESULT = 'Iteration Result'
     RECORD_ITERATION_RESULT_PASS = 'PASS'
     RECORD_ITERATION_RESULT_FAIL = 'FAIL'
     RECORD_ITERATION_RESULT_SKIP = 'SKIP'
     RECORD_ITERATION_RESULT_ERROR = 'ERROR'
 
-class SummaryTestResultsEnums(Enum):
-    RECORD_TEST_STATUS = "TestCase Status"
-    RECORD_TEST_COMPLETION_STATUS = "test_compleition_status"
-    RECORD_TEST_COMPLETED = "Test Completed"
-    RECORD_TEST_IN_PROGRESS = "Test In Progress"
-
-class SummaryTestResultRecord(TestResultRecord):
-    def __init__(self, test_name, test_class) -> None:
-        self.number_of_iteartions = None
-        self.number_of_iteartions_passed = None
-        self.number_of_iteartions_failed = None
-        self.list_of_iterations_failed = []
-        self.platform = None
-        self.commissioning_method = None 
-        self.test_completion_status = None
-        self.test_begin_time = None
-        self.test_end_time = None
-        super().__init__(test_name, test_class)
-
-    def summary_record_begin(self, number_of_iterations):
-        self.test_begin_time = utils.get_current_epoch_time()
-        self.number_of_iteartions = number_of_iterations
-        self.test_completion_status = SummaryTestResultsEnums.RECORD_TEST_IN_PROGRESS
-
-    def summary_record_end(self, *record_data):
-        self.test_end_time = utils.get_current_epoch_time()
-        #TODO handle the record data properly.
-        self.test_completion_status = SummaryTestResultsEnums.RECORD_TEST_COMPLETED
-
-    def to_dict(self):
-        return super().to_dict()
-
-
 class IterationTestResultRecord(TestResultRecord):
     def __init__(self, test_name, test_class, iteration_number):
-        self.current_iteration = iteration_number
-        self.iteration_begin_time = None
-        self.iteration_end_time = None
-        self.iteration_result = None
-        self.iteation_termination_signal = None
-        super().__init__(test_name, test_class)
+        self.record_dict = {}
+        self.record_dict[IterationTestResultsEnums.RECORD_ITERATION_NUMBER] = None
+        self.record_dict[IterationTestResultsEnums.RECORD_ITERATION_BEGIN_TIME] = None
+        self.record_dict[IterationTestResultsEnums.RECORD_ITERATION_END_TIME] = None
+        self.record_dict[IterationTestResultsEnums.RECORD_ITERATION_RESULT] = None
+
+    def update_record(self, **kwargs):
+        for k,v in kwargs.items():
+            if hasattr(IterationTestResultsEnums,k):
+                self.record_dict.update(k,v)
 
     def iteration_begin(self, iteration_number):
         self.iteration_begin_time = utils.get_current_epoch_time()
@@ -76,15 +111,11 @@ class IterationTestResultRecord(TestResultRecord):
         if e:
             self.iteation_termination_signal = ExceptionRecord(e)
     
-    def to_dict(self):
-        return super().to_dict()
 
 class TestresultsRecord():
-    @staticmethod
-    def create_record(record_type,test_name, test_class, iteration_number=None):
-        if record_type == ResultsRecordType.SummaryRecordType:
-            return SummaryTestResultRecord(test_name, test_class)
-        elif record_type == ResultsRecordType.IterationRecordType:
-            return IterationTestResultRecord(test_name, test_class,iteration_number)
-        else:
-            raise ValueError("Invalid record type")
+    def __init__(self, summary_record=None, dut_record=None, iter_record=None) -> None:
+        self.summary_result_record = SummaryTestResultRecord(summary_record)
+        self.device_information_record = DUTInformationRecord()
+        self.test_iteration_result_record = IterationTestResultRecord()
+
+    

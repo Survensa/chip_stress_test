@@ -59,17 +59,22 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         return test_config
     
     def _create_run_set_folder(self):
-        run_set_folder = "RUN_SET_" + datetime.datetime.now().strftime("%d_%b_%Y_%H-%M-%S")
-        runset_folder_path = self.test_config.general_configs.logFilePath
-        if not os.path.exists(runset_folder_path):
-            if os.path.exists(os.path.dirname(runset_folder_path)):
-                os.mkdir(runset_folder_path)
-            else:
-               runset_folder_path = os.getcwd()
-        runset_folder_path = os.path.join(runset_folder_path,run_set_folder)
-        self.test_config.runset_folder_path = runset_folder_path
-        os.mkdir(runset_folder_path)
-        return runset_folder_path
+        """
+                here we will set the path for storing the iteration logs. We are re-using the directories created by mobly framework
+                mobly will create a runset id and folder like '03-19-2024_12-36-26-432'
+                iteration wise data will be stored in the directory <log_path>/MatterTest/<run-set>/<test_case_name>
+                if this path does not exist then current directory will be used.
+
+                self.root_output_path -> created by mobly will have structure of <log_path>/MatterTest/<run-set>
+                self.TAG -> created by mobly will have test_class_name
+                """
+        run_set_folder_path = os.path.join(self.root_output_path, self.TAG)
+        if not os.path.exists(run_set_folder_path):
+            run_set_folder_path = os.path.join(os.getcwd(), datetime.datetime.now().strftime("%d-%m-%Y_%H-%M-%S-%f"),
+                                               self.TAG)
+            os.mkdir(run_set_folder_path)
+        self.test_config.runset_folder_path = run_set_folder_path
+        return run_set_folder_path
     
     def _create_iteration_log_file(self,iteration_count):
         timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -155,7 +160,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                         iteration_test_result = TestResultEnums.TEST_RESULT_PASS
                         self.update_analytics()
                     except IterationError as e:
-                        print("I got exception, failed iteration {}".format(i))
+                        print("I got exception, failed iteration {}".format(current_iteration))
                         logging.error(e, exc_info=True)
                         self.update_iteration_logs()
                         iteration_test_result = TestResultEnums.TEST_RESULT_FAIL

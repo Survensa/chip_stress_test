@@ -22,22 +22,29 @@ import logging
 import os
 from threading import Event, Thread
 import sys
-from Matter_QA.Library.BaseTestCases.BaseDUTNodeClass import BaseDutNodeClass, BaseNodeDutConfiguration
-from Matter_QA.Library.HelperLibs.commonSerialInterface import SerialPort
+from matter_qa.library.base_test_classes.dut_base_class import BaseDutNodeClass
+from matter_qa.library.helper_libs.serial import SerialConnection
 
-event_closer = Event()
+global log 
+log = logging.getLogger("nordic")
 
+class SerialConfig:
+    def __init__(self,serial_port, baudrate, timeout) -> None:
+        self.serial_port = serial_port
+        self.baudrate = baudrate
+        self.timeout = timeout
 
-class NordicDut(BaseDutNodeClass, BaseNodeDutConfiguration):
+class NordicDut(BaseDutNodeClass):
     def __init__(self, test_config) -> None:
         super().__init__(test_config)
+        self.dut_config = test_config.dut_config.nordic
+        serial_config = SerialConfig(self.dut_config.serial_port,
+                                     self.dut_config.serial_baudrate,
+                                     self.dut_config.serial_timeout)
+        self.serial_session = SerialConnection(serial_config)
+        self.command = self.dut_config.command
         self.test_config = test_config
 
-        self.serial_port = SerialPort(port=self.test_config["nordic_config"]["serial_port"],
-                                                          baudrate=self.test_config["nordic_config"]["serial_baudrate"],
-                                                          timeout=self.test_config["nordic_config"][
-                                                              "serial_timeout"])
-        self.serial_port.open_serial()
 
     def reboot_dut(self):
         pass

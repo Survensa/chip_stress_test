@@ -21,6 +21,7 @@ dut_config:
     serial_port: "/dev/ttyACM1"
     serial_baudrate: 115200
     serial_timeout: 60
+    command: "matter device factoryreset\n"
 
 test_case_config:
   TC_Pair:

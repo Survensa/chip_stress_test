@@ -12,4 +12,13 @@ class TestCaseError(ReliabiltyTestError):
     def __init__(self, *args, **kwargs):
         super().__init__(*args)
         self.test_case_kwarg = kwargs.get('test_case_kwarg')
+
+
+class BuildControlloerError(ReliabiltyTestError):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args)
+        self.test_case_kwarg = kwargs.get('test_case_kwarg')
+
+    def __str__(self):
+        return f"Error: Buildcontroller is failed with {kwargs["error"]} "
         

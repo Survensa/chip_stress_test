@@ -36,7 +36,7 @@ class SerialConfig:
 
 class NordicDut(BaseDutNodeClass):
     def __init__(self, test_config) -> None:
-        super().__init__(test_config)
+        super().__init__()
         self.dut_config = test_config.dut_config.nordic
         serial_config = SerialConfig(self.dut_config.serial_port,
                                      self.dut_config.serial_baudrate,
@@ -46,7 +46,8 @@ class NordicDut(BaseDutNodeClass):
         self.test_config = test_config
 
         try:
-            self.serial_session.open_serial_connection()
+            if not self.serial_session.serial_object.is_open:
+                self.serial_session.open_serial_connection()
         except Exception as e:
             log.error("Could not establish Serial connection {}".format(e))
             sys.exit(1)
@@ -61,7 +62,8 @@ class NordicDut(BaseDutNodeClass):
             for i in range(1, 4):
                 self.serial_session.send_command(self.command.encode('utf-8'))
                 time.sleep(5)
-            self.serial_session.close_serial_connection()
+            if self.serial_session.serial_object.is_open:
+                self.serial_session.close_serial_connection()
         except Exception as e:
             log.error(e, exc_info=True)
 
@@ -70,7 +72,8 @@ class NordicDut(BaseDutNodeClass):
 
     def _start_matter_app(self):
         try:
-            self.ssh_session.open_ssh_connection()
+            if not self.serial_session.serial_object.is_open:
+                self.ssh_session.open_ssh_connection()
             self.serial_session.send_command(self.command.encode('utf-8'))
             time.sleep(5)
             self._start_logging()

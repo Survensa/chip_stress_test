@@ -45,89 +45,76 @@ class NordicDut(BaseDutNodeClass):
         self.command = self.dut_config.command
         self.test_config = test_config
 
+        try:
+            self.serial_session.open_serial_connection()
+        except Exception as e:
+            log.error("Could not establish Serial connection {}".format(e))
+            sys.exit(1)
+
 
     def reboot_dut(self):
         pass
 
-    def factory_reset_dut(self, stop_reset: bool):
-        if not stop_reset:
-            # self.stop_logging()
+    def factory_reset_dut(self):
+        try:
+            log.info("Starting to Reset Nordic as the DUT")
             for i in range(1, 4):
-                logging.info("resetting nordic matter device")
-                if self.serial_port.serial_port_obj.is_open:
-                    self.serial_port.write_cmd(b'matter device factoryreset\n')
-                    time.sleep(5)
-                else:
-                    logging.info("The port was closed now opening the port")
-                    self.serial_port.serial_port_obj.open()
-                    self.serial_port.write_cmd(b'matter device factoryreset\n')
-            return True
-        else:
-            self.start_matter_app()
-            logging.info("completed advertising of DUT")
-            return True
+                self.serial_session.send_command(self.command.encode('utf-8'))
+                time.sleep(5)
+            self.serial_session.close_serial_connection()
+        except Exception as e:
+            log.error(e, exc_info=True)
 
     def start_matter_app(self):
+        self._start_matter_app()
+
+    def _start_matter_app(self):
         try:
-            if self.serial_port.serial_port_obj.is_open:
-                self.serial_port.write_cmd(b'matter device factoryreset\n')
-                time.sleep(5)
-            else:
-                logging.info("The port was closed now opening the port")
-                self.serial_port.serial_port_obj.open()
-                self.serial_port.write_cmd(b'matter device factoryreset\n')
-            self.serial_port.serial_port_obj.close()
-            return True
+            self.ssh_session.open_ssh_connection()
+            self.serial_session.send_command(self.command.encode('utf-8'))
+            time.sleep(5)
+            self._start_logging()
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
+        return True
+    
+    def start_logging(self, file_name):
+        pass
 
-    def start_logging(self, log=None) -> bool:
-        global event_closer
-        if not self.serial_port.serial_port_obj.is_open:
-            self.serial_port.open_serial()
-        if self.test_config["current_iteration"] == 0:
-            self.test_config["current_iteration"] += 1
-        if self.serial_port.serial_port_obj.is_open:
-            while self.serial_port.serial_port_obj.is_open:
-                try:
-                    current_dir = self.test_config["iter_logs_dir"]
-                    log_path = os.path.join(current_dir, str(self.test_config["current_iteration"]))
-                    if not os.path.exists(log_path):
-                        os.mkdir(log_path)
-                    log_file = os.path.join(log_path, "Dut_log_{}_"
-                                            .format(str(self.test_config["current_iteration"])) +
-                                            str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
-                                            + ".log"
-                                            )
-                    logging.info("started to read buffer")
-                    data = self.serial_port.serial_port_obj.read_until(b'Done\r\r\n').decode()
-                    logging.info("completed read from buffer")
-                    if data == '':
-                        logging.info("data not present in buffer breaking from read loop")
-                        break
-                    with open(log_file, 'w') as fp:
-                        fp.write(data)
-                        logging.info("completed write to file")
-
-                except Exception as e:
-                    print(e)
-                    traceback.print_exc()
-        else:
-            logging.info("Failed to read the log in thread")
-            sys.exit()
-        logging.info("closing the Log File")
+    def _start_logging(self, file_name=None) -> bool:
+        try:
+            if file_name is not None:
+                log_file = file_name
+            else:
+                log_file = os.path.join(self.test_config.iter_log_path, "Dut_log_{}_"
+                                    .format(str(self.test_config.current_iteration)) +
+                                    str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
+                                    + ".log"
+                                    )
+            while self.serial_session.serial_object.is_open:
+                dut_log = self.serial_session.serial_object.read_until(b'Done\r\r\n').decode()
+                if dut_log == '':
+                    log.info("data not present in buffer breaking from read loop")
+                    break
+            with open(log_file, 'a') as fp:
+                fp.write(f" \n\n  Dut log of {self.test_config.current_iteration} iteration \n")
+                fp.write(dut_log)
+        except Exception as e:
+            log.error(e, exc_info=True)
         return True
 
     def stop_logging(self):
-        global event_closer
-        event_closer.set()
+        self.stop_event.set()
+        time.sleep(5)
         return True
+    
+    def pre_iteration_loop(self):
+        self.stop_event = Event()
+        self.thread = Thread(target=self._start_matter_app)
+        self.thread.start()
+        time.sleep(7)
 
+    def post_iteration_loop(self):
+        self.stop_logging
 
-def create_dut_object(test_config):
-    dut_obj = NordicDut(test_config=test_config)
-    thread = Thread(target=dut_obj.start_logging)
-    thread.start()
-    dut_obj.factory_reset_dut(stop_reset=False)
-    return dut_obj

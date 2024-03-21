@@ -25,8 +25,8 @@ class SerialConnection:
         except Exception as e:
             self.logger.error(str(e), exc_info=True)
 
-    def open_ssh_connection(self):
+    def open_serial_connection(self):
         self.serial_object.open()
 
-    def close_ssh_connection(self):
+    def close_serial_connection(self):
         self.serial_object.close()

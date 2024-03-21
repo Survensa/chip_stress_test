@@ -15,14 +15,15 @@
 #  limitations under the License.
 #
 import logging
-import time
+import gc
 import traceback
 import chip.clusters as Clusters
 
 from mobly import asserts
-from matter_qa.library.base_test_classes.matter_qa_base_test_class import MatterQABaseTestCaseClass, test_start
-from matter_qa.library.helper_libs.matter_testing_support import async_test_body, default_matter_test_main
-from matter_qa.library.helper_libs.exceptions import TestCaseError, BuildControllerError
+from matter_qa.library.base_test_classes.matter_qa_base_test_class import MatterQABaseTestCaseClass
+from matter_qa.library.helper_libs.matter_testing_support import async_test_body, default_matter_test_main, DiscoveryFilterType
+from matter_qa.library.helper_libs.exceptions import TestCaseError, BuildControllerError, IterationError
+from matter_qa.library.base_test_classes.test_results_record import  TestResultEnums 
 
 class TC_Multiadmin(MatterQABaseTestCaseClass):
     def __init__(self, *args):
@@ -35,7 +36,7 @@ class TC_Multiadmin(MatterQABaseTestCaseClass):
         try:
             self.pair_dut()
         except TestCaseError:
-            self.dut.factory_reset_dut(stop_reset=True)
+            self.dut.factory_reset_dut()
             asserts.fail("Failed to commission the TH1")
         
     async def check_the_no_of_controllers_are_in_range(self):
@@ -97,6 +98,43 @@ class TC_Multiadmin(MatterQABaseTestCaseClass):
             build_result = {"status":"failed", "failure_reason":str(e)} 
             tb = traceback.format_exc()
             raise BuildControllerError(build_result, tb)
+        
+    async def controller_pairing(self,controller_details_dict):
+        try:
+            dutnodeid = controller_details_dict.get("DUT_node_id")
+            logging.info('TH1 opens a commissioning window')
+            opencommissioning_result_dict = await self.openCommissioningWindow()
+            if opencommissioning_result_dict.get("status") == "failed":
+                await self.pairing_failure(opencommissioning_result_dict.get("failure_reason"))
+                return opencommissioning_result_dict
+            # This object stores the info about the open commissioning window like passcode, discriminator. 
+            opencommissioning_object = opencommissioning_result_dict.get("commissioning_parameters")
+            #Setuppincode for the current controller
+            setuppincode = opencommissioning_object.commissioningParameters.setupPinCode
+            #discriminator for the current controller
+            discriminator = opencommissioning_object.randomDiscriminator
+            logging.info(f'TH{self.current_controller} starts the commissioning with DUT')
+            th = controller_details_dict.get("TH_object")
+            th.ResetTestCommissioner()
+            paring_result = th.CommissionOnNetwork(
+                            nodeId=dutnodeid, setupPinCode=setuppincode,
+                            filterType=DiscoveryFilterType.LONG_DISCRIMINATOR, filter=discriminator)
+            # This condition will check for the pairing results Pass/Fail
+            if not paring_result.is_success:
+                await self.close_commissioning_window()
+                return{"status":"failed","failure_reason":str(paring_result)}
+            await self.check_nodeid_is_in_fabriclist(th, dutnodeid)
+            return {"status":"Success","paring_result":paring_result}
+        except Exception as e:
+            return{"status":"failed","failure_reason":str(e)}
+        
+    async def pairing_failure(self, error): 
+        # This function is used to store the failure reason for the pairing the controller  
+        if self.check_execution_mode() == "full_execution_mode":
+            self.update_iteration_logs()
+            iteration_test_result = TestResultEnums.TEST_RESULT_FAIL
+        else:
+            raise TestCaseError(e)
 
     @async_test_body
     async def test_tc_pair_unpair(self):
@@ -104,7 +142,7 @@ class TC_Multiadmin(MatterQABaseTestCaseClass):
         await self.check_the_no_of_controllers_are_in_range()
         self.check_commissioning_window_timeout()
         @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
-        def tc_pair_unpair(*args,**kwargs):
+        async def tc_pair_unpair(*args,**kwargs):
             try:
                 list_of_controllers = []
                 # Controller which are paired will be stored in this list
@@ -115,15 +153,46 @@ class TC_Multiadmin(MatterQABaseTestCaseClass):
                         controller_build_result = self.build_controller(controller_id_itr)
                     except BuildControllerError:
                         if not self.test_config.general_configs.continue_excution_on_fail:
+                            #TODO needs to update after the harsith work
                             raise TestCaseError(e)
                         continue
                     controller_details_dict = controller_build_result.get("dev_controller_dict")
                     list_of_controllers.append(controller_details_dict)
-                    
+                    self.current_controller =  controller_id_itr
+                    paring_result_dict = await self.controller_pairing(controller_details_dict)
+                    if paring_result_dict.get("status") == "failed":
+                        paring_result = paring_result_dict.get("failure_reason")
+                        logging.error("Failed to Commission the controller for {} in {} iteration with th error : {}"
+                                    .format(list_of_controllers.index(controller_details_dict)+1,iteration, paring_result), exc_info=True)
+                        await self.pairing_failure(str(paring_result))
+                        continue
+                    logging.info("Successfully commissioned the {}-controller of {} iteration".format(controller_id_itr, iteration))
+                    logging.info(f"current memory for iteration {self.current_iteration} = {resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024}")
+                    list_of_paired_controller_index.append(controller_details_dict.get("DUT_node_id"))
+                await self.collect_all_basic_analytics_info(heap_usage={"node_id": self.dut_node_id,
+                                                            "iteration_number": self.current_iteration,
+                                                            "dev_ctrl": self.th1, "endpoint": 0})
+                await self.collect_all_basic_analytics_info(pairing_duration_info={"iteration_number": self.current_iteration})
+                await self.shutdown_all_controllers(list_of_controllers,list_of_paired_controller_index)
+                gc.collect()
+                # This condition will check for the result of the iteration is pass/fail
+                if list_of_paired_controller_index:
+                    self.end_of_iteration(iteration_result = "success")
+                else:
+                    self.end_of_iteration(iteration_result = "failed", failure_reason = "Failed to pair atleast 1 controller")
             except Exception as e:
-                #TODO fix this properly.
-                raise TestCaseError(e)
+                logging.error(f"Iteration {self.current_iteration} is failed with the error:{str(e)}", exc_info= True)
+                self.end_of_iteration(iteration_result = "failed", 
+                                            failure_reason="Iteration {} is failed with error {}"
+                                            .format(self.current_controller,self.current_iteration,str(e)))
+        
+            except Exception as e:
+                #TODO fix need after harsith code
+                raise IterationError(e)
+            
         tc_pair_unpair(self)
+        self.dut.factory_reset_dut()
+        self.end_of_test()
 
 
 if __name__ == "__main__":

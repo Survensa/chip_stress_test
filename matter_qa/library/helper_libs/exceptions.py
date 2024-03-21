@@ -7,7 +7,7 @@ class IterationError(ReliabiltyTestError):
         super().__init__(*args)
         self.iteration_kwarg = kwargs.get('iteration_kwarg')
         
-
+#TODO : This error has to used fro partial execution
 class TestCaseError(ReliabiltyTestError):
     def __init__(self, *args, **kwargs):
         super().__init__(*args)
@@ -18,7 +18,8 @@ class BuildControlloerError(ReliabiltyTestError):
     def __init__(self, *args, **kwargs):
         super().__init__(*args)
         self.test_case_kwarg = kwargs.get('test_case_kwarg')
+        self.kwargs
 
     def __str__(self):
-        return f"Error: Buildcontroller is failed with {kwargs["error"]} "
+        return f"Error: Buildcontroller is failed with {self.kwargs["error"]} "
         

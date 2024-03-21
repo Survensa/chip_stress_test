@@ -27,6 +27,8 @@ from matter_qa.library.helper_libs.serial import SerialConnection
 
 global log 
 log = logging.getLogger("nordic")
+event_closer = Event()
+
 
 class SerialConfig:
     def __init__(self,serial_port, baudrate, timeout) -> None:
@@ -38,9 +40,9 @@ class NordicDut(BaseDutNodeClass):
     def __init__(self, test_config) -> None:
         super().__init__()
         self.dut_config = test_config.dut_config.nordic
-        serial_config = SerialConfig(self.dut_config.serial_port,
-                                     self.dut_config.serial_baudrate,
-                                     self.dut_config.serial_timeout)
+        serial_config = SerialConfig(test_config.dut_config.nordic.serial_port,
+                                     test_config.dut_config.nordic.serial_baudrate,
+                                     test_config.dut_config.nordic.serial_timeout)
         self.serial_session = SerialConnection(serial_config)
         self.command = self.dut_config.command
         self.test_config = test_config
@@ -73,10 +75,12 @@ class NordicDut(BaseDutNodeClass):
     def _start_matter_app(self):
         try:
             if not self.serial_session.serial_object.is_open:
-                self.ssh_session.open_ssh_connection()
+                self.serial_session.open_serial_connection()
             self.serial_session.send_command(self.command.encode('utf-8'))
             time.sleep(5)
-            self._start_logging()
+            thread = Thread(target=self._start_logging)
+            thread.start()
+            
         except Exception as e:
             logging.error(e)
             traceback.print_exc()
@@ -95,14 +99,19 @@ class NordicDut(BaseDutNodeClass):
                                     str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
                                     + ".log"
                                     )
-            while self.serial_session.serial_object.is_open:
-                dut_log = self.serial_session.serial_object.read_until(b'Done\r\r\n').decode()
-                if dut_log == '':
-                    log.info("data not present in buffer breaking from read loop")
-                    break
-            with open(log_file, 'a') as fp:
-                fp.write(f" \n\n  Dut log of {self.test_config.current_iteration} iteration \n")
-                fp.write(dut_log)
+            if self.serial_session.serial_object.is_open:
+                while self.serial_session.serial_object.is_open:
+                    dut_log = self.serial_session.serial_object.read_until(b'Done\r\r\n').decode()
+                    if dut_log == '':
+                        log.info("data not present in buffer breaking from read loop")
+                        break
+                with open(log_file, 'a') as fp:
+                    fp.write(f" \n\n  Dut log of {self.test_config.current_iteration} iteration \n")
+                    fp.write(dut_log)
+                self.serial_session.close_serial_connection()
+            else:
+                log.info("Failed to read the log in thread")
+                sys.exit()
         except Exception as e:
             log.error(e, exc_info=True)
         return True
@@ -114,10 +123,10 @@ class NordicDut(BaseDutNodeClass):
     
     def pre_iteration_loop(self):
         self.stop_event = Event()
-        self.thread = Thread(target=self._start_matter_app)
-        self.thread.start()
+        self._start_matter_app()
         time.sleep(7)
 
     def post_iteration_loop(self):
-        self.stop_logging
+        self.factory_reset_dut()
+        self.stop_logging()
 

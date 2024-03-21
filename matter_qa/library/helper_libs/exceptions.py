@@ -21,5 +21,5 @@ class BuildControlloerError(ReliabiltyTestError):
         self.kwargs
 
     def __str__(self):
-        return f"Error: Buildcontroller is failed with {self.kwargs["error"]} "
+        return f"Error: Buildcontroller is failed with {self.kwargs['error']} "
         

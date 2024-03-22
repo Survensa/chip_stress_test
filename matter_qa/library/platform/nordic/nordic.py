@@ -104,7 +104,7 @@ class NordicDut(BaseDutNodeClass):
                             fp.write(dut_log)
                             logging.info("completed write to file")
                     except Exception as e:
-                        log.info(f"Waiting for current_iteration to be assigned {e}")
+                        log.info(f"Waiting for current_iteration to be assigned")
             self.serial_session.close_serial_connection()
         else:
             log.info("Failed to read the log in thread")
@@ -120,6 +120,9 @@ class NordicDut(BaseDutNodeClass):
         pass
 
     def post_iteration_loop(self):
-        if self.serial_session.serial_object.is_open:
-            self.serial_session.send_command(b"Test-iteration completed")
-            time.sleep(5)
+        try:
+            if self.serial_session.serial_object.is_open:
+                self.serial_session.send_command(b"Test-iteration completed")
+                time.sleep(5)
+        except Exception as e:
+            log.error("Could not establish Serial connection {}".format(e))

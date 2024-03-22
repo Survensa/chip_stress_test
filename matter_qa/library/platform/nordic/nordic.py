@@ -36,7 +36,7 @@ class SerialConfig:
         self.baudrate = baudrate
         self.timeout = timeout
 
-class NordicDut(BaseDutNodeClass):
+class NordicDut(BaseDutNodeClass, object):
     def __init__(self, test_config) -> None:
         super().__init__()
         self.dut_config = test_config.dut_config.nordic
@@ -63,7 +63,7 @@ class NordicDut(BaseDutNodeClass):
     def factory_reset_dut(self):
         try:
             log.info("Starting to Reset Nordic as the DUT")
-            for i in range(1, 4):
+            for i in range(1, 3):
                 if self.serial_session.serial_object.is_open:
                     self.serial_session.send_command(self.command.encode('utf-8'))
                     time.sleep(5)
@@ -94,7 +94,7 @@ class NordicDut(BaseDutNodeClass):
                                             )
                         
                         logging.info("started to read buffer")
-                        dut_log = self.serial_session.serial_object.read_until(b'Done\r\r\n').decode()
+                        dut_log = self.serial_session.serial_object.read_until(b'Test-iteration completed').decode()
                         logging.info("completed read from buffer")
                         if dut_log == '':
                             log.info("data not present in buffer breaking from read loop")
@@ -117,7 +117,9 @@ class NordicDut(BaseDutNodeClass):
         return True
     
     def pre_iteration_loop(self):
-        pass
+        self.factory_reset_dut()
 
     def post_iteration_loop(self):
-        pass
+        if self.serial_session.serial_object.is_open:
+            self.serial_session.send_command(b"Test-iteration completed")
+            time.sleep(5)

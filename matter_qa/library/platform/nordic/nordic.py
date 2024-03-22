@@ -48,8 +48,7 @@ class NordicDut(BaseDutNodeClass):
         self.test_config = test_config
 
         try:
-            if not self.serial_session.serial_object.is_open:
-                self.serial_session.open_serial_connection()
+            self.serial_session.open_serial_connection()
         except Exception as e:
             log.error("Could not establish Serial connection {}".format(e))
             sys.exit(1)
@@ -62,34 +61,22 @@ class NordicDut(BaseDutNodeClass):
         try:
             log.info("Starting to Reset Nordic as the DUT")
             for i in range(1, 4):
-                self.serial_session.send_command(self.command.encode('utf-8'))
-                time.sleep(5)
-            if self.serial_session.serial_object.is_open:
-                self.serial_session.close_serial_connection()
+                if self.serial_session.serial_object.is_open:
+                    self.serial_session.send_command(self.command.encode('utf-8'))
+                    time.sleep(2)
+                else:
+                    self.serial_session.open_serial_connection()
+                    self.serial_session.send_command(self.command.encode('utf-8'))
+            return True
         except Exception as e:
             log.error(e, exc_info=True)
 
-    def start_matter_app(self):
-        self._start_matter_app()
-
-    def _start_matter_app(self):
-        try:
-            if not self.serial_session.serial_object.is_open:
-                self.serial_session.open_serial_connection()
-            self.serial_session.send_command(self.command.encode('utf-8'))
-            time.sleep(5)
-            thread = Thread(target=self._start_logging)
-            thread.start()
-            
-        except Exception as e:
-            logging.error(e)
-            traceback.print_exc()
-        return True
     
     def start_logging(self, file_name):
         pass
 
     def _start_logging(self, file_name=None) -> bool:
+        global event_closer
         try:
             if file_name is not None:
                 log_file = file_name
@@ -123,10 +110,12 @@ class NordicDut(BaseDutNodeClass):
     
     def pre_iteration_loop(self):
         self.stop_event = Event()
-        self._start_matter_app()
+        thread = Thread(target=self._start_logging)
+        thread.start()
+        self.factory_reset_dut()
         time.sleep(7)
 
     def post_iteration_loop(self):
-        self.factory_reset_dut()
         self.stop_logging()
-
+        if self.serial_session.serial_object.is_open:
+            self.serial_session.close_serial_connection()

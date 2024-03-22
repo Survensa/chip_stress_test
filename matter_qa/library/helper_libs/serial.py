@@ -17,16 +17,16 @@ class SerialConnection:
             log.error(f"could not connect to Nordic DUT: {e}")
             sys.exit(1)
 
-    def send_command(self, command, **kwargs):
+    def send_command(self, command):
         try:
-            output = self.serial_object.write(command, **kwargs)
+            self.serial_object.write(command)
             self.serial_object.flush()
-            return output
         except Exception as e:
             self.logger.error(str(e), exc_info=True)
 
     def open_serial_connection(self):
-        self.serial_object.open()
+        if not self.serial_object.is_open:
+            self.serial_object.open()
 
     def close_serial_connection(self):
         self.serial_object.close()

@@ -81,16 +81,19 @@ class NordicDut(BaseDutNodeClass):
     def _start_logging(self, file_name=None) -> bool:
         global event_closer
         try:
-            if file_name is not None:
-                log_file = file_name
-            else:
-                log_file = os.path.join(self.test_config.iter_log_path, "Dut_log_{}_"
-                                    .format(str(self.test_config.current_iteration)) +
-                                    str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
-                                    + ".log"
-                                    )
             if self.serial_session.serial_object.is_open:
                 while self.serial_session.serial_object.is_open:
+                    if file_name is not None:
+                        log_file = file_name
+                    else:
+                        try:
+                            log_file = os.path.join(self.test_config.iter_log_path, "Dut_log_{}_"
+                                                .format(str(self.test_config.current_iteration)) +
+                                                str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
+                                                + ".log"
+                                                )
+                        except Exception as e:
+                            log.info("Waiting for current_iteration to be assigned")
                     dut_log = self.serial_session.serial_object.read_until(b'Done\r\r\n').decode()
                     if dut_log == '':
                         log.info("data not present in buffer breaking from read loop")

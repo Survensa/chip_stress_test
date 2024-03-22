@@ -32,6 +32,7 @@ import uuid
 import traceback
 import io
 import yaml
+import secrets
 from binascii import hexlify, unhexlify
 from dataclasses import asdict as dataclass_asdict
 from dataclasses import dataclass, field
@@ -671,6 +672,8 @@ class MatterBaseTest(base_test.BaseTestClass):
     def _commission_device(self, i) -> bool:
         dev_ctrl = self.default_controller
         conf = self.matter_test_config
+        random_nodeid = secrets.randbelow(2 ** 32)
+        conf.dut_node_ids[i] = random_nodeid
 
         # TODO: qr code and manual code aren't lists
 

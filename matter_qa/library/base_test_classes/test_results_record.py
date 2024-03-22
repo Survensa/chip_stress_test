@@ -125,25 +125,6 @@ class IterationTestResultRecord():
             else:
                 self.record[IterationTestResultsEnums.RECORD_ITERATION_RECORD].update({k:v})
 
-    def iteration_begin(self, iteration_number):
-        self.iteration_begin_time = utils.get_current_epoch_time()
-        self.current_iteration = iteration_number
-        
-    def iteration_pass(self):
-        self._iteration_end(TestResultEnums.TEST_RESULT_PASS)
-
-    def iteration_fail(self, e=None):
-        self._iteration_end(TestResultEnums.TEST_RESULT_FAIL, e)
-
-    def iteration_end(self, iteration_result_data, e=None):
-        if self.iteration_begin_time is not None:
-            self.iteration_end_time = utils.get_current_epoch_time()
-        self.iteration_result = iteration_result_data.get(IterationTestResultsEnums.RECORD_ITERATION_RESULT)
-        self.current_iteration = iteration_result_data.get(IterationTestResultsEnums.RECORD_ITERATION_NUMBER)
-        if e:
-            self.iteation_termination_signal = ExceptionRecord(e)
-    
-
 class TestresultsRecord():
     def __init__(self, summary_record=None, dut_record=None, iter_record=None) -> None:
         self.summary_result_record = SummaryTestResultRecord(summary_record=summary_record)

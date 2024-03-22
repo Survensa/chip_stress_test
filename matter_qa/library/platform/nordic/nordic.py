@@ -66,20 +66,21 @@ class NordicDut(BaseDutNodeClass):
             for i in range(1, 4):
                 if self.serial_session.serial_object.is_open:
                     self.serial_session.send_command(self.command.encode('utf-8'))
-                    time.sleep(2)
+                    time.sleep(5)
                 else:
                     self.serial_session.open_serial_connection()
                     self.serial_session.send_command(self.command.encode('utf-8'))
-            return True
         except Exception as e:
             log.error(e, exc_info=True)
-
+        return True
     
     def start_logging(self, file_name):
         pass
 
     def _start_logging(self, file_name=None) -> bool:
         global event_closer
+        if not self.serial_session.serial_object.is_open:
+            self.serial_session.open_serial_connection()
         if self.serial_session.serial_object.is_open:
             while self.serial_session.serial_object.is_open:
                 if file_name is not None:
@@ -91,13 +92,17 @@ class NordicDut(BaseDutNodeClass):
                                             str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
                                             + ".log"
                                             )
+                        
+                        logging.info("started to read buffer")
                         dut_log = self.serial_session.serial_object.read_until(b'Done\r\r\n').decode()
+                        logging.info("completed read from buffer")
                         if dut_log == '':
                             log.info("data not present in buffer breaking from read loop")
                             break
                         with open(log_file, 'w') as fp:
                             fp.write(f" \n\n  Dut log of {self.test_config.current_iteration} iteration \n")
                             fp.write(dut_log)
+                            logging.info("completed write to file")
                     except Exception as e:
                         log.info("Waiting for current_iteration to be assigned")
             self.serial_session.close_serial_connection()

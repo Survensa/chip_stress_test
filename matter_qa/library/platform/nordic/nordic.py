@@ -94,7 +94,7 @@ class NordicDut(BaseDutNodeClass):
                                             )
                         
                         logging.info("started to read buffer")
-                        dut_log = self.serial_session.serial_object.read_until(b'Test-iteration completed\n').decode()
+                        dut_log = self.serial_session.serial_object.read_until(b'Test-iteration completed').decode()
                         logging.info("completed read from buffer")
                         if dut_log == '':
                             log.info("data not present in buffer breaking from read loop")
@@ -121,5 +121,5 @@ class NordicDut(BaseDutNodeClass):
 
     def post_iteration_loop(self):
         if self.serial_session.serial_object.is_open:
-            self.serial_session.send_command(b"Test-iteration completed\n")
+            self.serial_session.send_command(b"Test-iteration completed")
             time.sleep(5)

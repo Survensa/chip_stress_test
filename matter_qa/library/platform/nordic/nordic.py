@@ -95,15 +95,15 @@ class NordicDut(BaseDutNodeClass):
                         if dut_log == '':
                             log.info("data not present in buffer breaking from read loop")
                             break
-                        with open(log_file, 'a') as fp:
+                        with open(log_file, 'w') as fp:
                             fp.write(f" \n\n  Dut log of {self.test_config.current_iteration} iteration \n")
                             fp.write(dut_log)
-                        self.serial_session.close_serial_connection()
                     except Exception as e:
                         log.info("Waiting for current_iteration to be assigned")
-            else:
-                log.info("Failed to read the log in thread")
-                sys.exit()
+            self.serial_session.close_serial_connection()
+        else:
+            log.info("Failed to read the log in thread")
+            sys.exit()
         return True
 
     def stop_logging(self):

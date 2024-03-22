@@ -43,13 +43,17 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         summary_file = os.path.join(self.run_set_folder, 'summary.json')
         self.test_result_observer = TestResultObserver(summary_file)
         self.test_result_observable.subscribe(self.test_result_observer)
+        self.total_number_of_iterations_passed = 0
+        self.total_number_of_iterations_failed = 0
+        self.total_number_of_iterations_error = 0
+        self.list_of_iterations_failed = []
         
         summary_record = { SummaryTestResultsEnums.RECORD_TEST_NAME : self.tc_name,
                         SummaryTestResultsEnums.RECORD_TEST_CASE_ID : self.tc_id,
                         SummaryTestResultsEnums.RECORD_TEST_CLASS : type(self).__name__,
-                        SummaryTestResultsEnums.REPORT_TEST_BEGIN_TIME : datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                        SummaryTestResultsEnums.RECORD_TEST_BEGIN_TIME : datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
                         SummaryTestResultsEnums.RECORD_TOTAL_NUMBER_OF_ITERATIONS :self.test_config.general_configs.number_of_iterations,
-                        SummaryTestResultsEnums.RECORD_TEST_COMPLETION_STATUS : SummaryTestResultsEnums.RECORD_TEST_IN_PROGRESS}
+                        SummaryTestResultsEnums.RECORD_TEST_STATUS : SummaryTestResultsEnums.RECORD_TEST_IN_PROGRESS}
     
         self.test_results_record = TestresultsRecord(summary_record)
         self.test_result_observable.notify(self.test_results_record)
@@ -129,34 +133,57 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         if not self.iteration_log_created:
             self._create_iteration_log_file(iteration_number)
         self.dut.pre_iteration_loop()
-        self.summary_record = TestresultsRecord.create_record(ResultsRecordType.SummaryRecordType,
-                                                self.tc_name,type(self).__name__)
-        self.summary_record.summary_record_begin(self.test_config.general_configs.number_of_iterations)
+   
+        # TODO remove
+        #iteration_result_record = {(iteration_data, iteration_tc_execution_data)}
+        iteration_result_record = {IterationTestResultsEnums.RECORD_ITERATION_NUMBER: iteration_number, (IterationTestResultsEnums.RECORD_ITERATION_DATA, IterationTestResultsEnums.RECORD_ITERATION_TC_EXECUTION_DATA, 
+                                    IterationTestResultsEnums.RECORD_ITERATION_BEGIN_TIME):datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
 
+        self.test_results_record.test_iteration_result_record.update_record(iteration_result_record)
 
-        self.iteration_result_record = TestresultsRecord.create_record(ResultsRecordType.IterationRecordType,
-                                                         self.tc_name,type(self).__name__,iteration_number )
-        self.iteration_result_record.iteration_begin(iteration_number)
-        
-
-    def post_iteration(self, iteration_number, iteration_result,e=None):
+    def post_iteration(self, iteration_number, iteration_result):
         self.dut.post_iteration_loop()
         log.info("Test Iteration Completed")
         self.qa_logger.close_log_file(self.iteration_log)
         # set this flag to create log in next iteration
         self.iteration_log_created = False
-
-        iteration_result_data = {IterationTestResultsEnums.RECORD_ITERATION_NUMBER : iteration_number,
-                                 IterationTestResultsEnums.RECORD_ITERATION_RESULT : iteration_result}
         
-        self.iteration_result_record.iteration_end(iteration_result_data,e)
-        summary_result_data = {SummaryTestResultsEnums.RECORD_TEST_STATUS: SummaryTestResultsEnums.RECORD_TEST_COMPLETED}
-        self.summary_record.summary_record_end(summary_result_data)
-        self.test_result_observable.notify(self.iteration_result_record)
-        self.test_result_observable.notify(self.summary_record)
+        if iteration_result == IterationTestResultsEnums.RECORD_ITERATION_RESULT_PASS:
+            self.total_number_of_iterations_passed = self.total_number_of_iterations_passed + 1
+        else:
+            self.total_number_of_iterations_failed = self.total_number_of_iterations_failed + 1
+            self.list_of_iterations_failed.append(iteration_number)
+            log.info("Iterations Failed so far {}".format(self.list_of_iterations_failed))
+        
+        #update iteration result, end time
+        iteration_result_record = {(IterationTestResultsEnums.RECORD_ITERATION_DATA, IterationTestResultsEnums.RECORD_ITERATION_TC_EXECUTION_DATA, 
+                                    IterationTestResultsEnums.RECORD_ITERATION_END_TIME):datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                                    (IterationTestResultsEnums.RECORD_ITERATION_DATA, IterationTestResultsEnums.RECORD_ITERATION_TC_EXECUTION_DATA,
+                                     IterationTestResultsEnums.RECORD_ITERATION_RESULT):iteration_result,
+                                    }
+        
+        #TODO handle how to send exception data in the iteration record, now I am not appending that.
+        self.test_results_record.test_iteration_result_record.update_record(iteration_result_record)
+
+        #TODO attach analytics dictionry also to the iteration_result_record
+        
+        summary_record = { SummaryTestResultsEnums.RECORD_NUMBER_OF_ITERATIONS_COMPLETED : iteration_number,
+                            SummaryTestResultsEnums.RECORD_NUMBER_OF_ITERATIONS_PASSED : self.total_number_of_iterations_passed,
+                          SummaryTestResultsEnums.RECORD_NUMBER_OF_ITERATIONS_FAILED : self.total_number_of_iterations_failed,
+                          SummaryTestResultsEnums.RECORD_LIST_OF_ITERATIONS_FAILED : self.list_of_iterations_failed
+                        }
+        self.test_results_record.summary_result_record.update_record(summary_record)
+        
+        self.test_result_observable.notify(self.test_results_record)
+        #TODO, reset the iteration record result data
+
     
-    def end_of_test(self):
+    def end_of_test(self, *args):
         print("I am in base class end of test ")
+        summary_record = {SummaryTestResultsEnums.RECORD_TEST_STATUS: SummaryTestResultsEnums.RECORD_TEST_COMPLETED, 
+                          SummaryTestResultsEnums.RECORD_TEST_END_TIME : datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")}
+        self.test_results_record.summary_result_record.update_record(summary_record)
+        self.test_result_observable.notify(self.test_results_record)
     
     def iterate_tc(iterations=1):
         def decorator(func):
@@ -175,7 +202,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                         self.update_iteration_logs()
                         iteration_test_result = TestResultEnums.TEST_RESULT_FAIL
                         #return result# you dont need this
-                    self.post_iteration(current_iteration, iteration_test_result)
+                    self.post_iteration(current_iteration,iteration_test_result)
                 self.end_of_test()
             return wrapper
         return decorator

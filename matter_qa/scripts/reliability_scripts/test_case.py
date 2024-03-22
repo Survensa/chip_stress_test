@@ -10,9 +10,10 @@ from matter_qa.library.helper_libs.matter_testing_support import async_test_body
 
 log = logging.getLogger("tc_logger")
 
-class TC_Pair(MatterQABaseTestCaseClass):
+class TC_GeneralTestCase(MatterQABaseTestCaseClass):
     def __init__(self, *args) -> None:
-        self.tc_name = "test_case"
+        self.tc_name = "general_test_case"
+        self.tc_id = "stress_1_1"
         super().__init__(*args)
     # In case TC wants to overwrite
     def pre_iteration(self,iteration):
@@ -22,13 +23,14 @@ class TC_Pair(MatterQABaseTestCaseClass):
         super().pre_iteration(iteration)
         log.info("I am in derived class pre-iteration ")
     # In case TC wants to overwrite
-    def post_iteration(self):
+    def post_iteration(self, *args):
         log.info("I am in derived class post-iteration ")
         # call this after TC Post iteration done, otherwise iteration log is closed.
-        super().post_iteration()
+        super().post_iteration(*args)
     
-    def end_of_test(self):
+    def end_of_test(self, *args):
         log.info("I am in derived class end of test ")
+        super().end_of_test(*args)
 
     def pair_dut(self):
         log.info("I am in pairing")
@@ -69,4 +71,4 @@ TC_Pair().run()
 
 if __name__ == "__main__":
     #test_start(TC_Pair.__name__)
-    default_matter_test_main(testclass=TC_Pair,do_not_commision_first=True)
+    default_matter_test_main(testclass=TC_GeneralTestCase,do_not_commision_first=True)

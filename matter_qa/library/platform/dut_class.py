@@ -4,7 +4,7 @@ from matter_qa.library.base_test_classes.dut_base_class import BaseDutNodeClass
 
 log = logging.getLogger("dut")
 class dut_class(BaseDutNodeClass):
-    def __init__(self) -> None:
+    def __init__(self,test_config) -> None:
         super().__init__()
 
     def reboot_dut(self):
@@ -27,3 +27,6 @@ class dut_class(BaseDutNodeClass):
     
     def post_iteration_loop(self):
         log.info("I am in dut class post_iteration_loop")
+
+def create_dut_object(test_config):
+    return dut_class(test_config)

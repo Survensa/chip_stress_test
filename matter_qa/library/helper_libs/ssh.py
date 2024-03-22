@@ -17,7 +17,7 @@ class SSH:
             self.connection_object = Connection(host=self.rpi_host, user=self.rpi_user,
                                             connect_kwargs={"password": self.rpi_password})
         except Exception as e:
-            log.error("could not establish SSH to raspi DUT: {e}")
+            log.error(f"could not establish SSH to raspi DUT: {e}")
             sys.exit(1)
 
     def send_command_receive_output(self, command, **kwargs):

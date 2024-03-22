@@ -26,6 +26,7 @@ import pathlib
 import queue
 import re
 import sys
+import random
 import typing
 import uuid
 import traceback
@@ -45,6 +46,8 @@ from chip.tlv import float32, uint
 from chip import ChipDeviceCtrl  # Needed before chip.FabricAdmin
 import chip.FabricAdmin  # Needed before chip.CertificateAuthority
 import chip.CertificateAuthority
+from chip.ChipDeviceCtrl import CommissioningParameters
+
 
 # isort: on
 import chip.clusters as Clusters
@@ -234,6 +237,11 @@ class SimpleEventCallback:
     @property
     def name(self) -> str:
         return self._name
+
+@dataclass
+class CustomCommissioningParameters:
+    commissioningParameters: CommissioningParameters
+    randomDiscriminator: int
 
 
 @dataclass
@@ -704,6 +712,19 @@ class MatterBaseTest(base_test.BaseTestClass):
             )
         else:
             raise ValueError("Invalid commissioning method %s!" % conf.commissioning_method)
+
+    def openCommissioningWindow(self) -> dict:
+        # This function is used to Open the commisioning window
+        rnd_discriminator = random.randint(0, 4095)
+        try:
+            commissioning_params = self.th1.OpenCommissioningWindow(nodeid=self.dut_node_id, timeout=self.commissioning_timeout, iteration=1000,
+                                                                    discriminator=rnd_discriminator, option=1)
+            customcommissioningparameters = CustomCommissioningParameters(commissioning_params, rnd_discriminator)
+            return {"status":"Success","commissioning_parameters": customcommissioningparameters}
+
+        except ChipStackError as e:
+            logging.error(f"Failed to open the commissioning window :{str(e)}", exc_info=True)
+            return {"status": "failed","failure_reason":str(e)}
 
 
 def generate_mobly_test_config(matter_test_config: MatterTestConfig):

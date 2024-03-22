@@ -37,7 +37,6 @@ class TC_Pair(MatterQABaseTestCaseClass):
     
     @async_test_body
     async def test_tc_pair_unpair(self):
-        self.dut.factory_reset_dut()
         @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
         def tc_pair_unpair(*args,**kwargs):
             try:

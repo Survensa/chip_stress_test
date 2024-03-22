@@ -16,11 +16,11 @@ dut_config:
       matter_app: "./out/all-clusters-app/chip-all-clusters-app --discriminator 3890 --passcode 45612378"
 
   nordic:
-    module_name: nordic.py #Python file which will inherit the BaseDUTNode class and define the behaviour of the DUT Working
-    module_path: ../library/platform/ #path to the DUT class file, either inside matter_qa or outside path
+    module: matter_qa.library.platform.nordic #Python file which will inherit the BaseDUTNode class and define the behaviour of the DUT Working
     serial_port: "/dev/ttyACM1"
     serial_baudrate: 115200
     serial_timeout: 60
+    command: "matter device factoryreset\n"
 
 test_case_config:
   TC_Pair:

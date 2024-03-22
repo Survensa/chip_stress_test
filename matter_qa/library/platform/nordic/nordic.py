@@ -57,6 +57,9 @@ class NordicDut(BaseDutNodeClass):
     def reboot_dut(self):
         pass
 
+    def start_matter_app(self):
+        pass
+
     def factory_reset_dut(self):
         try:
             log.info("Starting to Reset Nordic as the DUT")
@@ -109,13 +112,7 @@ class NordicDut(BaseDutNodeClass):
         return True
     
     def pre_iteration_loop(self):
-        self.stop_event = Event()
-        thread = Thread(target=self._start_logging)
-        thread.start()
-        self.factory_reset_dut()
-        time.sleep(7)
+        pass
 
     def post_iteration_loop(self):
-        self.stop_logging()
-        if self.serial_session.serial_object.is_open:
-            self.serial_session.close_serial_connection()
+        pass

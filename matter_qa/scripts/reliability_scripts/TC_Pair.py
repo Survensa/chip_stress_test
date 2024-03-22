@@ -44,7 +44,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
                     logging.info('Device has been Commissioned starting pair-unpair operation')
                     time.sleep(2)
                     self.unpair_dut()  # unpair with commissioned the DUT
-                    self.dut.factory_reset_dut()
+                self.dut.factory_reset_dut()
             except Exception as e:
                 #TODO fix this properly.
                 raise TestCaseError(e)

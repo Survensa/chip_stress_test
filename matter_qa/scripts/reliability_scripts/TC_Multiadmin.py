@@ -76,4 +76,4 @@ class TC_Multiadmin(Multi_Admin):
         self.dut._kill_app()
 
 if __name__ == "__main__":
-    default_matter_test_main(testclass=TC_Multiadmin)
+    default_matter_test_main(testclass=TC_Multiadmin,do_not_commision_first=Tru )

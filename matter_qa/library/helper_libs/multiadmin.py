@@ -14,6 +14,11 @@ class Multi_Admin(MatterQABaseTestCaseClass):
         super().__init__(*args)
         # This variable is used to store index of the controller in the loop
         self.current_controller = 0
+        try:
+            self.pair_dut()
+        except TestCaseError:
+            self.dut.factory_reset_dut()
+            asserts.fail("Failed to commission the TH1")
         self.th1 = self.default_controller
         
     async def check_the_no_of_controllers_are_in_range(self):

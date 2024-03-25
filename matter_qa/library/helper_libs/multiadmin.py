@@ -28,7 +28,7 @@ class Multi_Admin(MatterQABaseTestCaseClass):
         is less than the supporedfabrics of the DUT by reading the supported fabric from the 
         Node operational cluster """
         if self.matter_test_config.global_test_params.get("controllers"):
-            self.nunumber_of_controllers = self.matter_test_config.global_test_params.get("controllers")
+            self.number_of_controllers = self.matter_test_config.global_test_params.get("controllers")
             max_fabrics = await self.read_single_attribute(self.default_controller, self.dut_node_id,0,
                                                         Clusters.OperationalCredentials.Attributes.SupportedFabrics)
             # This condition will terimate the testcase if the controllers value is greater than the SupportedFabrics

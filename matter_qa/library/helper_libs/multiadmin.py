@@ -12,9 +12,6 @@ from matter_qa.library.base_test_classes.test_results_record import  TestResultE
 class Multi_Admin(MatterQABaseTestCaseClass):
     def __init__(self, *args):
         super().__init__(*args)
-        # This Function is used to intiate the dut object
-        self.dut = self.get_dut_object()
-        self.dut.factory_reset_dut()
         # This variable is used to store index of the controller in the loop
         self.current_controller = 0
         try:

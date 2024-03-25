@@ -93,8 +93,6 @@ class Raspi(BaseDutNodeClass):
                         log.info("Displaying the pid and process to terminate {}".format(line))
                         kill_command = f"kill {pid}"
                         self.ssh_session.send_command_no_output(kill_command)
-                    self.stop_event.set()
-                    time.sleep(5)
             except Exception as e:
                 log.error(e)
                 traceback.print_exc()

@@ -187,13 +187,13 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     
     def iterate_tc(iterations=1):
         def decorator(func):
-            def wrapper(self, *args, **kwargs):
+            async def wrapper(self, *args, **kwargs):
                 print("Decorator parameter:", iterations)
                 for current_iteration in range(1,iterations+1):
                     self.pre_iteration(current_iteration)
                     self.test_config.current_iteration = current_iteration
                     try:
-                        result = func(*args, **kwargs)
+                        result = await func(*args, **kwargs)
                         iteration_test_result = TestResultEnums.TEST_RESULT_PASS
                         self.update_analytics()
                     except IterationError as e:

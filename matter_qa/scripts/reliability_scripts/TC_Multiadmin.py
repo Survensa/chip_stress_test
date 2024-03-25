@@ -72,7 +72,7 @@ class TC_Multiadmin(Multi_Admin):
                 #TODO fix need after harsith code
                 raise IterationError(e)
             
-        tc_multi_fabric(self)
+        await tc_multi_fabric(self)
         self.dut._kill_app()
 
 if __name__ == "__main__":

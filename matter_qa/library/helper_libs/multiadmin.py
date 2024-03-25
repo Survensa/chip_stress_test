@@ -111,6 +111,7 @@ class Multi_Admin(MatterQABaseTestCaseClass):
             await self.check_nodeid_is_in_fabriclist(th, dutnodeid)
             return {"status":"Success","paring_result":paring_result}
         except Exception as e:
+            logging.error(e, exc_info=True)
             return{"status":"failed","failure_reason":str(e)}
 
     async def check_nodeid_is_in_fabriclist(self, devCtrl, nodeId):

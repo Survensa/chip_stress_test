@@ -88,7 +88,7 @@ class Multi_Admin(MatterQABaseTestCaseClass):
         try:
             dutnodeid = controller_details_dict.get("DUT_node_id")
             logging.info('TH1 opens a commissioning window')
-            opencommissioning_result_dict = await self.openCommissioningWindow()
+            opencommissioning_result_dict =  self.openCommissioningWindow()
             if opencommissioning_result_dict.get("status") == "failed":
                 await self.pairing_failure(opencommissioning_result_dict.get("failure_reason"))
                 return opencommissioning_result_dict

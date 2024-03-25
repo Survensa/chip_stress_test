@@ -38,7 +38,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
     @async_test_body
     async def test_tc_pair_unpair(self):
         @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
-        def tc_pair_unpair(*args,**kwargs):
+        async def tc_pair_unpair(*args,**kwargs):
             try:
                 if self.pair_dut():  # pairing operation with DUT begins.
                     logging.info('Device has been Commissioned starting pair-unpair operation')
@@ -48,7 +48,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
             except Exception as e:
                 #TODO fix this properly.
                 raise TestCaseError(e)
-        tc_pair_unpair(self)
+        await tc_pair_unpair(self)
 
 
 if __name__ == "__main__":

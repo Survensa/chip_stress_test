@@ -227,15 +227,18 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
     def unpair_dut(self, controller=None, node_id=None) -> dict:
         try:
             if controller is None and node_id is None:
-                controller = self.default_controller
-
-            controller.UnpairDevice(self.dut_node_id)
-            time.sleep(3)
-            controller.ExpireSessions(self.dut_node_id)
-            time.sleep(3)
-            log.info("unpair_dut completed successfully")
-            return True
-        
+                self.th1 = self.default_controller
+                self.th1.UnpairDevice(self.dut_node_id)
+                time.sleep(3)
+                self.th1.ExpireSessions(self.dut_node_id)
+                time.sleep(3)
+                return {"status": "success"}
+            else:
+                controller.UnpairDevice(node_id)
+                time.sleep(3)
+                controller.ExpireSessions(node_id)
+                time.sleep(3)
+                return {"status": "success"}
         except Exception as e:
             logging.error(e, exc_info=True)
             unpair_result = {"status": "failed", "failed_reason": e.msg}

@@ -15,9 +15,10 @@ class Multi_Admin(MatterQABaseTestCaseClass):
         # This variable is used to store index of the controller in the loop
         self.current_controller = 0
         try:
+            self.dut.factory_reset_dut()
             self.pair_dut()
         except TestCaseError:
-            self.dut.factory_reset_dut()
+            self.dut._kill_app()
             asserts.fail("Failed to commission the TH1")
         self.th1 = self.default_controller
         

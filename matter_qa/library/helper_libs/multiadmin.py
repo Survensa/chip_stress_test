@@ -1,4 +1,5 @@
 import logging
+import time
 import traceback
 import chip.clusters as Clusters
 
@@ -165,3 +166,15 @@ class Multi_Admin(MatterQABaseTestCaseClass):
             raise IterationError(error)
         else:
             raise TestCaseError(error)
+        
+    async def close_commissioning_window(self):
+        # This function is used to close the commissioning window if it is in open state
+        try:
+            revokeCmd = Clusters.AdministratorCommissioning.Commands.RevokeCommissioning()
+            await self.th1.SendCommand(nodeid=self.dut_node_id, endpoint=0, payload=revokeCmd, timedRequestTimeoutMs=1000)
+            time.sleep(1)
+        except Exception as e:
+            logging.error("Failed to close the commissioning window due to the error {}".format(e),exc_info=True) 
+            time.sleep(self.commissioning_timeout)
+     
+    

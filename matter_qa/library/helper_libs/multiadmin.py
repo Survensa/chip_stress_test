@@ -128,7 +128,7 @@ class Multi_Admin(MatterQABaseTestCaseClass):
         
     async def pairing_failure(self, error): 
         # This function is used to store the failure reason for the pairing the controller  
-        if self.check_execution_mode() == "full_execution_mode":
+        if not self.test_config.general_configs.continue_excution_on_fail: 
             raise IterationError(error)
         else:
             raise TestCaseError(error)
@@ -161,7 +161,7 @@ class Multi_Admin(MatterQABaseTestCaseClass):
     
     async def unpair_failure(self, error):
         #  This function is used to store the failure reason for the Unpairing the controller 
-        if self.check_execution_mode() == "full_execution_mode":
+        if not self.test_config.general_configs.continue_excution_on_fail:
             raise IterationError(error)
         else:
             raise TestCaseError(error)

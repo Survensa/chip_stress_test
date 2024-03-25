@@ -35,7 +35,7 @@ class TC_Multiadmin(Multi_Admin):
     async def test_tc_multi_fabric(self):
         await self.check_the_no_of_controllers_are_in_range()
         self.check_commissioning_window_timeout()
-        
+
         @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
         async def tc_multi_fabric(*args,**kwargs):
             try:
@@ -73,7 +73,7 @@ class TC_Multiadmin(Multi_Admin):
                 raise IterationError(e)
             
         tc_multi_fabric(self)
-        self.dut.factory_reset_dut()
+        self.dut._kill_app()
 
 if __name__ == "__main__":
     default_matter_test_main(testclass=TC_Multiadmin,do_not_commision_first=True)

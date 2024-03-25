@@ -62,8 +62,8 @@ class Multi_Admin(MatterQABaseTestCaseClass):
     def build_controller(self, controller_id_itr) -> dict:
         # This function is used to build the controllers
         try:
-            unique_controller_id = controller_id_itr + ((self.current_iteration-1) * int(self.number_of_controllers))
-            logging.info(f'Controller node id for controller-{controller_id_itr} in {self.current_iteration} iteration is {unique_controller_id}') 
+            unique_controller_id = controller_id_itr + ((self.test_config.current_iteration-1) * int(self.number_of_controllers))
+            logging.info(f'Controller node id for controller-{controller_id_itr} in {self.test_config.current_iteration} iteration is {unique_controller_id}') 
             # This object is used to create a new empty list in CA Index
             th_certificate_authority = self.certificate_authority_manager.NewCertificateAuthority()
             th_fabric_admin = th_certificate_authority.NewFabricAdmin(vendorId=0xFFF1, fabricId=self.th1.fabricId + self.current_controller + 1)           
@@ -77,7 +77,7 @@ class Multi_Admin(MatterQABaseTestCaseClass):
                     "TH_Name": f"Commissioner-{unique_controller_id}"}}
         # This execption will be catched if the we unable to build the controller
         except Exception as e:
-            logging.error(f"Failed to build the controller {self.current_controller}in the iteration {self.current_iteration} with error {str(e)}"
+            logging.error(f"Failed to build the controller {self.current_controller}in the iteration {self.test_config.current_iteration} with error {str(e)}"
                           ,exc_info=True)
             build_result = {"status":"failed", "failure_reason":str(e)} 
             tb = traceback.format_exc()
@@ -143,12 +143,12 @@ class Multi_Admin(MatterQABaseTestCaseClass):
                 # This condtion is used to confirm that the controller is paired to the DUT
                 if dutnodeid in list_of_paired_controller_index:
                     logging.info("Unpairing the controller-{} of iteration {}"
-                                 .format(self.current_controller, self.current_iteration))
+                                 .format(self.current_controller, self.test_config.current_iteration))
                     unpair_result = self.unpair_dut(th, dutnodeid)
                     # this condition is used to check that the unpair is completed successfully
                     if unpair_result.get("status") == "failed":
                         logging.error("Failed to unpair the controller-{} in the iteration {} with the error:{}"
-                                      .format(self.current_controller,self.current_iteration ,unpair_result.get("failed_reason")) 
+                                      .format(self.current_controller,self.test_config.current_iteration ,unpair_result.get("failed_reason")) 
                                       ,exc_info=True)
                         await self.unpair_failure(unpair_result.get("failed_reason"))
                 try:
@@ -156,7 +156,7 @@ class Multi_Admin(MatterQABaseTestCaseClass):
                     th.Shutdown()
                     th_ca.Shutdown()
                 except Exception as e:
-                    logging.error(f"Failed to shutdown the controller-{self.current_controller} of the iterartion {self.current_iteration} with error:{str(e)}",
+                    logging.error(f"Failed to shutdown the controller-{self.current_controller} of the iterartion {self.test_config.current_iteration} with error:{str(e)}",
                                   exc_info= True)
     
     async def unpair_failure(self, error):

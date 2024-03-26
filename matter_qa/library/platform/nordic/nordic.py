@@ -104,7 +104,7 @@ class NordicDut(BaseDutNodeClass):
                             fp.write(dut_log)
                             logging.info("completed write to file")
                     except Exception as e:
-                        log.info(f"Waiting for current_iteration to be assigned")
+                        log.info(f"Waiting for current_iteration to be assigned, {e}")
             self.serial_session.close_serial_connection()
         else:
             log.info("Failed to read the log in thread")
@@ -115,6 +115,9 @@ class NordicDut(BaseDutNodeClass):
         global event_closer
         event_closer.set()
         return True
+    
+    def pre_testcase_loop(self):
+        pass
     
     def pre_iteration_loop(self):
         pass

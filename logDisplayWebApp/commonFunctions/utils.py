@@ -333,9 +333,10 @@ def build_analytics_json(summary_json):
         analytics_keys = iteration_data.get("iteration_data").get("iteration_tc_analytics_data").keys()
         for analytics_key in analytics_keys:
             try:
-                analytics_json[analytics_key].update(
-                    {iteration_data["iteration_number"]: iteration_data["iteration_data"]
-                    ["iteration_tc_analytics_data"][analytics_key]})
+                if iteration_data["iteration_data"]["iteration_tc_analytics_data"][analytics_key] != {}:
+                    analytics_json[analytics_key].update(
+                        {iteration_data["iteration_number"]: iteration_data["iteration_data"]
+                        ["iteration_tc_analytics_data"][analytics_key]})
             except Exception as e:
                 logging.error(e, exc_info=True)
     return analytics_json

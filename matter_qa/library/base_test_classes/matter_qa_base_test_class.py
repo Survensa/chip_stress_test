@@ -305,10 +305,11 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         try:
             if controller is None and node_id is None:
                 controller = self.default_controller
+                node_id = self.dut_node_id
 
-            controller.UnpairDevice(self.dut_node_id)
+            controller.UnpairDevice(node_id)
             time.sleep(3)
-            controller.ExpireSessions(self.dut_node_id)
+            controller.ExpireSessions(node_id)
             time.sleep(3)
             log.info("unpair_dut completed successfully")
             return True

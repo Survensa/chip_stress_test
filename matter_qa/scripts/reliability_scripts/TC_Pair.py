@@ -41,7 +41,8 @@ class TC_Pair(MatterQABaseTestCaseClass):
         @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
         async def tc_pair_unpair(*args,**kwargs):
             try:
-                if self.pair_dut():  # pairing operation with DUT begins.
+                pairing_result = self.pair_dut()  # pairing operation with DUT begins.
+                if pairing_result:
                     logging.info('Device has been Commissioned starting pair-unpair operation')
                     time.sleep(2)
                     await self._fetch_dut_info_once()

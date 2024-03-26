@@ -55,13 +55,20 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.total_number_of_iterations_failed = 0
         self.total_number_of_iterations_error = 0
         self.list_of_iterations_failed = []
-        
-        summary_record = { SummaryTestResultsEnums.RECORD_TEST_NAME : self.tc_name,
-                        SummaryTestResultsEnums.RECORD_TEST_CASE_ID : self.tc_id,
-                        SummaryTestResultsEnums.RECORD_TEST_CLASS : type(self).__name__,
-                        SummaryTestResultsEnums.RECORD_TEST_BEGIN_TIME : datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-                        SummaryTestResultsEnums.RECORD_TOTAL_NUMBER_OF_ITERATIONS :self.test_config.general_configs.number_of_iterations,
-                        SummaryTestResultsEnums.RECORD_TEST_STATUS : SummaryTestResultsEnums.RECORD_TEST_IN_PROGRESS}
+
+        summary_record = {SummaryTestResultsEnums.RECORD_TEST_NAME: self.tc_name,
+                          SummaryTestResultsEnums.RECORD_TEST_CASE_ID: self.tc_id,
+                          SummaryTestResultsEnums.RECORD_TEST_CLASS: type(self).__name__,
+                          SummaryTestResultsEnums.RECORD_TEST_BEGIN_TIME: datetime.datetime.now().strftime(
+                              "%d/%m/%Y %H:%M:%S"),
+                          SummaryTestResultsEnums.RECORD_TOTAL_NUMBER_OF_ITERATIONS: self.test_config.general_configs.number_of_iterations,
+                          SummaryTestResultsEnums.RECORD_TEST_STATUS: SummaryTestResultsEnums.RECORD_TEST_IN_PROGRESS,
+                          SummaryTestResultsEnums.RECORD_PLATFORM: self.test_config.general_configs.platform_execution,
+                          SummaryTestResultsEnums.RECORD_COMMISSIONING_METHOD: self.matter_test_config.commissioning_method,
+                          SummaryTestResultsEnums.RECORD_ANALYTICS_METADATA:
+                              list(self.test_config.__dict__["general_configs"].__dict__[
+                                  "analytics_parameters"].__dict__.keys())
+                          }
     
         self.test_results_record = TestresultsRecord(summary_record)
         self.test_result_observable.notify(self.test_results_record)

@@ -222,6 +222,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                         #result = func(*args, **kwargs)
                         await func(*args, **kwargs)
                     except (IterationError,TestCaseError) as e:
+                        self.iteration_exception = str(e)
                         print("I got exception, failed iteration {}".format(self.current_iteration))
                         logging.error(e, exc_info=True)
                         self.update_iteration_logs()

@@ -221,10 +221,6 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                     try:
                         #result = func(*args, **kwargs)
                         await func(*args, **kwargs)
-                        await self.update_analytics()
-                        if not fetched_dut_info:
-                            self._fetch_dut_info_once()
-                        fetched_dut_info = True
                     except (IterationError,TestCaseError) as e:
                         print("I got exception, failed iteration {}".format(self.current_iteration))
                         logging.error(e, exc_info=True)
@@ -309,10 +305,11 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         try:
             if controller is None and node_id is None:
                 controller = self.default_controller
+                node_id = self.dut_node_id
 
-            controller.UnpairDevice(self.dut_node_id)
+            controller.UnpairDevice(node_id)
             time.sleep(3)
-            controller.ExpireSessions(self.dut_node_id)
+            controller.ExpireSessions(node_id)
             time.sleep(3)
             log.info("unpair_dut completed successfully")
             return True

@@ -77,9 +77,11 @@ class IterationTestResultsEnums:
     RECORD_ITERATION_NUMBER = 'iteration_number'
     RECORD_ITERATION_DATA = 'iteration_data'
     RECORD_ITERATION_TC_EXECUTION_DATA = 'iteration_tc_execution_data'
+    RECORD_ITERATION_TC_ANALYTICS_DATA = 'iteration_tc_analytics_data'
     RECORD_ITERATION_BEGIN_TIME = 'iteration_begin_time'
     RECORD_ITERATION_END_TIME = 'iteration_end_time'
     RECORD_ITERATION_RESULT = 'iteration_result'
+    RECORD_ITERATION_EXCEPTION = 'exception'
     RECORD_ITERATION_RESULT_PASS = 'PASS'
     RECORD_ITERATION_RESULT_FAIL = 'FAIL'
     RECORD_ITERATION_RESULT_SKIP = 'SKIP'
@@ -96,6 +98,9 @@ class IterationTestResultRecord():
 
         iter_execution_data_record = {}
         iter_execution_data_record.update({IterationTestResultsEnums.RECORD_ITERATION_TC_EXECUTION_DATA: iter_execution_data_dict })
+
+        iter_analytics_data_record = {}
+        iter_execution_data_record.update({IterationTestResultsEnums.RECORD_ITERATION_TC_ANALYTICS_DATA: iter_analytics_data_record })
 
         iter_data = {}
         iter_data.update({IterationTestResultsEnums.RECORD_ITERATION_DATA: iter_execution_data_record})
@@ -124,6 +129,17 @@ class IterationTestResultRecord():
                 current_dict[k[-1]] = v
             else:
                 self.record[IterationTestResultsEnums.RECORD_ITERATION_RECORD].update({k:v})
+    
+    def __str__(self) -> str:
+        return self._to_dict()
+    
+    def _to_dict(self):
+        string_dict = {}
+        for k,v in self.record:
+            if isinstance(v,dict):
+                self._to_dict(v)
+            string_dict.update({k,v})
+        
 
 class TestresultsRecord():
     def __init__(self, summary_record=None, dut_record=None, iter_record=None) -> None:

@@ -52,6 +52,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
                     iteration_passed = True
                 self.dut.factory_reset_dut()
             except Exception as e:
+                logging.error("execption occured while execution og tc", exc_info= True)
                 #TODO fix this properly.
                 raise TestCaseError(e)
         await tc_pair_unpair(self)

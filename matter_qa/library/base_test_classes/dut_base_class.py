@@ -7,29 +7,29 @@ class BaseDutNodeClass(ABC):
         pass
 
     @abstractmethod
-    def reboot_dut(self):
+    def reboot_dut(self, *args, **kwargs):
         pass
 
     @abstractmethod
-    def factory_reset_dut(self):
+    def factory_reset_dut(self, *args, **kwargs):
         pass
 
     @abstractmethod
-    def start_matter_app(self):
+    def start_matter_app(self, *args, **kwargs):
         pass
 
     @abstractmethod
-    def start_logging(self, file_name):
+    def start_logging(self, file_name, *args, **kwargs):
         pass
 
     @abstractmethod
-    def stop_logging(self):
+    def stop_logging(self, *args, **kwargs):
         pass
 
     @abstractmethod
-    def pre_iteration_loop(self):
+    def pre_iteration_loop(self, *args, **kwargs):
         pass
 
     @abstractmethod
-    def post_iteration_loop(self):
+    def post_iteration_loop(self, *args, **kwargs):
         pass

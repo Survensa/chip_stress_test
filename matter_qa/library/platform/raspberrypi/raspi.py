@@ -25,14 +25,16 @@ import sys
 from matter_qa.library.base_test_classes.dut_base_class import BaseDutNodeClass
 from matter_qa.library.helper_libs.ssh import SSH
 
-global log 
+global log
 log = logging.getLogger("raspi")
+
 
 class SSHConfig:
     def __init__(self, hostname, username, password):
         self.hostname = hostname
         self.username = username
         self.password = password
+
 
 class Raspi(BaseDutNodeClass):
     def __init__(self, test_config) -> None:
@@ -42,8 +44,8 @@ class Raspi(BaseDutNodeClass):
         ssh_config = SSHConfig(test_config.dut_config.rpi.rpi_hostname,
                                test_config.dut_config.rpi.rpi_username,
                                test_config.dut_config.rpi.rpi_password
-                            )
-  
+                               )
+
         self.ssh_session = SSH(ssh_config)
         self.matter_app = self.dut_config.app_config.matter_app
         self.test_config = test_config
@@ -53,8 +55,8 @@ class Raspi(BaseDutNodeClass):
         except Exception as e:
             log.error("Could not establish SSH connection {}".format(e))
             sys.exit(1)
-        
-    def reboot_dut(self):
+
+    def reboot_dut(self, *args, **kwargs):
         try:
             reboot_command = f"sudo reboot"
             self.ssh_session.send_command_no_output(reboot_command)
@@ -63,7 +65,7 @@ class Raspi(BaseDutNodeClass):
             log.error(e, exc_info=True)
             return True
 
-    def factory_reset_dut(self):
+    def factory_reset_dut(self, *args, **kwargs):
         try:
             log.info("Starting to Reset RPI as the DUT")
             # Executing the  'ps aux | grep process_name' command to find the PID value to kill
@@ -72,13 +74,16 @@ class Raspi(BaseDutNodeClass):
             log.info("Example App has been killed")
             self._delete_storage()
             self.ssh_session.close_ssh_connection()
-
+            if self.test_config.general_configs.number_of_iterations != self.test_config.current_iteration:
+                self.stop_event = threading.Event()
+                self.thread = threading.Thread(target=self._start_matter_app)
+                self.thread.start()
         except Exception as e:
             log.error(e, exc_info=True)
-    
+
     def _kill_app(self):
         command = f'ps aux | grep "{self.matter_app}"'
-        pid_val = self.ssh_session.send_command_receive_output(command,hide=True)
+        pid_val = self.ssh_session.send_command_receive_output(command, hide=True)
         pid_output = pid_val.stdout
         pid_lines = pid_output.split('\n')
         for line in pid_lines:
@@ -93,24 +98,25 @@ class Raspi(BaseDutNodeClass):
                 log.error(e)
                 traceback.print_exc()
                 return True
-            
+
     def _delete_storage(self):
         self.ssh_session.send_command_no_output('rm -rf /tmp/chip_*')
 
-    def start_matter_app(self):
+    def start_matter_app(self, *args, **kwargs):
         self._start_matter_app()
 
     def _start_matter_app(self):
         try:
             self.ssh_session.open_ssh_connection()
-            raspi_log_file = self.ssh_session.send_command_receive_output(self.matter_app, warn=True, hide=True, pty=False)
+            raspi_log_file = self.ssh_session.send_command_receive_output(self.matter_app, warn=True, hide=True,
+                                                                          pty=False)
             self._start_logging(raspi_log_file)
         except Exception as e:
             log.error(e, exc_info=True)
             traceback.print_exc()
         return True
 
-    def start_logging(self, file_name):
+    def start_logging(self, file_name, *args, **kwargs):
         pass
 
     def _start_logging(self, raspi_log, file_name=None):
@@ -120,10 +126,10 @@ class Raspi(BaseDutNodeClass):
                 log_file = file_name
             else:
                 log_file = os.path.join(self.test_config.iter_log_path, "Dut_log_{}_"
-                                    .format(str(self.test_config.current_iteration)) +
-                                    str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
-                                    + ".log"
-                                    )
+                                        .format(str(self.test_config.current_iteration)) +
+                                        str(datetime.datetime.now().isoformat()).replace(':', "_").replace('.', "_")
+                                        + ".log"
+                                        )
             with open(log_file, 'a') as fp:
                 fp.write(f" \n\n  Dut log of {self.test_config.current_iteration} iteration \n")
                 fp.write(raspi_log.stdout)
@@ -131,17 +137,13 @@ class Raspi(BaseDutNodeClass):
         except Exception as e:
             log.error(e, exc_info=True)
 
-    def stop_logging(self):
+    def stop_logging(self, *args, **kwargs):
 
         # As we are killing the example while factory reset this will stop the logging process
         pass
-    
-    def pre_iteration_loop(self):
-        self.stop_event = threading.Event()
-        self.thread = threading.Thread(target=self._start_matter_app)
-        self.thread.start()
-        time.sleep(2)
-    
-    def post_iteration_loop(self):
-        self.factory_reset_dut()
-        time.sleep(5)
+
+    def pre_iteration_loop(self, *args, **kwargs):
+        pass
+
+    def post_iteration_loop(self, *args, **kwargs):
+        pass

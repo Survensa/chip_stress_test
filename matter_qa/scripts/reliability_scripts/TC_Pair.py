@@ -44,7 +44,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
                 if self.pair_dut():  # pairing operation with DUT begins.
                     logging.info('Device has been Commissioned starting pair-unpair operation')
                     time.sleep(2)
-                    await self.update_analytics()
+                    await self.fetch_analytics_from_dut()
                     self.unpair_dut()  # unpair with commissioned the DUT
                     self.iteration_test_result = TestResultEnums.TEST_RESULT_PASS
                     iteration_passed = True

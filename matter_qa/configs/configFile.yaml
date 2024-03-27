@@ -3,7 +3,6 @@ general_configs:
   platform_execution: "rpi" #use 'rpi' option for using raspberrypi as DUT, for any other option used like 'nordic' or 'CustomDUT' same name will appear in log viewer UI and 'deviceModules' option from config will be read/used
   number_of_iterations: 10
   continue_excution_on_fail: True # accept only boolean values, when set to True the script will not stop if the iteration fails
-  logFilePath: . # provide the path, when null-value or invalid-path is set the script will create a folder in current directory where logs will be stored.
   analytics_parameters:
     current_heap_used :
       attribute: SoftwareDiagnostics.Attributes.CurrentHeapUsed

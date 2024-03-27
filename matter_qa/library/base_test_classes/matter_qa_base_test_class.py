@@ -15,7 +15,7 @@ from matter_qa.library.helper_libs.utils import default_config_reader
 from matter_qa.library.platform.dut_class import dut_class
 from matter_qa.library.helper_libs.matter_testing_support import MatterBaseTest
 from matter_qa.configs.config import TestConfig
-from matter_qa.library.base_test_classes.test_results_record import TestresultsRecord,TestResultEnums,IterationTestResultsEnums,SummaryTestResultsEnums
+from matter_qa.library.base_test_classes.test_results_record import TestresultsRecord,TestResultEnums,IterationTestResultsEnums,SummaryTestResultsEnums,DUTInformationRecordEnums
 
 from .test_result_observable import TestResultObservable
 from .test_result_observer import TestResultObserver
@@ -35,6 +35,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self.analytics_dict ={}
         super().__init__(*args)
         self._start_test()
+        self.fetch_dut_info_once_status = True
         
     def _start_test(self,**kwargs):
         
@@ -239,7 +240,11 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
             return wrapper
         return decorator
 
-    async def update_analytics(self, dev_ctrl: ChipDeviceCtrl = None, node_id: int = None, endpoint: int = 0):
+    async def fetch_analytics_from_dut(self, dev_ctrl: ChipDeviceCtrl = None, node_id: int = None, endpoint: int = 0):
+        if self.fetch_dut_info_once_status is True:
+            await self._fetch_dut_info_once()
+            self.fetch_dut_info_once_status = False
+
         if dev_ctrl is None:
             dev_ctrl = self.default_controller
         if node_id is None:
@@ -269,19 +274,18 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 self.analytics_dict.update({k:response})
     
     async def _fetch_dut_info_once(self, dev_ctrl: ChipDeviceCtrl = None, node_id: int = None, endpoint: int = 0):
-        
         if dev_ctrl is None:
             dev_ctrl = self.default_controller
         if node_id is None:
             node_id = self.dut_node_id
 
-        default_info_attributes = {"product name": Clusters.BasicInformation.Attributes.ProductName,
-                                    "vendor name": Clusters.BasicInformation.Attributes.VendorName,
-                                    "vendor id": Clusters.BasicInformation.Attributes.VendorID,
-                                    "hardware version": Clusters.BasicInformation.Attributes.HardwareVersionString,
-                                    "software version": Clusters.BasicInformation.Attributes.SoftwareVersionString,
-                                    "product id": Clusters.BasicInformation.Attributes.ProductID}
-        
+        default_info_attributes = {DUTInformationRecordEnums.RECORD_PRODUCT_NAME: Clusters.BasicInformation.Attributes.ProductName,
+                                    DUTInformationRecordEnums.RECORD_VENDOR_NAME: Clusters.BasicInformation.Attributes.VendorName,
+                                    DUTInformationRecordEnums.RECORD_VENDOR_ID: Clusters.BasicInformation.Attributes.VendorID,
+                                    DUTInformationRecordEnums.RECORD_HARDWARE_VERSION: Clusters.BasicInformation.Attributes.HardwareVersionString,
+                                    DUTInformationRecordEnums.RECORD_SOFTWARE_VERSION: Clusters.BasicInformation.Attributes.SoftwareVersionString,
+                                    DUTInformationRecordEnums.RECORD_PRODUCT_ID: Clusters.BasicInformation.Attributes.ProductID}
+        dut_info_recorded = {}
         for k,v in default_info_attributes.items():
             try :
                 response = await self.read_single_attribute(dev_ctrl=dev_ctrl,node_id=node_id,
@@ -291,8 +295,8 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                     log.error("Read attribute function timedout : {}".format(e))
                     self.iteration_exception = str(e)
                     response = {}
-        
-        self.test_results_record.device_information_record.record.update({k:response})
+            dut_info_recorded.update({k: response})
+        self.test_results_record.device_information_record.update_record(dut_info_recorded)
 
     def update_iteration_logs(self):
         pass

@@ -25,11 +25,10 @@ class DUTInformationRecord:
         self.record_dict[DUTInformationRecordEnums.RECORD_HARDWARE_VERSION] = None
         self.record = {}
         self.record.update({ResultsRecordTypeEnums.DUTNodeInformationRecordType: self.record_dict})
-    
-    def update_record(self, **kwargs):
-        for k,v in kwargs.items():
-            if hasattr(DUTInformationRecordEnums,k):
-                self.record_dict.update(k,v)
+
+    def update_record(self, record_dict=None):
+        for k, v in record_dict.items():
+            self.record[ResultsRecordTypeEnums.DUTNodeInformationRecordType][k] = v
 
 class SummaryTestResultsEnums:
     RECORD_TEST_NAME = "test_case_name"

@@ -13,11 +13,11 @@ class TestCaseError(ReliabiltyTestError):
         super().__init__(*args)
         self.test_case_kwarg = kwargs.get('test_case_kwarg',None)
 
-class BuildControlloerError(ReliabiltyTestError):
+class TestCaseExit(ReliabiltyTestError):
     def __init__(self, *args, **kwargs):
         super().__init__(*args)
         self.test_case_kwarg = kwargs.get('test_case_kwarg')
         self.kwargs
 
     def __str__(self):
-        return f"Error: Buildcontroller is failed with {self.kwargs['error']} "
+        return f"Error: Failed to unpair the controller {self.kwargs['error']} "

@@ -247,6 +247,9 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                         self.update_iteration_logs()
                         iteration_test_result = TestResultEnums.TEST_RESULT_FAIL
                         # return result# you dont need this
+                    except TestCaseExit as e:
+                        logging.error("Exiting the loop", exc_info=True)
+                        break
                     self.post_iteration(*args, **kwargs)
                 self.end_of_test()
 

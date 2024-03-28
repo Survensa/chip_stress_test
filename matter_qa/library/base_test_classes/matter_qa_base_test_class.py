@@ -13,7 +13,7 @@ from matter_qa.library.helper_libs.logger import qa_logger
 from matter_qa.library.helper_libs.exceptions import *
 from matter_qa.library.helper_libs.utils import default_config_reader
 from matter_qa.library.platform.dut_class import dut_class
-from matter_qa.library.helper_libs.matter_testing_support import MatterBaseTest
+from matter_qa.library.helper_libs.matter_testing_support import MatterBaseTest, DiscoveryFilterType
 from matter_qa.configs.config import TestConfig
 from matter_qa.library.base_test_classes.test_results_record import TestresultsRecord, TestResultEnums, \
     IterationTestResultsEnums, SummaryTestResultsEnums, DUTInformationRecordEnums
@@ -245,7 +245,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                         print("I got exception, failed iteration {}".format(self.current_iteration))
                         logging.error(e, exc_info=True)
                         self.update_iteration_logs()
-                        iteration_test_result = TestResultEnums.TEST_RESULT_FAIL
+                        self.iteration_test_result = TestResultEnums.TEST_RESULT_FAIL
                         # return result# you dont need this
                     except TestCaseExit as e:
                         logging.error("Exiting the loop", exc_info=True)
@@ -350,6 +350,39 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                 unpair_result = {"status": "failed", "failed_reason": e.msg}
             tb = traceback.format_exc()
             raise TestCaseError(unpair_result, tb)
+        
+    def build_controller_object(self, controller_id):
+        # This function is used to build the controllers
+        try:
+            logging.info(f'Controller node id for controller-{controller_id}') 
+            # This object is used to create a new empty list in CA Index
+            th_certificate_authority = self.certificate_authority_manager.NewCertificateAuthority()
+            th_fabric_admin = th_certificate_authority.NewFabricAdmin(vendorId=0xFFF1, fabricId= controller_id + 1)           
+            controller_object = th_fabric_admin.NewController(controller_id)
+            return controller_object
+        # This execption will be catched if the we unable to build the controller
+        except Exception as e:
+            logging.error(f"Failed to build the controller for {controller_id} with error {str(e)}"
+                        ,exc_info=True)
+            raise TestCaseError(str(e))
 
-
-dut_objects_list = []
+    async def pair_new_controller_with_dut(self,controller_object ,nodeid, open_commissioning_window_parameters):
+        try:
+            logging.info('TH1 opens a commissioning window')
+            #Setuppincode for the current controller
+            setup_pincode = open_commissioning_window_parameters.commissioningParameters.setupPinCode
+            #discriminator for the current controller
+            discriminator = open_commissioning_window_parameters.randomDiscriminator
+            logging.info(f'Commissioning process with DUT has been initialized')
+            controller_object.ResetTestCommissioner()
+            paring_result = controller_object.CommissionOnNetwork(
+                            nodeId=nodeid, setupPinCode=setup_pincode,
+                            filterType=DiscoveryFilterType.LONG_DISCRIMINATOR, filter=discriminator)
+            
+            if not paring_result.is_success:
+                logging.error("Failed to pair waiting for commissioning window to close")
+                raise TestCaseError(str(paring_result))
+            return paring_result
+        except Exception as e:
+            logging.error(e, exc_info=True)
+            raise TestCaseError(str(e))

@@ -26,7 +26,7 @@ class SerialConnection:
 
     def open_serial_connection(self):
         try:
-            if not self.serial_port_obj.is_open:
+            if not self.serial_object.is_open:
                 logging.info("Opening Serial Port")
                 self.serial_object.open()
         except Exception as e:

@@ -17,7 +17,6 @@ class TestCaseExit(ReliabiltyTestError):
     def __init__(self, *args, **kwargs):
         super().__init__(*args)
         self.test_case_kwarg = kwargs.get('test_case_kwarg')
-        self.kwargs
-
+        self.args = args
     def __str__(self):
-        return f"Error: Failed to unpair the controller {self.kwargs['error']} "
+        return f"Error: Failed to unpair the controller {self.args[0]} "

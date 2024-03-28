@@ -93,15 +93,15 @@ class NordicDut(BaseDutNodeClass):
                                             + ".log"
                                             )
                         logging.info("started to read buffer")
-                        dut_log = self.serial_session.serial_object.read_until(b'Test-iteration completed').decode()
+                        dut_log = self.serial_session.serial_object.read_until(b'Done\r\r\n').decode()
                         logging.info("completed read from buffer")
-                        if dut_log == '':
-                            log.info("data not present in buffer breaking from read loop")
-                            break
                         with open(log_file, 'w') as fp:
                             fp.write(f" \n\n  Dut log of {self.test_config.current_iteration -1} iteration \n")
                             fp.write(dut_log)
                             logging.info("completed write to file")
+                        if dut_log == '':
+                            log.info("data not present in buffer breaking from read loop")
+                            break
                     except Exception as e:
                         log.error(e, exc_info=True)
             self.serial_session.close_serial_connection()
@@ -119,9 +119,4 @@ class NordicDut(BaseDutNodeClass):
         pass
 
     def post_iteration_loop(self,*args,**kwargs):
-        try:
-            if self.serial_session.serial_object.is_open:
-                self.serial_session.send_command(b"Test-iteration completed")
-                time.sleep(5)
-        except Exception as e:
-            log.error("Could not establish Serial connection {}".format(e))
+        pass

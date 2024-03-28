@@ -89,7 +89,6 @@ class TC_ON_OFF(MatterQABaseTestCaseClass):
             except Exception as e:
                 raise TestCaseError(e)
         await tc_on_off(self)
-        self.dut.factory_reset_dut()
 
 
 if __name__ == "__main__":

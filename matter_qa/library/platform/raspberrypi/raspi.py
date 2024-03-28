@@ -146,4 +146,5 @@ class Raspi(BaseDutNodeClass):
         pass
 
     def post_iteration_loop(self, *args, **kwargs):
-        pass
+        if self.test_config.general_configs.number_of_iterations == self.test_config.current_iteration:
+            self.factory_reset_dut()

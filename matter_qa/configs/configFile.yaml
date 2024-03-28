@@ -1,10 +1,9 @@
 ## Sample Config file
 general_configs:
-  platform_execution: "nordic" #use 'rpi' option for using raspberrypi as DUT, for any other option used like 'nordic' or 'CustomDUT' same name will appear in log viewer UI and 'deviceModules' option from config will be read/used
-  number_of_iterations: 3
+  platform_execution: "rpi" #use 'rpi' option for using raspberrypi as DUT, for any other option used like 'nordic' or 'CustomDUT' same name will appear in log viewer UI and 'deviceModules' option from config will be read/used
+  number_of_iterations: 10
   continue_excution_on_fail: True # accept only boolean values, when set to True the script will not stop if the iteration fails
-  logFilePath: . # provide the path, when null-value or invalid-path is set the script will create a folder in current directory where logs will be stored.
-  analytics_parameters: 
+  analytics_parameters:
     current_heap_used :
       attribute: SoftwareDiagnostics.Attributes.CurrentHeapUsed
       end_point: 0
@@ -12,15 +11,14 @@ general_configs:
       attribute: GeneralDiagnostics.Attributes.RebootCount
       end_point: 0
 
-
 dut_config:
-  rpi: # these parameters are used to take ssh session to a remote host and sta>
-    module: matter_qa.library.platform.raspberrypi #Pyth>
-    rpi_hostname: "192.168.8.100"
+  rpi: # these parameters are used to take ssh session to a remote host and start DUT application on a raspberrypi
+    module: matter_qa.library.platform.raspberrypi #Python file which will inherit the BaseDUTNode class and define the behaviour of the DUT Working
+    rpi_hostname: "192.168.8.101"
     rpi_username: "ubuntu"
     rpi_password: "raspberrypi"
-    app_config: # these parameters are used to start the DUT application os use>
-      matter_app: "/home/ubuntu/apps/chip-all-clusters-app --wifi --discriminator 3845 --passcode 20202021"
+    app_config: # these parameters are used to start the DUT application os user's choice, provide full app path and the arguments
+      matter_app: "/home/ubuntu/matter_cntrl/connectedhomeip/examples/all-clusters-app/linux/out/all-clusters-app/chip-all-clusters-app --discriminator 3790 --passcode 20202021"
 
   nordic:
     module: matter_qa.library.platform.nordic #Python file which will inherit the BaseDUTNode class and define the behaviour of the DUT Working
@@ -31,5 +29,5 @@ dut_config:
 
 test_case_config:
   TC_Pair:
-    number_of_iterations: 5
+    number_of_iterations: 10
     retry_count: 3

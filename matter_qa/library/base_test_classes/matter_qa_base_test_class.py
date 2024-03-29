@@ -40,6 +40,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
         self._start_test()
         self.fetch_dut_info_once_status = True
         self.test_config.current_iteration = 1
+        self.iteration_exception = None
 
     def _start_test(self, **kwargs):
 
@@ -244,6 +245,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                     except (IterationError, TestCaseError) as e:
                         print("I got exception, failed iteration {}".format(self.current_iteration))
                         logging.error(e, exc_info=True)
+                        self.iteration_exception = str(e)
                         self.update_iteration_logs()
                         self.iteration_test_result = TestResultEnums.TEST_RESULT_FAIL
                         # return result# you dont need this

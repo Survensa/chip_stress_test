@@ -94,6 +94,7 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
         summary = json.load(fp)
         fp.close()
         all_dir_details = utils.get_directory_info(dirs_list, log_dir=dir_path)
+        summary = utils.clean_summary_json_analytics(summary)
         filtered_data = []
         list_iteration_wise_data = summary.pop("list_of_iteration_records")
         for iteration_index in range(len(list_iteration_wise_data)):
@@ -295,7 +296,7 @@ def compare_script_analytics(request: Request):
     list_of_paths = utils.summary_json_find(path=log_dir, filename=filename)
     valid_paths = utils.validate_analytics_summary_json(list_of_paths)
     updated_list_paths, common_prefix = utils.remove_common_path(valid_paths,log_dir)
-    graph_options = utils.graph_option_builder(updated_list_paths,common_prefix)
+    graph_options = utils.graph_option_builder(updated_list_paths, common_prefix)
     return templates.TemplateResponse("compareScriptAnalytics.html", {
         "request": request,
         "test_case_details": {"graph_options": graph_options, "base_path": log_dir}

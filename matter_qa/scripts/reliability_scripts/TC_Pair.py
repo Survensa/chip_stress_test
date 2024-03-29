@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(os.path.realpath
 
 from matter_qa.library.base_test_classes.matter_qa_base_test_class import MatterQABaseTestCaseClass
 from matter_qa.library.helper_libs.matter_testing_support import async_test_body, default_matter_test_main
-from matter_qa.library.helper_libs.exceptions import TestCaseError
+from matter_qa.library.helper_libs.exceptions import TestCaseError,IterationError
 from matter_qa.library.base_test_classes.test_results_record import TestresultsRecord,TestResultEnums
 
 class TC_Pair(MatterQABaseTestCaseClass):
@@ -38,6 +38,7 @@ class TC_Pair(MatterQABaseTestCaseClass):
     @async_test_body
     async def test_tc_pair_unpair(self):
         self.dut.factory_reset_dut()
+
         @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
         async def tc_pair_unpair(*args,**kwargs):
             try:
@@ -47,7 +48,8 @@ class TC_Pair(MatterQABaseTestCaseClass):
                     await self.fetch_analytics_from_dut()
                     self.unpair_dut()  # unpair with commissioned the DUT
                     self.iteration_test_result = TestResultEnums.TEST_RESULT_PASS
-                    iteration_passed = True
+                else:
+                    raise IterationError("Pairing With DUT Failed")
                 self.dut.factory_reset_dut()
             except Exception as e:
                 #TODO fix this properly.

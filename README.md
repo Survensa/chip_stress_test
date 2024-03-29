@@ -17,7 +17,7 @@ scripts/build_python.sh -m platform -d true -i <name_of_python_environment>
 source <name_of_python_environment>/bin/activate
 ```
 
-After activating the environment, copy the contents of this project to `<path_to_cloned_repo>/connectedhomeip/src/python_testing` and navigate to this path.
+After activating the environment, from root directory of this project copy the contents to `<path_to_cloned_repo>/connectedhomeip/src/python_testing` and navigate to this path.
 
 You can use commands like ```cp <path_to_this_project>/Functional/* <path_to_cloned_repo>/connectedhomeip/src/python_testing``` , and navigate by ```cd <path_to_cloned_repo>/connectedhomeip/src/python_testing``` 
 
@@ -31,26 +31,23 @@ python setup.py install
 
 # 🏃 Running Test Script Reliability
 
-The reliability scripts are located at `<path_to_cloned_repo>/connectedhomeip/src/python_testing/Matter_QA/Scripts/ReliabilityScripts`. 
+The reliability scripts are located at `<path_to_cloned_repo>/connectedhomeip/src/python_testing/matter_qa/scripts/reliability_scripts`. 
 
 ## ConFig File Setup
 
-Each script requires configurations detailed in `configFile.yaml` located at `<path_to_cloned_repo>/connectedhomeip/src/python_testing/Matter_QA/Config/`.
+Each script requires configurations detailed in `configFile.yaml` located at `<path_to_cloned_repo>/connectedhomeip/src/python_testing/matter_qa/configs/`.
 
-![AltText](images/readme/configFile.png)
+
 
 #### ✏️ General Configs
 
 
-| Parameter               | Type      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|:------------------------|:----------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `platform_execution`    | `string`  | DUT Platform Execution can be controlled here. If the user wants to use 'rapsberrypi' device as a DUT use ```rpi```,enabling this will make the script use the ```rpi_config``` and interact with the matter application present in the raspberrypi. Any other String used in this option will make the script use <br> ```deviceModules```, which will be respective user's DUT interaction class which they will have to implement and use. |
-| `module_name`           | `string`  | As an example for `deviceModules` option we have added a DUT interaction script for Nordic dev board, which is `nordic.py`, user must give his own script name for other DUT intearction scripts                                                                                                                                                                                                                                              |
-| `module_path`           | `string`  | corresponds to the path for the user's DUT interaction script                                                                                                                                                                                                                                                                                                                                                                                 |
-| `commissioning_mthod`   | `string`  | Choosing the transport method for communicating with DUT can be controlled here, where it supports only three mode namely "on-network", "ble-wifi", "ble-thread".                                                                                                                                                                                                                                                                             |
-| `iteration_number`      | `integer` | will be used by the script to run n number of times, as example take the "TC_Pair.py" script, if we want to pair and unpair from the device n number of time we need pass integers here to run n number of times.                                                                                                                                                                                                                             |
-| `LogFilePath`           | `string`  | All the Logs for the script execution will be stored on the system and path will be specifed here, the user needs to create the path on the system, if it does not exist then current directory where the script is executing will be used for storing the Log Data.                                                                                                                                                                          |
-| `analytical_parameters` | `array`   | By default the script will monitor two parameters heap usage and pairing_duration, this option is an empty array no parameter will be measured                                                                                                                                                                                                                                                                                                |
+| Parameter                  | Type      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|:---------------------------|:----------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `platform_execution`       | `string`  | DUT Platform Execution can be controlled here. If the user wants to use 'rapsberrypi' device as a DUT use ```rpi```,enabling this will make the script use the ```rpi_config``` and interact with the matter application present in the raspberrypi. Any other String used in this option will make the script use <br> the user's dut interaction script, which will be respective user's DUT interaction class which they will have to implement and use. |
+| `module`                   | `string`  | here the user will either provide python based import like ```matter_qa.library.platform.raspberrypi``` or full path to dut_interaction python script                                                                                                                                                                                                                                                                                                       |
+| `number_of_iterations`     | `integer` | will be used by the script to run n number of times, as example take the "TC_Pair.py" script, if we want to pair and unpair from the device n number of time we need pass integers here to run n number of times.                                                                                                                                                                                                                                           |
+| `analytical_parameters`    | `array`   | Matter devices have certain diagnostics clusters which can be queried for analytics purposes, here user will need to provide which attributes of the ```SoftwareDiagnostics``` cluster to monitor.                                                                                                                                                                                                                                                          |
 
 #### ✏️ Raspberry-pi config(rpi_config)
 
@@ -72,7 +69,7 @@ This option will be used by the `nordic.py` script to interact with Nordic dev b
 
 ### ℹ️ About Test Script 'TC_Pair.py'
 
-The scripts in the repository are used to pair and unpair with DUT multiple times. Currently, two simulated modes of DUT are assumed: Raspberry Pi and nRf52840-DK development thread board. The Raspberry Pi mode prompts the user for necessary inputs, while the nRf52840-DK mode requires the location of the script for advertising and resetting the DUT, among other functions.
+The scripts in the repository are used to pair and unpair with DUT multiple times. Currently, two simulated modes of DUT are assumed: Raspberry Pi and nRf52840-DK development thread board. The Raspberry Pi mode will take an SSH session, bring up the sample app perform test operations and kill the sample app once done. 
 
 
 ### Raspberry Pi
@@ -80,28 +77,22 @@ The scripts in the repository are used to pair and unpair with DUT multiple time
 Execute the following command to run the script, where inputs are read from the project's config file:
 
 ```bash
-python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log
+python3 TC_Pair.py --discriminator 3790 --passcode 20202021 --storage-path admin_storage.json --timeout 900 --commissioning-method on-network --logs-path <path/to/store/execution/logs> --reliability-tests-arg <path/to/configFile.yaml> --trace-to json:log
 ```
+#### ℹ️ _Important Note_
+The scripts will expect ```--logs-path``` argument for storing the execution logs to user's desired directory, if not given then it will store in ```/tmp/``` directory
 
-If running the code with the argument '--yaml-file', provide the path of the config file with the filename:
+When running the code for 'ble-wifi' commissioning method must be set to 'ble-wifi' and use the command below
 
 ```bash
-python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --yaml-file /home/user/config.yaml
+python3 TC_Pair.py --discriminator 3790 --passcode 20202021 --storage-path admin_storage.json --timeout 900 --commissioning-method ble-wifi --logs-path <path/to/store/execution/logs> --reliability-tests-arg <path/to/configFile.yaml> --trace-to json:log --wifi-ssid <wifi-name> --wifi-passphrase <wifi-password>
 ```
-
-When running the code for 'ble-wifi' commissioning method,in the 'configFile.yaml' file the option for 'commissioning_method'
-must be set to 'ble-wifi' and use the command below
-
-```bash
-python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --trace-to json:log --wifi-ssid <wifi-name> --wifi-passphrase <wifi-password>
-```
-
 ### Nordic Thread
 
 For Nordic Thread, use the following command:
 
 ```bash
-python3 TC_Pair.py --discriminator 3840 --passcode 20202021 --storage-path admin_storage.json --ble-interface-id 0  --thread-dataset-hex 0e080000000000010000000300001035060004001fffe0020812611111227222220708fd97e1eb459cbbf3051000112433428566778899aabbccddeeff030f4f70656e54687265616444656d6f63010212320410b775feb5fc41b965747da30c8f76bda30c0402a0f7f8
+python3 TC_Pair.py --discriminator 3790 --passcode 20202021 --storage-path admin_storage.json --timeout 900 --commissioning-method ble-thread --logs-path <path/to/store/execution/logs> --reliability-tests-arg <path/to/configFile.yaml> --trace-to json:log --ble-interface-id 0  --thread-dataset-hex <hex-generated-data>
 ```
 
 # LOG Display Web App

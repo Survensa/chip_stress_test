@@ -341,6 +341,13 @@ def build_analytics_json(summary_json):
                 logging.error(e, exc_info=True)
     return analytics_json
 
+def clean_summary_json_analytics(summary_json):
+    analytics_parameters = summary_json.get("test_summary_record").get("analytics_parameters")
+    for iteration_data in summary_json.get("list_of_iteration_records"):
+        if iteration_data.get("iteration_data").get("iteration_tc_analytics_data") == {} and len(analytics_parameters) > 0:
+            for analytics_parameter in analytics_parameters:
+                iteration_data["iteration_data"]["iteration_tc_analytics_data"].update({analytics_parameter: {}})
+    return summary_json
 
 def iteration_duration_finder(iteration_data: dict):
     try:

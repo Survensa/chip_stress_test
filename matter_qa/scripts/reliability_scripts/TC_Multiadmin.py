@@ -42,24 +42,7 @@ class TC_Multiadmin(MatterQABaseTestCaseClass):
     def find_dut_node_id(self, controller_index):
         return self.dut_node_id + controller_index + ((self.test_config.current_iteration-1) * self.max_fabric_supported_by_dut)+1
         
-    async def create_list_of_paired_controllers (self):
-        list_of_paired_controllers = []
-        try:
-            self.max_fabric_supported_by_dut = await self.read_single_attribute(self.default_controller, self.dut_node_id,0,
-                                                    Clusters.OperationalCredentials.Attributes.SupportedFabrics)
-            # Th1 is already paired using rest of the controllers
-            for fabric in range(1, self.max_fabric_supported_by_dut):
-                unique_controller_id = self.create_unique_controller_id(fabric)
-                controller_object = self.build_controller_object(unique_controller_id)
-                open_commissioning_window_parameters = self.openCommissioningWindow(dev_ctrl = self.default_controller, node_id = self.dut_node_id)
-                unique_node_id = self.create_unique_node_id(fabric)
-                await self.pair_new_controller_with_dut(controller_object, unique_node_id ,open_commissioning_window_parameters)
-                list_of_paired_controllers.append(controller_object)
-        except Exception as e:
-            self.iteration_test_result == TestResultEnums.TEST_RESULT_FAIL
-        return list_of_paired_controllers
-        
-    def decommission_the_paired_controller(self, list_of_paired_controllers):
+    def cleaning_up_the_paired_controller(self, list_of_paired_controllers):
         try: 
             for controller_object in list_of_paired_controllers:
                 dut_node_id = self.find_dut_node_id(list_of_paired_controllers.index(controller_object))
@@ -82,8 +65,22 @@ class TC_Multiadmin(MatterQABaseTestCaseClass):
         @MatterQABaseTestCaseClass.iterate_tc(iterations=self.test_config.general_configs.number_of_iterations)
         async def tc_multi_admin(*args,**kwargs):
             #List contains the controller object
-            list_of_paired_controllers = await self.create_list_of_paired_controllers()
-            self.decommission_the_paired_controller(list_of_paired_controllers)
+            list_of_paired_controllers = []
+            try:
+                self.max_fabric_supported_by_dut = await self.read_single_attribute(self.default_controller, self.dut_node_id,0,
+                                                        Clusters.OperationalCredentials.Attributes.SupportedFabrics)
+                # Th1 is already paired using rest of the controllers
+                for fabric in range(1, self.max_fabric_supported_by_dut):
+                    unique_controller_id = self.create_unique_controller_id(fabric)
+                    controller_object = self.build_controller_object(unique_controller_id)
+                    open_commissioning_window_parameters = self.openCommissioningWindow(dev_ctrl = self.default_controller, node_id = self.dut_node_id)
+                    unique_node_id = self.create_unique_node_id(fabric)
+                    await self.pair_controller_with_dut(controller_object, unique_node_id ,open_commissioning_window_parameters)
+                    list_of_paired_controllers.append(controller_object)
+            except Exception as e:
+                self.iteration_test_result == TestResultEnums.TEST_RESULT_FAIL
+
+            self.cleaning_up_the_paired_controller(list_of_paired_controllers)
             self.iteration_test_result = TestResultEnums.TEST_RESULT_PASS
             await self.fetch_analytics_from_dut()
                 

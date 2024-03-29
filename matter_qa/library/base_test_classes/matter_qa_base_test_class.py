@@ -368,7 +368,7 @@ class MatterQABaseTestCaseClass(MatterBaseTest):
                         ,exc_info=True)
             raise TestCaseError(str(e))
 
-    async def pair_new_controller_with_dut(self,controller_object ,nodeid, open_commissioning_window_parameters):
+    async def pair_controller_with_dut(self,controller_object ,nodeid, open_commissioning_window_parameters):
         try:
             logging.info('TH1 opens a commissioning window')
             #Setuppincode for the current controller

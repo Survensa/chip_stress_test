@@ -14,6 +14,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 #
+import argparse
 import asyncio
 import datetime
 import io
@@ -50,26 +51,20 @@ logger = logging.getLogger(__name__)
 
 def config_reader():
     try:
-        args = sys.argv
-        if len(args) != 0 and "--config" not in args:
-            config_yaml_file = os.path.join(os.getcwd(), "config", "config.yaml")
-            if not os.path.exists(config_yaml_file):
-                logging.error("The config file does not exist! exiting now! ",exc_info=True)
-                sys.exit(0)
-            with io.open(config_yaml_file, 'r') as f:
-                config = yaml.safe_load(f)
-            return config
-        elif "--config" in args:
-            config_yaml_file = args[1]
-            if not os.path.exists(config_yaml_file):
-                logging.error("The config file does not exist! exiting now! ",exc_info=True)
-                sys.exit(0)
-            with io.open(config_yaml_file, 'r') as f:
-                config = yaml.safe_load(f)
-            return config
-    except Exception as e:
-        logging.error(e,exc_info=True)
+        parser = argparse.ArgumentParser(description="Convert command line arguments to dictionary")
+        parser.add_argument("--host", type=str, default="0.0.0.0", help="Value for 'hostname' (default: 0.0.0.0)")
+        parser.add_argument("--port", type=int, default=60500, help="Value for 'port' (default 60500)")
+        parser.add_argument("--logs_path", type=str, required=True, help="path for the stress test execution logs ")
+        args = parser.parse_args()
 
+        config = {
+            "host": args.host,
+            "port": args.port,
+            "logs_path": args.logs_path
+        }
+        return config
+    except Exception as e:
+        logging.error(e, exc_info=True)
 
 def get_directory_info(dirs_list: list, log_dir: str) -> list:
     """

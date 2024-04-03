@@ -101,9 +101,11 @@ def display_log_folder(request: Request, dir_path: str, page: int = 1, page_size
             list_iteration_wise_data[iteration_index].update(all_dir_details[iteration_index])
             iteration_duration = utils.iteration_duration_finder(list_iteration_wise_data[iteration_index])
             list_iteration_wise_data[iteration_index].update({"iteration_duration": iteration_duration})
-            if filters == "pass" and list_iteration_wise_data[iteration_index].get("iteration_data").get("iteration_result") == "PASS":
+            iteration_result = list_iteration_wise_data[iteration_index].get("iteration_data").get(
+                "iteration_tc_execution_data").get("iteration_result")
+            if filters == "pass" and iteration_result == "PASS":
                 filtered_data.append(list_iteration_wise_data[iteration_index])
-            elif filters == "fail" and list_iteration_wise_data[iteration_index].get("iteration_data").get("iteration_result") == "FAIL":
+            elif filters == "fail" and iteration_result == "FAIL":
                 filtered_data.append(list_iteration_wise_data[iteration_index])
             elif filters == "all":
                 filtered_data.append(list_iteration_wise_data[iteration_index])
@@ -338,4 +340,4 @@ app.add_middleware(
 )
 
 if __name__ == '__main__':
-    uvicorn.run(host=config["host"], port=config["port"], app="LogDisplay:app", workers=config["workers"])
+    uvicorn.run(host=config["host"], port=config["port"], app="LogDisplay:app")

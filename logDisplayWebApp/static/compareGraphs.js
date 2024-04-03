@@ -100,7 +100,8 @@ function svg_node_builder(data){
             .on("zoom", zoomed);
         let line = d3.line()
             .x(d => x(d.iteration_number))
-            .y(d => y(d.value));
+            .y(d => y(d.value))
+            .curve(d3.curveStep);
         // Group the data by iteration
         let nestedData = d3.group(data, d => d.iteration);
         
